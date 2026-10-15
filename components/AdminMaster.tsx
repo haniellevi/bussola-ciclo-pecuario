@@ -71,7 +71,7 @@ export function AdminMaster() {
       </button>
       {!estado.chaveNoServidor && <p className="text-sm text-sol">Atenção: o servidor ainda não tem OPENROUTER_API_KEY. Ligada ou não, o chat compartilhado não funciona.</p>}
       {!estado.persistente && <p className="text-sm text-sol">Atenção: sem armazenamento (Vercel Blob), o estado vale só até o servidor reiniciar.</p>}
-      <p className="text-xs text-zinc-500">A mudança chega aos visitantes em até 1 minuto.</p>
+      <p className="text-xs text-zinc-500">A mudança chega aos visitantes em alguns segundos.</p>
       {erro && <p role="alert" className="text-sm text-alerta">{erro}</p>}
     </div>
   );

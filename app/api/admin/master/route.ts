@@ -24,9 +24,11 @@ export async function POST(req: Request) {
   if (typeof senha !== "string" || !timingSafeEqual(hash(senha), hash(senhaCerta))) return Response.json({ erro: "Senha errada." }, { status: 401 });
   tentativas.delete(ip);
 
-  if (acao === "ligar" || acao === "desligar") await gravarMaster(acao === "ligar");
+  // Logo depois de gravar, o armazenamento pode demorar alguns segundos para mostrar o valor novo: devolvemos o que acabamos de gravar.
+  const gravou = acao === "ligar" || acao === "desligar";
+  if (gravou) await gravarMaster(acao === "ligar");
   return Response.json({
-    ligada: await masterLigada(),
+    ligada: gravou ? acao === "ligar" : await masterLigada(),
     chaveNoServidor: Boolean(process.env.OPENROUTER_API_KEY?.trim()),
     persistente: temArmazenamento(),
   });
