@@ -1,7 +1,10 @@
 {
  "semana": "2026-S42",
- "atualizadoEm": "2026-10-15T16:06:43.034Z",
- "avisos": [],
+ "atualizadoEm": "2026-10-15T18:49:51.871Z",
+ "avisos": [
+  "Feed Compre Rural falhou: Compre Rural: HTTP 403",
+  "Classificação falhou: OpenRouter 401: {\"error\":{\"message\":\"Missing Authentication header\",\"code\":401}}"
+ ],
  "termometro": {
   "relevantes": 6,
   "saldo": 0.67,
@@ -148,6 +151,20 @@
     "direcao": "sobe",
     "variavel": "mercado"
    }
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "Parceria entre ASBIA e UFU prepara estudantes para o futuro da pecuária",
+   "link": "https://folhaagricola.com.br/2026/10/15/parceria-entre-asbia-e-ufu-prepara-estudantes-para-o-futuro-da-pecuaria/",
+   "data": "2026-10-15",
+   "resumo": "Iniciativa aproxima ensino, tendências de mercado e principais desafios para o crescimento da cadeia da produção de carne e leite. A Associação Brasileira de Inseminação Artificial (ASBIA) e a Universidade Federal de Uberlândia (UFU) firmar"
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "Barra do Garças (MT) terá 3.900 animais em etapa do Circuito Nelore de Qualidade",
+   "link": "https://folhaagricola.com.br/2026/10/15/barra-do-garcas-mt-tera-3-900-animais-em-etapa-do-circuito-nelore-de-qualidade/",
+   "data": "2026-10-15",
+   "resumo": "O Circuito Nelore de Qualidade avaliará mais de 3.900 animais durante etapa em Barra do Garças (MT). A cidade receberá o evento – pela segunda vez este ano – entre os dias 15 e 17 de outubro, no frigorífico Friboi, parceiro da Associação do"
   },
   {
    "fonte": "BeefPoint",

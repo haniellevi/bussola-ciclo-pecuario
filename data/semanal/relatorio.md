@@ -21,15 +21,16 @@
 | Bezerro MS (R$/cab) | 52 semanas | R$ 4.366 | R$ 3.563 – R$ 5.629 |
 
 ## Notícias da semana (ainda não entram no cálculo)
-- [Pecuaristas entram em recuperação judicial com dívidas de R$ 31 milhões](https://www.comprerural.com/pecuaristas-entram-em-recuperacao-judicial-com-dividas-de-r-31-milhoes/) — Compre Rural
-- [Boi brasileiro sobe 32%, mas ainda tem a menor arroba entre 9 países](https://www.comprerural.com/boi-brasileiro-sobe-32-mas-ainda-tem-a-menor-arroba-entre-9-paises/) — Compre Rural
-- [Tarifa de 55% da China faz frigoríficos australianos suspenderem abates por falta de espaço para armazenar carne](https://beefpoint.com.br/tarifa-de-55-da-china-faz-frigorificos-australianos-suspenderem-abates-por-falta-de-espaco-para-armazenar-carne/) — BeefPoint
-- [Diversificação pode abrir mercado internacional da carne bovina](https://beefpoint.com.br/diversificacao-pode-abrir-mercado-internacional-da-carne-bovina/) — BeefPoint
-- [Confinamento rende R$ 303 a mais por cabeça no Sudeste em setembro](https://beefpoint.com.br/confinamento-rende-r-303-a-mais-por-cabeca-no-sudeste-em-setembro/) — BeefPoint
-- [CEPEA: Valorização do boi gordo reduz diferença de preços frente à carne](https://beefpoint.com.br/cepea-valorizacao-do-boi-gordo-reduz-diferenca-de-precos-frente-a-carne/) — BeefPoint
-- [Preço do boi gordo fica estável na maior parte do Brasil](https://beefpoint.com.br/preco-do-boi-gordo-fica-estavel-na-maior-parte-do-brasil/) — BeefPoint
-- [Indicador do Boi DATAGRO – Boletim de 14-outubro-2026](https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-14-outubro-2026/) — BeefPoint
-- ⚠️ Sem OPENROUTER_API_KEY: notícias guardadas sem classificação.
+- [Boi brasileiro sobe 32%, mas ainda tem a menor arroba entre 9 países](https://www.comprerural.com/boi-brasileiro-sobe-32-mas-ainda-tem-a-menor-arroba-entre-9-paises/) — Compre Rural, ↑ arroba
+- [Diversificação pode abrir mercado internacional da carne bovina](https://beefpoint.com.br/diversificacao-pode-abrir-mercado-internacional-da-carne-bovina/) — BeefPoint, neutra
+- [Confinamento rende R$ 303 a mais por cabeça no Sudeste em setembro](https://beefpoint.com.br/confinamento-rende-r-303-a-mais-por-cabeca-no-sudeste-em-setembro/) — BeefPoint, neutra
+- [CEPEA: Valorização do boi gordo reduz diferença de preços frente à carne](https://beefpoint.com.br/cepea-valorizacao-do-boi-gordo-reduz-diferenca-de-precos-frente-a-carne/) — BeefPoint, ↑ arroba
+- [Indicador do Boi DATAGRO – Boletim de 14-outubro-2026](https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-14-outubro-2026/) — BeefPoint, neutra
+- [BOI: Valorização do boi gordo reduz diferença de preços frente à carne](https://folhaagricola.com.br/2026/10/15/boi-valorizacao-do-boi-gordo-reduz-diferenca-de-precos-frente-a-carne/) — Folha Agrícola, ↑ arroba
+- [Uma arroba de boi gordo paga mais de 30 dias de alimentação no confinamento](https://folhaagricola.com.br/2026/10/15/uma-arroba-de-boi-gordo-paga-mais-de-30-dias-de-alimentacao-no-confinamento/) — Folha Agrícola, ↑ arroba
+- [Parceria entre ASBIA e UFU prepara estudantes para o futuro da pecuária](https://folhaagricola.com.br/2026/10/15/parceria-entre-asbia-e-ufu-prepara-estudantes-para-o-futuro-da-pecuaria/) — Folha Agrícola
+- ⚠️ Feed Compre Rural falhou: Compre Rural: HTTP 403
+- ⚠️ Classificação falhou: OpenRouter 401: {"error":{"message":"Missing Authentication header","code":401}}
 
 _Ainda não há previsões vencidas para comparar. A primeira comparação sai em 4 semanas._
 
