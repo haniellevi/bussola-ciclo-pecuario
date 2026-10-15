@@ -1,6 +1,7 @@
 """Converte as planilhas baixadas do Cepea (data/manual/cepea) em JSON (data/raw/cepea).
 
-O Cepea bloqueia coleta automática; as planilhas são baixadas à mão toda semana.
+Plano B: a coleta diária vem do Notícias Agrícolas (pipeline/coletar.ts). Use a planilha
+quando essa coleta falhar ou para revisar o histórico.
 Os arquivos vêm com cabeçalho corrompido, por isso ignore_workbook_corruption.
 Uso: uv run --no-project --with xlrd python pipeline/ler_cepea.py
 """
@@ -42,11 +43,17 @@ def main() -> None:
         titulo, pontos = ler(caminho)
         saida = RAIZ / "raw" / "cepea" / destino
         saida.parent.mkdir(parents=True, exist_ok=True)
+        # Junta com o que a coleta automática já trouxe; a planilha oficial vence nos dias repetidos.
+        anterior = json.loads(saida.read_text()) if saida.exists() else {}
+        por_data = {p["data"]: p for p in anterior.get("dados", [])}
+        por_data.update({p["data"]: p for p in pontos})
+        pontos = sorted(por_data.values(), key=lambda p: p["data"])
         corpo = {
+            **anterior,
             "fonte": f"{titulo} (Cepea/Esalq-USP, licença CC BY-NC 4.0)",
             "url": "https://www.cepea.org.br",
             "unidade": unidade,
-            "coletadoEm": datetime.now(timezone.utc).isoformat(),
+            "planilhaLidaEm": datetime.now(timezone.utc).isoformat(),
             "dados": pontos,
         }
         saida.write_text(json.dumps(corpo, ensure_ascii=False, indent=1) + "\n")

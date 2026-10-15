@@ -51,8 +51,11 @@ type Aviso = { nivel: "bloqueia" | "revisar"; texto: string };
 const avisos: Aviso[] = [];
 const diarios = {} as Record<Alvo, Dia[]>;
 for (const alvo of ALVOS) {
-  const dias: Dia[] = lerRaw(ARQ_CEPEA[alvo]).dados;
+  const raw = lerRaw(ARQ_CEPEA[alvo]);
+  const dias: Dia[] = raw.dados;
   diarios[alvo] = dias;
+  for (const d of raw.divergencias ?? [])
+    avisos.push({ nivel: "revisar", texto: `Cepea ${alvo}: valor diferente entre fontes em ${d}.` });
   const ultimo = dias.at(-1)!;
   const idade = diasEntre(ultimo.data, hoje);
   if (idade > 14) avisos.push({ nivel: "bloqueia", texto: `Cepea ${alvo}: último dado é de ${ultimo.data} (${idade} dias). Baixe a planilha nova.` });

@@ -2,10 +2,11 @@ name: Rodada semanal
 
 on:
   schedule:
-    - cron: "0 12 * * 1" # segunda, 9h de Brasília
+    - cron: "0 23 * * 1-5" # coleta diária, 20h de Brasília (dias úteis)
+    - cron: "0 12 * * 1" # previsão e relatório, segunda 9h de Brasília
   push:
     branches: [main]
-    paths: ["data/manual/cepea/**"] # planilha nova do Cepea
+    paths: ["data/manual/cepea/**"] # plano B: planilha do Cepea enviada à mão
   workflow_dispatch:
 
 permissions:
@@ -15,6 +16,10 @@ permissions:
 concurrency:
   group: semanal
   cancel-in-progress: false
+
+env:
+  # Previsão e relatório só na rodada de segunda ou quando disparado à mão.
+  RODADA_SEMANAL: ${{ github.event.schedule == '0 12 * * 1' || github.event_name == 'workflow_dispatch' }}
 
 jobs:
   rodada:
@@ -26,22 +31,19 @@ jobs:
         with:
           node-version: 24
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Instalar leitor de planilha
-        run: pip install xlrd==2.0.1
-
-      - name: Coletar Banco Central e IBGE
+      - name: Coletar Cepea (via Notícias Agrícolas), Banco Central e IBGE
         # Se uma fonte falhar, segue com o último dado salvo; a conferência avisa no relatório.
         continue-on-error: true
         run: node pipeline/coletar.ts
 
-      - name: Ler planilhas do Cepea
-        run: python pipeline/ler_cepea.py
+      - name: Ler planilhas do Cepea enviadas à mão
+        if: github.event_name == 'push'
+        run: |
+          pip install xlrd==2.0.1
+          python pipeline/ler_cepea.py
 
       - name: Conferir, prever, comparar
+        if: env.RODADA_SEMANAL == 'true'
         run: node pipeline/semanal.ts
 
       - name: Salvar dados no repositório
@@ -49,10 +51,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data
-          git diff --cached --quiet || git commit -m "dados: rodada semanal $(date -u +%F)"
+          git diff --cached --quiet || git commit -m "dados: coleta $(date -u +%F)"
           git push
 
       - name: Relatório como issue (o GitHub avisa por e-mail)
+        if: env.RODADA_SEMANAL == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -68,3 +71,11 @@ jobs:
             done
             gh issue create --title "$titulo" --label semanal --body-file data/semanal/relatorio.md
           fi
+
+      - name: Avisar se a coleta falhou
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Robô falhou em $(date -u +%F)" \
+            --body "A rodada falhou. Detalhes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} @${{ github.repository_owner }}"

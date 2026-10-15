@@ -1,7 +1,7 @@
 {
  "fonte": "Banco Central do Brasil, SGS série 190",
  "url": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.190/dados?formato=json&dataInicial=01/01/2000",
- "coletadoEm": "2026-10-15T14:43:59.227Z",
+ "coletadoEm": "2026-10-15T14:50:59.812Z",
  "dados": [
   {
    "data": "2000-01-01",

@@ -1,7 +1,7 @@
-// Etapa 1 do processo semanal: coleta de fontes com API pública.
+// Etapa 1 do processo: coleta automática (roda todo dia útil).
 // Cada arquivo salvo leva fonte, URL e data da coleta.
 // Uso: node pipeline/coletar.ts
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 const RAIZ = new URL("../data/raw/", import.meta.url);
 
@@ -85,5 +85,70 @@ async function coletarIbgeAbate() {
   await salvar("ibge/abate-bovinos-mensal.json", "IBGE, Pesquisa Trimestral do Abate de Animais, tabela 1092", url, dados);
 }
 
-await coletarBcb();
-await coletarIbgeAbate();
+// Indicadores do Cepea (boi gordo e bezerro MS), republicados pelo Notícias Agrícolas.
+// O site do Cepea bloqueia robôs; o Notícias Agrícolas permite (robots.txt) e mostra os
+// últimos ~10 dias úteis com os mesmos valores. Os dias novos entram no histórico;
+// dias que já existem são conferidos, e divergências viram aviso no relatório.
+const PAGINAS_CEPEA = {
+  "cepea/boi-gordo.json": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/boi-gordo-indicador-esalq-bmf",
+  "cepea/bezerro-ms.json": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/indicador-bezerro-esalq-bmf-bovespa-ms",
+} as const;
+
+function lerTabelasNa(html: string): Ponto[] {
+  const pontos: Ponto[] = [];
+  for (const [tabela] of html.matchAll(/<table[\s\S]*?<\/table>/g)) {
+    const texto = tabela.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ");
+    const m = texto.match(/(\d{2})\/(\d{2})\/(\d{4}) ([\d.]+,\d+)/);
+    if (!m) continue;
+    pontos.push({ data: `${m[3]}-${m[2]}-${m[1]}`, valor: Number(m[4].replace(/\./g, "").replace(",", ".")) });
+  }
+  return pontos;
+}
+
+async function coletarCepeaViaNa() {
+  for (const [caminho, url] of Object.entries(PAGINAS_CEPEA)) {
+    const r = await fetch(url, {
+      headers: { "User-Agent": "BussolaCicloPecuario/1.0 (+https://github.com/haniellevi/bussola-ciclo-pecuario)" },
+      signal: AbortSignal.timeout(60_000),
+    });
+    if (!r.ok) throw new Error(`${r.status} em ${url}`);
+    const novos = lerTabelasNa(await r.text());
+    if (novos.length < 3) throw new Error(`Notícias Agrícolas: página mudou, só ${novos.length} dias lidos em ${url}`);
+
+    const arquivo = new URL(caminho, RAIZ);
+    const atual = JSON.parse(await readFile(arquivo, "utf8"));
+    const porData = new Map<string, Ponto & { origem?: string }>(atual.dados.map((p: Ponto) => [p.data, p]));
+    const avisos: string[] = [];
+    let adicionados = 0;
+    for (const p of novos) {
+      const antigo = porData.get(p.data);
+      if (!antigo) {
+        porData.set(p.data, { ...p, origem: "noticiasagricolas" });
+        adicionados++;
+      } else if (Math.abs(antigo.valor / p.valor - 1) > 0.005) {
+        avisos.push(`${p.data}: histórico tem ${antigo.valor}, Notícias Agrícolas mostra ${p.valor}`);
+      }
+    }
+    const corpo = {
+      ...atual,
+      coletadoEm: new Date().toISOString(),
+      coletaAutomatica: url,
+      divergencias: avisos,
+      dados: [...porData.values()].sort((a, b) => a.data.localeCompare(b.data)),
+    };
+    await writeFile(arquivo, JSON.stringify(corpo, null, 1) + "\n");
+    console.log(`ok ${caminho}: +${adicionados} dias, último ${corpo.dados.at(-1).data}${avisos.length ? `, ${avisos.length} divergência(s)` : ""}`);
+  }
+}
+
+// Uma fonte fora do ar não impede as outras; a conferência semanal avisa o que ficou velho.
+let falhas = 0;
+for (const coletar of [coletarCepeaViaNa, coletarBcb, coletarIbgeAbate]) {
+  try {
+    await coletar();
+  } catch (e) {
+    falhas++;
+    console.error(`FALHOU ${coletar.name}: ${(e as Error).message}`);
+  }
+}
+process.exitCode = falhas ? 1 : 0;
