@@ -6,7 +6,7 @@ import { distanciaKm, fretePorCabeca, ufDaPraca, UFS, FATOR_ESTRADA, KM_DENTRO_D
 import { numero, reais } from "@/lib/formato";
 import { calcular, custoArroba, NOME_ESTRUTURA, NOME_PARTE, type Entradas, type Estrutura, type Partes, type Selo } from "@/lib/margem";
 import type { CategoriaReposicao, Painel } from "@/lib/painel";
-import { descreverEstagio, estagio } from "@/lib/veredito";
+import { descreverEstagio } from "@/lib/veredito";
 import { entradaDoPainel } from "@/lib/entrada";
 
 // O Consultor grava aqui o perfil que a pessoa informou (usado só para lembrar a estrutura preferida).
@@ -43,10 +43,8 @@ function padrao(estrutura: Estrutura, p: Painel): Entradas {
 function Num({ rotulo, valor, onChange, unidade, passo = 1, faixa, dica }: { rotulo: string; valor: number; onChange: (v: number) => void; unidade?: string; passo?: number; faixa?: [number, number]; dica?: string }) {
   return (
     <label className="block">
-      <span className="flex items-baseline justify-between gap-3 text-sm text-zinc-300">
-        <span>{rotulo}</span>
-        {unidade && <span className="text-xs text-zinc-400">{unidade}</span>}
-      </span>
+      <span className="block text-sm text-zinc-300">{rotulo}</span>
+      <span className="relative mt-1 block">
       <input
         type="number"
         inputMode="decimal"
@@ -54,8 +52,11 @@ function Num({ rotulo, valor, onChange, unidade, passo = 1, faixa, dica }: { rot
         step={passo}
         value={Number.isFinite(valor) ? valor : ""}
         onChange={(e) => onChange(e.target.value === "" ? 0 : Math.max(0, +e.target.value))}
-        className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base tabular-nums text-zinc-50"
+        className="h-11 w-full rounded-lg border border-terra-700 bg-terra-950 pl-3 text-base tabular-nums text-zinc-50"
+        style={{ paddingRight: unidade ? `${unidade.length * 0.5 + 1.25}rem` : undefined }}
       />
+      {unidade && <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-zinc-400">{unidade}</span>}
+      </span>
       {faixa && (
         <input
           type="range"
@@ -151,7 +152,6 @@ export function Decisao({ painel }: { painel: Painel }) {
 
   const r = calcular(entradas);
   const cen = cenarios(entradas, painel, r.dias);
-  const fase = estagio(entradaDoPainel(painel));
   const snapshot = JSON.stringify(entradas);
   const desatualizada = explicacao && explicacao.para !== snapshot;
 
@@ -259,12 +259,13 @@ export function Decisao({ painel }: { painel: Painel }) {
     { chave: "juros", cor: "bg-violet-400" },
     { chave: "perdas", cor: "bg-alerta" },
   ];
+  const barrasUsadas = barras.filter((b) => r.partes[b.chave] > 0);
   const custoTotal = Object.values(r.partes).reduce((a, b) => a + b, 0);
   const qtd = estrutura === "cria" ? "matriz/ano" : "cabeça";
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
-      <div className="space-y-6">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.1fr]">
+      <div className="min-w-0 space-y-6 lg:col-start-1 lg:row-start-1">
         <fieldset>
           <legend className="text-sm font-medium text-zinc-200">1. Como você trabalha?</legend>
           <div className="mt-2 grid gap-2 sm:grid-cols-2">
@@ -417,7 +418,7 @@ export function Decisao({ painel }: { painel: Painel }) {
               )}
               {(
                 <div className="mt-2 flex flex-wrap items-end gap-3">
-                  <div className="w-44">
+                  <div className="w-full max-w-60">
                     <Num rotulo="Ou digite o frete" unidade="R$/cabeça" passo={5} valor={freteManual ?? freteEstimado} onChange={setFreteManual} />
                   </div>
                   {freteManual != null && (
@@ -430,6 +431,99 @@ export function Decisao({ painel }: { painel: Painel }) {
             </div>
           )}
         </section>
+      </div>
+
+      <div className="min-w-0 space-y-4 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
+        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5" aria-live="polite">
+          <p className="text-xs uppercase tracking-wider text-zinc-400">
+            Resultado · {NOME_ESTRUTURA[estrutura]} · por {qtd}
+          </p>
+          <p className={`mt-2 inline-block rounded-full border px-4 py-1.5 font-display text-xl font-bold ${COR_SELO[r.selo]}`}>{ROTULO_SELO[r.selo]}</p>
+          <dl className="mt-4 grid grid-cols-2 gap-px sm:grid-cols-3 overflow-hidden rounded-xl border border-terra-700 bg-terra-700 text-center">
+            {[
+              { t: estrutura === "cria" ? "Sobra por matriz/ano" : "Sobra por cabeça", v: reais(r.margem), cor: r.margem >= 0 ? "text-capim" : "text-alerta" },
+              { t: "Por mês", v: reais(r.margemMes), cor: r.margemMes >= 0 ? "text-capim" : "text-alerta" },
+              { t: estrutura === "cria" ? "Prazo" : "Dias no negócio", v: numero(r.dias, 0), cor: "text-zinc-50" },
+            ].map((x, i) => (
+              <div key={x.t} className={`bg-terra-900 p-3 ${i === 0 ? "col-span-2 sm:col-span-1" : ""}`}>
+                <dt className="text-xs text-zinc-400">{x.t}</dt>
+                <dd className={`mt-1 whitespace-nowrap font-display font-bold tabular-nums ${i === 0 ? "text-2xl sm:text-xl" : "text-lg sm:text-xl"} ${x.cor}`}>{x.v}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-4 rounded-xl border-2 border-sol/50 bg-sol/10 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-sol">{r.selo === "nao" ? "Por que não compensa" : r.selo === "apertada" ? "Por que está apertado" : "Por que compensa"}</p>
+            <p className="mt-1 text-base leading-relaxed text-zinc-50">{porque}</p>
+          </div>
+
+          <div className="mt-4">
+            <p className="text-sm text-zinc-300">
+              Para cada {reais(receita)} que entram, {reais(custoTotal)} saem:
+            </p>
+            <div className="mt-2 flex h-4 w-full overflow-hidden rounded-full bg-terra-950" role="img" aria-label="Divisão dos custos">
+              {barrasUsadas.map((b) => (
+                <div key={b.chave} className={b.cor} style={{ width: `${Math.min(100, (r.partes[b.chave] / Math.max(receita, custoTotal)) * 100)}%` }} title={`${NOME_PARTE[b.chave]}: ${reais(r.partes[b.chave])}`} />
+              ))}
+            </div>
+            <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm text-zinc-300 sm:grid-cols-2">
+              {barrasUsadas.map((b) => (
+                <li key={b.chave} className="flex items-center gap-2">
+                  <span className={`h-2.5 w-2.5 shrink-0 rounded-sm ${b.cor}`} aria-hidden />
+                  <span className="flex-1 whitespace-nowrap">{b.chave === "compra" ? "Animal" : b.chave === "operacao" ? "Custo diário" : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : "Perdas"}</span>
+                  <span className="tabular-nums text-zinc-50">{reais(r.partes[b.chave])}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+
+        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5">
+          <h3 className="font-display text-lg text-zinc-50">E se o preço de venda mudar?</h3>
+          <p className="mt-1 text-sm text-zinc-300">{descreverEstagio(entradaDoPainel(painel))}</p>
+          {cen ? (
+            <>
+              <p className="mt-3 text-xs text-zinc-400">Previsão registrada para {cen.semanas} semanas, faixa de 80% (perto do prazo da operação). O seu preço de venda é movido na mesma proporção.</p>
+              <ul className="mt-2 grid grid-cols-3 gap-2 text-center">
+                {[
+                  { t: "Preço no mínimo", x: cen.pior },
+                  { t: "Esperado", x: cen.esperado },
+                  { t: "Preço no máximo", x: cen.melhor },
+                ].map(({ t, x }) => (
+                  <li key={t} className="flex flex-col justify-between rounded-lg bg-terra-950 px-1.5 py-2">
+                    <span className="block text-xs text-zinc-400">{t}</span>
+                    <span className={`mt-0.5 block whitespace-nowrap font-display text-sm font-bold tabular-nums sm:text-base ${x.margem >= 0 ? "text-capim" : "text-alerta"}`}>{reais(x.margem)}</span>
+                  </li>
+                ))}
+              </ul>
+              {cen.pior.margem < 0 && r.margem >= 0 && <p className="mt-2 text-sm text-sol">Atenção: se o preço cair ao mínimo da faixa, a conta fica negativa. Vender parte antes ou travar preço na B3 reduz esse risco.</p>}
+              {cen.melhor.margem < 0 && <p className="mt-2 text-sm text-alerta">Mesmo com o preço no máximo da faixa, a conta não fecha. O problema está no custo ou no preço pago, não no ciclo.</p>}
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-zinc-400">Na revenda o preço de venda é o que você combina na hora, por isso não usamos a previsão do modelo.</p>
+          )}
+        </article>
+
+        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="font-display text-lg text-zinc-50">Explicação da IA</h3>
+            <button type="button" onClick={explicar} disabled={carregando} className="h-11 rounded-lg border border-sol/60 px-4 text-sm font-semibold text-sol hover:bg-sol/10 disabled:opacity-50">
+              {carregando ? "Pensando…" : explicacao ? "Atualizar explicação" : "Explicar com IA"}
+            </button>
+          </div>
+          {erro && <p className="mt-2 text-sm text-alerta">{erro}</p>}
+          {explicacao ? (
+            <>
+              {desatualizada && <p className="mt-2 text-sm text-sol">Você mudou os números. Clique em &quot;Atualizar explicação&quot;.</p>}
+              <p className={`mt-2 whitespace-pre-line text-base leading-relaxed ${desatualizada ? "text-zinc-400" : "text-zinc-50"}`}>{explicacao.texto}</p>
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-zinc-400">A conta acima é instantânea. A explicação em texto (IA) só é gerada quando você clica, para não gastar créditos a cada toque.</p>
+          )}
+        </article>
+      </div>
+
+      <div className="min-w-0 space-y-6 lg:col-start-1 lg:row-start-2">
 
         {estrutura === "revenda" ? (
           <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
@@ -441,7 +535,7 @@ export function Decisao({ painel }: { painel: Painel }) {
                   <span className="min-w-28 font-medium text-zinc-50">
                     {p.de} → {p.para}
                   </span>
-                  <span className="flex-1 text-zinc-300">
+                  <span className="basis-full text-zinc-300 sm:basis-auto sm:flex-1">
                     compra {reais(p.compra)} · vende {reais(p.venda)} · frete {reais(p.frete)}
                   </span>
                   <span className={`font-display font-bold tabular-nums ${p.sobra >= 0 ? "text-capim" : "text-alerta"}`}>{reais(p.sobra)}/cab</span>
@@ -451,7 +545,7 @@ export function Decisao({ painel }: { painel: Painel }) {
                     setFreteManual(null);
                     setExplicacao(null);
                     setE((x) => ({ ...x, compraCab: Math.round(p.compra), vendaCab: Math.round(p.venda) }));
-                  }} className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10">
+                  }} className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10">
                     Usar na conta
                   </button>
                 </li>
@@ -473,7 +567,7 @@ export function Decisao({ painel }: { painel: Painel }) {
                     {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
                   </span>
                   <span className="font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
-                  <button type="button" onClick={() => { setPracaVenda(v.nome); mudar("vendaArroba", v.bruto); }} className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10">
+                  <button type="button" onClick={() => { setPracaVenda(v.nome); mudar("vendaArroba", v.bruto); }} className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10">
                     Usar na conta
                   </button>
                 </li>
@@ -510,7 +604,7 @@ export function Decisao({ painel }: { painel: Painel }) {
                         setE((x) => ({ ...x, compraCab: m.cab, pesoCompra: cat.peso }));
                       }
                     }}
-                    className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10"
+                    className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10"
                   >
                     Usar na conta
                   </button>
@@ -535,96 +629,6 @@ export function Decisao({ painel }: { painel: Painel }) {
           </section>
         )}
       
-      </div>
-
-      <div className="space-y-4 lg:sticky lg:top-4 lg:self-start">
-        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5" aria-live="polite">
-          <p className="text-xs uppercase tracking-wider text-zinc-400">
-            Resultado · {NOME_ESTRUTURA[estrutura]} · por {qtd}
-          </p>
-          <p className={`mt-2 inline-block rounded-full border px-4 py-1.5 font-display text-xl font-bold ${COR_SELO[r.selo]}`}>{ROTULO_SELO[r.selo]}</p>
-          <dl className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-terra-700 bg-terra-700 text-center">
-            {[
-              { t: estrutura === "cria" ? "Sobra por matriz/ano" : "Sobra por cabeça", v: reais(r.margem), cor: r.margem >= 0 ? "text-capim" : "text-alerta" },
-              { t: "Por mês", v: reais(r.margemMes), cor: r.margemMes >= 0 ? "text-capim" : "text-alerta" },
-              { t: estrutura === "cria" ? "Prazo" : "Dias no negócio", v: numero(r.dias, 0), cor: "text-zinc-50" },
-            ].map((x) => (
-              <div key={x.t} className="bg-terra-900 p-3">
-                <dt className="text-xs text-zinc-400">{x.t}</dt>
-                <dd className={`mt-1 font-display text-lg font-bold tabular-nums sm:text-xl ${x.cor}`}>{x.v}</dd>
-              </div>
-            ))}
-          </dl>
-
-          <div className="mt-4 rounded-xl border-2 border-sol/50 bg-sol/10 p-4">
-            <p className="text-xs font-semibold uppercase tracking-wider text-sol">{r.selo === "nao" ? "Por que não compensa" : r.selo === "apertada" ? "Por que está apertado" : "Por que compensa"}</p>
-            <p className="mt-1 text-base leading-relaxed text-zinc-50">{porque}</p>
-          </div>
-
-          <div className="mt-4">
-            <p className="text-sm text-zinc-300">
-              Para cada {reais(receita)} que entram, {reais(custoTotal)} saem:
-            </p>
-            <div className="mt-2 flex h-4 w-full overflow-hidden rounded-full bg-terra-950" role="img" aria-label="Divisão dos custos">
-              {barras.map((b) => (
-                <div key={b.chave} className={b.cor} style={{ width: `${Math.min(100, (r.partes[b.chave] / Math.max(receita, custoTotal)) * 100)}%` }} title={`${NOME_PARTE[b.chave]}: ${reais(r.partes[b.chave])}`} />
-              ))}
-            </div>
-            <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm text-zinc-300 sm:grid-cols-2">
-              {barras.map((b) => (
-                <li key={b.chave} className="flex items-center gap-2">
-                  <span className={`h-2.5 w-2.5 shrink-0 rounded-sm ${b.cor}`} aria-hidden />
-                  <span className="flex-1 whitespace-nowrap">{b.chave === "compra" ? "Animal" : b.chave === "operacao" ? "Custo diário" : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : "Perdas"}</span>
-                  <span className="tabular-nums text-zinc-50">{reais(r.partes[b.chave])}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </article>
-
-        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5">
-          <h3 className="font-display text-lg text-zinc-50">E se o preço de venda mudar?</h3>
-          <p className="mt-1 text-sm text-zinc-300">{descreverEstagio(entradaDoPainel(painel))}</p>
-          {cen ? (
-            <>
-              <p className="mt-3 text-xs text-zinc-400">Previsão registrada para {cen.semanas} semanas, faixa de 80% (perto do prazo da operação). O seu preço de venda é movido na mesma proporção.</p>
-              <ul className="mt-2 grid grid-cols-3 gap-2 text-center">
-                {[
-                  { t: "Preço no mínimo", x: cen.pior },
-                  { t: "Esperado", x: cen.esperado },
-                  { t: "Preço no máximo", x: cen.melhor },
-                ].map(({ t, x }) => (
-                  <li key={t} className="rounded-lg bg-terra-950 p-2">
-                    <span className="block text-xs text-zinc-400">{t}</span>
-                    <span className={`block font-display text-base font-bold tabular-nums ${x.margem >= 0 ? "text-capim" : "text-alerta"}`}>{reais(x.margem)}</span>
-                  </li>
-                ))}
-              </ul>
-              {cen.pior.margem < 0 && r.margem >= 0 && <p className="mt-2 text-sm text-sol">Atenção: se o preço cair ao mínimo da faixa, a conta fica negativa. Vender parte antes ou travar preço na B3 reduz esse risco.</p>}
-              {cen.melhor.margem < 0 && <p className="mt-2 text-sm text-alerta">Mesmo com o preço no máximo da faixa, a conta não fecha. O problema está no custo ou no preço pago, não no ciclo.</p>}
-            </>
-          ) : (
-            <p className="mt-2 text-sm text-zinc-400">Na revenda o preço de venda é o que você combina, sem previsão do modelo. Fase do ciclo hoje: {fase === "alta-madura" ? "fim da alta" : "veja acima"}.</p>
-          )}
-        </article>
-
-        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="font-display text-lg text-zinc-50">Explicação da IA</h3>
-            <button type="button" onClick={explicar} disabled={carregando} className="h-11 rounded-lg border border-sol/60 px-4 text-sm font-semibold text-sol hover:bg-sol/10 disabled:opacity-50">
-              {carregando ? "Pensando…" : explicacao ? "Atualizar explicação" : "Explicar com IA"}
-            </button>
-          </div>
-          {erro && <p className="mt-2 text-sm text-alerta">{erro}</p>}
-          {explicacao ? (
-            <>
-              {desatualizada && <p className="mt-2 text-sm text-sol">Você mudou os números. Clique em &quot;Atualizar explicação&quot;.</p>}
-              <p className={`mt-2 whitespace-pre-line text-base leading-relaxed ${desatualizada ? "text-zinc-400" : "text-zinc-50"}`}>{explicacao.texto}</p>
-            </>
-          ) : (
-            <p className="mt-2 text-sm text-zinc-400">A conta acima é instantânea. A explicação em texto (IA) só é gerada quando você clica, para não gastar créditos a cada toque.</p>
-          )}
-        </article>
       </div>
 
     </div>
