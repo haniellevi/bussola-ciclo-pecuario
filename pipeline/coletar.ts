@@ -162,11 +162,30 @@ const textoHtml = (s: string) =>
     .replace(/&amp;/g, "&")
     .replace(/\s+/g, " ");
 
-async function coletarScot() {
-  const r = await fetch(URL_SCOT, {
-    headers: { "User-Agent": "BussolaCicloPecuario/1.0 (+https://github.com/haniellevi/bussola-ciclo-pecuario)" },
-    signal: AbortSignal.timeout(60_000),
-  });
+const UA = "BussolaCicloPecuario/1.0 (+https://github.com/haniellevi/bussola-ciclo-pecuario)";
+const URL_NA_SCOT_BOI = "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/boi-gordo-scot-consultoria";
+
+// Primeira tabela de cotação do Notícias Agrícolas: data de fechamento e linhas (células como texto).
+async function tabelaNa(url: string): Promise<{ dia: string; linhas: string[][] }> {
+  const r = await fetch(url, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(60_000) });
+  if (!r.ok) throw new Error(`${r.status} em ${url}`);
+  const html = await r.text();
+  const i = html.indexOf('<table class="cot-fisicas"');
+  const data = html.slice(Math.max(0, i - 3000), i).match(/Fechamento: (\d{2})\/(\d{2})\/(\d{4})/g)?.at(-1)?.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+  if (i < 0 || !data) throw new Error(`Notícias Agrícolas: tabela ou data não encontrada em ${url}`);
+  const tabela = html.slice(i, html.indexOf("</table>", i));
+  const linhas = [...tabela.matchAll(/<tr>([\s\S]*?)<\/tr>/g)]
+    .map(([, tr]) => [...tr.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map(([, td]) => textoHtml(td).trim()))
+    .filter((l) => l.length >= 2);
+  return { dia: `${data[3]}-${data[2]}-${data[1]}`, linhas };
+}
+
+type Pracas = Record<string, { vista: number | null; prazo30: number | null }>;
+
+// Direto da Scot. Desde 15/10/2026 a Scot às vezes responde com verificação anti-robô (403): aí usamos a
+// mesma tabela republicada pelo Notícias Agrícolas (que permite robôs). Nunca tentamos passar pela verificação.
+async function lerScotDireto(): Promise<{ dia: string; pracas: Pracas }> {
+  const r = await fetch(URL_SCOT, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(60_000) });
   if (!r.ok) throw new Error(`${r.status} em ${URL_SCOT}`);
   const tabela = [...(await r.text()).matchAll(/<table[\s\S]*?<\/table>/g)]
     .map(([t]) => textoHtml(t))
@@ -175,18 +194,73 @@ async function coletarScot() {
   if (!tabela || !data) throw new Error("Scot: tabela do mercado físico não encontrada (página mudou?)");
   const valor = "(-|[\\d.]+,\\d{2})";
   const linha = new RegExp(`([A-Z]{2}) ([A-ZÀ-Úa-zà-ú][A-Za-zÀ-ú. ]*?) ${valor} ${valor}`, "g");
-  const pracas: Record<string, { vista: number | null; prazo30: number | null }> = {};
+  const pracas: Pracas = {};
   for (const m of tabela.matchAll(linha)) pracas[`${m[1]} ${m[2].trim()}`] = { vista: num(m[3]), prazo30: num(m[4]) };
+  return { dia: `${data[3]}-${data[2]}-${data[1]}`, pracas };
+}
+
+async function lerScotViaNa(): Promise<{ dia: string; pracas: Pracas }> {
+  const { dia, linhas } = await tabelaNa(URL_NA_SCOT_BOI);
+  const pracas: Pracas = {};
+  // Município | à vista | a prazo | vaca. Linhas em R$/kg (RS) ficam fora: o resto é R$/@.
+  for (const [nome, vista, prazo] of linhas) if (/^[A-Z]{2} /.test(nome) && !/\(kg\)/.test(nome)) pracas[nome] = { vista: num(vista), prazo30: num(prazo) };
+  return { dia, pracas };
+}
+
+async function coletarScot() {
+  let lido: { dia: string; pracas: Pracas }, url = URL_SCOT;
+  try {
+    lido = await lerScotDireto();
+  } catch (e) {
+    console.log(`Scot direto falhou (${(e as Error).message}); usando a republicação do Notícias Agrícolas.`);
+    lido = await lerScotViaNa();
+    url = URL_NA_SCOT_BOI;
+  }
+  const { dia, pracas } = lido;
   if (!pracas[PRACA_REFERENCIA]?.vista) throw new Error(`Scot: praça ${PRACA_REFERENCIA} não encontrada`);
 
   const arquivo = new URL("scot/boi-gordo.json", RAIZ);
-  let dados: { data: string; pracas: typeof pracas }[] = [];
+  let dados: { data: string; pracas: Pracas }[] = [];
   try {
     dados = JSON.parse(await readFile(arquivo, "utf8")).dados;
   } catch {}
-  const dia = `${data[3]}-${data[2]}-${data[1]}`;
   dados = [...dados.filter((d) => d.data !== dia), { data: dia, pracas }].sort((a, b) => a.data.localeCompare(b.data));
-  await salvar("scot/boi-gordo.json", "Scot Consultoria, boi gordo mercado físico (preço bruto, R$/@)", URL_SCOT, dados);
+  await salvar("scot/boi-gordo.json", "Scot Consultoria, boi gordo mercado físico (preço bruto, R$/@)", url, dados);
+}
+
+// Reposição (Nelore macho) por estado: pesquisa da Scot, republicada pelo Notícias Agrícolas.
+// R$ por cabeça, R$ por kg e troca (arrobas de boi gordo para comprar 1 animal). A página mostra só o dia.
+const REPOSICAO = {
+  desmama: { nome: "Desmama", ref: "8 meses, 195 kg", peso: 195, url: "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-desmama-8-meses" },
+  bezerro: { nome: "Bezerro", ref: "12 meses, 240 kg", peso: 240, url: "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-bezerro-12-meses" },
+  garrote: { nome: "Garrote", ref: "18 meses, 300 kg", peso: 300, url: "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-garrote-18-meses" },
+  boiMagro: { nome: "Boi magro", ref: "375 kg", peso: 375, url: "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-boi-magro" },
+} as const;
+
+async function coletarReposicao() {
+  type Uf = { cab: number; kg: number; troca: number | null; marcado?: boolean };
+  const categorias: Record<string, { nome: string; ref: string; peso: number; url: string; ufs: Record<string, Uf> }> = {};
+  let dia = "";
+  for (const [id, c] of Object.entries(REPOSICAO)) {
+    const t = await tabelaNa(c.url);
+    if (dia && t.dia !== dia) console.log(`aviso: reposição ${id} com data ${t.dia}, outras com ${dia}`);
+    dia ||= t.dia;
+    const ufs: Record<string, Uf> = {};
+    for (const [uf, cab, kg, troca] of t.linhas) {
+      const m = uf.match(/^([A-Z]{2})(\*)?$/);
+      if (!m || !num(cab)) continue;
+      ufs[m[1]] = { cab: num(cab)!, kg: num(kg)!, troca: num(troca ?? "-"), ...(m[2] ? { marcado: true } : {}) };
+    }
+    if (Object.keys(ufs).length < 8) throw new Error(`Reposição ${id}: só ${Object.keys(ufs).length} estados lidos (página mudou?)`);
+    categorias[id] = { nome: c.nome, ref: c.ref, peso: c.peso, url: c.url, ufs };
+  }
+  const arquivo = new URL("scot/reposicao.json", RAIZ);
+  let dados: { data: string; categorias: typeof categorias }[] = [];
+  try {
+    dados = JSON.parse(await readFile(arquivo, "utf8")).dados;
+  } catch {}
+  dados = [...dados.filter((d) => d.data !== dia), { data: dia, categorias }].sort((a, b) => a.data.localeCompare(b.data));
+  await salvar("scot/reposicao.json", "Scot Consultoria, reposição Nelore macho por estado, via Notícias Agrícolas", "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo", dados);
 }
 
 // Confere Cepea × Scot e, se o Cepea parou, estima os dias faltantes pela Scot.
@@ -229,7 +303,7 @@ async function conferirEReservar() {
 
 // Uma fonte fora do ar não impede as outras; a conferência semanal avisa o que ficou velho.
 let falhas = 0;
-for (const coletar of [coletarCepeaViaNa, coletarScot, conferirEReservar, coletarBcb, coletarIbgeAbate]) {
+for (const coletar of [coletarCepeaViaNa, coletarScot, coletarReposicao, conferirEReservar, coletarBcb, coletarIbgeAbate]) {
   try {
     await coletar();
   } catch (e) {

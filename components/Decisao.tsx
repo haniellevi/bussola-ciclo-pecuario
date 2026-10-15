@@ -5,7 +5,7 @@ import { cenarios } from "@/lib/cenarios";
 import { distanciaKm, fretePorCabeca, ufDaPraca, UFS, FATOR_ESTRADA, KM_DENTRO_DO_ESTADO } from "@/lib/frete";
 import { numero, reais } from "@/lib/formato";
 import { calcular, custoArroba, NOME_ESTRUTURA, NOME_PARTE, type Entradas, type Estrutura, type Partes, type Selo } from "@/lib/margem";
-import type { Painel } from "@/lib/painel";
+import type { CategoriaReposicao, Painel } from "@/lib/painel";
 import { descreverEstagio, estagio } from "@/lib/veredito";
 import { entradaDoPainel } from "@/lib/entrada";
 
@@ -30,7 +30,7 @@ const COR_SELO: Record<Selo, string> = {
 // Valores de partida: preços vêm dos dados; o resto é exemplo para a pessoa trocar pelos da sua fazenda.
 function padrao(estrutura: Estrutura, p: Painel): Entradas {
   const base: Entradas = {
-    estrutura, compraCab: p.hoje.bezerro, pesoCompra: 200, pesoVenda: 510, gmd: 0.6, custoDia: 4.5, rendimento: 52,
+    estrutura, compraCab: p.hoje.bezerro, pesoCompra: 240, pesoVenda: 510, gmd: 0.6, custoDia: 4.5, rendimento: 52,
     vendaArroba: p.hoje.boi, mortalidade: 1.5, taxaDesmama: 70, custoMatrizAno: 1000, valorMatriz: Math.round(p.hoje.bezerro),
     vendaBezerro: p.hoje.bezerro, vendaCab: Math.round(18 * p.hoje.boi), diasRevenda: 7, quebra: 1, frete: 0, juros: p.selic.valor,
   };
@@ -73,6 +73,8 @@ function Num({ rotulo, valor, onChange, unidade, passo = 1, faixa, dica }: { rot
   );
 }
 
+const CATEGORIA_PADRAO: Record<Estrutura, CategoriaReposicao> = { recria: "bezerro", confinamento: "boiMagro", cria: "desmama", revenda: "boiMagro" };
+
 const faixaDe = (v: number): [number, number] => [Math.round(v * 0.5), Math.round(v * 1.6)];
 
 function lerChaveOr(): string {
@@ -92,6 +94,7 @@ export function Decisao({ painel }: { painel: Painel }) {
   const [rsKm, setRsKm] = useState(7);
   const [cargaKg, setCargaKg] = useState(24000);
   const [freteManual, setFreteManual] = useState<number | null>(null);
+  const [categoria, setCategoria] = useState<CategoriaReposicao>("bezerro");
   const [explicacao, setExplicacao] = useState<{ texto: string; para: string } | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
@@ -112,6 +115,7 @@ export function Decisao({ painel }: { painel: Painel }) {
   function escolher(est: Estrutura) {
     setEstrutura(est);
     setE(padrao(est, painel));
+    setCategoria(CATEGORIA_PADRAO[est]);
     setFreteManual(null);
     setExplicacao(null);
     lembrar(est, ufFazenda);
@@ -127,6 +131,12 @@ export function Decisao({ painel }: { painel: Painel }) {
   const ufsComPreco = Object.keys(porUf);
   const maisPerto = ufsComPreco.length ? [...ufsComPreco].sort((a, b) => distanciaKm(ufFazenda, a) - distanciaKm(ufFazenda, b))[0] : null;
   const ufPreco = porUf[ufFazenda] ? ufFazenda : maisPerto;
+  // Reposição (Scot): preço por estado da categoria escolhida
+  const rep = painel.reposicao;
+  const cat = rep?.categorias[categoria];
+  const ufsRep = Object.keys(cat?.ufs ?? {});
+  const ufRep = cat ? (cat.ufs[ufFazenda] ? ufFazenda : [...ufsRep].sort((a, b) => distanciaKm(ufFazenda, a) - distanciaKm(ufFazenda, b))[0]) : null;
+  const usaReposicao = estrutura !== "revenda" && Boolean(cat && ufRep);
 
   const ufVenda = pracaVenda ? ufDaPraca(pracaVenda) : ufFazenda;
   const kmCompra = ufCompra ? distanciaKm(ufCompra, ufFazenda) : 0;
@@ -190,12 +200,36 @@ export function Decisao({ painel }: { painel: Painel }) {
   };
 
   const aplicarRegiao = () => {
-    if (!ufPreco) return;
-    const v = Math.round(porUf[ufPreco] * 10) / 10;
-    if (estrutura === "revenda") setE((x) => ({ ...x, compraCab: Math.round(18 * v) }));
-    else mudar("vendaArroba", v);
+    const v = ufPreco ? Math.round(porUf[ufPreco] * 10) / 10 : null;
+    const animal = usaReposicao ? cat!.ufs[ufRep!].cab : null;
+    setE((x) => {
+      if (estrutura === "revenda") return v ? { ...x, compraCab: Math.round(18 * v) } : x;
+      if (estrutura === "cria") return animal ? { ...x, vendaBezerro: animal } : x;
+      return { ...x, ...(v ? { vendaArroba: v } : {}), ...(animal ? { compraCab: animal, pesoCompra: cat!.peso } : {}) };
+    });
+    setPracaVenda("");
     setExplicacao(null);
   };
+
+  const escolherCategoria = (c: CategoriaReposicao) => {
+    setCategoria(c);
+    setExplicacao(null);
+    const k = rep?.categorias[c];
+    const uf = k ? (k.ufs[ufFazenda] ? ufFazenda : Object.keys(k.ufs).sort((a, b) => distanciaKm(ufFazenda, a) - distanciaKm(ufFazenda, b))[0]) : null;
+    if (!k || !uf) return;
+    if (estrutura === "cria") mudar("vendaBezerro", k.ufs[uf].cab);
+    else setE((x) => ({ ...x, compraCab: k.ufs[uf].cab, pesoCompra: k.peso }));
+  };
+
+  // Onde comprar (recria/confinamento): preço do animal + frete até a fazenda. Cria: onde vender, preço − frete.
+  const mercadoAnimal = cat
+    ? Object.entries(cat.ufs)
+        .map(([uf, v]) => {
+          const fr = fretePorCabeca(distanciaKm(uf, ufFazenda), rsKm, cat.peso, cargaKg);
+          return { uf, cab: v.cab, marcado: v.marcado, frete: fr, total: estrutura === "cria" ? v.cab - fr : v.cab + fr };
+        })
+        .sort((a, b) => (estrutura === "cria" ? b.total - a.total : a.total - b.total))
+    : [];
 
   async function explicar() {
     setCarregando(true);
@@ -292,16 +326,42 @@ export function Decisao({ painel }: { painel: Painel }) {
               </label>
             )}
           </div>
-          {ufPreco ? (
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <button type="button" onClick={aplicarRegiao} className="h-11 rounded-lg bg-sol px-4 text-sm font-semibold text-terra-950 hover:brightness-110">
-                Usar preços de {ufPreco}
+          {(ufPreco || usaReposicao) && (
+            <div className="mt-4 rounded-xl border border-sol/40 bg-sol/5 p-3">
+              {usaReposicao && (
+                <label className="block text-sm text-zinc-300">
+                  {estrutura === "cria" ? "Animal que você vende" : "Animal que você compra"}
+                  <select value={categoria} onChange={(ev) => escolherCategoria(ev.target.value as CategoriaReposicao)} className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base">
+                    {(Object.keys(rep!.categorias) as CategoriaReposicao[]).map((c) => (
+                      <option key={c} value={c}>
+                        {rep!.categorias[c].nome} ({rep!.categorias[c].ref})
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              <button type="button" onClick={aplicarRegiao} className="mt-3 h-11 w-full rounded-lg bg-sol px-4 text-base font-semibold text-terra-950 hover:brightness-110 sm:w-auto">
+                Usar preços de {usaReposicao && ufRep !== ufPreco && estrutura !== "cria" ? `${ufRep} e ${ufPreco}` : usaReposicao ? ufRep : ufPreco}
               </button>
-              <span className="text-xs text-zinc-400">
-                {ufPreco !== ufFazenda ? `${ufFazenda} não tem cotação; o estado com cotação mais perto é ${ufPreco}. ` : ""}Boi gordo à vista: {reais(porUf[ufPreco], 2)}/@ (Scot, {painel.pracas!.data.split("-").reverse().join("/")}). O preço do bezerro por região ainda não tem fonte aberta: digite o que você paga.
-              </span>
+              <ul className="mt-2 space-y-0.5 text-sm text-zinc-300">
+                {usaReposicao && (
+                  <li>
+                    {cat!.nome} em {ufRep}: <strong className="text-zinc-50">{reais(cat!.ufs[ufRep!].cab)}</strong> por cabeça ({reais(cat!.ufs[ufRep!].kg, 2)}/kg)
+                    {ufRep !== ufFazenda && <span className="text-zinc-400"> · {ufFazenda} não tem cotação, usamos o estado mais perto</span>}
+                  </li>
+                )}
+                {ufPreco && estrutura !== "cria" && (
+                  <li>
+                    Boi gordo em {ufPreco}: <strong className="text-zinc-50">{reais(porUf[ufPreco], 2)}/@</strong> à vista
+                    {ufPreco !== ufFazenda && <span className="text-zinc-400"> · estado com cotação mais perto</span>}
+                  </li>
+                )}
+              </ul>
+              <p className="mt-1 text-xs text-zinc-400">
+                Fonte: Scot Consultoria{rep ? ` (reposição de ${rep.data.split("-").reverse().join("/")}, via Notícias Agrícolas)` : ""}; boi gordo de {painel.pracas?.data.split("-").reverse().join("/")}. É o preço médio do estado; o seu negócio pode sair diferente.
+              </p>
             </div>
-          ) : null}
+          )}
         </section>
 
         <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
@@ -310,7 +370,7 @@ export function Decisao({ painel }: { painel: Painel }) {
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {(estrutura === "recria" || estrutura === "confinamento") && (
               <>
-                <Num rotulo="Preço pago por animal" unidade="R$/cabeça" passo={50} valor={e.compraCab} onChange={(v) => mudar("compraCab", v)} faixa={faixaDe(padrao(estrutura, painel).compraCab)} dica={estrutura === "recria" ? `Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}` : "Exemplo: 12,5 arrobas × preço da arroba"} />
+                <Num rotulo="Preço pago por animal" unidade="R$/cabeça" passo={50} valor={e.compraCab} onChange={(v) => mudar("compraCab", v)} faixa={faixaDe(padrao(estrutura, painel).compraCab)} dica={estrutura === "recria" ? `Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}. Use o botão de região para o preço do seu estado.` : "Exemplo: 12,5 arrobas × preço da arroba. Use o botão de região para o preço do boi magro."} />
                 <Num rotulo="Preço de venda do boi gordo" unidade="R$/@" passo={1} valor={e.vendaArroba} onChange={(v) => mudar("vendaArroba", v)} faixa={faixaDe(painel.hoje.boi)} dica={`Cepea hoje: ${reais(painel.hoje.boi, 2)}`} />
                 <Num rotulo="Peso na compra" unidade="kg vivo" passo={5} valor={e.pesoCompra} onChange={(v) => mudar("pesoCompra", v)} />
                 <Num rotulo="Peso na venda" unidade="kg vivo" passo={5} valor={e.pesoVenda} onChange={(v) => mudar("pesoVenda", v)} />
@@ -370,6 +430,111 @@ export function Decisao({ painel }: { painel: Painel }) {
             </div>
           )}
         </section>
+
+        {estrutura === "revenda" ? (
+          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-zinc-50">Onde comprar e onde vender</h3>
+            <p className="mt-1 text-sm text-zinc-300">Melhores pares de estados para boi gordo de 18@, depois do frete e da perda de {numero(e.quebra, 1)}%. Preço à vista da Scot, média dos estados.</p>
+            <ul className="mt-3 divide-y divide-terra-700 text-sm">
+              {pares.map((p) => (
+                <li key={`${p.de}${p.para}`} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
+                  <span className="min-w-28 font-medium text-zinc-50">
+                    {p.de} → {p.para}
+                  </span>
+                  <span className="flex-1 text-zinc-300">
+                    compra {reais(p.compra)} · vende {reais(p.venda)} · frete {reais(p.frete)}
+                  </span>
+                  <span className={`font-display font-bold tabular-nums ${p.sobra >= 0 ? "text-capim" : "text-alerta"}`}>{reais(p.sobra)}/cab</span>
+                  <button type="button" onClick={() => {
+                    setUfCompra(p.de);
+                    setPracaVenda(Object.keys(painel.pracas?.valores ?? {}).find((n) => ufDaPraca(n) === p.para) ?? "");
+                    setFreteManual(null);
+                    setExplicacao(null);
+                    setE((x) => ({ ...x, compraCab: Math.round(p.compra), vendaCab: Math.round(p.venda) }));
+                  }} className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10">
+                    Usar na conta
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : estrutura !== "cria" ? (
+          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-zinc-50">Onde vender o boi gordo</h3>
+            <p className="mt-1 text-sm text-zinc-300">
+              Praças da Scot, já descontado o frete saindo de {ufFazenda} (carga de {numero(cargaKg / 1000, 1)} t, {reais(rsKm, 2)}/km). Veja se a diferença de preço paga a viagem.
+            </p>
+            <ul className="mt-3 divide-y divide-terra-700 text-sm">
+              {vender.slice(0, 6).map((v, i) => (
+                <li key={v.nome} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
+                  <span className="w-5 text-zinc-400">{i + 1}.</span>
+                  <span className="min-w-36 flex-1 font-medium text-zinc-50">{v.nome}</span>
+                  <span className="text-zinc-300">
+                    {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
+                  </span>
+                  <span className="font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
+                  <button type="button" onClick={() => { setPracaVenda(v.nome); mudar("vendaArroba", v.bruto); }} className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10">
+                    Usar na conta
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {estrutura !== "revenda" && cat && mercadoAnimal.length > 0 && (
+          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-zinc-50">{estrutura === "cria" ? `Onde vender o ${cat.nome.toLowerCase()}` : `Onde comprar o ${cat.nome.toLowerCase()}`}</h3>
+            <p className="mt-1 text-sm text-zinc-300">
+              {cat.nome} Nelore ({cat.ref}), preço médio de cada estado {estrutura === "cria" ? "menos" : "mais"} o frete {estrutura === "cria" ? "saindo de" : "até"} {ufFazenda}. Como quem enche o caminhão onde compensa mais.
+            </p>
+            <ul className="mt-3 divide-y divide-terra-700 text-sm">
+              {mercadoAnimal.slice(0, 6).map((m, i) => (
+                <li key={m.uf} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
+                  <span className="w-5 text-zinc-400">{i + 1}.</span>
+                  <span className="min-w-12 flex-1 font-medium text-zinc-50">
+                    {m.uf}
+                    {m.marcado ? "*" : ""}
+                  </span>
+                  <span className="text-zinc-300">
+                    {reais(m.cab)} {estrutura === "cria" ? "−" : "+"} frete {reais(m.frete)}
+                  </span>
+                  <span className="font-display font-bold tabular-nums text-capim">{reais(m.total)}/cab</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setExplicacao(null);
+                      if (estrutura === "cria") mudar("vendaBezerro", Math.round(m.total));
+                      else {
+                        setUfCompra(m.uf === ufFazenda ? "" : m.uf);
+                        setE((x) => ({ ...x, compraCab: m.cab, pesoCompra: cat.peso }));
+                      }
+                    }}
+                    className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10"
+                  >
+                    Usar na conta
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-xs text-zinc-400">
+              Scot Consultoria, {rep!.data.split("-").reverse().join("/")}, via Notícias Agrícolas. {mercadoAnimal.some((m) => m.marcado) ? "A fonte marca RS e SC com * sem explicar o motivo. " : ""}Frete estimado pela distância, como na conta acima.
+              {estrutura === "cria" ? " Na conta, o preço líquido (já sem o frete) entra como preço de venda." : ""}
+            </p>
+          </section>
+        )}
+
+        {(estrutura === "recria" || estrutura === "confinamento") && (
+          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-zinc-50">Quanto custa produzir 1 arroba?</h3>
+            <p className="mt-2 text-base text-zinc-300">
+              Com o custo e o ganho de peso acima, cada arroba produzida custa <strong className={custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? "text-capim" : "text-alerta"}>{reais(custoArroba(e.custoDia, e.gmd))}</strong>
+              {custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? ", abaixo do preço do boi." : ", acima do preço do boi."}
+              <span className="mt-1 block text-xs text-zinc-400">Conta: custo diário ÷ (ganho diário ÷ 15 kg). Só conta comida e operação; o animal comprado, o frete e os juros entram na margem acima.</span>
+            </p>
+          </section>
+        )}
+      
       </div>
 
       <div className="space-y-4 lg:sticky lg:top-4 lg:self-start">
@@ -462,70 +627,6 @@ export function Decisao({ painel }: { painel: Painel }) {
         </article>
       </div>
 
-      <div className="space-y-4 lg:col-span-2">
-        {estrutura === "revenda" ? (
-          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-zinc-50">Onde comprar e onde vender</h3>
-            <p className="mt-1 text-sm text-zinc-300">Melhores pares de estados para boi gordo de 18@, depois do frete e da perda de {numero(e.quebra, 1)}%. Preço à vista da Scot, média dos estados.</p>
-            <ul className="mt-3 divide-y divide-terra-700 text-sm">
-              {pares.map((p) => (
-                <li key={`${p.de}${p.para}`} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
-                  <span className="min-w-28 font-medium text-zinc-50">
-                    {p.de} → {p.para}
-                  </span>
-                  <span className="flex-1 text-zinc-300">
-                    compra {reais(p.compra)} · vende {reais(p.venda)} · frete {reais(p.frete)}
-                  </span>
-                  <span className={`font-display font-bold tabular-nums ${p.sobra >= 0 ? "text-capim" : "text-alerta"}`}>{reais(p.sobra)}/cab</span>
-                  <button type="button" onClick={() => {
-                    setUfCompra(p.de);
-                    setPracaVenda(Object.keys(painel.pracas?.valores ?? {}).find((n) => ufDaPraca(n) === p.para) ?? "");
-                    setFreteManual(null);
-                    setExplicacao(null);
-                    setE((x) => ({ ...x, compraCab: Math.round(p.compra), vendaCab: Math.round(p.venda) }));
-                  }} className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10">
-                    Usar na conta
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : estrutura !== "cria" ? (
-          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-zinc-50">Onde vender o boi gordo</h3>
-            <p className="mt-1 text-sm text-zinc-300">
-              Praças da Scot, já descontado o frete saindo de {ufFazenda} (carga de {numero(cargaKg / 1000, 1)} t, {reais(rsKm, 2)}/km). Veja se a diferença de preço paga a viagem.
-            </p>
-            <ul className="mt-3 divide-y divide-terra-700 text-sm">
-              {vender.slice(0, 6).map((v, i) => (
-                <li key={v.nome} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
-                  <span className="w-5 text-zinc-400">{i + 1}.</span>
-                  <span className="min-w-36 flex-1 font-medium text-zinc-50">{v.nome}</span>
-                  <span className="text-zinc-300">
-                    {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
-                  </span>
-                  <span className="font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
-                  <button type="button" onClick={() => { setPracaVenda(v.nome); mudar("vendaArroba", v.bruto); }} className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10">
-                    Usar na conta
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3 text-xs text-zinc-400">Onde comprar o bezerro e o boi magro mais barato: ainda falta uma fonte aberta de preços de reposição por estado (a página da Scot bloqueia robôs). Enquanto isso, digite o preço que você paga e use o frete acima para comparar origens.</p>
-          </section>
-        ) : null}
-
-        {(estrutura === "recria" || estrutura === "confinamento") && (
-          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-zinc-50">Quanto custa produzir 1 arroba?</h3>
-            <p className="mt-2 text-base text-zinc-300">
-              Com o custo e o ganho de peso acima, cada arroba produzida custa <strong className={custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? "text-capim" : "text-alerta"}>{reais(custoArroba(e.custoDia, e.gmd))}</strong>
-              {custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? ", abaixo do preço do boi." : ", acima do preço do boi."}
-              <span className="mt-1 block text-xs text-zinc-400">Conta: custo diário ÷ (ganho diário ÷ 15 kg). Só conta comida e operação; o animal comprado, o frete e os juros entram na margem acima.</span>
-            </p>
-          </section>
-        )}
-      </div>
     </div>
   );
 }

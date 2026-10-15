@@ -73,12 +73,13 @@ const backtest = lerJson("backtest/relatorio.json");
 const vereditos = lerJson("backtest/vereditos.json");
 const scot = lerJson("raw/scot/boi-gordo.json").dados.at(-1);
 const selic = lerJson("raw/bcb/selic-mensal.json").dados.at(-1);
+const reposicao = existsSync(new URL("raw/scot/reposicao.json", DATA)) ? lerJson("raw/scot/reposicao.json").dados.at(-1) : null;
 const boiDiario = lerJson("raw/cepea/boi-gordo.json").dados;
 const bezerroDiario = lerJson("raw/cepea/bezerro-ms.json").dados;
 
 const painel = {
   geradoEm: new Date().toISOString(),
-  fontes: "Cepea/Esalq-USP (CC BY-NC 4.0), IBGE, Banco Central, Scot Consultoria",
+  fontes: "Cepea/Esalq-USP (CC BY-NC 4.0), IBGE, Banco Central, Scot Consultoria (reposição via Notícias Agrícolas)",
   hoje: {
     data: boiDiario.at(-1).data,
     boi: boiDiario.at(-1).valor,
@@ -130,6 +131,7 @@ const painel = {
   noticias,
   pracas: scot && { data: scot.data, valores: scot.pracas },
   selic: { data: selic.data, valor: selic.valor }, // % a.a., Banco Central
+  reposicao, // Scot via Notícias Agrícolas: R$/cabeça por estado, por categoria
 };
 
 writeFileSync(new URL("painel.json", DATA), JSON.stringify(painel) + "\n");

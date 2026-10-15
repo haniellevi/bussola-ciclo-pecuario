@@ -28,7 +28,6 @@ html {
 body {
   background: var(--color-terra-950);
   color: #eef2ef;
-  font-feature-settings: "zero" 0; /* sem o zero cortado ao meio, que estranha em preços */
 }
 
 @media (prefers-reduced-motion: reduce) {

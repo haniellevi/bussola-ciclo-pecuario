@@ -63,6 +63,12 @@ export type Painel = {
   } | null;
   pracas: { data: string; valores: Record<string, { vista: number | null; prazo30: number | null }> } | null;
   selic: { data: string; valor: number };
+  reposicao: {
+    data: string;
+    categorias: Record<CategoriaReposicao, { nome: string; ref: string; peso: number; url: string; ufs: Record<string, { cab: number; kg: number; troca: number | null; marcado?: boolean }> }>;
+  } | null;
 };
+
+export type CategoriaReposicao = "desmama" | "bezerro" | "garrote" | "boiMagro";
 
 export const painel = dados as unknown as Painel;
