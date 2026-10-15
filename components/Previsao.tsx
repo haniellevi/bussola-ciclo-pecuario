@@ -6,7 +6,32 @@ const NOME = { boi: "Boi gordo (R$/@)", bezerro: "Bezerro MS (R$/cabeça)" } as 
 // Previsões registradas na segunda-feira da semana. Nunca são editadas depois.
 export function Previsao({ previsao }: { previsao: NonNullable<Painel["previsao"]> }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-terra-700">
+    <>
+    {/* Celular: um cartão por preço, sem tabela larga escondendo números */}
+    <div className="space-y-3 sm:hidden">
+      <p className="text-xs text-zinc-400">
+        Registrada na semana {previsao.semana}, com o preço de {dataBr(previsao.dataBase)}. Depois de registrada, nunca é alterada.
+      </p>
+      {(["boi", "bezerro"] as const).map((alvo) => (
+        <div key={alvo} className="rounded-2xl border border-terra-700 bg-terra-900 p-4">
+          <p className="font-medium text-zinc-100">{NOME[alvo]}</p>
+          <ul className="mt-2 divide-y divide-terra-800 tabular-nums">
+            {previsao.itens.filter((i) => i.alvo === alvo).map((i) => (
+              <li key={i.semanas} className="flex items-baseline justify-between gap-3 py-2">
+                <span className="text-sm text-zinc-400">{i.semanas} semanas</span>
+                <span className="text-right">
+                  <span className="block text-lg font-semibold text-zinc-50">{reais(i.previsto)}</span>
+                  <span className="block text-xs text-zinc-400">
+                    faixa {reais(i.minimo)} a {reais(i.maximo)}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div className="hidden overflow-x-auto rounded-2xl border border-terra-700 sm:block">
       <table className="w-full min-w-[34rem] text-sm">
         <caption className="bg-terra-900 px-4 py-3 text-left text-xs text-zinc-400">
           Registrada na semana {previsao.semana}, com o preço de {dataBr(previsao.dataBase)}. Depois de registrada, nunca é alterada.
@@ -31,5 +56,6 @@ export function Previsao({ previsao }: { previsao: NonNullable<Painel["previsao"
         </tbody>
       </table>
     </div>
+    </>
   );
 }

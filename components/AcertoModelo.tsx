@@ -23,7 +23,41 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
 
   return (
     <div className="space-y-6">
-      <div className="overflow-x-auto rounded-2xl border border-terra-700">
+      {/* Celular: um cartão por previsão */}
+      <div className="space-y-3 sm:hidden">
+        <p className="text-xs text-zinc-400">
+          Teste no passado: modelo ajustado só com dados até {acerto.teste.treinoAte.slice(0, 4)}, previsões feitas às cegas em {acerto.teste.periodo}.
+        </p>
+        {acerto.teste.itens.map((it) => {
+          const ganhou = it.erroMedioModelo < it.erroMedioIngenuo;
+          return (
+            <div key={`${it.alvo}${it.semanas}`} className="rounded-2xl border border-terra-700 bg-terra-900 p-4">
+              <p className="font-medium text-zinc-100">
+                {NOME[it.alvo]} em {it.semanas} semanas
+              </p>
+              <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2 text-sm tabular-nums">
+                <div>
+                  <dt className="text-xs text-zinc-400">Erro médio</dt>
+                  <dd className={`text-base font-semibold ${ganhou ? "text-capim" : "text-zinc-100"}`}>{pct(it.erroMedioModelo, 1)}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs text-zinc-400">Chute &quot;preço parado&quot;</dt>
+                  <dd className="text-base text-zinc-300">{pct(it.erroMedioIngenuo, 1)}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs text-zinc-400">Acertou a direção</dt>
+                  <dd className="text-base text-zinc-300">{pct(it.acertoDirecao)}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs text-zinc-400">Real dentro da faixa</dt>
+                  <dd className={`text-base ${it.dentroDaFaixa80 >= 0.7 ? "text-zinc-300" : "text-sol"}`}>{pct(it.dentroDaFaixa80)}</dd>
+                </div>
+              </dl>
+            </div>
+          );
+        })}
+      </div>
+      <div className="hidden overflow-x-auto rounded-2xl border border-terra-700 sm:block">
         <table className="w-full min-w-[34rem] text-sm">
           <caption className="bg-terra-900 px-4 py-3 text-left text-xs text-zinc-400">
             Teste no passado: modelo ajustado só com dados até {acerto.teste.treinoAte.slice(0, 4)}, previsões feitas às cegas em {acerto.teste.periodo}.
@@ -60,7 +94,7 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
         <li>O teste acima cobre um só trecho do ciclo, quase todo de alta. Por isso fizemos o teste mais duro abaixo.</li>
       </ul>
 
-      <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
+      <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
         <h3 className="font-display text-lg text-zinc-100">Teste mais duro: ano a ano, {acerto.anoAno.periodo}</h3>
         <p className="mt-1 text-sm text-zinc-400">Cada ano previsto com o modelo treinado só até o ano anterior.</p>
         <ul className="mt-3 grid gap-2 text-sm tabular-nums sm:grid-cols-2">
@@ -82,8 +116,8 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
         </p>
       </div>
 
-      <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
-        <h3 className="font-display text-lg text-zinc-100">E os vereditos, teriam acertado?</h3>
+      <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+        <h3 className="font-display text-lg text-zinc-100">E a leitura do ciclo, teria acertado?</h3>
         <p className="mt-1 text-sm text-zinc-400">
           As regras de cada perfil aplicadas mês a mês em {acerto.vereditos.periodo}, usando só o que se sabia em cada mês.
         </p>
@@ -92,23 +126,23 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
             const r = acerto.vereditos.relatorio[chave];
             if (!r) return null;
             return (
-              <div key={chave} className="rounded-xl bg-terra-950 p-4">
+              <div key={chave} className="rounded-xl bg-terra-950 p-3 sm:p-4">
                 <p className="text-sm font-medium text-zinc-200">{titulo}</p>
                 <p className="mt-0.5 text-xs text-zinc-400">{explica}</p>
                 <dl className="mt-3 space-y-1.5 text-sm tabular-nums">
                   {(["melhor", "bom", "aguarde"] as const).map((s) =>
                     r[s] ? (
-                      <div key={s} className="flex justify-between gap-3">
-                        <dt className={COR[s]}>{ROTULO[s]}</dt>
-                        <dd className="text-zinc-300">
+                      <div key={s} className="flex flex-wrap justify-between gap-x-3">
+                        <dt className={`whitespace-nowrap ${COR[s]}`}>{ROTULO[s]}</dt>
+                        <dd className="whitespace-nowrap text-zinc-300">
                           {fmt(r[s]!.media)} <span className="text-zinc-400">· {r[s]!.meses} meses</span>
                         </dd>
                       </div>
                     ) : null,
                   )}
-                  <div className="flex justify-between gap-3 border-t border-terra-800 pt-1.5 text-zinc-400">
-                    <dt>Se comprasse sempre</dt>
-                    <dd>{fmt(r.corte)} (mediana)</dd>
+                  <div className="flex flex-wrap justify-between gap-x-3 border-t border-terra-800 pt-1.5 text-zinc-400">
+                    <dt className="whitespace-nowrap">Se comprasse sempre</dt>
+                    <dd className="whitespace-nowrap">{fmt(r.corte)} (mediana)</dd>
                   </div>
                 </dl>
               </div>
@@ -122,7 +156,7 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
         </p>
       </div>
 
-      <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
+      <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
         <h3 className="font-display text-lg text-zinc-100">Ao vivo, semana a semana</h3>
         {vivo.length === 0 ? (
           <p className="mt-2 text-sm text-zinc-400">

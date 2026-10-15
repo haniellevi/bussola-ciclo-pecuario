@@ -153,23 +153,23 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
   return (
     <div className="flex h-[36rem] flex-col rounded-2xl border border-terra-700 bg-terra-900">
       <header className="flex items-center justify-between border-b border-terra-700 px-4 py-3">
-        <div>
+        <div className="min-w-0">
           <p className="font-display text-lg text-zinc-100">Consultor do Ciclo</p>
-          <p className="text-xs text-zinc-400">{iaLigada ? `IA ligada · ${config.modelo || servidor.modelo}` : "Roteiro com as regras do app"}</p>
+          <p className="text-xs text-zinc-400">{iaLigada ? <>IA ligada<span className="hidden sm:inline"> · {config.modelo || servidor.modelo}</span></> : "Roteiro com as regras do app"}</p>
         </div>
-        <div className="flex gap-1">
+        <div className="flex shrink-0 gap-1">
           {pronto && (
-            <button onClick={recomecar} className="rounded-lg px-2.5 py-1.5 text-xs text-zinc-400 hover:bg-terra-800 hover:text-zinc-100">
-              Refazer perguntas
+            <button onClick={recomecar} className="min-h-11 rounded-lg px-3 text-sm text-zinc-400 hover:bg-terra-800 hover:text-zinc-100">
+              Refazer<span className="hidden sm:inline"> perguntas</span>
             </button>
           )}
           <button
             onClick={() => setAbrirConfig((v) => !v)}
             aria-expanded={abrirConfig}
             aria-label="Configurar IA"
-            className="rounded-lg px-2.5 py-1.5 text-zinc-400 hover:bg-terra-800 hover:text-zinc-100"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-zinc-400 hover:bg-terra-800 hover:text-zinc-100"
           >
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
               <circle cx="12" cy="12" r="3" />
               <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
             </svg>
@@ -183,7 +183,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
           <div className="mt-3">
             <GuiaChave />
           </div>
-          <button onClick={() => setAbrirConfig(true)} className="mt-3 rounded-lg bg-sol px-3 py-1.5 text-xs font-semibold text-terra-950">
+          <button onClick={() => setAbrirConfig(true)} className="mt-3 h-11 rounded-lg bg-sol px-4 text-sm font-semibold text-terra-950">
             Abrir a engrenagem
           </button>
         </div>
@@ -211,7 +211,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
                   value={config.chave}
                   onChange={(e) => setConfig({ ...config, chave: e.target.value })}
                   placeholder="sk-or-..."
-                  className="mt-1 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 py-2"
+                  className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
                 />
               </label>
               <label className="block">
@@ -220,10 +220,10 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
                   value={config.modelo}
                   onChange={(e) => setConfig({ ...config, modelo: e.target.value })}
                   placeholder={servidor.modelo || "empresa/modelo"}
-                  className="mt-1 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 py-2"
+                  className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
                 />
               </label>
-              <button className="rounded-lg bg-sol px-4 py-2 text-sm font-semibold text-terra-950">Salvar</button>
+              <button className="h-11 rounded-lg bg-sol px-5 text-sm font-semibold text-terra-950">Salvar</button>
             </div>
           </motion.form>
         )}
@@ -250,7 +250,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
                 defaultValue=""
                 onChange={(e) => e.target.value && responder(e.target.value)}
                 aria-label="Estado"
-                className="rounded-lg border border-terra-700 bg-terra-950 px-3 py-2 text-sm"
+                className="h-11 w-full max-w-xs rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
               >
                 <option value="" disabled>
                   Escolha o estado
@@ -265,7 +265,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
                   <button
                     key={o}
                     onClick={() => responder(o)}
-                    className="rounded-full border border-terra-700 px-3.5 py-1.5 text-sm text-zinc-200 transition-colors hover:border-sol hover:text-sol"
+                    className="min-h-11 rounded-full border border-terra-700 px-4 py-2 text-sm text-zinc-200 transition-colors hover:border-sol hover:text-sol"
                   >
                     {o}
                   </button>
@@ -285,9 +285,9 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
             onChange={(e) => setTexto(e.target.value)}
             placeholder="Pergunte sobre o seu caso…"
             aria-label="Sua pergunta"
-            className="min-w-0 flex-1 rounded-lg border border-terra-700 bg-terra-950 px-3 py-2 text-sm"
+            className="h-11 min-w-0 flex-1 rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
           />
-          <button disabled={pensando} className="rounded-lg bg-sol px-4 py-2 text-sm font-semibold text-terra-950 disabled:opacity-50">
+          <button disabled={pensando} className="h-11 rounded-lg bg-sol px-4 text-sm font-semibold text-terra-950 disabled:opacity-50">
             Enviar
           </button>
         </form>

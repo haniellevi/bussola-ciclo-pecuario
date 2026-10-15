@@ -18,10 +18,9 @@ const ESTAGIOS: { id: Estagio; de: number; ate: number; cor: string; o_que: stri
   { id: "fim-queda", de: 0.84, ate: 1, cor: "#4ade80", o_que: "Fundo do ciclo. Todo mundo vendendo, bezerro e matriz baratos. É aqui que nasce a próxima alta." },
 ];
 
-const L = 640;
+// Largura do desenho: no celular a onda fica mais estreita para não achatar.
 const A = 210;
-const ponto = (t: number) => ({ x: 20 + t * (L - 40), y: 105 + 70 * Math.cos(2 * Math.PI * t) });
-const CAMINHO = Array.from({ length: 101 }, (_, i) => ponto(i / 100)).map((p, i) => `${i ? "L" : "M"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
+const pontoEm = (L: number, t: number) => ({ x: 20 + t * (L - 40), y: 105 + 70 * Math.cos(2 * Math.PI * t) });
 const centro = (e: Estagio) => {
   const s = ESTAGIOS.find((x) => x.id === e)!;
   return (s.de + s.ate) / 2;
@@ -48,9 +47,25 @@ function Passo({ n, titulo, resumo, children }: { n: number; titulo: string; res
 function Onda({ hoje }: { hoje: Estagio }) {
   const parado = useReducedMotion();
   const [sel, setSel] = useState<Estagio>(hoje);
-  const amostras = useMemo(() => Array.from({ length: 41 }, (_, i) => ponto(i / 40)), []);
+  const [L, setL] = useState(640);
+  useEffect(() => {
+    const m = matchMedia("(max-width: 639px)");
+    const f = () => setL(m.matches ? 340 : 640);
+    f();
+    m.addEventListener("change", f);
+    return () => m.removeEventListener("change", f);
+  }, []);
+  const ponto = (t: number) => pontoEm(L, t);
+  const caminho = useMemo(() => Array.from({ length: 101 }, (_, i) => pontoEm(L, i / 100)).map((p, i) => `${i ? "L" : "M"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" "), [L]);
+  const amostras = useMemo(() => Array.from({ length: 41 }, (_, i) => pontoEm(L, i / 40)), [L]);
   const cur = ESTAGIOS.find((s) => s.id === sel)!;
   const pin = ponto(centro(hoje));
+  // "estamos aqui" do lado sem curva; perto da borda vai para baixo para não cortar.
+  const esq = centro(hoje) < 0.5;
+  const apertado = esq ? pin.x < 120 : pin.x > L - 120;
+  const rotulo = apertado
+    ? { x: pin.x + (esq ? 14 : -14), y: pin.y + 22, textAnchor: esq ? ("start" as const) : ("end" as const) }
+    : { x: pin.x + (esq ? -16 : 16), y: pin.y - 4, textAnchor: esq ? ("end" as const) : ("start" as const) };
   return (
     <div>
       <svg viewBox={`0 0 ${L} ${A}`} role="img" aria-label="Uma volta completa do ciclo: sobe do fundo ao pico e cai de volta ao fundo" className="w-full">
@@ -68,10 +83,10 @@ function Onda({ hoje }: { hoje: Estagio }) {
             />
           </g>
         ))}
-        <motion.path d={CAMINHO} fill="none" stroke="#e7ece9" strokeWidth={3} strokeLinecap="round" initial={parado ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2, ease: "easeInOut" }} />
-        <text x={ponto(0.5).x} y={22} textAnchor="middle" fontSize={12} fill="#fbbf24">pico</text>
-        <text x={ponto(0).x + 4} y={A - 38} fontSize={12} fill="#4ade80">fundo</text>
-        <text x={ponto(1).x - 4} y={A - 38} textAnchor="end" fontSize={12} fill="#4ade80">fundo</text>
+        <motion.path key={L} d={caminho} fill="none" stroke="#e7ece9" strokeWidth={3} strokeLinecap="round" initial={parado ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2, ease: "easeInOut" }} />
+        <text x={ponto(0.5).x} y={22} textAnchor="middle" fontSize={12} className="text-[16px] sm:text-[13px]" fill="#fbbf24">pico</text>
+        <text x={ponto(0).x + 4} y={A - 60} fontSize={12} className="text-[16px] sm:text-[13px]" fill="#4ade80">fundo</text>
+        <text x={ponto(1).x - 4} y={A - 60} textAnchor="end" fontSize={12} className="text-[16px] sm:text-[13px]" fill="#4ade80">fundo</text>
         {!parado && (
           <motion.circle
             r={6}
@@ -85,10 +100,10 @@ function Onda({ hoje }: { hoje: Estagio }) {
             {!parado && <animate attributeName="r" values="9;15;9" dur="2s" repeatCount="indefinite" />}
           </circle>
           <circle cx={pin.x} cy={pin.y} r={4} fill="#fb923c" />
-          <text x={pin.x + (centro(hoje) < 0.5 ? -16 : 16)} y={pin.y - 4} textAnchor={centro(hoje) < 0.5 ? "end" : "start"} fontSize={12} fontWeight={600} fill="#fb923c">estamos aqui</text>
+          <text {...rotulo} fontSize={12} fontWeight={600} className="text-[16px] sm:text-[13px]" fill="#fb923c">estamos aqui</text>
         </g>
         {ESTAGIOS.map((s) => (
-          <text key={s.id} x={20 + ((s.de + s.ate) / 2) * (L - 40)} y={A - 8} textAnchor="middle" fontSize={11} fill={sel === s.id ? "#fbbf24" : "#71807a"}>
+          <text key={s.id} x={20 + ((s.de + s.ate) / 2) * (L - 40)} y={A - 8} textAnchor="middle" fontSize={12} className="max-sm:hidden" fill={sel === s.id ? "#fbbf24" : "#71807a"}>
             {NOME_ESTAGIO[s.id]}
           </text>
         ))}
@@ -99,7 +114,7 @@ function Onda({ hoje }: { hoje: Estagio }) {
             key={s.id}
             onClick={() => setSel(s.id)}
             aria-pressed={sel === s.id}
-            className={`rounded-full border px-3.5 py-1.5 text-sm transition-colors ${sel === s.id ? "border-sol bg-sol/15 text-sol" : "border-terra-700 text-zinc-300 hover:border-zinc-500"}`}
+            className={`min-h-11 rounded-full border px-4 py-2 text-sm transition-colors ${sel === s.id ? "border-sol bg-sol/15 text-sol" : "border-terra-700 text-zinc-300 hover:border-zinc-500"}`}
           >
             {NOME_ESTAGIO[s.id]}
             {s.id === hoje && " · hoje"}
@@ -165,7 +180,7 @@ function Engrenagem() {
         ))}
       </ol>
       <div className="mt-4 flex items-center gap-4 text-sm text-zinc-400">
-        <button onClick={() => setRodando((v) => !v)} className="rounded-lg border border-terra-700 px-3 py-1.5 text-zinc-200 hover:border-sol hover:text-sol">
+        <button onClick={() => setRodando((v) => !v)} className="min-h-11 shrink-0 rounded-lg border border-terra-700 px-4 py-2 text-zinc-200 hover:border-sol hover:text-sol">
           {rodando ? "Pausar" : "Tocar de novo"}
         </button>
         <span>Depois do 6, volta ao 1: por isso é um ciclo.</span>
@@ -211,9 +226,9 @@ function Sinais({ p }: { p: Painel }) {
 
       <div className="rounded-2xl bg-terra-950 p-4">
         <p className="text-xs uppercase tracking-wide text-zinc-400">Sinal 2 · Vacas no abate</p>
-        <div className="relative mt-6 h-4 rounded-full bg-terra-800" role="img" aria-label={`Vacas são ${pct(fem, 1)} do abate; a média dos últimos 10 anos é ${pct(med, 1)}`}>
+        <div className="relative mt-8 h-4 rounded-full bg-terra-800" role="img" aria-label={`Vacas são ${pct(fem, 1)} do abate; a média dos últimos 10 anos é ${pct(med, 1)}`}>
           <motion.div className="h-full rounded-full bg-gradient-to-r from-capim to-sol" initial={parado ? false : { width: 0 }} whileInView={{ width: `${fem * 100 * 1.6}%` }} viewport={{ once: true }} transition={{ duration: 1.4, ease: "easeOut" }} style={parado ? { width: `${fem * 160}%` } : undefined} />
-          <div className="absolute -top-5 text-[11px] text-zinc-400" style={{ left: `${med * 160}%`, transform: "translateX(-50%)" }}>média {pct(med, 0)}</div>
+          <div className="absolute -top-6 whitespace-nowrap text-xs text-zinc-400" style={{ left: `${med * 160}%`, transform: "translateX(-50%)" }}>média {pct(med, 0)}</div>
           <div className="absolute top-0 h-full w-0.5 bg-zinc-300" style={{ left: `${med * 160}%` }} />
         </div>
         <p className="mt-3 font-display text-3xl tabular-nums text-zinc-50">{pct(fem, 1)}</p>

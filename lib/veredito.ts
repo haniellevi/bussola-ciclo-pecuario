@@ -140,7 +140,7 @@ export function veredito(perfil: Perfil, e: Entrada, estForcado?: Estagio): Vere
           "Alternativas enquanto espera: guardar o capital em renda fixa, começar pequeno em parceria ou arrendamento, e acompanhar a virada aqui.",
         ]
       : ["As condições estão favoráveis para a cria e para a engorda.", ...a.motivos, "Comece pequeno e com reserva de caixa para pelo menos 12 meses."];
-  return { selo, titulo: TEXTO_SELO[selo], motivos, venda: "Antes de vender ou comprar, faça a conta do custo por arroba no simulador abaixo." };
+  return { selo, titulo: TEXTO_SELO[selo], motivos, venda: "Antes de vender ou comprar, faça a conta da margem na calculadora da aba Hoje." };
 }
 
 // Custo da arroba produzida: custo diário ÷ (ganho diário em kg ÷ 15 kg por arroba).
