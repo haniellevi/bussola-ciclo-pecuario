@@ -1,0 +1,3019 @@
+{
+ "fonte": "IBGE, Pesquisa Trimestral do Abate de Animais, tabela 1092",
+ "url": "https://apisidra.ibge.gov.br/values/t/1092/n1/all/v/284/p/all/c12716/allxt/c18/all",
+ "coletadoEm": "2026-10-15T13:43:50.770Z",
+ "dados": [
+  {
+   "mes": "1997-01",
+   "total": 1227267,
+   "bois": 609103,
+   "vacas": 406609,
+   "novilhos": 161147,
+   "novilhas": 49259,
+   "vitelos e vitelas": 1149
+  },
+  {
+   "mes": "1997-02",
+   "total": 1129400,
+   "bois": 545226,
+   "vacas": 390094,
+   "novilhos": 149181,
+   "novilhas": 43664,
+   "vitelos e vitelas": 1235
+  },
+  {
+   "mes": "1997-03",
+   "total": 1153418,
+   "bois": 567139,
+   "vacas": 376843,
+   "novilhos": 158147,
+   "novilhas": 49519,
+   "vitelos e vitelas": 1770
+  },
+  {
+   "mes": "1997-04",
+   "total": 1252989,
+   "bois": 658463,
+   "vacas": 388682,
+   "novilhos": 157730,
+   "novilhas": 46336,
+   "vitelos e vitelas": 1778
+  },
+  {
+   "mes": "1997-05",
+   "total": 1227069,
+   "bois": 655018,
+   "vacas": 367919,
+   "novilhos": 156341,
+   "novilhas": 46038,
+   "vitelos e vitelas": 1753
+  },
+  {
+   "mes": "1997-06",
+   "total": 1194770,
+   "bois": 646959,
+   "vacas": 348153,
+   "novilhos": 151187,
+   "novilhas": 46900,
+   "vitelos e vitelas": 1571
+  },
+  {
+   "mes": "1997-07",
+   "total": 1248371,
+   "bois": 674585,
+   "vacas": 359662,
+   "novilhos": 159914,
+   "novilhas": 52731,
+   "vitelos e vitelas": 1479
+  },
+  {
+   "mes": "1997-08",
+   "total": 1252319,
+   "bois": 692117,
+   "vacas": 334873,
+   "novilhos": 173790,
+   "novilhas": 50683,
+   "vitelos e vitelas": 856
+  },
+  {
+   "mes": "1997-09",
+   "total": 1283419,
+   "bois": 717314,
+   "vacas": 318717,
+   "novilhos": 191755,
+   "novilhas": 54517,
+   "vitelos e vitelas": 1116
+  },
+  {
+   "mes": "1997-10",
+   "total": 1322442,
+   "bois": 728188,
+   "vacas": 328911,
+   "novilhos": 209214,
+   "novilhas": 54828,
+   "vitelos e vitelas": 1301
+  },
+  {
+   "mes": "1997-11",
+   "total": 1212802,
+   "bois": 660446,
+   "vacas": 331448,
+   "novilhos": 170971,
+   "novilhas": 48447,
+   "vitelos e vitelas": 1490
+  },
+  {
+   "mes": "1997-12",
+   "total": 1381994,
+   "bois": 731518,
+   "vacas": 398057,
+   "novilhos": 192300,
+   "novilhas": 58470,
+   "vitelos e vitelas": 1649
+  },
+  {
+   "mes": "1998-01",
+   "total": 1227398,
+   "bois": 664661,
+   "vacas": 371068,
+   "novilhos": 136113,
+   "novilhas": 54034,
+   "vitelos e vitelas": 1522
+  },
+  {
+   "mes": "1998-02",
+   "total": 1127723,
+   "bois": 621760,
+   "vacas": 342355,
+   "novilhos": 115042,
+   "novilhas": 47370,
+   "vitelos e vitelas": 1196
+  },
+  {
+   "mes": "1998-03",
+   "total": 1285673,
+   "bois": 718756,
+   "vacas": 369660,
+   "novilhos": 139260,
+   "novilhas": 56411,
+   "vitelos e vitelas": 1586
+  },
+  {
+   "mes": "1998-04",
+   "total": 1217116,
+   "bois": 704200,
+   "vacas": 318370,
+   "novilhos": 138843,
+   "novilhas": 53697,
+   "vitelos e vitelas": 2006
+  },
+  {
+   "mes": "1998-05",
+   "total": 1258204,
+   "bois": 723579,
+   "vacas": 334151,
+   "novilhos": 144765,
+   "novilhas": 53607,
+   "vitelos e vitelas": 2102
+  },
+  {
+   "mes": "1998-06",
+   "total": 1239042,
+   "bois": 723957,
+   "vacas": 312929,
+   "novilhos": 145081,
+   "novilhas": 54904,
+   "vitelos e vitelas": 2171
+  },
+  {
+   "mes": "1998-07",
+   "total": 1273022,
+   "bois": 774782,
+   "vacas": 303083,
+   "novilhos": 147404,
+   "novilhas": 45317,
+   "vitelos e vitelas": 2436
+  },
+  {
+   "mes": "1998-08",
+   "total": 1202637,
+   "bois": 732592,
+   "vacas": 263487,
+   "novilhos": 158732,
+   "novilhas": 45642,
+   "vitelos e vitelas": 2184
+  },
+  {
+   "mes": "1998-09",
+   "total": 1200355,
+   "bois": 721182,
+   "vacas": 259499,
+   "novilhos": 172569,
+   "novilhas": 45129,
+   "vitelos e vitelas": 1976
+  },
+  {
+   "mes": "1998-10",
+   "total": 1263413,
+   "bois": 737661,
+   "vacas": 280401,
+   "novilhos": 191341,
+   "novilhas": 51757,
+   "vitelos e vitelas": 2253
+  },
+  {
+   "mes": "1998-11",
+   "total": 1214438,
+   "bois": 698438,
+   "vacas": 287787,
+   "novilhos": 170458,
+   "novilhas": 55794,
+   "vitelos e vitelas": 1961
+  },
+  {
+   "mes": "1998-12",
+   "total": 1397455,
+   "bois": 802362,
+   "vacas": 356205,
+   "novilhos": 173919,
+   "novilhas": 62948,
+   "vitelos e vitelas": 2021
+  },
+  {
+   "mes": "1999-01",
+   "total": 1233330,
+   "bois": 672033,
+   "vacas": 335081,
+   "novilhos": 159206,
+   "novilhas": 65420,
+   "vitelos e vitelas": 1590
+  },
+  {
+   "mes": "1999-02",
+   "total": 1239073,
+   "bois": 671607,
+   "vacas": 350842,
+   "novilhos": 151833,
+   "novilhas": 63195,
+   "vitelos e vitelas": 1596
+  },
+  {
+   "mes": "1999-03",
+   "total": 1390216,
+   "bois": 766031,
+   "vacas": 380255,
+   "novilhos": 171503,
+   "novilhas": 70619,
+   "vitelos e vitelas": 1808
+  },
+  {
+   "mes": "1999-04",
+   "total": 1333386,
+   "bois": 744224,
+   "vacas": 344436,
+   "novilhos": 168734,
+   "novilhas": 74152,
+   "vitelos e vitelas": 1840
+  },
+  {
+   "mes": "1999-05",
+   "total": 1420650,
+   "bois": 789364,
+   "vacas": 383896,
+   "novilhos": 171539,
+   "novilhas": 73987,
+   "vitelos e vitelas": 1864
+  },
+  {
+   "mes": "1999-06",
+   "total": 1447212,
+   "bois": 826964,
+   "vacas": 391111,
+   "novilhos": 155200,
+   "novilhas": 72026,
+   "vitelos e vitelas": 1911
+  },
+  {
+   "mes": "1999-07",
+   "total": 1447795,
+   "bois": 822787,
+   "vacas": 386831,
+   "novilhos": 169890,
+   "novilhas": 66450,
+   "vitelos e vitelas": 1837
+  },
+  {
+   "mes": "1999-08",
+   "total": 1488216,
+   "bois": 868444,
+   "vacas": 367538,
+   "novilhos": 182733,
+   "novilhas": 67485,
+   "vitelos e vitelas": 2016
+  },
+  {
+   "mes": "1999-09",
+   "total": 1356177,
+   "bois": 784858,
+   "vacas": 317370,
+   "novilhos": 186310,
+   "novilhas": 65625,
+   "vitelos e vitelas": 2014
+  },
+  {
+   "mes": "1999-10",
+   "total": 1432075,
+   "bois": 780779,
+   "vacas": 367856,
+   "novilhos": 205345,
+   "novilhas": 76162,
+   "vitelos e vitelas": 1933
+  },
+  {
+   "mes": "1999-11",
+   "total": 1410769,
+   "bois": 770767,
+   "vacas": 379094,
+   "novilhos": 178936,
+   "novilhas": 80311,
+   "vitelos e vitelas": 1661
+  },
+  {
+   "mes": "1999-12",
+   "total": 1588117,
+   "bois": 857735,
+   "vacas": 440122,
+   "novilhos": 191224,
+   "novilhas": 97508,
+   "vitelos e vitelas": 1528
+  },
+  {
+   "mes": "2000-01",
+   "total": 1320999,
+   "bois": 692550,
+   "vacas": 404378,
+   "novilhos": 150852,
+   "novilhas": 72081,
+   "vitelos e vitelas": 1138
+  },
+  {
+   "mes": "2000-02",
+   "total": 1362735,
+   "bois": 708811,
+   "vacas": 419452,
+   "novilhos": 154388,
+   "novilhas": 78708,
+   "vitelos e vitelas": 1376
+  },
+  {
+   "mes": "2000-03",
+   "total": 1409917,
+   "bois": 753865,
+   "vacas": 405302,
+   "novilhos": 170341,
+   "novilhas": 78721,
+   "vitelos e vitelas": 1688
+  },
+  {
+   "mes": "2000-04",
+   "total": 1300409,
+   "bois": 709328,
+   "vacas": 364167,
+   "novilhos": 155994,
+   "novilhas": 69263,
+   "vitelos e vitelas": 1657
+  },
+  {
+   "mes": "2000-05",
+   "total": 1511093,
+   "bois": 836552,
+   "vacas": 411629,
+   "novilhos": 178749,
+   "novilhas": 82479,
+   "vitelos e vitelas": 1684
+  },
+  {
+   "mes": "2000-06",
+   "total": 1455358,
+   "bois": 788383,
+   "vacas": 406086,
+   "novilhos": 173694,
+   "novilhas": 85404,
+   "vitelos e vitelas": 1791
+  },
+  {
+   "mes": "2000-07",
+   "total": 1440668,
+   "bois": 796578,
+   "vacas": 389530,
+   "novilhos": 174496,
+   "novilhas": 78101,
+   "vitelos e vitelas": 1963
+  },
+  {
+   "mes": "2000-08",
+   "total": 1519830,
+   "bois": 894166,
+   "vacas": 347326,
+   "novilhos": 200428,
+   "novilhas": 75963,
+   "vitelos e vitelas": 1947
+  },
+  {
+   "mes": "2000-09",
+   "total": 1370645,
+   "bois": 828203,
+   "vacas": 276916,
+   "novilhos": 198254,
+   "novilhas": 65761,
+   "vitelos e vitelas": 1511
+  },
+  {
+   "mes": "2000-10",
+   "total": 1452800,
+   "bois": 800749,
+   "vacas": 320575,
+   "novilhos": 251044,
+   "novilhas": 78934,
+   "vitelos e vitelas": 1498
+  },
+  {
+   "mes": "2000-11",
+   "total": 1442283,
+   "bois": 785620,
+   "vacas": 337268,
+   "novilhos": 233846,
+   "novilhas": 83861,
+   "vitelos e vitelas": 1688
+  },
+  {
+   "mes": "2000-12",
+   "total": 1498844,
+   "bois": 812049,
+   "vacas": 356348,
+   "novilhos": 237135,
+   "novilhas": 91587,
+   "vitelos e vitelas": 1725
+  },
+  {
+   "mes": "2001-01",
+   "total": 1467850,
+   "bois": 779081,
+   "vacas": 387552,
+   "novilhos": 213391,
+   "novilhas": 86013,
+   "vitelos e vitelas": 1813
+  },
+  {
+   "mes": "2001-02",
+   "total": 1277181,
+   "bois": 676769,
+   "vacas": 337286,
+   "novilhos": 185718,
+   "novilhas": 75761,
+   "vitelos e vitelas": 1647
+  },
+  {
+   "mes": "2001-03",
+   "total": 1571968,
+   "bois": 840383,
+   "vacas": 398745,
+   "novilhos": 237351,
+   "novilhas": 93693,
+   "vitelos e vitelas": 1796
+  },
+  {
+   "mes": "2001-04",
+   "total": 1410498,
+   "bois": 755279,
+   "vacas": 339104,
+   "novilhos": 230674,
+   "novilhas": 83522,
+   "vitelos e vitelas": 1919
+  },
+  {
+   "mes": "2001-05",
+   "total": 1587817,
+   "bois": 881677,
+   "vacas": 357853,
+   "novilhos": 253455,
+   "novilhas": 92741,
+   "vitelos e vitelas": 2091
+  },
+  {
+   "mes": "2001-06",
+   "total": 1512617,
+   "bois": 844027,
+   "vacas": 344527,
+   "novilhos": 237063,
+   "novilhas": 84938,
+   "vitelos e vitelas": 2062
+  },
+  {
+   "mes": "2001-07",
+   "total": 1539793,
+   "bois": 900852,
+   "vacas": 333461,
+   "novilhos": 224426,
+   "novilhas": 78997,
+   "vitelos e vitelas": 2057
+  },
+  {
+   "mes": "2001-08",
+   "total": 1710588,
+   "bois": 1031429,
+   "vacas": 323885,
+   "novilhos": 269953,
+   "novilhas": 83076,
+   "vitelos e vitelas": 2245
+  },
+  {
+   "mes": "2001-09",
+   "total": 1507427,
+   "bois": 892833,
+   "vacas": 288363,
+   "novilhos": 257288,
+   "novilhas": 67094,
+   "vitelos e vitelas": 1849
+  },
+  {
+   "mes": "2001-10",
+   "total": 1670291,
+   "bois": 966721,
+   "vacas": 350060,
+   "novilhos": 277220,
+   "novilhas": 74469,
+   "vitelos e vitelas": 1821
+  },
+  {
+   "mes": "2001-11",
+   "total": 1553968,
+   "bois": 881409,
+   "vacas": 341297,
+   "novilhos": 253256,
+   "novilhas": 76153,
+   "vitelos e vitelas": 1853
+  },
+  {
+   "mes": "2001-12",
+   "total": 1626301,
+   "bois": 910253,
+   "vacas": 383672,
+   "novilhos": 239218,
+   "novilhas": 90890,
+   "vitelos e vitelas": 2268
+  },
+  {
+   "mes": "2002-01",
+   "total": 1602685,
+   "bois": 916563,
+   "vacas": 387873,
+   "novilhos": 211543,
+   "novilhas": 84973,
+   "vitelos e vitelas": 1733
+  },
+  {
+   "mes": "2002-02",
+   "total": 1477021,
+   "bois": 843599,
+   "vacas": 361456,
+   "novilhos": 194561,
+   "novilhas": 75624,
+   "vitelos e vitelas": 1781
+  },
+  {
+   "mes": "2002-03",
+   "total": 1484378,
+   "bois": 841717,
+   "vacas": 362019,
+   "novilhos": 210006,
+   "novilhas": 68995,
+   "vitelos e vitelas": 1641
+  },
+  {
+   "mes": "2002-04",
+   "total": 1546065,
+   "bois": 917441,
+   "vacas": 356490,
+   "novilhos": 198053,
+   "novilhas": 72205,
+   "vitelos e vitelas": 1876
+  },
+  {
+   "mes": "2002-05",
+   "total": 1663259,
+   "bois": 1006201,
+   "vacas": 367086,
+   "novilhos": 217049,
+   "novilhas": 71088,
+   "vitelos e vitelas": 1835
+  },
+  {
+   "mes": "2002-06",
+   "total": 1608346,
+   "bois": 964011,
+   "vacas": 373289,
+   "novilhos": 197677,
+   "novilhas": 71838,
+   "vitelos e vitelas": 1531
+  },
+  {
+   "mes": "2002-07",
+   "total": 1690268,
+   "bois": 999390,
+   "vacas": 389595,
+   "novilhos": 220097,
+   "novilhas": 78565,
+   "vitelos e vitelas": 2621
+  },
+  {
+   "mes": "2002-08",
+   "total": 1686436,
+   "bois": 1005251,
+   "vacas": 383320,
+   "novilhos": 221857,
+   "novilhas": 74532,
+   "vitelos e vitelas": 1476
+  },
+  {
+   "mes": "2002-09",
+   "total": 1659380,
+   "bois": 988286,
+   "vacas": 368377,
+   "novilhos": 231064,
+   "novilhas": 68223,
+   "vitelos e vitelas": 3430
+  },
+  {
+   "mes": "2002-10",
+   "total": 1832875,
+   "bois": 1062102,
+   "vacas": 422393,
+   "novilhos": 268653,
+   "novilhas": 76865,
+   "vitelos e vitelas": 2862
+  },
+  {
+   "mes": "2002-11",
+   "total": 1823185,
+   "bois": 1053337,
+   "vacas": 472692,
+   "novilhos": 223538,
+   "novilhas": 71151,
+   "vitelos e vitelas": 2467
+  },
+  {
+   "mes": "2002-12",
+   "total": 1850148,
+   "bois": 1038038,
+   "vacas": 524550,
+   "novilhos": 204093,
+   "novilhas": 80576,
+   "vitelos e vitelas": 2891
+  },
+  {
+   "mes": "2003-01",
+   "total": 1806771,
+   "bois": 994098,
+   "vacas": 559019,
+   "novilhos": 170597,
+   "novilhas": 80380,
+   "vitelos e vitelas": 2677
+  },
+  {
+   "mes": "2003-02",
+   "total": 1727316,
+   "bois": 916907,
+   "vacas": 563122,
+   "novilhos": 163952,
+   "novilhas": 77923,
+   "vitelos e vitelas": 5412
+  },
+  {
+   "mes": "2003-03",
+   "total": 1780258,
+   "bois": 955828,
+   "vacas": 568341,
+   "novilhos": 174184,
+   "novilhas": 78488,
+   "vitelos e vitelas": 3417
+  },
+  {
+   "mes": "2003-04",
+   "total": 1678186,
+   "bois": 904245,
+   "vacas": 526328,
+   "novilhos": 170026,
+   "novilhas": 71407,
+   "vitelos e vitelas": 6180
+  },
+  {
+   "mes": "2003-05",
+   "total": 1791476,
+   "bois": 961624,
+   "vacas": 578095,
+   "novilhos": 167998,
+   "novilhas": 78200,
+   "vitelos e vitelas": 5559
+  },
+  {
+   "mes": "2003-06",
+   "total": 1662575,
+   "bois": 869851,
+   "vacas": 567813,
+   "novilhos": 151525,
+   "novilhas": 71323,
+   "vitelos e vitelas": 2063
+  },
+  {
+   "mes": "2003-07",
+   "total": 1746519,
+   "bois": 908685,
+   "vacas": 574179,
+   "novilhos": 169896,
+   "novilhas": 89907,
+   "vitelos e vitelas": 3852
+  },
+  {
+   "mes": "2003-08",
+   "total": 1721689,
+   "bois": 910432,
+   "vacas": 529327,
+   "novilhos": 196997,
+   "novilhas": 81750,
+   "vitelos e vitelas": 3183
+  },
+  {
+   "mes": "2003-09",
+   "total": 1823493,
+   "bois": 999995,
+   "vacas": 528911,
+   "novilhos": 208067,
+   "novilhas": 83928,
+   "vitelos e vitelas": 2592
+  },
+  {
+   "mes": "2003-10",
+   "total": 2007703,
+   "bois": 1126151,
+   "vacas": 545365,
+   "novilhos": 241303,
+   "novilhas": 92493,
+   "vitelos e vitelas": 2391
+  },
+  {
+   "mes": "2003-11",
+   "total": 1839407,
+   "bois": 1015517,
+   "vacas": 527330,
+   "novilhos": 207782,
+   "novilhas": 86707,
+   "vitelos e vitelas": 2071
+  },
+  {
+   "mes": "2003-12",
+   "total": 2059010,
+   "bois": 1074486,
+   "vacas": 658907,
+   "novilhos": 210305,
+   "novilhas": 112225,
+   "vitelos e vitelas": 3087
+  },
+  {
+   "mes": "2004-01",
+   "total": 1993502,
+   "bois": 996453,
+   "vacas": 703661,
+   "novilhos": 184755,
+   "novilhas": 106805,
+   "vitelos e vitelas": 1828
+  },
+  {
+   "mes": "2004-02",
+   "total": 1833259,
+   "bois": 901939,
+   "vacas": 665911,
+   "novilhos": 166775,
+   "novilhas": 97230,
+   "vitelos e vitelas": 1404
+  },
+  {
+   "mes": "2004-03",
+   "total": 2144340,
+   "bois": 1047902,
+   "vacas": 775425,
+   "novilhos": 196930,
+   "novilhas": 120701,
+   "vitelos e vitelas": 3382
+  },
+  {
+   "mes": "2004-04",
+   "total": 2018431,
+   "bois": 1002893,
+   "vacas": 704318,
+   "novilhos": 184263,
+   "novilhas": 123731,
+   "vitelos e vitelas": 3226
+  },
+  {
+   "mes": "2004-05",
+   "total": 2156592,
+   "bois": 1076190,
+   "vacas": 743246,
+   "novilhos": 197937,
+   "novilhas": 136806,
+   "vitelos e vitelas": 2413
+  },
+  {
+   "mes": "2004-06",
+   "total": 2250988,
+   "bois": 1099166,
+   "vacas": 808158,
+   "novilhos": 199507,
+   "novilhas": 141449,
+   "vitelos e vitelas": 2708
+  },
+  {
+   "mes": "2004-07",
+   "total": 2306382,
+   "bois": 1103462,
+   "vacas": 836382,
+   "novilhos": 208414,
+   "novilhas": 154528,
+   "vitelos e vitelas": 3596
+  },
+  {
+   "mes": "2004-08",
+   "total": 2344709,
+   "bois": 1163663,
+   "vacas": 803827,
+   "novilhos": 222381,
+   "novilhas": 152350,
+   "vitelos e vitelas": 2488
+  },
+  {
+   "mes": "2004-09",
+   "total": 2278902,
+   "bois": 1138146,
+   "vacas": 749122,
+   "novilhos": 245262,
+   "novilhas": 144315,
+   "vitelos e vitelas": 2057
+  },
+  {
+   "mes": "2004-10",
+   "total": 2127492,
+   "bois": 1096025,
+   "vacas": 658882,
+   "novilhos": 261450,
+   "novilhas": 108561,
+   "vitelos e vitelas": 2574
+  },
+  {
+   "mes": "2004-11",
+   "total": 2193185,
+   "bois": 1140900,
+   "vacas": 681376,
+   "novilhos": 254360,
+   "novilhas": 114389,
+   "vitelos e vitelas": 2160
+  },
+  {
+   "mes": "2004-12",
+   "total": 2288915,
+   "bois": 1111622,
+   "vacas": 800225,
+   "novilhos": 235584,
+   "novilhas": 137720,
+   "vitelos e vitelas": 3764
+  },
+  {
+   "mes": "2005-01",
+   "total": 2177100,
+   "bois": 1019234,
+   "vacas": 829429,
+   "novilhos": 198361,
+   "novilhas": 129196,
+   "vitelos e vitelas": 880
+  },
+  {
+   "mes": "2005-02",
+   "total": 2014130,
+   "bois": 903832,
+   "vacas": 810265,
+   "novilhos": 172430,
+   "novilhas": 122675,
+   "vitelos e vitelas": 4928
+  },
+  {
+   "mes": "2005-03",
+   "total": 2255185,
+   "bois": 995516,
+   "vacas": 901548,
+   "novilhos": 198334,
+   "novilhas": 159038,
+   "vitelos e vitelas": 749
+  },
+  {
+   "mes": "2005-04",
+   "total": 2396483,
+   "bois": 1083048,
+   "vacas": 928168,
+   "novilhos": 210136,
+   "novilhas": 167146,
+   "vitelos e vitelas": 7985
+  },
+  {
+   "mes": "2005-05",
+   "total": 2413606,
+   "bois": 1090658,
+   "vacas": 926277,
+   "novilhos": 225209,
+   "novilhas": 168151,
+   "vitelos e vitelas": 3311
+  },
+  {
+   "mes": "2005-06",
+   "total": 2518104,
+   "bois": 1179040,
+   "vacas": 932704,
+   "novilhos": 232150,
+   "novilhas": 168766,
+   "vitelos e vitelas": 5444
+  },
+  {
+   "mes": "2005-07",
+   "total": 2504729,
+   "bois": 1185040,
+   "vacas": 912828,
+   "novilhos": 237900,
+   "novilhas": 165579,
+   "vitelos e vitelas": 3382
+  },
+  {
+   "mes": "2005-08",
+   "total": 2573649,
+   "bois": 1259554,
+   "vacas": 875647,
+   "novilhos": 258206,
+   "novilhas": 176986,
+   "vitelos e vitelas": 3256
+  },
+  {
+   "mes": "2005-09",
+   "total": 2319479,
+   "bois": 1141839,
+   "vacas": 749750,
+   "novilhos": 257437,
+   "novilhas": 167236,
+   "vitelos e vitelas": 3217
+  },
+  {
+   "mes": "2005-10",
+   "total": 2063561,
+   "bois": 1013305,
+   "vacas": 702426,
+   "novilhos": 224763,
+   "novilhas": 122348,
+   "vitelos e vitelas": 719
+  },
+  {
+   "mes": "2005-11",
+   "total": 2307888,
+   "bois": 1126678,
+   "vacas": 798565,
+   "novilhos": 232258,
+   "novilhas": 149613,
+   "vitelos e vitelas": 774
+  },
+  {
+   "mes": "2005-12",
+   "total": 2486495,
+   "bois": 1174244,
+   "vacas": 912394,
+   "novilhos": 236436,
+   "novilhas": 162562,
+   "vitelos e vitelas": 859
+  },
+  {
+   "mes": "2006-01",
+   "total": 2378163,
+   "bois": 1092863,
+   "vacas": 943229,
+   "novilhos": 202096,
+   "novilhas": 136130,
+   "vitelos e vitelas": 3845
+  },
+  {
+   "mes": "2006-02",
+   "total": 2131468,
+   "bois": 912996,
+   "vacas": 904739,
+   "novilhos": 175921,
+   "novilhas": 136325,
+   "vitelos e vitelas": 1487
+  },
+  {
+   "mes": "2006-03",
+   "total": 2571621,
+   "bois": 1130128,
+   "vacas": 1054043,
+   "novilhos": 224201,
+   "novilhas": 162021,
+   "vitelos e vitelas": 1228
+  },
+  {
+   "mes": "2006-04",
+   "total": 2227856,
+   "bois": 991982,
+   "vacas": 895003,
+   "novilhos": 188713,
+   "novilhas": 151174,
+   "vitelos e vitelas": 984
+  },
+  {
+   "mes": "2006-05",
+   "total": 2684057,
+   "bois": 1216638,
+   "vacas": 1039052,
+   "novilhos": 243354,
+   "novilhas": 183141,
+   "vitelos e vitelas": 1872
+  },
+  {
+   "mes": "2006-06",
+   "total": 2615124,
+   "bois": 1199227,
+   "vacas": 997615,
+   "novilhos": 231049,
+   "novilhas": 184665,
+   "vitelos e vitelas": 2568
+  },
+  {
+   "mes": "2006-07",
+   "total": 2577240,
+   "bois": 1246381,
+   "vacas": 945691,
+   "novilhos": 224396,
+   "novilhas": 158773,
+   "vitelos e vitelas": 1999
+  },
+  {
+   "mes": "2006-08",
+   "total": 2762734,
+   "bois": 1380686,
+   "vacas": 968528,
+   "novilhos": 241850,
+   "novilhas": 169523,
+   "vitelos e vitelas": 2147
+  },
+  {
+   "mes": "2006-09",
+   "total": 2598187,
+   "bois": 1330550,
+   "vacas": 862549,
+   "novilhos": 249557,
+   "novilhas": 153870,
+   "vitelos e vitelas": 1661
+  },
+  {
+   "mes": "2006-10",
+   "total": 2666724,
+   "bois": 1399451,
+   "vacas": 844994,
+   "novilhos": 267006,
+   "novilhas": 153802,
+   "vitelos e vitelas": 1471
+  },
+  {
+   "mes": "2006-11",
+   "total": 2554439,
+   "bois": 1279577,
+   "vacas": 872769,
+   "novilhos": 249912,
+   "novilhas": 151168,
+   "vitelos e vitelas": 1013
+  },
+  {
+   "mes": "2006-12",
+   "total": 2605947,
+   "bois": 1266379,
+   "vacas": 926995,
+   "novilhos": 241110,
+   "novilhas": 170527,
+   "vitelos e vitelas": 936
+  },
+  {
+   "mes": "2007-01",
+   "total": 2717515,
+   "bois": 1309249,
+   "vacas": 1022432,
+   "novilhos": 219165,
+   "novilhas": 165270,
+   "vitelos e vitelas": 1399
+  },
+  {
+   "mes": "2007-02",
+   "total": 2431570,
+   "bois": 1126031,
+   "vacas": 955144,
+   "novilhos": 193141,
+   "novilhas": 154429,
+   "vitelos e vitelas": 2825
+  },
+  {
+   "mes": "2007-03",
+   "total": 2807943,
+   "bois": 1298281,
+   "vacas": 1103455,
+   "novilhos": 221519,
+   "novilhas": 182509,
+   "vitelos e vitelas": 2179
+  },
+  {
+   "mes": "2007-04",
+   "total": 2499503,
+   "bois": 1180243,
+   "vacas": 941512,
+   "novilhos": 209669,
+   "novilhas": 166242,
+   "vitelos e vitelas": 1837
+  },
+  {
+   "mes": "2007-05",
+   "total": 2798391,
+   "bois": 1371641,
+   "vacas": 1007558,
+   "novilhos": 227065,
+   "novilhas": 187857,
+   "vitelos e vitelas": 4270
+  },
+  {
+   "mes": "2007-06",
+   "total": 2446377,
+   "bois": 1191280,
+   "vacas": 930607,
+   "novilhos": 175420,
+   "novilhas": 145343,
+   "vitelos e vitelas": 3727
+  },
+  {
+   "mes": "2007-07",
+   "total": 2548956,
+   "bois": 1346251,
+   "vacas": 850440,
+   "novilhos": 193973,
+   "novilhas": 155331,
+   "vitelos e vitelas": 2961
+  },
+  {
+   "mes": "2007-08",
+   "total": 2620657,
+   "bois": 1441291,
+   "vacas": 824817,
+   "novilhos": 210974,
+   "novilhas": 140457,
+   "vitelos e vitelas": 3118
+  },
+  {
+   "mes": "2007-09",
+   "total": 2455866,
+   "bois": 1425252,
+   "vacas": 695178,
+   "novilhos": 212619,
+   "novilhas": 121248,
+   "vitelos e vitelas": 1569
+  },
+  {
+   "mes": "2007-10",
+   "total": 2434858,
+   "bois": 1395739,
+   "vacas": 682664,
+   "novilhos": 240585,
+   "novilhas": 113697,
+   "vitelos e vitelas": 2173
+  },
+  {
+   "mes": "2007-11",
+   "total": 2437442,
+   "bois": 1373765,
+   "vacas": 728539,
+   "novilhos": 218339,
+   "novilhas": 116112,
+   "vitelos e vitelas": 687
+  },
+  {
+   "mes": "2007-12",
+   "total": 2513836,
+   "bois": 1336600,
+   "vacas": 849128,
+   "novilhos": 185000,
+   "novilhas": 141983,
+   "vitelos e vitelas": 1125
+  },
+  {
+   "mes": "2008-01",
+   "total": 2573311,
+   "bois": 1261171,
+   "vacas": 959293,
+   "novilhos": 189509,
+   "novilhas": 162231,
+   "vitelos e vitelas": 1107
+  },
+  {
+   "mes": "2008-02",
+   "total": 2320201,
+   "bois": 1069508,
+   "vacas": 935204,
+   "novilhos": 161301,
+   "novilhas": 153305,
+   "vitelos e vitelas": 883
+  },
+  {
+   "mes": "2008-03",
+   "total": 2355904,
+   "bois": 1088976,
+   "vacas": 942864,
+   "novilhos": 171452,
+   "novilhas": 151728,
+   "vitelos e vitelas": 884
+  },
+  {
+   "mes": "2008-04",
+   "total": 2610534,
+   "bois": 1280363,
+   "vacas": 974273,
+   "novilhos": 189207,
+   "novilhas": 165220,
+   "vitelos e vitelas": 1471
+  },
+  {
+   "mes": "2008-05",
+   "total": 2595842,
+   "bois": 1336198,
+   "vacas": 896399,
+   "novilhos": 204228,
+   "novilhas": 156866,
+   "vitelos e vitelas": 2151
+  },
+  {
+   "mes": "2008-06",
+   "total": 2412532,
+   "bois": 1249151,
+   "vacas": 829741,
+   "novilhos": 186192,
+   "novilhas": 145826,
+   "vitelos e vitelas": 1622
+  },
+  {
+   "mes": "2008-07",
+   "total": 2441221,
+   "bois": 1348979,
+   "vacas": 756957,
+   "novilhos": 191660,
+   "novilhas": 141985,
+   "vitelos e vitelas": 1640
+  },
+  {
+   "mes": "2008-08",
+   "total": 2361130,
+   "bois": 1341969,
+   "vacas": 692468,
+   "novilhos": 199589,
+   "novilhas": 126261,
+   "vitelos e vitelas": 843
+  },
+  {
+   "mes": "2008-09",
+   "total": 2341951,
+   "bois": 1370022,
+   "vacas": 639185,
+   "novilhos": 218005,
+   "novilhas": 113684,
+   "vitelos e vitelas": 1055
+  },
+  {
+   "mes": "2008-10",
+   "total": 2343678,
+   "bois": 1359341,
+   "vacas": 639666,
+   "novilhos": 227580,
+   "novilhas": 116344,
+   "vitelos e vitelas": 747
+  },
+  {
+   "mes": "2008-11",
+   "total": 2079179,
+   "bois": 1197996,
+   "vacas": 586699,
+   "novilhos": 194386,
+   "novilhas": 99212,
+   "vitelos e vitelas": 886
+  },
+  {
+   "mes": "2008-12",
+   "total": 2264887,
+   "bois": 1237946,
+   "vacas": 696412,
+   "novilhos": 207111,
+   "novilhas": 122650,
+   "vitelos e vitelas": 768
+  },
+  {
+   "mes": "2009-01",
+   "total": 2206733,
+   "bois": 1157990,
+   "vacas": 751549,
+   "novilhos": 167170,
+   "novilhas": 129426,
+   "vitelos e vitelas": 598
+  },
+  {
+   "mes": "2009-02",
+   "total": 2039241,
+   "bois": 1020510,
+   "vacas": 741181,
+   "novilhos": 151974,
+   "novilhas": 124955,
+   "vitelos e vitelas": 621
+  },
+  {
+   "mes": "2009-03",
+   "total": 2243560,
+   "bois": 1130386,
+   "vacas": 815910,
+   "novilhos": 155231,
+   "novilhas": 141300,
+   "vitelos e vitelas": 733
+  },
+  {
+   "mes": "2009-04",
+   "total": 2183464,
+   "bois": 1136606,
+   "vacas": 745395,
+   "novilhos": 162988,
+   "novilhas": 137881,
+   "vitelos e vitelas": 594
+  },
+  {
+   "mes": "2009-05",
+   "total": 2348953,
+   "bois": 1259869,
+   "vacas": 763454,
+   "novilhos": 166762,
+   "novilhas": 158242,
+   "vitelos e vitelas": 626
+  },
+  {
+   "mes": "2009-06",
+   "total": 2367483,
+   "bois": 1274242,
+   "vacas": 764981,
+   "novilhos": 161017,
+   "novilhas": 166749,
+   "vitelos e vitelas": 494
+  },
+  {
+   "mes": "2009-07",
+   "total": 2428941,
+   "bois": 1361605,
+   "vacas": 731221,
+   "novilhos": 184779,
+   "novilhas": 150067,
+   "vitelos e vitelas": 1269
+  },
+  {
+   "mes": "2009-08",
+   "total": 2377424,
+   "bois": 1342350,
+   "vacas": 649033,
+   "novilhos": 212990,
+   "novilhas": 172355,
+   "vitelos e vitelas": 696
+  },
+  {
+   "mes": "2009-09",
+   "total": 2397191,
+   "bois": 1365584,
+   "vacas": 650346,
+   "novilhos": 232005,
+   "novilhas": 148933,
+   "vitelos e vitelas": 323
+  },
+  {
+   "mes": "2009-10",
+   "total": 2519059,
+   "bois": 1489893,
+   "vacas": 692662,
+   "novilhos": 207133,
+   "novilhas": 128996,
+   "vitelos e vitelas": 375
+  },
+  {
+   "mes": "2009-11",
+   "total": 2345263,
+   "bois": 1372099,
+   "vacas": 660574,
+   "novilhos": 188975,
+   "novilhas": 123230,
+   "vitelos e vitelas": 385
+  },
+  {
+   "mes": "2009-12",
+   "total": 2605376,
+   "bois": 1462196,
+   "vacas": 789709,
+   "novilhos": 203265,
+   "novilhas": 149760,
+   "vitelos e vitelas": 446
+  },
+  {
+   "mes": "2010-01",
+   "total": 2341311,
+   "bois": 1305177,
+   "vacas": 720816,
+   "novilhos": 167152,
+   "novilhas": 146867,
+   "vitelos e vitelas": 1299
+  },
+  {
+   "mes": "2010-02",
+   "total": 2198281,
+   "bois": 1169885,
+   "vacas": 729516,
+   "novilhos": 156036,
+   "novilhas": 141026,
+   "vitelos e vitelas": 1818
+  },
+  {
+   "mes": "2010-03",
+   "total": 2544042,
+   "bois": 1328853,
+   "vacas": 852952,
+   "novilhos": 190848,
+   "novilhas": 170089,
+   "vitelos e vitelas": 1300
+  },
+  {
+   "mes": "2010-04",
+   "total": 2460748,
+   "bois": 1331196,
+   "vacas": 779025,
+   "novilhos": 187389,
+   "novilhas": 161779,
+   "vitelos e vitelas": 1359
+  },
+  {
+   "mes": "2010-05",
+   "total": 2587253,
+   "bois": 1450992,
+   "vacas": 766760,
+   "novilhos": 201627,
+   "novilhas": 166226,
+   "vitelos e vitelas": 1648
+  },
+  {
+   "mes": "2010-06",
+   "total": 2547255,
+   "bois": 1459686,
+   "vacas": 732397,
+   "novilhos": 197309,
+   "novilhas": 156789,
+   "vitelos e vitelas": 1074
+  },
+  {
+   "mes": "2010-07",
+   "total": 2566645,
+   "bois": 1495063,
+   "vacas": 712254,
+   "novilhos": 204218,
+   "novilhas": 152957,
+   "vitelos e vitelas": 2153
+  },
+  {
+   "mes": "2010-08",
+   "total": 2408483,
+   "bois": 1394890,
+   "vacas": 662312,
+   "novilhos": 208867,
+   "novilhas": 140577,
+   "vitelos e vitelas": 1837
+  },
+  {
+   "mes": "2010-09",
+   "total": 2428699,
+   "bois": 1429745,
+   "vacas": 654580,
+   "novilhos": 201613,
+   "novilhas": 141536,
+   "vitelos e vitelas": 1225
+  },
+  {
+   "mes": "2010-10",
+   "total": 2322666,
+   "bois": 1351954,
+   "vacas": 642590,
+   "novilhos": 202859,
+   "novilhas": 123402,
+   "vitelos e vitelas": 1861
+  },
+  {
+   "mes": "2010-11",
+   "total": 2357854,
+   "bois": 1309021,
+   "vacas": 705762,
+   "novilhos": 202374,
+   "novilhas": 138181,
+   "vitelos e vitelas": 2516
+  },
+  {
+   "mes": "2010-12",
+   "total": 2514858,
+   "bois": 1333819,
+   "vacas": 812148,
+   "novilhos": 209010,
+   "novilhas": 158097,
+   "vitelos e vitelas": 1784
+  },
+  {
+   "mes": "2011-01",
+   "total": 2338977,
+   "bois": 1233913,
+   "vacas": 802168,
+   "novilhos": 151575,
+   "novilhas": 148672,
+   "vitelos e vitelas": 2649
+  },
+  {
+   "mes": "2011-02",
+   "total": 2323704,
+   "bois": 1139760,
+   "vacas": 872610,
+   "novilhos": 143591,
+   "novilhas": 165783,
+   "vitelos e vitelas": 1960
+  },
+  {
+   "mes": "2011-03",
+   "total": 2441193,
+   "bois": 1198486,
+   "vacas": 914262,
+   "novilhos": 146153,
+   "novilhas": 179414,
+   "vitelos e vitelas": 2878
+  },
+  {
+   "mes": "2011-04",
+   "total": 2222024,
+   "bois": 1096252,
+   "vacas": 819173,
+   "novilhos": 139344,
+   "novilhas": 166246,
+   "vitelos e vitelas": 1009
+  },
+  {
+   "mes": "2011-05",
+   "total": 2488387,
+   "bois": 1276224,
+   "vacas": 878140,
+   "novilhos": 147883,
+   "novilhas": 185006,
+   "vitelos e vitelas": 1134
+  },
+  {
+   "mes": "2011-06",
+   "total": 2355829,
+   "bois": 1209058,
+   "vacas": 829855,
+   "novilhos": 148088,
+   "novilhas": 167613,
+   "vitelos e vitelas": 1215
+  },
+  {
+   "mes": "2011-07",
+   "total": 2390570,
+   "bois": 1273945,
+   "vacas": 794676,
+   "novilhos": 158527,
+   "novilhas": 161637,
+   "vitelos e vitelas": 1785
+  },
+  {
+   "mes": "2011-08",
+   "total": 2503310,
+   "bois": 1379453,
+   "vacas": 785688,
+   "novilhos": 183731,
+   "novilhas": 152278,
+   "vitelos e vitelas": 2160
+  },
+  {
+   "mes": "2011-09",
+   "total": 2390353,
+   "bois": 1344555,
+   "vacas": 707712,
+   "novilhos": 200902,
+   "novilhas": 134382,
+   "vitelos e vitelas": 2802
+  },
+  {
+   "mes": "2011-10",
+   "total": 2382895,
+   "bois": 1355361,
+   "vacas": 691757,
+   "novilhos": 209251,
+   "novilhas": 124114,
+   "vitelos e vitelas": 2412
+  },
+  {
+   "mes": "2011-11",
+   "total": 2463734,
+   "bois": 1374878,
+   "vacas": 750345,
+   "novilhos": 193419,
+   "novilhas": 142989,
+   "vitelos e vitelas": 2103
+  },
+  {
+   "mes": "2011-12",
+   "total": 2522968,
+   "bois": 1323896,
+   "vacas": 834733,
+   "novilhos": 193298,
+   "novilhas": 169302,
+   "vitelos e vitelas": 1739
+  },
+  {
+   "mes": "2012-01",
+   "total": 2336145,
+   "bois": 1206360,
+   "vacas": 849650,
+   "novilhos": 118204,
+   "novilhas": 161931
+  },
+  {
+   "mes": "2012-02",
+   "total": 2305274,
+   "bois": 1120367,
+   "vacas": 906710,
+   "novilhos": 106610,
+   "novilhas": 171587
+  },
+  {
+   "mes": "2012-03",
+   "total": 2578583,
+   "bois": 1263025,
+   "vacas": 993908,
+   "novilhos": 121753,
+   "novilhas": 199897
+  },
+  {
+   "mes": "2012-04",
+   "total": 2357539,
+   "bois": 1167137,
+   "vacas": 877048,
+   "novilhos": 118518,
+   "novilhas": 194836
+  },
+  {
+   "mes": "2012-05",
+   "total": 2695535,
+   "bois": 1362981,
+   "vacas": 958231,
+   "novilhos": 134441,
+   "novilhas": 239882
+  },
+  {
+   "mes": "2012-06",
+   "total": 2605173,
+   "bois": 1352842,
+   "vacas": 897064,
+   "novilhos": 134769,
+   "novilhas": 220498
+  },
+  {
+   "mes": "2012-07",
+   "total": 2661436,
+   "bois": 1411490,
+   "vacas": 895038,
+   "novilhos": 145172,
+   "novilhas": 209736
+  },
+  {
+   "mes": "2012-08",
+   "total": 2832005,
+   "bois": 1522274,
+   "vacas": 930690,
+   "novilhos": 167057,
+   "novilhas": 211984
+  },
+  {
+   "mes": "2012-09",
+   "total": 2559484,
+   "bois": 1389332,
+   "vacas": 809724,
+   "novilhos": 171573,
+   "novilhas": 188855
+  },
+  {
+   "mes": "2012-10",
+   "total": 2833344,
+   "bois": 1532528,
+   "vacas": 818927,
+   "novilhos": 266639,
+   "novilhas": 215250
+  },
+  {
+   "mes": "2012-11",
+   "total": 2731047,
+   "bois": 1445696,
+   "vacas": 825951,
+   "novilhos": 247823,
+   "novilhas": 211577
+  },
+  {
+   "mes": "2012-12",
+   "total": 2623175,
+   "bois": 1337420,
+   "vacas": 852689,
+   "novilhos": 220866,
+   "novilhas": 212200
+  },
+  {
+   "mes": "2013-01",
+   "total": 2894006,
+   "bois": 1468512,
+   "vacas": 1036041,
+   "novilhos": 139998,
+   "novilhas": 249455
+  },
+  {
+   "mes": "2013-02",
+   "total": 2575523,
+   "bois": 1217888,
+   "vacas": 982406,
+   "novilhos": 116394,
+   "novilhas": 258835
+  },
+  {
+   "mes": "2013-03",
+   "total": 2658279,
+   "bois": 1242604,
+   "vacas": 1017228,
+   "novilhos": 119876,
+   "novilhas": 278571
+  },
+  {
+   "mes": "2013-04",
+   "total": 2923508,
+   "bois": 1430868,
+   "vacas": 1050285,
+   "novilhos": 140131,
+   "novilhas": 302224
+  },
+  {
+   "mes": "2013-05",
+   "total": 2874033,
+   "bois": 1419070,
+   "vacas": 1021370,
+   "novilhos": 137201,
+   "novilhas": 296392
+  },
+  {
+   "mes": "2013-06",
+   "total": 2739208,
+   "bois": 1395557,
+   "vacas": 942477,
+   "novilhos": 130862,
+   "novilhas": 270312
+  },
+  {
+   "mes": "2013-07",
+   "total": 3043310,
+   "bois": 1600654,
+   "vacas": 998686,
+   "novilhos": 173606,
+   "novilhas": 270364
+  },
+  {
+   "mes": "2013-08",
+   "total": 3018043,
+   "bois": 1617375,
+   "vacas": 943905,
+   "novilhos": 195389,
+   "novilhas": 261374
+  },
+  {
+   "mes": "2013-09",
+   "total": 2797972,
+   "bois": 1580052,
+   "vacas": 800025,
+   "novilhos": 205685,
+   "novilhas": 212210
+  },
+  {
+   "mes": "2013-10",
+   "total": 3018455,
+   "bois": 1737364,
+   "vacas": 837413,
+   "novilhos": 228807,
+   "novilhas": 214871
+  },
+  {
+   "mes": "2013-11",
+   "total": 2905532,
+   "bois": 1670351,
+   "vacas": 817556,
+   "novilhos": 203629,
+   "novilhas": 213996
+  },
+  {
+   "mes": "2013-12",
+   "total": 2964201,
+   "bois": 1586417,
+   "vacas": 942734,
+   "novilhos": 187283,
+   "novilhas": 247767
+  },
+  {
+   "mes": "2014-01",
+   "total": 3039396,
+   "bois": 1548938,
+   "vacas": 1043781,
+   "novilhos": 165727,
+   "novilhas": 280950
+  },
+  {
+   "mes": "2014-02",
+   "total": 2674139,
+   "bois": 1222520,
+   "vacas": 1029381,
+   "novilhos": 138189,
+   "novilhas": 284049
+  },
+  {
+   "mes": "2014-03",
+   "total": 2659337,
+   "bois": 1222233,
+   "vacas": 994279,
+   "novilhos": 144061,
+   "novilhas": 298764
+  },
+  {
+   "mes": "2014-04",
+   "total": 2804301,
+   "bois": 1354946,
+   "vacas": 996699,
+   "novilhos": 143737,
+   "novilhas": 308919
+  },
+  {
+   "mes": "2014-05",
+   "total": 2998791,
+   "bois": 1537108,
+   "vacas": 1009062,
+   "novilhos": 146942,
+   "novilhas": 305679
+  },
+  {
+   "mes": "2014-06",
+   "total": 2735812,
+   "bois": 1425573,
+   "vacas": 894148,
+   "novilhos": 148319,
+   "novilhas": 267772
+  },
+  {
+   "mes": "2014-07",
+   "total": 2978609,
+   "bois": 1599375,
+   "vacas": 934640,
+   "novilhos": 173147,
+   "novilhas": 271447
+  },
+  {
+   "mes": "2014-08",
+   "total": 2700879,
+   "bois": 1469273,
+   "vacas": 820539,
+   "novilhos": 183981,
+   "novilhas": 227086
+  },
+  {
+   "mes": "2014-09",
+   "total": 2791392,
+   "bois": 1559178,
+   "vacas": 806260,
+   "novilhos": 204736,
+   "novilhas": 221218
+  },
+  {
+   "mes": "2014-10",
+   "total": 2939046,
+   "bois": 1680879,
+   "vacas": 827198,
+   "novilhos": 205564,
+   "novilhas": 225405
+  },
+  {
+   "mes": "2014-11",
+   "total": 2656957,
+   "bois": 1497903,
+   "vacas": 771844,
+   "novilhos": 183597,
+   "novilhas": 203613
+  },
+  {
+   "mes": "2014-12",
+   "total": 2929059,
+   "bois": 1601628,
+   "vacas": 902263,
+   "novilhos": 176093,
+   "novilhas": 249075
+  },
+  {
+   "mes": "2015-01",
+   "total": 2736723,
+   "bois": 1440070,
+   "vacas": 918811,
+   "novilhos": 128369,
+   "novilhas": 249473
+  },
+  {
+   "mes": "2015-02",
+   "total": 2408611,
+   "bois": 1209668,
+   "vacas": 844832,
+   "novilhos": 116817,
+   "novilhas": 237294
+  },
+  {
+   "mes": "2015-03",
+   "total": 2594316,
+   "bois": 1318188,
+   "vacas": 905778,
+   "novilhos": 118468,
+   "novilhas": 251882
+  },
+  {
+   "mes": "2015-04",
+   "total": 2527693,
+   "bois": 1292515,
+   "vacas": 866722,
+   "novilhos": 124834,
+   "novilhas": 243622
+  },
+  {
+   "mes": "2015-05",
+   "total": 2581901,
+   "bois": 1382139,
+   "vacas": 818695,
+   "novilhos": 123894,
+   "novilhas": 257173
+  },
+  {
+   "mes": "2015-06",
+   "total": 2523444,
+   "bois": 1388496,
+   "vacas": 785073,
+   "novilhos": 122053,
+   "novilhas": 227822
+  },
+  {
+   "mes": "2015-07",
+   "total": 2587492,
+   "bois": 1447928,
+   "vacas": 763400,
+   "novilhos": 156848,
+   "novilhas": 219316
+  },
+  {
+   "mes": "2015-08",
+   "total": 2474886,
+   "bois": 1407810,
+   "vacas": 709094,
+   "novilhos": 163022,
+   "novilhas": 194960
+  },
+  {
+   "mes": "2015-09",
+   "total": 2523077,
+   "bois": 1469494,
+   "vacas": 692050,
+   "novilhos": 177832,
+   "novilhas": 183701
+  },
+  {
+   "mes": "2015-10",
+   "total": 2611449,
+   "bois": 1561206,
+   "vacas": 678742,
+   "novilhos": 191495,
+   "novilhas": 180006
+  },
+  {
+   "mes": "2015-11",
+   "total": 2467301,
+   "bois": 1500793,
+   "vacas": 621083,
+   "novilhos": 178873,
+   "novilhas": 166552
+  },
+  {
+   "mes": "2015-12",
+   "total": 2614909,
+   "bois": 1509112,
+   "vacas": 727144,
+   "novilhos": 189684,
+   "novilhas": 188969
+  },
+  {
+   "mes": "2016-01",
+   "total": 2452002,
+   "bois": 1350443,
+   "vacas": 736585,
+   "novilhos": 169772,
+   "novilhas": 195202
+  },
+  {
+   "mes": "2016-02",
+   "total": 2451636,
+   "bois": 1290410,
+   "vacas": 803622,
+   "novilhos": 145020,
+   "novilhas": 212584
+  },
+  {
+   "mes": "2016-03",
+   "total": 2416099,
+   "bois": 1252815,
+   "vacas": 815243,
+   "novilhos": 139846,
+   "novilhas": 208195
+  },
+  {
+   "mes": "2016-04",
+   "total": 2519207,
+   "bois": 1353033,
+   "vacas": 800184,
+   "novilhos": 127486,
+   "novilhas": 238504
+  },
+  {
+   "mes": "2016-05",
+   "total": 2570131,
+   "bois": 1388821,
+   "vacas": 792223,
+   "novilhos": 134018,
+   "novilhas": 255069
+  },
+  {
+   "mes": "2016-06",
+   "total": 2565024,
+   "bois": 1422924,
+   "vacas": 797071,
+   "novilhos": 109880,
+   "novilhas": 235149
+  },
+  {
+   "mes": "2016-07",
+   "total": 2472933,
+   "bois": 1390619,
+   "vacas": 735803,
+   "novilhos": 122672,
+   "novilhas": 223839
+  },
+  {
+   "mes": "2016-08",
+   "total": 2515377,
+   "bois": 1481974,
+   "vacas": 719535,
+   "novilhos": 116411,
+   "novilhas": 197457
+  },
+  {
+   "mes": "2016-09",
+   "total": 2333286,
+   "bois": 1407894,
+   "vacas": 644901,
+   "novilhos": 119051,
+   "novilhas": 161440
+  },
+  {
+   "mes": "2016-10",
+   "total": 2370695,
+   "bois": 1456411,
+   "vacas": 613812,
+   "novilhos": 129364,
+   "novilhas": 171108
+  },
+  {
+   "mes": "2016-11",
+   "total": 2414150,
+   "bois": 1412041,
+   "vacas": 668449,
+   "novilhos": 129108,
+   "novilhas": 204552
+  },
+  {
+   "mes": "2016-12",
+   "total": 2621508,
+   "bois": 1465937,
+   "vacas": 791387,
+   "novilhos": 126816,
+   "novilhas": 237368
+  },
+  {
+   "mes": "2017-01",
+   "total": 2473739,
+   "bois": 1316121,
+   "vacas": 815560,
+   "novilhos": 110045,
+   "novilhas": 232013
+  },
+  {
+   "mes": "2017-02",
+   "total": 2324082,
+   "bois": 1163602,
+   "vacas": 817089,
+   "novilhos": 92106,
+   "novilhas": 251285
+  },
+  {
+   "mes": "2017-03",
+   "total": 2600299,
+   "bois": 1275843,
+   "vacas": 940860,
+   "novilhos": 103890,
+   "novilhas": 279706
+  },
+  {
+   "mes": "2017-04",
+   "total": 2125479,
+   "bois": 1068544,
+   "vacas": 749226,
+   "novilhos": 100613,
+   "novilhas": 207096
+  },
+  {
+   "mes": "2017-05",
+   "total": 2740361,
+   "bois": 1450910,
+   "vacas": 884613,
+   "novilhos": 120520,
+   "novilhas": 284318
+  },
+  {
+   "mes": "2017-06",
+   "total": 2557566,
+   "bois": 1408725,
+   "vacas": 816492,
+   "novilhos": 107525,
+   "novilhas": 224824
+  },
+  {
+   "mes": "2017-07",
+   "total": 2675512,
+   "bois": 1507186,
+   "vacas": 812716,
+   "novilhos": 125989,
+   "novilhas": 229621
+  },
+  {
+   "mes": "2017-08",
+   "total": 2805361,
+   "bois": 1590183,
+   "vacas": 841760,
+   "novilhos": 139963,
+   "novilhas": 233455
+  },
+  {
+   "mes": "2017-09",
+   "total": 2505548,
+   "bois": 1438584,
+   "vacas": 741573,
+   "novilhos": 137585,
+   "novilhas": 187806
+  },
+  {
+   "mes": "2017-10",
+   "total": 2645615,
+   "bois": 1575609,
+   "vacas": 727112,
+   "novilhos": 150412,
+   "novilhas": 192482
+  },
+  {
+   "mes": "2017-11",
+   "total": 2602970,
+   "bois": 1506889,
+   "vacas": 739021,
+   "novilhos": 151523,
+   "novilhas": 205537
+  },
+  {
+   "mes": "2017-12",
+   "total": 2810131,
+   "bois": 1565360,
+   "vacas": 858644,
+   "novilhos": 149600,
+   "novilhas": 236527
+  },
+  {
+   "mes": "2018-01",
+   "total": 2676918,
+   "bois": 1368052,
+   "vacas": 921972,
+   "novilhos": 123062,
+   "novilhas": 263832
+  },
+  {
+   "mes": "2018-02",
+   "total": 2434199,
+   "bois": 1158910,
+   "vacas": 906477,
+   "novilhos": 106433,
+   "novilhas": 262379
+  },
+  {
+   "mes": "2018-03",
+   "total": 2661888,
+   "bois": 1263498,
+   "vacas": 960174,
+   "novilhos": 121681,
+   "novilhas": 316535
+  },
+  {
+   "mes": "2018-04",
+   "total": 2618660,
+   "bois": 1316705,
+   "vacas": 884316,
+   "novilhos": 113254,
+   "novilhas": 304385
+  },
+  {
+   "mes": "2018-05",
+   "total": 2313387,
+   "bois": 1188080,
+   "vacas": 765559,
+   "novilhos": 98890,
+   "novilhas": 260858
+  },
+  {
+   "mes": "2018-06",
+   "total": 2835830,
+   "bois": 1482376,
+   "vacas": 923532,
+   "novilhos": 123277,
+   "novilhas": 306645
+  },
+  {
+   "mes": "2018-07",
+   "total": 2852807,
+   "bois": 1557362,
+   "vacas": 871105,
+   "novilhos": 125713,
+   "novilhas": 298627
+  },
+  {
+   "mes": "2018-08",
+   "total": 2933805,
+   "bois": 1663721,
+   "vacas": 832233,
+   "novilhos": 145413,
+   "novilhas": 292438
+  },
+  {
+   "mes": "2018-09",
+   "total": 2530262,
+   "bois": 1457080,
+   "vacas": 697193,
+   "novilhos": 142505,
+   "novilhas": 233484
+  },
+  {
+   "mes": "2018-10",
+   "total": 2812702,
+   "bois": 1689291,
+   "vacas": 751850,
+   "novilhos": 148392,
+   "novilhas": 223169
+  },
+  {
+   "mes": "2018-11",
+   "total": 2663844,
+   "bois": 1567603,
+   "vacas": 732733,
+   "novilhos": 132118,
+   "novilhas": 231390
+  },
+  {
+   "mes": "2018-12",
+   "total": 2708386,
+   "bois": 1477371,
+   "vacas": 832514,
+   "novilhos": 133415,
+   "novilhas": 265086
+  },
+  {
+   "mes": "2019-01",
+   "total": 2771629,
+   "bois": 1399558,
+   "vacas": 923417,
+   "novilhos": 124609,
+   "novilhas": 324045
+  },
+  {
+   "mes": "2019-02",
+   "total": 2541184,
+   "bois": 1226261,
+   "vacas": 890324,
+   "novilhos": 106183,
+   "novilhas": 318416
+  },
+  {
+   "mes": "2019-03",
+   "total": 2614530,
+   "bois": 1268052,
+   "vacas": 885807,
+   "novilhos": 112318,
+   "novilhas": 348353
+  },
+  {
+   "mes": "2019-04",
+   "total": 2642359,
+   "bois": 1307041,
+   "vacas": 876408,
+   "novilhos": 117074,
+   "novilhas": 341836
+  },
+  {
+   "mes": "2019-05",
+   "total": 2838930,
+   "bois": 1497504,
+   "vacas": 876455,
+   "novilhos": 116499,
+   "novilhas": 348472
+  },
+  {
+   "mes": "2019-06",
+   "total": 2457582,
+   "bois": 1291517,
+   "vacas": 760960,
+   "novilhos": 105371,
+   "novilhas": 299734
+  },
+  {
+   "mes": "2019-07",
+   "total": 2944430,
+   "bois": 1630940,
+   "vacas": 846333,
+   "novilhos": 135009,
+   "novilhas": 332148
+  },
+  {
+   "mes": "2019-08",
+   "total": 2875879,
+   "bois": 1652458,
+   "vacas": 781660,
+   "novilhos": 149753,
+   "novilhas": 292008
+  },
+  {
+   "mes": "2019-09",
+   "total": 2678420,
+   "bois": 1608796,
+   "vacas": 669492,
+   "novilhos": 152480,
+   "novilhas": 247652
+  },
+  {
+   "mes": "2019-10",
+   "total": 2918075,
+   "bois": 1813600,
+   "vacas": 683701,
+   "novilhos": 167307,
+   "novilhas": 253467
+  },
+  {
+   "mes": "2019-11",
+   "total": 2614803,
+   "bois": 1541256,
+   "vacas": 688646,
+   "novilhos": 140353,
+   "novilhas": 244548
+  },
+  {
+   "mes": "2019-12",
+   "total": 2548029,
+   "bois": 1413705,
+   "vacas": 714049,
+   "novilhos": 139139,
+   "novilhas": 281136
+  },
+  {
+   "mes": "2020-01",
+   "total": 2463833,
+   "bois": 1313131,
+   "vacas": 756702,
+   "novilhos": 111326,
+   "novilhas": 282674
+  },
+  {
+   "mes": "2020-02",
+   "total": 2386671,
+   "bois": 1240998,
+   "vacas": 747539,
+   "novilhos": 104334,
+   "novilhas": 293800
+  },
+  {
+   "mes": "2020-03",
+   "total": 2486226,
+   "bois": 1327334,
+   "vacas": 741015,
+   "novilhos": 108402,
+   "novilhas": 309475
+  },
+  {
+   "mes": "2020-04",
+   "total": 2272323,
+   "bois": 1240645,
+   "vacas": 656472,
+   "novilhos": 112369,
+   "novilhas": 262837
+  },
+  {
+   "mes": "2020-05",
+   "total": 2588595,
+   "bois": 1449792,
+   "vacas": 713968,
+   "novilhos": 116433,
+   "novilhas": 308402
+  },
+  {
+   "mes": "2020-06",
+   "total": 2542659,
+   "bois": 1437307,
+   "vacas": 691564,
+   "novilhos": 114573,
+   "novilhas": 299215
+  },
+  {
+   "mes": "2020-07",
+   "total": 2660712,
+   "bois": 1568666,
+   "vacas": 681914,
+   "novilhos": 117544,
+   "novilhas": 292588
+  },
+  {
+   "mes": "2020-08",
+   "total": 2545219,
+   "bois": 1559466,
+   "vacas": 612058,
+   "novilhos": 130342,
+   "novilhas": 243353
+  },
+  {
+   "mes": "2020-09",
+   "total": 2567849,
+   "bois": 1610034,
+   "vacas": 579343,
+   "novilhos": 141643,
+   "novilhas": 236829
+  },
+  {
+   "mes": "2020-10",
+   "total": 2606362,
+   "bois": 1694266,
+   "vacas": 549868,
+   "novilhos": 155371,
+   "novilhas": 206857
+  },
+  {
+   "mes": "2020-11",
+   "total": 2269135,
+   "bois": 1453121,
+   "vacas": 490331,
+   "novilhos": 145480,
+   "novilhas": 180203
+  },
+  {
+   "mes": "2020-12",
+   "total": 2497452,
+   "bois": 1563470,
+   "vacas": 548420,
+   "novilhos": 165176,
+   "novilhas": 220386
+  },
+  {
+   "mes": "2021-01",
+   "total": 2129514,
+   "bois": 1294341,
+   "vacas": 544124,
+   "novilhos": 98822,
+   "novilhas": 192227
+  },
+  {
+   "mes": "2021-02",
+   "total": 2179144,
+   "bois": 1291030,
+   "vacas": 587925,
+   "novilhos": 85285,
+   "novilhas": 214904
+  },
+  {
+   "mes": "2021-03",
+   "total": 2288665,
+   "bois": 1309788,
+   "vacas": 645011,
+   "novilhos": 90003,
+   "novilhas": 243863
+  },
+  {
+   "mes": "2021-04",
+   "total": 2247438,
+   "bois": 1310081,
+   "vacas": 616511,
+   "novilhos": 83475,
+   "novilhas": 237371
+  },
+  {
+   "mes": "2021-05",
+   "total": 2421847,
+   "bois": 1451612,
+   "vacas": 629509,
+   "novilhos": 86079,
+   "novilhas": 254647
+  },
+  {
+   "mes": "2021-06",
+   "total": 2457210,
+   "bois": 1506253,
+   "vacas": 621175,
+   "novilhos": 88295,
+   "novilhas": 241487
+  },
+  {
+   "mes": "2021-07",
+   "total": 2534611,
+   "bois": 1570043,
+   "vacas": 609154,
+   "novilhos": 92979,
+   "novilhas": 262435
+  },
+  {
+   "mes": "2021-08",
+   "total": 2546943,
+   "bois": 1638295,
+   "vacas": 573856,
+   "novilhos": 104821,
+   "novilhas": 229971
+  },
+  {
+   "mes": "2021-09",
+   "total": 1937990,
+   "bois": 1221107,
+   "vacas": 464924,
+   "novilhos": 85172,
+   "novilhas": 166787
+  },
+  {
+   "mes": "2021-10",
+   "total": 2162303,
+   "bois": 1426302,
+   "vacas": 433007,
+   "novilhos": 141754,
+   "novilhas": 161240
+  },
+  {
+   "mes": "2021-11",
+   "total": 2242330,
+   "bois": 1482924,
+   "vacas": 444462,
+   "novilhos": 147153,
+   "novilhas": 167791
+  },
+  {
+   "mes": "2021-12",
+   "total": 2556858,
+   "bois": 1588275,
+   "vacas": 575108,
+   "novilhos": 169350,
+   "novilhas": 224125
+  },
+  {
+   "mes": "2022-01",
+   "total": 2277847,
+   "bois": 1360748,
+   "vacas": 588220,
+   "novilhos": 99975,
+   "novilhas": 228904
+  },
+  {
+   "mes": "2022-02",
+   "total": 2242690,
+   "bois": 1229315,
+   "vacas": 664451,
+   "novilhos": 100843,
+   "novilhas": 248081
+  },
+  {
+   "mes": "2022-03",
+   "total": 2490694,
+   "bois": 1349212,
+   "vacas": 750988,
+   "novilhos": 102557,
+   "novilhas": 287937
+  },
+  {
+   "mes": "2022-04",
+   "total": 2272024,
+   "bois": 1258143,
+   "vacas": 661613,
+   "novilhos": 99254,
+   "novilhas": 253014
+  },
+  {
+   "mes": "2022-05",
+   "total": 2606433,
+   "bois": 1463813,
+   "vacas": 739916,
+   "novilhos": 111504,
+   "novilhas": 291200
+  },
+  {
+   "mes": "2022-06",
+   "total": 2550358,
+   "bois": 1433715,
+   "vacas": 724140,
+   "novilhos": 109461,
+   "novilhas": 283042
+  },
+  {
+   "mes": "2022-07",
+   "total": 2623500,
+   "bois": 1523203,
+   "vacas": 695540,
+   "novilhos": 113427,
+   "novilhas": 291330
+  },
+  {
+   "mes": "2022-08",
+   "total": 2734141,
+   "bois": 1637384,
+   "vacas": 684340,
+   "novilhos": 135793,
+   "novilhas": 276624
+  },
+  {
+   "mes": "2022-09",
+   "total": 2605486,
+   "bois": 1617323,
+   "vacas": 619452,
+   "novilhos": 132513,
+   "novilhas": 236198
+  },
+  {
+   "mes": "2022-10",
+   "total": 2477737,
+   "bois": 1532977,
+   "vacas": 590065,
+   "novilhos": 128686,
+   "novilhas": 226009
+  },
+  {
+   "mes": "2022-11",
+   "total": 2419607,
+   "bois": 1446398,
+   "vacas": 623728,
+   "novilhos": 119790,
+   "novilhas": 229691
+  },
+  {
+   "mes": "2022-12",
+   "total": 2647067,
+   "bois": 1520270,
+   "vacas": 719540,
+   "novilhos": 130857,
+   "novilhas": 276400
+  },
+  {
+   "mes": "2023-01",
+   "total": 2547725,
+   "bois": 1377128,
+   "vacas": 747985,
+   "novilhos": 158124,
+   "novilhas": 264488
+  },
+  {
+   "mes": "2023-02",
+   "total": 2385237,
+   "bois": 1160926,
+   "vacas": 806772,
+   "novilhos": 129404,
+   "novilhas": 288135
+  },
+  {
+   "mes": "2023-03",
+   "total": 2533559,
+   "bois": 1173958,
+   "vacas": 906352,
+   "novilhos": 114839,
+   "novilhas": 338410
+  },
+  {
+   "mes": "2023-04",
+   "total": 2541766,
+   "bois": 1310240,
+   "vacas": 769270,
+   "novilhos": 116468,
+   "novilhas": 345788
+  },
+  {
+   "mes": "2023-05",
+   "total": 3033393,
+   "bois": 1556860,
+   "vacas": 920296,
+   "novilhos": 136756,
+   "novilhas": 419481
+  },
+  {
+   "mes": "2023-06",
+   "total": 2903004,
+   "bois": 1506032,
+   "vacas": 892002,
+   "novilhos": 120639,
+   "novilhas": 384331
+  },
+  {
+   "mes": "2023-07",
+   "total": 2929072,
+   "bois": 1569671,
+   "vacas": 854304,
+   "novilhos": 122219,
+   "novilhas": 382878
+  },
+  {
+   "mes": "2023-08",
+   "total": 3181658,
+   "bois": 1803389,
+   "vacas": 845852,
+   "novilhos": 151008,
+   "novilhas": 381409
+  },
+  {
+   "mes": "2023-09",
+   "total": 2887190,
+   "bois": 1676732,
+   "vacas": 744253,
+   "novilhos": 145160,
+   "novilhas": 321045
+  },
+  {
+   "mes": "2023-10",
+   "total": 3067025,
+   "bois": 1759525,
+   "vacas": 814391,
+   "novilhos": 153033,
+   "novilhas": 340076
+  },
+  {
+   "mes": "2023-11",
+   "total": 3048056,
+   "bois": 1744084,
+   "vacas": 824319,
+   "novilhos": 133991,
+   "novilhas": 345662
+  },
+  {
+   "mes": "2023-12",
+   "total": 3044121,
+   "bois": 1645300,
+   "vacas": 899485,
+   "novilhos": 134399,
+   "novilhas": 364937
+  },
+  {
+   "mes": "2024-01",
+   "total": 3196748,
+   "bois": 1628704,
+   "vacas": 1001171,
+   "novilhos": 141998,
+   "novilhas": 424875
+  },
+  {
+   "mes": "2024-02",
+   "total": 3148157,
+   "bois": 1529456,
+   "vacas": 1024371,
+   "novilhos": 123133,
+   "novilhas": 471197
+  },
+  {
+   "mes": "2024-03",
+   "total": 3088615,
+   "bois": 1538790,
+   "vacas": 995000,
+   "novilhos": 112055,
+   "novilhas": 442770
+  },
+  {
+   "mes": "2024-04",
+   "total": 3381652,
+   "bois": 1691067,
+   "vacas": 1072607,
+   "novilhos": 119765,
+   "novilhas": 498213
+  },
+  {
+   "mes": "2024-05",
+   "total": 3422274,
+   "bois": 1771353,
+   "vacas": 1039421,
+   "novilhos": 121415,
+   "novilhas": 490085
+  },
+  {
+   "mes": "2024-06",
+   "total": 3263786,
+   "bois": 1710411,
+   "vacas": 976131,
+   "novilhos": 114417,
+   "novilhas": 462827
+  },
+  {
+   "mes": "2024-07",
+   "total": 3628295,
+   "bois": 1939747,
+   "vacas": 1065802,
+   "novilhos": 129874,
+   "novilhas": 492872
+  },
+  {
+   "mes": "2024-08",
+   "total": 3554228,
+   "bois": 1989158,
+   "vacas": 977523,
+   "novilhos": 143889,
+   "novilhas": 443658
+  },
+  {
+   "mes": "2024-09",
+   "total": 3318063,
+   "bois": 1893446,
+   "vacas": 886607,
+   "novilhos": 146613,
+   "novilhas": 391397
+  },
+  {
+   "mes": "2024-10",
+   "total": 3360094,
+   "bois": 1948013,
+   "vacas": 877092,
+   "novilhos": 148557,
+   "novilhas": 386432
+  },
+  {
+   "mes": "2024-11",
+   "total": 3107459,
+   "bois": 1748992,
+   "vacas": 835952,
+   "novilhos": 139317,
+   "novilhas": 383198
+  },
+  {
+   "mes": "2024-12",
+   "total": 3219813,
+   "bois": 1703408,
+   "vacas": 954054,
+   "novilhos": 139924,
+   "novilhas": 422427
+  },
+  {
+   "mes": "2025-01",
+   "total": 3382867,
+   "bois": 1630621,
+   "vacas": 1099193,
+   "novilhos": 140456,
+   "novilhas": 512597
+  },
+  {
+   "mes": "2025-02",
+   "total": 3255855,
+   "bois": 1509060,
+   "vacas": 1094383,
+   "novilhos": 128937,
+   "novilhas": 523475
+  },
+  {
+   "mes": "2025-03",
+   "total": 3324195,
+   "bois": 1495277,
+   "vacas": 1134394,
+   "novilhos": 134682,
+   "novilhas": 559842
+  },
+  {
+   "mes": "2025-04",
+   "total": 3415789,
+   "bois": 1499173,
+   "vacas": 1197181,
+   "novilhos": 124899,
+   "novilhas": 594536
+  },
+  {
+   "mes": "2025-05",
+   "total": 3633357,
+   "bois": 1696017,
+   "vacas": 1211986,
+   "novilhos": 131996,
+   "novilhas": 593358
+  },
+  {
+   "mes": "2025-06",
+   "total": 3536489,
+   "bois": 1649368,
+   "vacas": 1196382,
+   "novilhos": 125265,
+   "novilhas": 565474
+  },
+  {
+   "mes": "2025-07",
+   "total": 3867987,
+   "bois": 1873899,
+   "vacas": 1221183,
+   "novilhos": 165079,
+   "novilhas": 607826
+  },
+  {
+   "mes": "2025-08",
+   "total": 3688733,
+   "bois": 1817357,
+   "vacas": 1147249,
+   "novilhos": 160826,
+   "novilhas": 563301
+  },
+  {
+   "mes": "2025-09",
+   "total": 3790767,
+   "bois": 1932338,
+   "vacas": 1131383,
+   "novilhos": 177197,
+   "novilhas": 549849
+  },
+  {
+   "mes": "2025-10",
+   "total": 3887638,
+   "bois": 2078755,
+   "vacas": 1079692,
+   "novilhos": 193168,
+   "novilhas": 536023
+  },
+  {
+   "mes": "2025-11",
+   "total": 3477320,
+   "bois": 1883804,
+   "vacas": 961995,
+   "novilhos": 172114,
+   "novilhas": 459407
+  },
+  {
+   "mes": "2025-12",
+   "total": 3691315,
+   "bois": 1913330,
+   "vacas": 1087751,
+   "novilhos": 193713,
+   "novilhas": 496521
+  },
+  {
+   "mes": "2026-01",
+   "total": 3442072,
+   "bois": 1672410,
+   "vacas": 1098126,
+   "novilhos": 153496,
+   "novilhas": 518040
+  },
+  {
+   "mes": "2026-02",
+   "total": 3243012,
+   "bois": 1430838,
+   "vacas": 1138249,
+   "novilhos": 132832,
+   "novilhas": 541093
+  },
+  {
+   "mes": "2026-03",
+   "total": 3626763,
+   "bois": 1623399,
+   "vacas": 1225422,
+   "novilhos": 143977,
+   "novilhas": 633965
+  },
+  {
+   "mes": "2026-04",
+   "total": 3473610,
+   "bois": 1565836,
+   "vacas": 1150238,
+   "novilhos": 142436,
+   "novilhas": 615100
+  },
+  {
+   "mes": "2026-05",
+   "total": 3588664,
+   "bois": 1694841,
+   "vacas": 1134594,
+   "novilhos": 147295,
+   "novilhas": 611934
+  },
+  {
+   "mes": "2026-06",
+   "total": 3659069,
+   "bois": 1754876,
+   "vacas": 1138672,
+   "novilhos": 157821,
+   "novilhas": 607700
+  }
+ ]
+}
