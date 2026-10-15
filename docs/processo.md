@@ -33,7 +33,8 @@ Toda coleta confere os dias que já estavam no histórico: se um valor divergir 
 ## O modelo
 
 - **Fase do ciclo:** pelo preço real do boi (corrigido pelo IGP-DI). Pico ou vale só é confirmado depois que o preço anda 20% a partir dele. Mostra há quantos meses o preço sobe ou cai e compara com a duração das subidas anteriores.
-- **Fêmeas no abate:** só contexto. No teste (treino até 2022, teste 2023–2026) a regra de fase pelas fêmeas acertou 28%, então não decide nada.
+- **Fêmeas no abate:** o nível (acima/abaixo da média) acertou só 28% e não decide nada. Mas a **mudança de direção** (pico confirmado quando a média de 12 meses cai 0,5 ponto) marcou uma virada por meia-onda desde 2002, sem sinal falso. Em 2006, 2013 e 2019 o pico do boi veio 50, 18 e 19 meses depois do pico de fêmeas. Uso na fase: a alta só é chamada de "fim da alta" quando o preço já sobe há mais que a menor subida anterior **e** o pico de fêmeas está confirmado há mais que o menor atraso já visto. A janela do pico no gráfico junta as duas regras.
+- **Correção de 15/10/2026:** antes a fase olhava só a duração da subida do preço e chamava out/2026 de "alta madura". Ignorava que o descarte de vacas bateu recorde (47%) e só agora começou a virar. Com o relógio das vacas, out/2026 é "alta" e o pico, se o passado se repetir, fica entre dez/2027 e fev/2028. Os vereditos de compra não mudaram no teste 2006–2023 (comprar reposição no meio ou no fim da alta deu resultado parecido).
 - **Previsão:** regressão linear com sinais do ciclo (fêmeas, tendência de 3 e 12 meses, preço real vs. média de 10 anos, relação de troca, época do ano). Resultado do teste em `data/backtest/relatorio.json` (refazer com `node pipeline/modelo/backtest.ts`).
 
 ## Rodar no computador

@@ -3,7 +3,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { montarSerie } from "./dados.ts";
 import { FASES_DE_SUBIDA, gabaritoSubida, lerFase, lerFasePreco, pivosDePreco, type ParamsFase } from "./fase.ts";
-import { prever, treinarCalibrado, type Alvo } from "./previsao.ts";
+import { prever, treinar, treinarCalibrado, type Alvo } from "./previsao.ts";
 
 const FIM_TREINO = "2022-12";
 const LIMIAR_CICLO = 0.2;
@@ -130,9 +130,36 @@ for (const alvo of ["boi", "bezerro"] as Alvo[])
     console.log(`  ${alvo.padEnd(7)} +${h}m: R$ ${p.previsto.toFixed(0)} (faixa ${p.minimo.toFixed(0)}–${p.maximo.toFixed(0)}) a partir de ${p.base.toFixed(0)}`);
   }
 
+// Teste mais duro: ano a ano de 2014 a 2025, cada ano previsto com o modelo treinado até o ano anterior.
+console.log("\n=== PREVISÃO, ANO A ANO 2014–2025 ===");
+const rolante: Record<string, unknown>[] = [];
+for (const alvo of ["boi", "bezerro"] as Alvo[])
+  for (const h of [3, 12]) {
+    let em = 0, ei = 0, n = 0, anosMelhor = 0, anos = 0;
+    for (let ano = 2014; ano <= 2025; ano++) {
+      const modelo = treinar(serie, alvo, h, `${ano - 1}-12`);
+      let a = 0, b = 0, k = 0;
+      serie.forEach((x, i) => {
+        if (!x.mes.startsWith(String(ano)) || !serie[i + h]) return;
+        const p = prever(modelo, serie, i);
+        const real = serie[i + h][alvo];
+        if (!p || real == null) return;
+        a += Math.abs(p.previsto / real - 1);
+        b += Math.abs(p.base / real - 1);
+        k++;
+      });
+      if (!k) continue;
+      em += a; ei += b; n += k; anos++;
+      if (a < b) anosMelhor++;
+    }
+    const r = { alvo, semanas: Math.round(h * 4.345), erroMedioModelo: em / n, erroMedioIngenuo: ei / n, anosMelhor, anos };
+    rolante.push(r);
+    console.log(`${alvo.padEnd(7)} ${String(r.semanas).padStart(2)} sem: erro ${pct(r.erroMedioModelo)} (preço parado ${pct(r.erroMedioIngenuo)}) | melhor em ${anosMelhor} de ${anos} anos`);
+  }
+
 mkdirSync(new URL("../../data/backtest/", import.meta.url), { recursive: true });
 writeFileSync(
   new URL("../../data/backtest/relatorio.json", import.meta.url),
   JSON.stringify({ geradoEm: new Date().toISOString(), fimTreino: FIM_TREINO, regraFase: melhor,
-    fase: { femeas: { treino: ranking[0], teste: faseTeste }, preco: { ...melhorPreco, teste: precoTeste }, linhaDeBase: { treino: momentoTreino, teste: momentoTeste } }, previsao: resultados, hoje }, null, 1) + "\n",
+    fase: { femeas: { treino: ranking[0], teste: faseTeste }, preco: { ...melhorPreco, teste: precoTeste }, linhaDeBase: { treino: momentoTreino, teste: momentoTeste } }, previsao: resultados, rolante, hoje }, null, 1) + "\n",
 );

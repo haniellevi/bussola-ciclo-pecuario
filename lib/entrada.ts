@@ -12,6 +12,8 @@ export function entradaDoPainel(p: Painel, boi = p.hoje.boi, bezerro = p.hoje.be
     duracaoSubidas: p.fase.duracaoSubidas,
     duracaoQuedas: p.fase.duracaoQuedas,
     realVsPicoAnterior: p.fase.realVsPicoAnterior,
+    mesesDesdePicoFemeas: p.fase.mesesDesdePicoVacas,
+    atrasoPicoBoi: p.fase.atrasoPicoBoi,
     boi,
     bezerro,
     troca: p.troca,

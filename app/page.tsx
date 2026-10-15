@@ -2,6 +2,7 @@ import { AcertoModelo } from "@/components/AcertoModelo";
 import { ChatConsultor } from "@/components/ChatConsultor";
 import { CicloOnda } from "@/components/CicloOnda";
 import { Decisao } from "@/components/Decisao";
+import { Noticias } from "@/components/Noticias";
 import { entradaDoPainel } from "@/lib/entrada";
 import { dataBr, mesAno, numero, pct, reais } from "@/lib/formato";
 import { painel } from "@/lib/painel";
@@ -10,7 +11,7 @@ import { estagio, relacaoTroca } from "@/lib/veredito";
 const NOME_ESTAGIO = {
   "inicio-alta": "início da alta",
   "meio-alta": "alta",
-  "alta-madura": "alta madura",
+  "alta-madura": "fim da alta",
   "inicio-queda": "início da queda",
   "meio-queda": "queda",
   "fim-queda": "fim da queda",
@@ -32,6 +33,8 @@ export default function Pagina() {
   const p = painel;
   const est = estagio(entradaDoPainel(p));
   const subidas = p.fase.duracaoSubidas;
+  const vacas = p.fase.picoVacas;
+  const atrasos = p.fase.atrasoPicoBoi;
   const prevBoi = p.previsao?.itens.filter((i) => i.alvo === "boi") ?? [];
   const boi13 = prevBoi.find((i) => i.semanas === 13);
 
@@ -53,6 +56,9 @@ export default function Pagina() {
           O preço {p.fase.sobe ? "sobe" : "cai"} há {p.fase.meses} meses, desde o {p.fase.desde?.tipo} de {p.fase.desde && mesAno(p.fase.desde.mes)}.
           {p.fase.sobe && ` Nos ciclos anteriores, a subida durou de ${Math.min(...subidas)} a ${Math.max(...subidas)} meses.`}
           {p.fase.realVsPicoAnterior && ` Descontada a inflação, o boi está em ${pct(p.fase.realVsPicoAnterior)} do último pico.`}
+          {vacas && atrasos.length > 0 &&
+            ` O descarte de vacas ${vacas.confirmado ? "virou" : "parece ter virado"} em ${mesAno(vacas.mes)}, e o pico do boi sempre veio de ${Math.min(...atrasos)} a ${Math.max(...atrasos)} meses depois disso.`}
+          {p.fase.sobe && p.fase.janela && ` Se o passado se repetir, o pico fica entre ${mesAno(p.fase.janela.de)} e ${mesAno(p.fase.janela.ate)}.`}
         </p>
         <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-terra-700 bg-terra-700 lg:grid-cols-4">
           {numeros.map((n) => (
@@ -65,6 +71,7 @@ export default function Pagina() {
         </dl>
         <nav aria-label="Seções" className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-zinc-400">
           <a href="#onda" className="hover:text-sol">A onda do ciclo</a>
+          {p.noticias && <a href="#noticias" className="hover:text-sol">Notícias</a>}
           <a href="#decisao" className="hover:text-sol">Comprar ou esperar?</a>
           <a href="#acerto" className="hover:text-sol">Quanto o modelo acerta</a>
           <a href="#consultor" className="hover:text-sol">Consultor</a>
@@ -75,10 +82,17 @@ export default function Pagina() {
         <CicloOnda serie={p.serie} pivos={p.pivos} fase={p.fase} hoje={p.hoje} previsaoBoi={prevBoi} />
         <p className="mt-6 max-w-3xl text-sm leading-relaxed text-zinc-400">
           Fêmeas no abate (média de 12 meses): <strong className="text-zinc-200">{pct(p.fase.femeas ?? 0, 1)}</strong>, contra{" "}
-          {pct(p.fase.femeasMedia10, 1)} nos últimos 10 anos. Quando muitas vacas vão para o abate, nascem menos bezerros depois. Mas no
-          nosso teste esse sinal não acertou a virada de 2023, então ele aparece aqui só como contexto.
+          {pct(p.fase.femeasMedia10, 1)} nos últimos 10 anos. Quando muitas vacas vão para o abate, nascem menos bezerros depois. O nível
+          sozinho não marca a virada, mas a mudança de direção sim: desde 2006, cada pico de vacas no abate veio antes de um pico do boi, sem
+          sinal falso. A virada só conta quando a fatia cai meio ponto a partir do topo (ex.: de 47,0% para 46,5%), e o IBGE publica com 3 meses de atraso.
         </p>
       </Secao>
+
+      {p.noticias && (
+        <Secao id="noticias" titulo="O que as notícias dizem" sub="Notícias de pecuária da semana, de sites que permitem leitura automática. Toque para ler na fonte.">
+          <Noticias noticias={p.noticias} />
+        </Secao>
+      )}
 
       <Secao id="decisao" titulo="Comprar ou esperar?" sub="Escolha o seu perfil. O veredito vem de regras simples, com o motivo de cada uma. Mude os preços para ver como ele reage.">
         <Decisao painel={p} />

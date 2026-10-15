@@ -11,6 +11,9 @@ export type Entrada = {
   duracaoSubidas: number[];
   duracaoQuedas: number[];
   realVsPicoAnterior: number | null;
+  // Relógio das vacas: meses desde o pico de fêmeas no abate desta alta (null = descarte de vacas ainda não virou)
+  mesesDesdePicoFemeas: number | null;
+  atrasoPicoBoi: number[]; // nos ciclos passados, meses entre o pico de fêmeas e o pico do boi
   boi: number; // R$/@
   bezerro: number; // R$/cabeça
   troca: { p25: number; mediana: number; p75: number }; // relação de troca dos últimos 10 anos
@@ -31,15 +34,25 @@ export const relacaoTroca = (boi: number, bezerro: number) => (18 * boi) / bezer
 export function estagio(e: Entrada): Estagio {
   const ref = e.sobe ? e.duracaoSubidas : e.duracaoQuedas;
   const min = Math.min(...ref);
-  if (e.sobe) return e.meses < min / 2 ? "inicio-alta" : e.meses < min ? "meio-alta" : "alta-madura";
+  if (e.sobe) {
+    if (e.meses < min / 2) return "inicio-alta";
+    // O pico do boi nunca veio antes de o descarte de vacas virar e de passar o atraso mínimo já visto.
+    const vacas = e.mesesDesdePicoFemeas != null && (!e.atrasoPicoBoi.length || e.mesesDesdePicoFemeas >= Math.min(...e.atrasoPicoBoi));
+    return e.meses >= min && vacas ? "alta-madura" : "meio-alta";
+  }
   return e.meses < min / 2 ? "inicio-queda" : e.meses < min ? "meio-queda" : "fim-queda";
 }
 
 export function descreverEstagio(e: Entrada): string {
   const ref = e.sobe ? e.duracaoSubidas : e.duracaoQuedas;
   const faixa = `${Math.min(...ref)} a ${Math.max(...ref)} meses`;
-  const nome = { "inicio-alta": "Início da alta", "meio-alta": "Alta", "alta-madura": "Alta madura", "inicio-queda": "Início da queda", "meio-queda": "Queda", "fim-queda": "Fim da queda" }[estagio(e)];
-  return `${nome}: o preço ${e.sobe ? "sobe" : "cai"} há ${e.meses} meses (antes durou de ${faixa}).`;
+  const nome = { "inicio-alta": "Início da alta", "meio-alta": "Alta", "alta-madura": "Fim da alta", "inicio-queda": "Início da queda", "meio-queda": "Queda", "fim-queda": "Fim da queda" }[estagio(e)];
+  const base = `${nome}: o preço ${e.sobe ? "sobe" : "cai"} há ${e.meses} meses (antes durou de ${faixa}).`;
+  if (!e.sobe || !e.atrasoPicoBoi.length) return base;
+  const at = `${Math.min(...e.atrasoPicoBoi)} a ${Math.max(...e.atrasoPicoBoi)} meses`;
+  return e.mesesDesdePicoFemeas == null
+    ? `${base} O descarte de vacas ainda não virou; nos ciclos passados o pico do boi veio ${at} depois dessa virada.`
+    : `${base} O descarte de vacas virou há ${e.mesesDesdePicoFemeas} meses; nos ciclos passados o pico do boi veio ${at} depois.`;
 }
 
 const seloPorPontos = (p: number): Selo => (p >= 2 ? "melhor" : p >= 1 ? "bom" : "aguarde");
@@ -52,13 +65,15 @@ function pontosTroca(rt: number, t: Entrada["troca"]): [number, string] {
   return [-1, `${txt}: entre as piores trocas dos últimos 10 anos (abaixo de ${numero(t.p25)}). Reposição cara.`];
 }
 
+// Pesos testados em 2015–2023 depois de desenhados só com 2006–2014 (pipeline/modelo/backtest-veredito.ts).
+// O que mais separou bons e maus negócios foi o momento do ciclo; a troca só ajuda quando está entre as melhores.
 const PONTOS_ESTAGIO_ENGORDA: Record<Estagio, [number, string]> = {
   "inicio-alta": [1, "Quem compra agora tende a vender com o boi mais caro."],
-  "meio-alta": [0, "Ainda há espaço, mas a margem já diminuiu."],
+  "meio-alta": [-1, "A alta já passou da metade do que costuma durar: o bezerro tende a encarecer mais rápido que o boi."],
   "alta-madura": [-1, "Já está na faixa em que os ciclos anteriores viraram. Quem compra caro agora pode vender depois do pico."],
   "inicio-queda": [-1, "O boi tende a cair até a venda."],
-  "meio-queda": [0, "A reposição vai ficando mais barata."],
-  "fim-queda": [1, "Reposição barata e alta pela frente, se o ciclo repetir."],
+  "meio-queda": [1, "A reposição vai ficando mais barata e a venda tende a pegar a recuperação."],
+  "fim-queda": [2, "Reposição barata e alta pela frente, se o ciclo repetir."],
 };
 
 const PONTOS_ESTAGIO_CRIA: Record<Estagio, [number, string]> = {
@@ -80,7 +95,7 @@ export function veredito(perfil: Perfil, e: Entrada): Veredito {
 
   const engorda = (): Veredito => {
     const [pEst, mEst] = PONTOS_ESTAGIO_ENGORDA[est];
-    const selo = seloPorPontos(pTroca + pEst);
+    const selo = seloPorPontos(Math.max(0, pTroca - 1) + pEst);
     const venda =
       e.previsaoBoi13 != null && e.previsaoBoi13 > 0.02
         ? `Venda do boi gordo: se o pasto e o caixa permitem, segurar pode compensar.${variacao(e.previsaoBoi13, "o boi")} Para se proteger de queda, avalie travar parte na B3.`
@@ -91,9 +106,8 @@ export function veredito(perfil: Perfil, e: Entrada): Veredito {
   const cria = (): Veredito => {
     const [pEst, mEst] = PONTOS_ESTAGIO_CRIA[est];
     const selo = seloPorPontos(pEst);
-    const realAlto = (e.realVsPicoAnterior ?? 0) >= 0.9;
     const venda = e.sobe
-      ? `Venda de bezerros: bom momento, bezerro valorizado (${e.bezerro.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}/cabeça).${variacao(e.previsaoBezerro13, "o bezerro")} Com o ciclo ${realAlto ? "perto do pico" : "em alta"}, segurar fêmeas para reprodução faz sentido só se houver pasto.`
+      ? `Venda de bezerros: bom momento, bezerro valorizado (${e.bezerro.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}/cabeça).${variacao(e.previsaoBezerro13, "o bezerro")} Com o ciclo ${est === "alta-madura" ? "perto do pico" : "em alta"}, segurar fêmeas para reprodução faz sentido só se houver pasto.`
       : "Venda de bezerros: preço em queda. Descartar vacas velhas e improdutivas agora ajuda o caixa.";
     return { selo, titulo: TEXTO_SELO[selo], motivos: [mEst, `Para a cria, a troca pesa menos: ${mTroca.charAt(0).toLowerCase()}${mTroca.slice(1)}`], venda };
   };

@@ -35,9 +35,12 @@ function contexto() {
     `Relação de troca: 1 boi de 18@ compra ${p.troca.atual.toFixed(2)} bezerros (normal 10 anos: ${p.troca.mediana.toFixed(2)}; 25% piores abaixo de ${p.troca.p25.toFixed(2)}).`,
     `Ciclo: preço ${p.fase.sobe ? "subindo" : "caindo"} há ${p.fase.meses} meses desde o ${p.fase.desde?.tipo} de ${p.fase.desde?.mes}. Subidas anteriores duraram ${p.fase.duracaoSubidas.join(", ")} meses; quedas ${p.fase.duracaoQuedas.join(", ")} meses.`,
     `Boi em valores de hoje está em ${((p.fase.realVsPicoAnterior ?? 0) * 100).toFixed(0)}% do último pico.`,
-    `Fêmeas no abate (média 12 meses): ${((p.fase.femeas ?? 0) * 100).toFixed(1)}% (média 10 anos ${(p.fase.femeasMedia10 * 100).toFixed(1)}%). No teste, esse dado não previu bem a fase; é só contexto.`,
+    `Fêmeas no abate (média 12 meses): ${((p.fase.femeas ?? 0) * 100).toFixed(1)}% (média 10 anos ${(p.fase.femeasMedia10 * 100).toFixed(1)}%). Pico de fêmeas desta alta: ${p.fase.picoVacas ? `${p.fase.picoVacas.mes} (${p.fase.picoVacas.confirmado ? "confirmado" : "ainda não confirmado"})` : "ainda não"}. Nos ciclos passados o pico do boi veio ${p.fase.atrasoPicoBoi.join(", ")} meses depois do pico de fêmeas.`,
+    p.fase.janela && `Se o passado se repetir, o próximo ${p.fase.sobe ? "pico" : "fundo"} do boi fica entre ${p.fase.janela.de} e ${p.fase.janela.ate}. São só 3 ciclos: é estimativa, não certeza.`,
+    p.noticias?.itens.length &&
+      `Manchetes da semana (não entram no cálculo; podem citar números de outras fontes): ${p.noticias.itens.slice(0, 8).map((n) => `${n.titulo} (${n.fonte}, ${n.data}${n.classe ? `, ${n.classe.direcao}` : ""})`).join("; ")}.`,
     `Previsão registrada (${p.previsao?.semana}): ${prev}.`,
-  ].join("\n");
+  ].filter(Boolean).join("\n");
 }
 
 const SISTEMA = `Você é o Consultor da Bússola do Ciclo Pecuário. Fala português do Brasil, simples, para quem não é técnico. Respostas curtas.

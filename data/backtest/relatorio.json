@@ -1,5 +1,5 @@
 {
- "geradoEm": "2026-10-15T14:21:42.062Z",
+ "geradoEm": "2026-10-15T15:48:13.827Z",
  "fimTreino": "2022-12",
  "regraFase": {
   "janelaMedia": 60,
@@ -106,6 +106,40 @@
    "erroMedioIngenuo": 0.1701425144752676,
    "acertoDirecao": 1,
    "dentroDaFaixa80": 0.5882352941176471
+  }
+ ],
+ "rolante": [
+  {
+   "alvo": "boi",
+   "semanas": 13,
+   "erroMedioModelo": 0.06053837972999113,
+   "erroMedioIngenuo": 0.06171434777724996,
+   "anosMelhor": 6,
+   "anos": 12
+  },
+  {
+   "alvo": "boi",
+   "semanas": 52,
+   "erroMedioModelo": 0.13266769567920483,
+   "erroMedioIngenuo": 0.14647763779329542,
+   "anosMelhor": 7,
+   "anos": 12
+  },
+  {
+   "alvo": "bezerro",
+   "semanas": 13,
+   "erroMedioModelo": 0.06391019844167573,
+   "erroMedioIngenuo": 0.06098791179902747,
+   "anosMelhor": 6,
+   "anos": 12
+  },
+  {
+   "alvo": "bezerro",
+   "semanas": 52,
+   "erroMedioModelo": 0.1408639672609765,
+   "erroMedioIngenuo": 0.1667507169505664,
+   "anosMelhor": 7,
+   "anos": 12
   }
  ],
  "hoje": [

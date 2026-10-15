@@ -3,12 +3,13 @@
 // faixas da relação de troca dos anos anteriores e previsão treinada até ali.
 // Uso: node pipeline/modelo/backtest-veredito.ts
 import { mkdirSync, writeFileSync } from "node:fs";
-import { veredito, type Entrada, type Perfil, type Selo } from "../../lib/veredito.ts";
+import { estagio, relacaoTroca, veredito, type Entrada, type Perfil, type Selo } from "../../lib/veredito.ts";
 import { montarSerie } from "./dados.ts";
-import { lerFasePreco, pivosDePreco } from "./fase.ts";
+import { lerFasePreco, mesesEntre, pivosDePreco, relogioFemeas } from "./fase.ts";
 import { prever, treinar } from "./previsao.ts";
 
 const LIMIAR = 0.2;
+const VACAS = process.env.SEM_VACAS !== "1"; // SEM_VACAS=1 roda a regra antiga, só pelo preço
 const MESES_ENGORDA = 18; // bezerro comprado vira boi gordo vendido
 const MESES_CRIA = 30; // matriz comprada → bezerros vendidos
 // Antes de existir ciclo completo nos dados, usa durações típicas citadas pelo setor (3 anos).
@@ -18,13 +19,8 @@ const serie = montarSerie();
 const pct = (v: number) => `${(v * 100).toFixed(0)}%`;
 const mediana = (v: number[]) => [...v].sort((a, b) => a - b)[Math.floor(v.length / 2)];
 const quantil = (v: number[], q: number) => [...v].sort((a, b) => a - b)[Math.round(q * (v.length - 1))];
-const mesesEntre = (a: string, b: string) => {
-  const [ya, ma] = a.split("-").map(Number);
-  const [yb, mb] = b.split("-").map(Number);
-  return (yb - ya) * 12 + (mb - ma);
-};
 
-type Linha = { mes: string; selos: Record<Perfil, Selo>; engorda: number | null; cria: number | null };
+type Linha = { mes: string; selos: Record<Perfil, Selo>; estagio: string; rt: number; troca: Entrada["troca"]; prevBoi: number | null; prevBezerro: number | null; engorda: number | null; cria: number | null };
 const linhas: Linha[] = [];
 
 for (let i = 0; i < serie.length; i++) {
@@ -37,6 +33,7 @@ for (let i = 0; i < serie.length; i++) {
   const pivos = pivosDePreco(passado, LIMIAR).filter((p) => p.mes !== serie[0].mes);
   const dur = (de: string, para: string) =>
     pivos.flatMap((p, k) => (p.tipo === de && pivos[k + 1]?.tipo === para ? [mesesEntre(p.mes, pivos[k + 1].mes)] : []));
+  const vacas = relogioFemeas(serie, i, pivos, fase.sobe ? (fase.ultimoPivo?.mes ?? null) : null);
   const subidas = dur("vale", "pico");
   const quedas = dur("pico", "vale");
 
@@ -60,6 +57,8 @@ for (let i = 0; i < serie.length; i++) {
     duracaoSubidas: subidas.length ? subidas : DURACAO_PADRAO,
     duracaoQuedas: quedas.length ? quedas : DURACAO_PADRAO,
     realVsPicoAnterior: fase.realVsPicoAnterior,
+    mesesDesdePicoFemeas: VACAS ? vacas.mesesDesdePico : 0,
+    atrasoPicoBoi: VACAS ? vacas.atrasos : [],
     boi: m.boi,
     bezerro: m.bezerro,
     troca: { p25: quantil(rts, 0.25), mediana: quantil(rts, 0.5), p75: quantil(rts, 0.75) },
@@ -73,6 +72,11 @@ for (let i = 0; i < serie.length; i++) {
   const futuroCria = serie[i + MESES_CRIA];
   linhas.push({
     mes: m.mes,
+    estagio: estagio(e),
+    rt: relacaoTroca(e.boi, e.bezerro),
+    troca: e.troca,
+    prevBoi: e.previsaoBoi13,
+    prevBezerro: e.previsaoBezerro13,
     selos: { cria: veredito("cria", e).selo, engorda: veredito("engorda", e).selo, iniciante: veredito("iniciante", e).selo },
     engorda: venda ? (18 * venda.boi) / m.bezerro : null,
     cria: futuroCria?.bezerroReal && m.bezerroReal ? futuroCria.bezerroReal / m.bezerroReal - 1 : null,

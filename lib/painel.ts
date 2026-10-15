@@ -37,6 +37,10 @@ export type Painel = {
     realVsPicoAnterior: number | null;
     duracaoSubidas: number[];
     duracaoQuedas: number[];
+    janela: { de: string; ate: string } | null; // onde o próximo pico/fundo caiu nos ciclos passados
+    picoVacas: { mes: string; femeas: number; confirmado: boolean } | null;
+    mesesDesdePicoVacas: number | null; // só com a virada confirmada
+    atrasoPicoBoi: number[];
     femeas: number | null;
     femeasMedia10: number;
   };
@@ -44,9 +48,19 @@ export type Painel = {
   previsao: { semana: string; dataBase: string; itens: ItemPrevisao[] } | null;
   acerto: {
     teste: { periodo: string; treinoAte: string; itens: AcertoTeste[] };
+    anoAno: {
+      periodo: string;
+      itens: { alvo: "boi" | "bezerro"; semanas: number; erroMedioModelo: number; erroMedioIngenuo: number; anosMelhor: number; anos: number }[];
+    };
     aoVivo: AvaliacaoAoVivo[];
     vereditos: { periodo: string; relatorio: Record<string, ResultadoVeredito> };
   };
+  noticias: {
+    semana: string;
+    classificadas: boolean;
+    termometro: { relevantes: number; saldo: number; porVariavel: Record<string, { n: number; saldo: number }> };
+    itens: { fonte: string; titulo: string; link: string; data: string; classe?: { relevante: boolean; direcao: "sobe" | "cai" | "neutro"; variavel: string; resumo: string } }[];
+  } | null;
   pracas: { data: string; valores: Record<string, { vista: number | null; prazo30: number | null }> } | null;
 };
 

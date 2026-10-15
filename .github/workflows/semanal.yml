@@ -42,6 +42,14 @@ jobs:
           pip install xlrd==2.0.1
           python pipeline/ler_cepea.py
 
+      - name: Notícias da semana (leitura por IA se houver chave)
+        if: env.RODADA_SEMANAL == 'true'
+        continue-on-error: true
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          MODELO_NOTICIAS: ${{ vars.MODELO_NOTICIAS }}
+        run: node pipeline/noticias.ts
+
       - name: Conferir, prever, comparar
         if: env.RODADA_SEMANAL == 'true'
         run: node pipeline/semanal.ts

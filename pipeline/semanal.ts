@@ -3,7 +3,7 @@
 // Uso: node pipeline/semanal.ts   (gera data/semanal/relatorio.md e sai com código 0)
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { montarSerie } from "./modelo/dados.ts";
-import { lerFasePreco, pivosDePreco } from "./modelo/fase.ts";
+import { lerFasePreco, pivosDePreco, relogioFemeas } from "./modelo/fase.ts";
 import { prever, treinarCalibrado, type Alvo } from "./modelo/previsao.ts";
 
 const DATA = new URL("../data/", import.meta.url);
@@ -155,13 +155,34 @@ l.push(`- Preço do boi **${f.sobe ? "subindo" : "caindo"}** desde o ${f.ultimoP
 if (f.sobe && subidas.length)
   l.push(`- Subidas anteriores duraram de ${Math.round(Math.min(...subidas))} a ${Math.round(Math.max(...subidas))} meses (média ${Math.round(subidas.reduce((a, b) => a + b) / subidas.length)}).`);
 if (f.realVsPicoAnterior) l.push(`- Boi, descontada a inflação, está em ${pct(f.realVsPicoAnterior)} do último pico.`);
-if (serie[iUlt].femeas) l.push(`- Contexto: fêmeas no abate (média 12 meses) ${pct(serie[iUlt].femeas!)}.`);
+if (serie[iUlt].femeas) l.push(`- Fêmeas no abate (média 12 meses): ${pct(serie[iUlt].femeas!)}.`);
+{
+  const pv = pivosDePreco(serie, LIMIAR_CICLO).filter((p) => p.mes !== serie[0].mes);
+  const v = relogioFemeas(serie, iUlt, pv, f.sobe ? (f.ultimoPivo?.mes ?? null) : null);
+  if (f.sobe && v.atrasos.length)
+    l.push(v.pico
+      ? `- Descarte de vacas virou em ${v.pico.mes} (há ${v.mesesDesdePico} meses). Nos ciclos passados o pico do boi veio ${v.atrasos.join(", ")} meses depois.`
+      : `- Descarte de vacas ainda não virou de forma confirmada. Nos ciclos passados o pico do boi veio ${v.atrasos.join(", ")} meses depois dessa virada.`);
+}
 l.push(`- Relação de troca: 1 boi de 18@ compra **${serie[iUlt].rt!.toFixed(2).replace(".", ",")}** bezerros.`, "");
 if (atual) {
   l.push(`## Previsão registrada (base: semana de ${segundaDa(atual.dataBase)})`, "| | em | previsto | faixa provável |", "|---|---|---|---|");
   for (const p of atual.previsoes)
     l.push(`| ${p.alvo === "boi" ? "Boi gordo (R$/@)" : "Bezerro MS (R$/cab)"} | ${p.semanas} semanas | ${brl(p.previsto)} | ${brl(p.minimo)} – ${brl(p.maximo)} |`);
   l.push("");
+}
+{
+  const arq = new URL(`noticias/${semanaIso(hoje)}.json`, DATA);
+  if (existsSync(arq)) {
+    const n = JSON.parse(readFileSync(arq, "utf8"));
+    const rel = n.itens.filter((x: { classe?: { relevante: boolean } }) => !x.classe || x.classe.relevante).slice(0, 8);
+    if (rel.length) {
+      l.push("## Notícias da semana (ainda não entram no cálculo)");
+      for (const x of rel) l.push(`- [${x.titulo}](${x.link}) — ${x.fonte}${x.classe ? `, ${x.classe.direcao === "sobe" ? "↑ arroba" : x.classe.direcao === "cai" ? "↓ arroba" : "neutra"}` : ""}`);
+      for (const a of n.avisos ?? []) l.push(`- ⚠️ ${a}`);
+      l.push("");
+    }
+  }
 }
 const recentes = avaliacoes.filter((a) => a.semana >= semanaIso(somarDias(hoje, -7 * 60)));
 if (recentes.length) {

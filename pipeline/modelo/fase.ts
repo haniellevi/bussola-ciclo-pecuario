@@ -97,3 +97,54 @@ export function pivosDePreco(serie: Mes[], limiar: number) {
     boiReal: serie[p.i].boiReal,
   }));
 }
+
+// Viradas da fatia de fêmeas no abate (média 12 meses, já com atraso do IBGE), só com o que se sabia
+// no mês i: uma virada vale quando a fatia volta `limiar` pontos a partir do extremo.
+// Em 2006–2023 marcou uma virada por meia-onda, sem sinal falso.
+export const LIMIAR_FEMEAS = 0.005;
+export type PivoFemeas = { mes: string; tipo: "pico" | "vale"; femeas: number; confirmado: string };
+
+export function pivosFemeas(serie: Mes[], ate = serie.length - 1, limiar = LIMIAR_FEMEAS): PivoFemeas[] {
+  const pivos: PivoFemeas[] = [];
+  let dir = 1; // 1: procurando pico; -1: procurando vale
+  let ext: { mes: string; v: number } | null = null;
+  for (const m of serie.slice(0, ate + 1)) {
+    const f = m.femeas;
+    if (f == null) continue;
+    if (!ext || (dir === 1 && f > ext.v) || (dir === -1 && f < ext.v)) ext = { mes: m.mes, v: f };
+    if (dir === 1 && f < ext.v - limiar) {
+      pivos.push({ mes: ext.mes, tipo: "pico", femeas: ext.v, confirmado: m.mes });
+      dir = -1;
+      ext = { mes: m.mes, v: f };
+    } else if (dir === -1 && f > ext.v + limiar) {
+      pivos.push({ mes: ext.mes, tipo: "vale", femeas: ext.v, confirmado: m.mes });
+      dir = 1;
+      ext = { mes: m.mes, v: f };
+    }
+  }
+  return pivos;
+}
+
+export const mesesEntre = (a: string, b: string) => {
+  const [ya, ma] = a.split("-").map(Number);
+  const [yb, mb] = b.split("-").map(Number);
+  return (yb - ya) * 12 + (mb - ma);
+};
+
+// Relógio das vacas: nos ciclos de 2006–2023 o pico do boi veio sempre depois do pico de fêmeas no abate
+// (fim do descarte de vacas). Devolve o pico de fêmeas da alta atual (se já confirmado) e quanto tempo,
+// nos ciclos já conhecidos no mês i, o boi levou desse pico até o pico de preço.
+export function relogioFemeas(serie: Mes[], i: number, pivosPreco: { mes: string; tipo: "pico" | "vale" }[], valeAtual: string | null) {
+  const fp = pivosFemeas(serie, i);
+  const atrasos = fp
+    .filter((p) => p.tipo === "pico")
+    .flatMap((pf) => {
+      // Só conta se o pico de fêmeas caiu dentro de uma alta do preço (último pivô antes dele foi um vale).
+      const antes = pivosPreco.filter((p) => p.mes <= pf.mes).at(-1);
+      const pp = pivosPreco.find((p) => p.tipo === "pico" && p.mes > pf.mes);
+      return antes?.tipo === "vale" && pp ? [mesesEntre(pf.mes, pp.mes)] : [];
+    });
+  const ult = fp.at(-1);
+  const pico = valeAtual && ult?.tipo === "pico" && ult.mes > valeAtual ? ult : null;
+  return { pico, mesesDesdePico: pico ? mesesEntre(pico.mes, serie[i].mes) : null, atrasos };
+}

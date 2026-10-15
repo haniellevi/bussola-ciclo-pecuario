@@ -1,0 +1,122 @@
+{
+ "semana": "2026-S42",
+ "atualizadoEm": "2026-10-15T15:49:06.412Z",
+ "avisos": [
+  "Sem OPENROUTER_API_KEY: notícias guardadas sem classificação."
+ ],
+ "termometro": {
+  "relevantes": 0,
+  "saldo": 0,
+  "porVariavel": {}
+ },
+ "itens": [
+  {
+   "fonte": "Compre Rural",
+   "titulo": "Pecuaristas entram em recuperação judicial com dívidas de R$ 31 milhões",
+   "link": "https://www.comprerural.com/pecuaristas-entram-em-recuperacao-judicial-com-dividas-de-r-31-milhoes/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "Compre Rural",
+   "titulo": "Boi brasileiro sobe 32%, mas ainda tem a menor arroba entre 9 países",
+   "link": "https://www.comprerural.com/boi-brasileiro-sobe-32-mas-ainda-tem-a-menor-arroba-entre-9-paises/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Tarifa de 55% da China faz frigoríficos australianos suspenderem abates por falta de espaço para armazenar carne",
+   "link": "https://beefpoint.com.br/tarifa-de-55-da-china-faz-frigorificos-australianos-suspenderem-abates-por-falta-de-espaco-para-armazenar-carne/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Diversificação pode abrir mercado internacional da carne bovina",
+   "link": "https://beefpoint.com.br/diversificacao-pode-abrir-mercado-internacional-da-carne-bovina/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Confinamento rende R$ 303 a mais por cabeça no Sudeste em setembro",
+   "link": "https://beefpoint.com.br/confinamento-rende-r-303-a-mais-por-cabeca-no-sudeste-em-setembro/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "CEPEA: Valorização do boi gordo reduz diferença de preços frente à carne",
+   "link": "https://beefpoint.com.br/cepea-valorizacao-do-boi-gordo-reduz-diferenca-de-precos-frente-a-carne/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Preço do boi gordo fica estável na maior parte do Brasil",
+   "link": "https://beefpoint.com.br/preco-do-boi-gordo-fica-estavel-na-maior-parte-do-brasil/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Indicador do Boi DATAGRO – Boletim de 14-outubro-2026",
+   "link": "https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-14-outubro-2026/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "BOI: Valorização do boi gordo reduz diferença de preços frente à carne",
+   "link": "https://folhaagricola.com.br/2026/10/15/boi-valorizacao-do-boi-gordo-reduz-diferenca-de-precos-frente-a-carne/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "Estoques de títulos privados do agronegócio somam R$ 597 bilhões em setembro",
+   "link": "https://folhaagricola.com.br/2026/10/15/estoques-de-titulos-privados-do-agronegocio-somam-r-597-bilhoes-em-setembro/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "Uma arroba de boi gordo paga mais de 30 dias de alimentação no confinamento",
+   "link": "https://folhaagricola.com.br/2026/10/15/uma-arroba-de-boi-gordo-paga-mais-de-30-dias-de-alimentacao-no-confinamento/",
+   "data": "2026-10-15"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Brasil amplia presença no mercado mundial de carne bovina e deve continuar priorizando exportações, aponta Rabobank",
+   "link": "https://beefpoint.com.br/brasil-amplia-presenca-no-mercado-mundial-de-carne-bovina-e-deve-continuar-priorizando-exportacoes-aponta-rabobank/",
+   "data": "2026-10-14"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Diante de restrições, carne brasileira ganhou 38 mercados em 4 anos",
+   "link": "https://beefpoint.com.br/diante-de-restricoes-carne-brasileira-ganhou-38-mercados-em-4-anos/",
+   "data": "2026-10-14"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Preço do boi gordo começa a semana com altas em diversas regiões",
+   "link": "https://beefpoint.com.br/preco-do-boi-gordo-comeca-a-semana-com-altas-em-diversas-regioes/",
+   "data": "2026-10-14"
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Indicador do Boi DATAGRO – Boletim de 13-outubro-2026",
+   "link": "https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-13-outubro-2026/",
+   "data": "2026-10-14"
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Exportações agrícolas: Brasil pode ultrapassar EUA e beneficiar pecuária",
+   "link": "https://canaldocriador.com.br/geral/exportacoes-agricolas-brasil-ultrapassar-eua-beneficiar-pecuaria/",
+   "data": "2026-10-14"
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Ordenha manual ganha destaque em desafio para mulheres durante a 4ª ExpoLeite",
+   "link": "https://canaldocriador.com.br/geral/ordenha-manual-desafio-mulheres-expoleite-2026/",
+   "data": "2026-10-13"
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Carne bovina: exportações somam 2,43 milhões de toneladas até setembro",
+   "link": "https://canaldocriador.com.br/geral/carne-bovina-exportacoes-243-milhoes-toneladas-setembro-2026/",
+   "data": "2026-10-12"
+  }
+ ]
+}

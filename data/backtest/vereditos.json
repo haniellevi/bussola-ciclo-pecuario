@@ -1,27 +1,27 @@
 {
- "geradoEm": "2026-10-15T15:26:53.684Z",
+ "geradoEm": "2026-10-15T15:46:32.140Z",
  "periodo": "2006–2023",
  "relatorio": {
   "engorda/engorda": {
    "corte": 2.6147583996748485,
    "meses": 216,
    "melhor": {
-    "meses": 14,
-    "media": 2.988650067491181,
-    "acimaDaMediana": 0.7142857142857143,
-    "acerto": 0.7142857142857143
+    "meses": 56,
+    "media": 2.976249538899738,
+    "acimaDaMediana": 0.6964285714285714,
+    "acerto": 0.6964285714285714
    },
    "bom": {
-    "meses": 48,
-    "media": 3.1012065072998247,
-    "acimaDaMediana": 0.7708333333333334,
-    "acerto": 0.7708333333333334
+    "meses": 40,
+    "media": 3.2084928429244846,
+    "acimaDaMediana": 0.875,
+    "acerto": 0.875
    },
    "aguarde": {
-    "meses": 154,
-    "media": 2.4785230491276424,
-    "acimaDaMediana": 0.38961038961038963,
-    "acerto": 0.6103896103896104
+    "meses": 120,
+    "media": 2.3115156247130013,
+    "acimaDaMediana": 0.275,
+    "acerto": 0.725
    }
   },
   "cria/cria": {
@@ -50,120 +50,192 @@
    "corte": 2.6147583996748485,
    "meses": 216,
    "melhor": {
-    "meses": 10,
-    "media": 2.761702244029713,
-    "acimaDaMediana": 0.6,
-    "acerto": 0.6
+    "meses": 55,
+    "media": 2.96269870827522,
+    "acimaDaMediana": 0.6909090909090909,
+    "acerto": 0.6909090909090909
    },
    "bom": {
-    "meses": 46,
-    "media": 3.1637594241399953,
-    "acimaDaMediana": 0.8043478260869565,
-    "acerto": 0.8043478260869565
+    "meses": 41,
+    "media": 3.2210063156153077,
+    "acimaDaMediana": 0.8780487804878049,
+    "acerto": 0.8780487804878049
    },
    "aguarde": {
-    "meses": 160,
-    "media": 2.495260043188676,
-    "acimaDaMediana": 0.4,
-    "acerto": 0.6
+    "meses": 120,
+    "media": 2.3115156247130013,
+    "acimaDaMediana": 0.275,
+    "acerto": 0.725
    }
   },
   "iniciante/cria": {
    "corte": 0.05445083193719236,
    "meses": 216,
    "melhor": {
-    "meses": 10,
-    "media": 0.44787856578184615,
+    "meses": 55,
+    "media": 0.44338474343631157,
     "acimaDaMediana": 1,
     "acerto": 1
    },
    "bom": {
-    "meses": 46,
-    "media": 0.4225645886741076,
-    "acimaDaMediana": 1,
-    "acerto": 1
+    "meses": 41,
+    "media": 0.34778781285248006,
+    "acimaDaMediana": 0.8292682926829268,
+    "acerto": 0.8292682926829268
    },
    "aguarde": {
-    "meses": 160,
-    "media": 0.030489327897144793,
-    "acimaDaMediana": 0.31875,
-    "acerto": 0.68125
+    "meses": 120,
+    "media": -0.0820867667964853,
+    "acimaDaMediana": 0.15,
+    "acerto": 0.85
    }
   }
  },
  "linhas": [
   {
    "mes": "2006-01",
+   "estagio": "fim-queda",
+   "rt": 2.671210595616141,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.7167785234899333,
+    "p75": 2.827971157337761
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.3083219240107082,
    "cria": 0.864791605957262
   },
   {
    "mes": "2006-02",
+   "estagio": "fim-queda",
+   "rt": 2.7043661969504504,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.7076204671222652,
+    "p75": 2.827971157337761
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.4440155116734346,
    "cria": 0.832380751231171
   },
   {
    "mes": "2006-03",
+   "estagio": "fim-queda",
+   "rt": 2.6454252050170397,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.7076204671222652,
+    "p75": 2.827971157337761
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.275320142578683,
    "cria": 0.7769811924547725
   },
   {
    "mes": "2006-04",
+   "estagio": "fim-queda",
+   "rt": 2.622052036803849,
+   "troca": {
+    "p25": 2.512340736085629,
+    "mediana": 2.7043661969504504,
+    "p75": 2.827971157337761
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.329644887415787,
    "cria": 0.6979235467403597
   },
   {
    "mes": "2006-05",
+   "estagio": "fim-queda",
+   "rt": 2.42666057851644,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.7043661969504504,
+    "p75": 2.822801155738969
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.6033959835770473,
    "cria": 0.5893025777450724
   },
   {
    "mes": "2006-06",
+   "estagio": "fim-queda",
+   "rt": 2.3855189046251515,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.7011064276104877,
+    "p75": 2.822801155738969
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.6256827352318535,
    "cria": 0.48408085198977013
   },
   {
    "mes": "2006-07",
+   "estagio": "fim-queda",
+   "rt": 2.5254469113811315,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.7011064276104877,
+    "p75": 2.822801155738969
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.737652103129392,
    "cria": 0.47007059524328487
   },
   {
    "mes": "2006-08",
+   "estagio": "fim-queda",
+   "rt": 2.7592771446354605,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.7011064276104877,
+    "p75": 2.822801155738969
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",
@@ -174,6 +246,15 @@
   },
   {
    "mes": "2006-09",
+   "estagio": "fim-queda",
+   "rt": 2.8900028294392266,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.7043661969504504,
+    "p75": 2.822801155738969
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",
@@ -184,6 +265,15 @@
   },
   {
    "mes": "2006-10",
+   "estagio": "inicio-alta",
+   "rt": 2.965828264338923,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.7043661969504504,
+    "p75": 2.827971157337761
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
     "engorda": "melhor",
@@ -194,6 +284,15 @@
   },
   {
    "mes": "2006-11",
+   "estagio": "inicio-alta",
+   "rt": 2.683627500761654,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.7043661969504504,
+    "p75": 2.827971157337761
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -204,6 +303,15 @@
   },
   {
    "mes": "2006-12",
+   "estagio": "inicio-alta",
+   "rt": 2.6358121116401314,
+   "troca": {
+    "p25": 2.512340736085629,
+    "mediana": 2.7011064276104877,
+    "p75": 2.827971157337761
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -214,6 +322,15 @@
   },
   {
    "mes": "2007-01",
+   "estagio": "inicio-alta",
+   "rt": 2.6365543659563047,
+   "troca": {
+    "p25": 2.512340736085629,
+    "mediana": 2.7011064276104877,
+    "p75": 2.822801155738969
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -224,6 +341,15 @@
   },
   {
    "mes": "2007-02",
+   "estagio": "inicio-alta",
+   "rt": 2.633250687649433,
+   "troca": {
+    "p25": 2.512340736085629,
+    "mediana": 2.693199623149735,
+    "p75": 2.822801155738969
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -234,6 +360,15 @@
   },
   {
    "mes": "2007-03",
+   "estagio": "inicio-alta",
+   "rt": 2.555556837693629,
+   "troca": {
+    "p25": 2.512340736085629,
+    "mediana": 2.693199623149735,
+    "p75": 2.822801155738969
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -244,36 +379,72 @@
   },
   {
    "mes": "2007-04",
+   "estagio": "inicio-alta",
+   "rt": 2.459768567200099,
+   "troca": {
+    "p25": 2.512340736085629,
+    "mediana": 2.683627500761654,
+    "p75": 2.822801155738969
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 4.001108523716036,
    "cria": 0.27039162167134934
   },
   {
    "mes": "2007-05",
+   "estagio": "inicio-alta",
+   "rt": 2.384057900332615,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.683627500761654,
+    "p75": 2.820717299503912
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.7935037699593255,
    "cria": 0.2300278186232141
   },
   {
    "mes": "2007-06",
+   "estagio": "inicio-alta",
+   "rt": 2.419842340443471,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.681278288300645,
+    "p75": 2.820717299503912
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.465095691762921,
    "cria": 0.21618022295640915
   },
   {
    "mes": "2007-07",
+   "estagio": "inicio-alta",
+   "rt": 2.543842243063528,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.681278288300645,
+    "p75": 2.820717299503912
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -284,6 +455,15 @@
   },
   {
    "mes": "2007-08",
+   "estagio": "inicio-alta",
+   "rt": 2.5596834815492344,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.6749711785905013,
+    "p75": 2.820717299503912
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -294,16 +474,34 @@
   },
   {
    "mes": "2007-09",
+   "estagio": "inicio-alta",
+   "rt": 2.3906030687899347,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.6749711785905013,
+    "p75": 2.8142745321283713
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.018938785951855,
    "cria": 0.23078226231909293
   },
   {
    "mes": "2007-10",
+   "estagio": "inicio-alta",
+   "rt": 2.460502130178437,
+   "troca": {
+    "p25": 2.460502130178437,
+    "mediana": 2.671210595616141,
+    "p75": 2.8142745321283713
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -314,9 +512,18 @@
   },
   {
    "mes": "2007-11",
+   "estagio": "inicio-alta",
+   "rt": 2.7548024887493585,
+   "troca": {
+    "p25": 2.460502130178437,
+    "mediana": 2.6749711785905013,
+    "p75": 2.8142745321283713
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "bom",
-    "engorda": "melhor",
+    "engorda": "bom",
     "iniciante": "bom"
    },
    "engorda": 3.0180200137982536,
@@ -324,9 +531,18 @@
   },
   {
    "mes": "2007-12",
+   "estagio": "meio-alta",
+   "rt": 2.773448583707621,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.6749711785905013,
+    "p75": 2.8142745321283713
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
-    "engorda": "bom",
+    "engorda": "aguarde",
     "iniciante": "aguarde"
    },
    "engorda": 3.0214824034903343,
@@ -334,9 +550,18 @@
   },
   {
    "mes": "2008-01",
+   "estagio": "meio-alta",
+   "rt": 2.722913663627683,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.681278288300645,
+    "p75": 2.81047361155868
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
-    "engorda": "bom",
+    "engorda": "aguarde",
     "iniciante": "aguarde"
    },
    "engorda": 2.970580970533044,
@@ -344,6 +569,15 @@
   },
   {
    "mes": "2008-02",
+   "estagio": "meio-alta",
+   "rt": 2.6725102546408186,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.6749711785905013,
+    "p75": 2.81047361155868
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -354,6 +588,15 @@
   },
   {
    "mes": "2008-03",
+   "estagio": "meio-alta",
+   "rt": 2.652095721537346,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.6749711785905013,
+    "p75": 2.81047361155868
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -364,6 +607,15 @@
   },
   {
    "mes": "2008-04",
+   "estagio": "meio-alta",
+   "rt": 2.520039773992574,
+   "troca": {
+    "p25": 2.501184638463638,
+    "mediana": 2.6725102546408186,
+    "p75": 2.81047361155868
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -374,6 +626,15 @@
   },
   {
    "mes": "2008-05",
+   "estagio": "meio-alta",
+   "rt": 2.3239181189026925,
+   "troca": {
+    "p25": 2.4615716855913923,
+    "mediana": 2.6725102546408186,
+    "p75": 2.803128544583454
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -384,6 +645,15 @@
   },
   {
    "mes": "2008-06",
+   "estagio": "meio-alta",
+   "rt": 2.3133280287783258,
+   "troca": {
+    "p25": 2.460502130178437,
+    "mediana": 2.671210595616141,
+    "p75": 2.803128544583454
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -394,6 +664,15 @@
   },
   {
    "mes": "2008-07",
+   "estagio": "meio-alta",
+   "rt": 2.22232254620048,
+   "troca": {
+    "p25": 2.459768567200099,
+    "mediana": 2.671210595616141,
+    "p75": 2.803128544583454
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -404,6 +683,15 @@
   },
   {
    "mes": "2008-08",
+   "estagio": "meio-alta",
+   "rt": 2.2384861543054124,
+   "troca": {
+    "p25": 2.459768567200099,
+    "mediana": 2.6625826217444057,
+    "p75": 2.803128544583454
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -414,6 +702,15 @@
   },
   {
    "mes": "2008-09",
+   "estagio": "meio-alta",
+   "rt": 2.2019377651342507,
+   "troca": {
+    "p25": 2.4503936316166155,
+    "mediana": 2.6625826217444057,
+    "p75": 2.797526469160436
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -424,6 +721,15 @@
   },
   {
    "mes": "2008-10",
+   "estagio": "meio-alta",
+   "rt": 2.2797628795074174,
+   "troca": {
+    "p25": 2.4432050621734973,
+    "mediana": 2.652095721537346,
+    "p75": 2.797526469160436
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -434,6 +740,15 @@
   },
   {
    "mes": "2008-11",
+   "estagio": "meio-alta",
+   "rt": 2.264618323354231,
+   "troca": {
+    "p25": 2.435376648633632,
+    "mediana": 2.652095721537346,
+    "p75": 2.797526469160436
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -444,6 +759,15 @@
   },
   {
    "mes": "2008-12",
+   "estagio": "meio-alta",
+   "rt": 2.242793369763758,
+   "troca": {
+    "p25": 2.435376648633632,
+    "mediana": 2.6454252050170397,
+    "p75": 2.797526469160436
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -454,6 +778,15 @@
   },
   {
    "mes": "2009-01",
+   "estagio": "meio-alta",
+   "rt": 2.3767631724305165,
+   "troca": {
+    "p25": 2.429887675088135,
+    "mediana": 2.6454252050170397,
+    "p75": 2.7959731841143873
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -464,6 +797,15 @@
   },
   {
    "mes": "2009-02",
+   "estagio": "meio-alta",
+   "rt": 2.3372493300575687,
+   "troca": {
+    "p25": 2.42666057851644,
+    "mediana": 2.6365543659563047,
+    "p75": 2.7959731841143873
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -474,6 +816,15 @@
   },
   {
    "mes": "2009-03",
+   "estagio": "meio-alta",
+   "rt": 2.2010307209312328,
+   "troca": {
+    "p25": 2.419842340443471,
+    "mediana": 2.6365543659563047,
+    "p75": 2.7959731841143873
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -484,6 +835,15 @@
   },
   {
    "mes": "2009-04",
+   "estagio": "meio-alta",
+   "rt": 2.2105510288634167,
+   "troca": {
+    "p25": 2.419842340443471,
+    "mediana": 2.6358121116401314,
+    "p75": 2.7959731841143873
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -494,6 +854,15 @@
   },
   {
    "mes": "2009-05",
+   "estagio": "meio-alta",
+   "rt": 2.257266098954812,
+   "troca": {
+    "p25": 2.4159097618298158,
+    "mediana": 2.6358121116401314,
+    "p75": 2.79584658289375
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -504,6 +873,15 @@
   },
   {
    "mes": "2009-06",
+   "estagio": "alta-madura",
+   "rt": 2.244167757114344,
+   "troca": {
+    "p25": 2.414197055710574,
+    "mediana": 2.633250687649433,
+    "p75": 2.79584658289375
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -514,6 +892,15 @@
   },
   {
    "mes": "2009-07",
+   "estagio": "alta-madura",
+   "rt": 2.2960361143208847,
+   "troca": {
+    "p25": 2.406837727359402,
+    "mediana": 2.633250687649433,
+    "p75": 2.79584658289375
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -524,6 +911,15 @@
   },
   {
    "mes": "2009-08",
+   "estagio": "alta-madura",
+   "rt": 2.2772844204677516,
+   "troca": {
+    "p25": 2.406837727359402,
+    "mediana": 2.631736660519897,
+    "p75": 2.79584658289375
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -534,6 +930,15 @@
   },
   {
    "mes": "2009-09",
+   "estagio": "alta-madura",
+   "rt": 2.2903402169488007,
+   "troca": {
+    "p25": 2.3906030687899347,
+    "mediana": 2.631736660519897,
+    "p75": 2.780610540792771
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -544,6 +949,15 @@
   },
   {
    "mes": "2009-10",
+   "estagio": "alta-madura",
+   "rt": 2.3299281125983056,
+   "troca": {
+    "p25": 2.387005303388026,
+    "mediana": 2.622052036803849,
+    "p75": 2.780610540792771
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -554,6 +968,15 @@
   },
   {
    "mes": "2009-11",
+   "estagio": "alta-madura",
+   "rt": 2.2596039084821524,
+   "troca": {
+    "p25": 2.3860402244705687,
+    "mediana": 2.622052036803849,
+    "p75": 2.780610540792771
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -564,6 +987,15 @@
   },
   {
    "mes": "2009-12",
+   "estagio": "alta-madura",
+   "rt": 2.262006358944486,
+   "troca": {
+    "p25": 2.3860402244705687,
+    "mediana": 2.61877966792299,
+    "p75": 2.780610540792771
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -574,6 +1006,15 @@
   },
   {
    "mes": "2010-01",
+   "estagio": "alta-madura",
+   "rt": 2.266647481918653,
+   "troca": {
+    "p25": 2.3855189046251515,
+    "mediana": 2.61877966792299,
+    "p75": 2.773448583707621
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -584,6 +1025,15 @@
   },
   {
    "mes": "2010-02",
+   "estagio": "alta-madura",
+   "rt": 2.2767208616213246,
+   "troca": {
+    "p25": 2.384057900332615,
+    "mediana": 2.603565808007028,
+    "p75": 2.7646398934216507
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -594,6 +1044,15 @@
   },
   {
    "mes": "2010-03",
+   "estagio": "alta-madura",
+   "rt": 2.189997530204793,
+   "troca": {
+    "p25": 2.3767631724305165,
+    "mediana": 2.596091951251853,
+    "p75": 2.7646398934216507
+   },
+   "prevBoi": null,
+   "prevBezerro": null,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -604,6 +1063,15 @@
   },
   {
    "mes": "2010-04",
+   "estagio": "alta-madura",
+   "rt": 2.1012233751428546,
+   "troca": {
+    "p25": 2.3739923892139614,
+    "mediana": 2.5916879455292925,
+    "p75": 2.7646398934216507
+   },
+   "prevBoi": 0.08752683200686873,
+   "prevBezerro": 0.17314512319269704,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -614,6 +1082,15 @@
   },
   {
    "mes": "2010-05",
+   "estagio": "alta-madura",
+   "rt": 2.014389865103258,
+   "troca": {
+    "p25": 2.343266258038801,
+    "mediana": 2.5916879455292925,
+    "p75": 2.7646398934216507
+   },
+   "prevBoi": 0.02965320190637577,
+   "prevBezerro": 0.3552211570379391,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -624,6 +1101,15 @@
   },
   {
    "mes": "2010-06",
+   "estagio": "alta-madura",
+   "rt": 2.0461830680531197,
+   "troca": {
+    "p25": 2.3418907154522177,
+    "mediana": 2.5804030675550846,
+    "p75": 2.7646398934216507
+   },
+   "prevBoi": 0.07665126692993485,
+   "prevBezerro": -0.048275474964718845,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -634,6 +1120,15 @@
   },
   {
    "mes": "2010-07",
+   "estagio": "alta-madura",
+   "rt": 2.2275041835192404,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.569486046364461,
+    "p75": 2.7646398934216507
+   },
+   "prevBoi": 0.02594526330618918,
+   "prevBezerro": -0.13234517275836355,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -644,6 +1139,15 @@
   },
   {
    "mes": "2010-08",
+   "estagio": "alta-madura",
+   "rt": 2.399789171763726,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7592771446354605
+   },
+   "prevBoi": 0.019698909880212723,
+   "prevBezerro": -0.00284215841413904,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -654,6 +1158,15 @@
   },
   {
    "mes": "2010-09",
+   "estagio": "alta-madura",
+   "rt": 2.4199613241811506,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.5566980708838036,
+    "p75": 2.7592771446354605
+   },
+   "prevBoi": 0.16947250199353103,
+   "prevBezerro": 0.03453018585744583,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -664,6 +1177,15 @@
   },
   {
    "mes": "2010-10",
+   "estagio": "alta-madura",
+   "rt": 2.5183919353437045,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.755443794129597
+   },
+   "prevBoi": 0.1563862236545146,
+   "prevBezerro": -0.21551833724059544,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -674,9 +1196,18 @@
   },
   {
    "mes": "2010-11",
+   "estagio": "alta-madura",
+   "rt": 2.8244759954177803,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.755443794129597
+   },
+   "prevBoi": 0.2766760588997079,
+   "prevBezerro": -0.0900536039643588,
    "selos": {
     "cria": "aguarde",
-    "engorda": "bom",
+    "engorda": "aguarde",
     "iniciante": "aguarde"
    },
    "engorda": 2.3277637695383375,
@@ -684,6 +1215,15 @@
   },
   {
    "mes": "2010-12",
+   "estagio": "alta-madura",
+   "rt": 2.6696065494304255,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.11094773790638213,
+   "prevBezerro": 0.040233910615914636,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -694,6 +1234,15 @@
   },
   {
    "mes": "2011-01",
+   "estagio": "alta-madura",
+   "rt": 2.654766966475879,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.14315356520335432,
+   "prevBezerro": 0.12006643832048947,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -704,6 +1253,15 @@
   },
   {
    "mes": "2011-02",
+   "estagio": "alta-madura",
+   "rt": 2.6250361788430325,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.17635186374512846,
+   "prevBezerro": 0.12195505030511233,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -714,6 +1272,15 @@
   },
   {
    "mes": "2011-03",
+   "estagio": "alta-madura",
+   "rt": 2.5447425957785,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.030169433971568127,
+   "prevBezerro": 0.09362428892484354,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -724,6 +1291,15 @@
   },
   {
    "mes": "2011-04",
+   "estagio": "meio-alta",
+   "rt": 2.4250721607966366,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.040977061186797004,
+   "prevBezerro": 0.05999939360074347,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -734,6 +1310,15 @@
   },
   {
    "mes": "2011-05",
+   "estagio": "meio-alta",
+   "rt": 2.346800667169523,
+   "troca": {
+    "p25": 2.3418907154522177,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.03834388674404288,
+   "prevBezerro": 0.010527812652068258,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -744,6 +1329,15 @@
   },
   {
    "mes": "2011-06",
+   "estagio": "meio-alta",
+   "rt": 2.3358354155768133,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.01640967714354713,
+   "prevBezerro": -0.04377720196322743,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -754,6 +1348,15 @@
   },
   {
    "mes": "2011-07",
+   "estagio": "meio-alta",
+   "rt": 2.389476316558079,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.028474677486518774,
+   "prevBezerro": -0.05323433194867244,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -764,6 +1367,15 @@
   },
   {
    "mes": "2011-08",
+   "estagio": "meio-alta",
+   "rt": 2.478888980312326,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.03233160136883617,
+   "prevBezerro": -0.04072194876025759,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -774,6 +1386,15 @@
   },
   {
    "mes": "2011-09",
+   "estagio": "meio-alta",
+   "rt": 2.495628317943923,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.033124175652911814,
+   "prevBezerro": -0.051374839333851785,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -784,6 +1405,15 @@
   },
   {
    "mes": "2011-10",
+   "estagio": "meio-alta",
+   "rt": 2.465342823999396,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.09945489212988823,
+   "prevBezerro": 0.02296806952958086,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -794,6 +1424,15 @@
   },
   {
    "mes": "2011-11",
+   "estagio": "meio-alta",
+   "rt": 2.569734350135033,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.10723615056315183,
+   "prevBezerro": 0.05099844075169746,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -804,6 +1443,15 @@
   },
   {
    "mes": "2011-12",
+   "estagio": "meio-alta",
+   "rt": 2.515797604899302,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.10535183493329536,
+   "prevBezerro": 0.08045209226008554,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -814,6 +1462,15 @@
   },
   {
    "mes": "2012-01",
+   "estagio": "meio-alta",
+   "rt": 2.4842739853400424,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.0755971308614708,
+   "prevBezerro": 0.11926925524322307,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -824,6 +1481,15 @@
   },
   {
    "mes": "2012-02",
+   "estagio": "meio-alta",
+   "rt": 2.453276260001936,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": -0.039207522563817654,
+   "prevBezerro": 0.14736295369559516,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -834,6 +1500,15 @@
   },
   {
    "mes": "2012-03",
+   "estagio": "inicio-queda",
+   "rt": 2.4101704578140994,
+   "troca": {
+    "p25": 2.343266258038801,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.030841179577424382,
+   "prevBezerro": 0.18283148777201053,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -844,6 +1519,15 @@
   },
   {
    "mes": "2012-04",
+   "estagio": "inicio-queda",
+   "rt": 2.368721272444695,
+   "troca": {
+    "p25": 2.346800667169523,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.0809647013205741,
+   "prevBezerro": 0.12179908287056551,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -854,216 +1538,414 @@
   },
   {
    "mes": "2012-05",
+   "estagio": "meio-queda",
+   "rt": 2.3728428184020305,
+   "troca": {
+    "p25": 2.368721272444695,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.143202819025964,
+   "prevBezerro": 0.1256200897119455,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.765580829770603,
    "cria": 0.4597476937506675
   },
   {
    "mes": "2012-06",
+   "estagio": "meio-queda",
+   "rt": 2.350827250676816,
+   "troca": {
+    "p25": 2.368721272444695,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.14930225962110466,
+   "prevBezerro": 0.03989612147819144,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.8606191551007356,
    "cria": 0.48107246314213037
   },
   {
    "mes": "2012-07",
+   "estagio": "meio-queda",
+   "rt": 2.3495641530676483,
+   "troca": {
+    "p25": 2.368721272444695,
+    "mediana": 2.5596834815492344,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.17767944078092213,
+   "prevBezerro": 0.07006973127373661,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.9460713080174283,
    "cria": 0.5681015039639696
   },
   {
    "mes": "2012-08",
+   "estagio": "meio-queda",
+   "rt": 2.3633283681244945,
+   "troca": {
+    "p25": 2.3633283681244945,
+    "mediana": 2.555556837693629,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.1678185530427263,
+   "prevBezerro": 0.07760487029752938,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.083355509583735,
    "cria": 0.6724284596636578
   },
   {
    "mes": "2012-09",
+   "estagio": "meio-queda",
+   "rt": 2.4805875942924924,
+   "troca": {
+    "p25": 2.3633283681244945,
+    "mediana": 2.5447425957785,
+    "p75": 2.7548024887493585
+   },
+   "prevBoi": 0.10234682486570379,
+   "prevBezerro": 0.06065070216087021,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.2171013906539114,
    "cria": 0.7352022269815182
   },
   {
    "mes": "2012-10",
+   "estagio": "meio-queda",
+   "rt": 2.454959340114839,
+   "troca": {
+    "p25": 2.3633283681244945,
+    "mediana": 2.543842243063528,
+    "p75": 2.751896140737968
+   },
+   "prevBoi": 0.069088087870814,
+   "prevBezerro": 0.06376165961708224,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.191702468739981,
    "cria": 0.7220424927741043
   },
   {
    "mes": "2012-11",
+   "estagio": "meio-queda",
+   "rt": 2.486145442749465,
+   "troca": {
+    "p25": 2.3633283681244945,
+    "mediana": 2.5254469113811315,
+    "p75": 2.7296235389363956
+   },
+   "prevBoi": 0.022428269135872814,
+   "prevBezerro": 0.05401032284709206,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.1075725268016123,
    "cria": 0.7673577487717615
   },
   {
    "mes": "2012-12",
+   "estagio": "meio-queda",
+   "rt": 2.4771129905422433,
+   "troca": {
+    "p25": 2.3633283681244945,
+    "mediana": 2.520039773992574,
+    "p75": 2.7237563476735898
+   },
+   "prevBoi": -0.02554045974552477,
+   "prevBezerro": 0.07152646084386327,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.1304070098388306,
    "cria": 0.7591053161393899
   },
   {
    "mes": "2013-01",
+   "estagio": "meio-queda",
+   "rt": 2.4354968784896696,
+   "troca": {
+    "p25": 2.3633283681244945,
+    "mediana": 2.5183919353437045,
+    "p75": 2.722913663627683
+   },
+   "prevBoi": -0.0733952511556848,
+   "prevBezerro": 0.03537235604150757,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.980241889464297,
    "cria": 0.5850699709674867
   },
   {
    "mes": "2013-02",
+   "estagio": "meio-queda",
+   "rt": 2.456288910787781,
+   "troca": {
+    "p25": 2.3633283681244945,
+    "mediana": 2.515797604899302,
+    "p75": 2.722913663627683
+   },
+   "prevBoi": -0.09598721610946293,
+   "prevBezerro": 0.01740331645438231,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.0862866748925533,
    "cria": 0.47830582565958557
   },
   {
    "mes": "2013-03",
+   "estagio": "meio-queda",
+   "rt": 2.3453561444170976,
+   "troca": {
+    "p25": 2.350827250676816,
+    "mediana": 2.512340736085629,
+    "p75": 2.722913663627683
+   },
+   "prevBoi": -0.09147592906898583,
+   "prevBezerro": -0.0422360543203667,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.0722411325025343,
    "cria": 0.4321048618853869
   },
   {
    "mes": "2013-04",
+   "estagio": "meio-queda",
+   "rt": 2.3226402857218322,
+   "troca": {
+    "p25": 2.3495641530676483,
+    "mediana": 2.495628317943923,
+    "p75": 2.722913663627683
+   },
+   "prevBoi": -0.06787155957429292,
+   "prevBezerro": -0.0717811175867511,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.1149971680200506,
    "cria": 0.38062037954782957
   },
   {
    "mes": "2013-05",
+   "estagio": "meio-queda",
+   "rt": 2.246745055282612,
+   "troca": {
+    "p25": 2.346800667169523,
+    "mediana": 2.495628317943923,
+    "p75": 2.722913663627683
+   },
+   "prevBoi": -0.013780718848782736,
+   "prevBezerro": -0.07814722263152507,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.283806775238684,
    "cria": 0.42480963199916677
   },
   {
    "mes": "2013-06",
+   "estagio": "meio-queda",
+   "rt": 2.273796020440061,
+   "troca": {
+    "p25": 2.3453561444170976,
+    "mediana": 2.495628317943923,
+    "p75": 2.722913663627683
+   },
+   "prevBoi": 0.020016971937205863,
+   "prevBezerro": -0.061714488888405694,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.286061332942055,
    "cria": 0.42608794817817497
   },
   {
    "mes": "2013-07",
+   "estagio": "meio-queda",
+   "rt": 2.292259651740822,
+   "troca": {
+    "p25": 2.3372493300575687,
+    "mediana": 2.486145442749465,
+    "p75": 2.722913663627683
+   },
+   "prevBoi": 0.04512923362002952,
+   "prevBezerro": -0.06259620792913367,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.2018154466341464,
    "cria": 0.36278370304937524
   },
   {
    "mes": "2013-08",
+   "estagio": "meio-queda",
+   "rt": 2.2789781994545035,
+   "troca": {
+    "p25": 2.3358354155768133,
+    "mediana": 2.4842739853400424,
+    "p75": 2.7043661969504504
+   },
+   "prevBoi": 0.07706791511541766,
+   "prevBezerro": -0.01865207397193036,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.222379865453393,
    "cria": 0.40060832590195017
   },
   {
    "mes": "2013-09",
+   "estagio": "meio-queda",
+   "rt": 2.382307858675494,
+   "troca": {
+    "p25": 2.3358354155768133,
+    "mediana": 2.4805875942924924,
+    "p75": 2.7011064276104877
+   },
+   "prevBoi": 0.055010934324516425,
+   "prevBezerro": -0.016616096141273573,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.237906224004903,
    "cria": 0.436368030658717
   },
   {
    "mes": "2013-10",
+   "estagio": "meio-queda",
+   "rt": 2.395478299662226,
+   "troca": {
+    "p25": 2.3358354155768133,
+    "mediana": 2.478888980312326,
+    "p75": 2.693199623149735
+   },
+   "prevBoi": 0.05018318239267083,
+   "prevBezerro": 0.02188071518842083,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 3.285646230323114,
    "cria": 0.4259964524432531
   },
   {
    "mes": "2013-11",
+   "estagio": "fim-queda",
+   "rt": 2.36854967754449,
+   "troca": {
+    "p25": 2.3358354155768133,
+    "mediana": 2.4771129905422433,
+    "p75": 2.683627500761654
+   },
+   "prevBoi": 0.03536792521998722,
+   "prevBezerro": 0.05366223005444826,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.226251030402949,
    "cria": 0.3533446637053501
   },
   {
    "mes": "2013-12",
+   "estagio": "fim-queda",
+   "rt": 2.387291240548055,
+   "troca": {
+    "p25": 2.3358354155768133,
+    "mediana": 2.465342823999396,
+    "p75": 2.6749711785905013
+   },
+   "prevBoi": 0.01402010903640516,
+   "prevBezerro": 0.07084631810547459,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.09324328122423,
    "cria": 0.2924998345662331
   },
   {
    "mes": "2014-01",
+   "estagio": "fim-queda",
+   "rt": 2.364577994146334,
+   "troca": {
+    "p25": 2.3358354155768133,
+    "mediana": 2.460502130178437,
+    "p75": 2.6725102546408186
+   },
+   "prevBoi": -0.0011139219885130114,
+   "prevBezerro": 0.07251624493866116,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.946670544006059,
    "cria": 0.23159637976186387
   },
   {
    "mes": "2014-02",
+   "estagio": "inicio-alta",
+   "rt": 2.383891113051994,
+   "troca": {
+    "p25": 2.3358354155768133,
+    "mediana": 2.459768567200099,
+    "p75": 2.671210595616141
+   },
+   "prevBoi": -0.018988516043346948,
+   "prevBezerro": 0.05711554817280806,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -1074,6 +1956,15 @@
   },
   {
    "mes": "2014-03",
+   "estagio": "inicio-alta",
+   "rt": 2.3564810797036526,
+   "troca": {
+    "p25": 2.3358354155768133,
+    "mediana": 2.456288910787781,
+    "p75": 2.6696065494304255
+   },
+   "prevBoi": -0.016347048815582244,
+   "prevBezerro": 0.005523243404802258,
    "selos": {
     "cria": "bom",
     "engorda": "bom",
@@ -1084,76 +1975,148 @@
   },
   {
    "mes": "2014-04",
+   "estagio": "inicio-alta",
+   "rt": 2.213659447271268,
+   "troca": {
+    "p25": 2.3299281125983056,
+    "mediana": 2.454959340114839,
+    "p75": 2.654766966475879
+   },
+   "prevBoi": 0.03793039411909338,
+   "prevBezerro": -0.008291800073169764,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.6241332662886783,
    "cria": 0.05445083193719236
   },
   {
    "mes": "2014-05",
+   "estagio": "inicio-alta",
+   "rt": 2.097945681769434,
+   "troca": {
+    "p25": 2.3239181189026925,
+    "mediana": 2.453276260001936,
+    "p75": 2.652095721537346
+   },
+   "prevBoi": 0.10880661971885619,
+   "prevBezerro": -0.0028963924419150855,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.556569596855246,
    "cria": -0.0046865104332053376
   },
   {
    "mes": "2014-06",
+   "estagio": "inicio-alta",
+   "rt": 2.110416285320668,
+   "troca": {
+    "p25": 2.3226402857218322,
+    "mediana": 2.4354968784896696,
+    "p75": 2.6454252050170397
+   },
+   "prevBoi": 0.12953412353121196,
+   "prevBezerro": 0.023263971758131108,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.5471025732425168,
    "cria": -0.0029219231507849885
   },
   {
    "mes": "2014-07",
+   "estagio": "inicio-alta",
+   "rt": 2.0580788170569124,
+   "troca": {
+    "p25": 2.3133280287783258,
+    "mediana": 2.42666057851644,
+    "p75": 2.6365543659563047
+   },
+   "prevBoi": 0.14979725778749997,
+   "prevBezerro": 0.04635924390281776,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.578500054354006,
    "cria": -0.027184168559201916
   },
   {
    "mes": "2014-08",
+   "estagio": "inicio-alta",
+   "rt": 2.1024709020259147,
+   "troca": {
+    "p25": 2.2960361143208847,
+    "mediana": 2.4250721607966366,
+    "p75": 2.6358121116401314
+   },
+   "prevBoi": 0.12037788707708996,
+   "prevBezerro": 0.05362367355334374,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.6271442690868723,
    "cria": -0.0658781523042774
   },
   {
    "mes": "2014-09",
+   "estagio": "inicio-alta",
+   "rt": 2.1550433728157508,
+   "troca": {
+    "p25": 2.292259651740822,
+    "mediana": 2.4199613241811506,
+    "p75": 2.633250687649433
+   },
+   "prevBoi": 0.09019523183589429,
+   "prevBezerro": 0.04428100873012042,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.611402003254813,
    "cria": -0.1212029358980602
   },
   {
    "mes": "2014-10",
+   "estagio": "inicio-alta",
+   "rt": 2.2085185398949565,
+   "troca": {
+    "p25": 2.2903402169488007,
+    "mediana": 2.419842340443471,
+    "p75": 2.631736660519897
+   },
+   "prevBoi": 0.059648278292637524,
+   "prevBezerro": 0.04963448992960884,
    "selos": {
     "cria": "bom",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "bom",
+    "iniciante": "bom"
    },
    "engorda": 2.593616807010352,
    "cria": -0.12151885836742304
   },
   {
    "mes": "2014-11",
+   "estagio": "meio-alta",
+   "rt": 2.178711865094905,
+   "troca": {
+    "p25": 2.2797628795074174,
+    "mediana": 2.4101704578140994,
+    "p75": 2.6250361788430325
+   },
+   "prevBoi": 0.04817119599503128,
+   "prevBezerro": 0.06240843251774608,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1164,6 +2127,15 @@
   },
   {
    "mes": "2014-12",
+   "estagio": "meio-alta",
+   "rt": 2.1431881028443893,
+   "troca": {
+    "p25": 2.2789781994545035,
+    "mediana": 2.399789171763726,
+    "p75": 2.622052036803849
+   },
+   "prevBoi": 0.037970917330226506,
+   "prevBezerro": 0.10082936890230054,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1174,6 +2146,15 @@
   },
   {
    "mes": "2015-01",
+   "estagio": "meio-alta",
+   "rt": 2.077309762253235,
+   "troca": {
+    "p25": 2.2772844204677516,
+    "mediana": 2.395478299662226,
+    "p75": 2.603565808007028
+   },
+   "prevBoi": 0.030558512448681352,
+   "prevBezerro": 0.12571430345111567,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1184,6 +2165,15 @@
   },
   {
    "mes": "2015-02",
+   "estagio": "meio-alta",
+   "rt": 1.9908805614968559,
+   "troca": {
+    "p25": 2.2767208616213246,
+    "mediana": 2.3906030687899347,
+    "p75": 2.569734350135033
+   },
+   "prevBoi": 0.01682611349006624,
+   "prevBezerro": 0.16038779083153099,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1194,6 +2184,15 @@
   },
   {
    "mes": "2015-03",
+   "estagio": "meio-alta",
+   "rt": 1.915800684974821,
+   "troca": {
+    "p25": 2.273796020440061,
+    "mediana": 2.389476316558079,
+    "p75": 2.5596834815492344
+   },
+   "prevBoi": 0.005227890966953419,
+   "prevBezerro": 0.11561746628133074,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1204,6 +2203,15 @@
   },
   {
    "mes": "2015-04",
+   "estagio": "meio-alta",
+   "rt": 1.9483410710541156,
+   "troca": {
+    "p25": 2.266647481918653,
+    "mediana": 2.387291240548055,
+    "p75": 2.555556837693629
+   },
+   "prevBoi": -0.009659587158104777,
+   "prevBezerro": 0.06600883460402351,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1214,6 +2222,15 @@
   },
   {
    "mes": "2015-05",
+   "estagio": "meio-alta",
+   "rt": 1.8644454999411542,
+   "troca": {
+    "p25": 2.264618323354231,
+    "mediana": 2.3855189046251515,
+    "p75": 2.5447425957785
+   },
+   "prevBoi": 0.04597054956921043,
+   "prevBezerro": 0.052142547674919104,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1224,6 +2241,15 @@
   },
   {
    "mes": "2015-06",
+   "estagio": "meio-alta",
+   "rt": 1.8680373269420267,
+   "troca": {
+    "p25": 2.262006358944486,
+    "mediana": 2.384057900332615,
+    "p75": 2.543842243063528
+   },
+   "prevBoi": 0.09302378232717423,
+   "prevBezerro": 0.07312119941693007,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1234,6 +2260,15 @@
   },
   {
    "mes": "2015-07",
+   "estagio": "meio-alta",
+   "rt": 1.9532483309290116,
+   "troca": {
+    "p25": 2.2596039084821524,
+    "mediana": 2.383891113051994,
+    "p75": 2.5254469113811315
+   },
+   "prevBoi": 0.13672525223280863,
+   "prevBezerro": 0.08790633171583218,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1244,6 +2279,15 @@
   },
   {
    "mes": "2015-08",
+   "estagio": "meio-alta",
+   "rt": 2.0812914391290622,
+   "troca": {
+    "p25": 2.257266098954812,
+    "mediana": 2.382307858675494,
+    "p75": 2.520039773992574
+   },
+   "prevBoi": 0.13645246685552403,
+   "prevBezerro": 0.10767591713396585,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1254,6 +2298,15 @@
   },
   {
    "mes": "2015-09",
+   "estagio": "meio-alta",
+   "rt": 2.062130202230159,
+   "troca": {
+    "p25": 2.246745055282612,
+    "mediana": 2.3767631724305165,
+    "p75": 2.5183919353437045
+   },
+   "prevBoi": 0.14137037082291104,
+   "prevBezerro": 0.08661528991330836,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1264,6 +2317,15 @@
   },
   {
    "mes": "2015-10",
+   "estagio": "meio-alta",
+   "rt": 2.0981300481081293,
+   "troca": {
+    "p25": 2.244167757114344,
+    "mediana": 2.3728428184020305,
+    "p75": 2.515797604899302
+   },
+   "prevBoi": 0.10823289123014201,
+   "prevBezerro": 0.06514486342289638,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1274,6 +2336,15 @@
   },
   {
    "mes": "2015-11",
+   "estagio": "meio-alta",
+   "rt": 2.0035411720267646,
+   "troca": {
+    "p25": 2.242793369763758,
+    "mediana": 2.368721272444695,
+    "p75": 2.495628317943923
+   },
+   "prevBoi": 0.09634949666134052,
+   "prevBezerro": 0.029055956861483878,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1284,6 +2355,15 @@
   },
   {
    "mes": "2015-12",
+   "estagio": "meio-alta",
+   "rt": 1.987650984308871,
+   "troca": {
+    "p25": 2.2384861543054124,
+    "mediana": 2.36854967754449,
+    "p75": 2.486145442749465
+   },
+   "prevBoi": 0.07258526020321865,
+   "prevBezerro": 0.05374777841041567,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1294,6 +2374,15 @@
   },
   {
    "mes": "2016-01",
+   "estagio": "meio-alta",
+   "rt": 2.0353549274016003,
+   "troca": {
+    "p25": 2.2275041835192404,
+    "mediana": 2.364577994146334,
+    "p75": 2.4842739853400424
+   },
+   "prevBoi": 0.030489152623238258,
+   "prevBezerro": 0.0425110651337921,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1304,6 +2393,15 @@
   },
   {
    "mes": "2016-02",
+   "estagio": "meio-alta",
+   "rt": 2.0412355311715906,
+   "troca": {
+    "p25": 2.22232254620048,
+    "mediana": 2.3633283681244945,
+    "p75": 2.4805875942924924
+   },
+   "prevBoi": -0.0026197643014622685,
+   "prevBezerro": 0.021912000019719713,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1314,6 +2412,15 @@
   },
   {
    "mes": "2016-03",
+   "estagio": "meio-alta",
+   "rt": 2.0145159878956167,
+   "troca": {
+    "p25": 2.213659447271268,
+    "mediana": 2.3564810797036526,
+    "p75": 2.478888980312326
+   },
+   "prevBoi": -0.015172999557120592,
+   "prevBezerro": -0.028667433240247786,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1324,6 +2431,15 @@
   },
   {
    "mes": "2016-04",
+   "estagio": "meio-alta",
+   "rt": 2.0286655321519627,
+   "troca": {
+    "p25": 2.2105510288634167,
+    "mediana": 2.350827250676816,
+    "p75": 2.4771129905422433
+   },
+   "prevBoi": -0.024613632248985384,
+   "prevBezerro": -0.06085908926216943,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1334,6 +2450,15 @@
   },
   {
    "mes": "2016-05",
+   "estagio": "meio-alta",
+   "rt": 2.0633633624077565,
+   "troca": {
+    "p25": 2.2085185398949565,
+    "mediana": 2.3495641530676483,
+    "p75": 2.4771129905422433
+   },
+   "prevBoi": -0.002514408344069685,
+   "prevBezerro": -0.07576061881384744,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1344,6 +2469,15 @@
   },
   {
    "mes": "2016-06",
+   "estagio": "meio-alta",
+   "rt": 2.106341695607167,
+   "troca": {
+    "p25": 2.2019377651342507,
+    "mediana": 2.346800667169523,
+    "p75": 2.4771129905422433
+   },
+   "prevBoi": 0.01985019038109903,
+   "prevBezerro": -0.07166838393353936,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1354,6 +2488,15 @@
   },
   {
    "mes": "2016-07",
+   "estagio": "meio-alta",
+   "rt": 2.1659692174660483,
+   "troca": {
+    "p25": 2.2010307209312328,
+    "mediana": 2.3453561444170976,
+    "p75": 2.465342823999396
+   },
+   "prevBoi": 0.043798673381699293,
+   "prevBezerro": -0.037180955510748404,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1364,6 +2507,15 @@
   },
   {
    "mes": "2016-08",
+   "estagio": "meio-alta",
+   "rt": 2.126510263449681,
+   "troca": {
+    "p25": 2.189997530204793,
+    "mediana": 2.3372493300575687,
+    "p75": 2.460502130178437
+   },
+   "prevBoi": 0.08782139187066162,
+   "prevBezerro": 0.010428819436701708,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1374,6 +2526,15 @@
   },
   {
    "mes": "2016-09",
+   "estagio": "meio-alta",
+   "rt": 2.129209145805708,
+   "troca": {
+    "p25": 2.178711865094905,
+    "mediana": 2.3358354155768133,
+    "p75": 2.459768567200099
+   },
+   "prevBoi": 0.09290946843223025,
+   "prevBezerro": 0.0190441415733138,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1384,6 +2545,15 @@
   },
   {
    "mes": "2016-10",
+   "estagio": "meio-alta",
+   "rt": 2.1598244480301956,
+   "troca": {
+    "p25": 2.1659692174660483,
+    "mediana": 2.3299281125983056,
+    "p75": 2.456288910787781
+   },
+   "prevBoi": 0.07125957144241579,
+   "prevBezerro": 0.020863606530611367,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1394,6 +2564,15 @@
   },
   {
    "mes": "2016-11",
+   "estagio": "meio-alta",
+   "rt": 2.1821746351472626,
+   "troca": {
+    "p25": 2.1659692174660483,
+    "mediana": 2.3239181189026925,
+    "p75": 2.454959340114839
+   },
+   "prevBoi": 0.050327805322647245,
+   "prevBezerro": 0.015176473672309232,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1404,6 +2583,15 @@
   },
   {
    "mes": "2016-12",
+   "estagio": "meio-alta",
+   "rt": 2.154315398943479,
+   "troca": {
+    "p25": 2.1598244480301956,
+    "mediana": 2.3226402857218322,
+    "p75": 2.453276260001936
+   },
+   "prevBoi": 0.03966600177417168,
+   "prevBezerro": 0.029940755602694935,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1414,6 +2602,15 @@
   },
   {
    "mes": "2017-01",
+   "estagio": "meio-alta",
+   "rt": 2.1606065241275645,
+   "troca": {
+    "p25": 2.1598244480301956,
+    "mediana": 2.3133280287783258,
+    "p75": 2.4354968784896696
+   },
+   "prevBoi": 0.005657208561439031,
+   "prevBezerro": 0.0308249148212838,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1424,6 +2621,15 @@
   },
   {
    "mes": "2017-02",
+   "estagio": "meio-alta",
+   "rt": 2.1752172191777968,
+   "troca": {
+    "p25": 2.1598244480301956,
+    "mediana": 2.2960361143208847,
+    "p75": 2.4250721607966366
+   },
+   "prevBoi": -0.028592535981668,
+   "prevBezerro": 0.003376524654994162,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1434,6 +2640,15 @@
   },
   {
    "mes": "2017-03",
+   "estagio": "meio-alta",
+   "rt": 2.2546541653811265,
+   "troca": {
+    "p25": 2.1598244480301956,
+    "mediana": 2.292259651740822,
+    "p75": 2.4199613241811506
+   },
+   "prevBoi": -0.06602583055638578,
+   "prevBezerro": -0.030051422710810627,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1444,6 +2659,15 @@
   },
   {
    "mes": "2017-04",
+   "estagio": "meio-alta",
+   "rt": 2.1556671818900752,
+   "troca": {
+    "p25": 2.1556671818900752,
+    "mediana": 2.2903402169488007,
+    "p75": 2.419842340443471
+   },
+   "prevBoi": -0.05512738182953636,
+   "prevBezerro": -0.06010596195942075,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1454,6 +2678,15 @@
   },
   {
    "mes": "2017-05",
+   "estagio": "meio-alta",
+   "rt": 2.233883144245144,
+   "troca": {
+    "p25": 2.1556671818900752,
+    "mediana": 2.2797628795074174,
+    "p75": 2.419842340443471
+   },
+   "prevBoi": -0.060017435709890044,
+   "prevBezerro": -0.08074107313972823,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1464,76 +2697,148 @@
   },
   {
    "mes": "2017-06",
+   "estagio": "fim-queda",
+   "rt": 2.1183397981918723,
+   "troca": {
+    "p25": 2.1550433728157508,
+    "mediana": 2.2789781994545035,
+    "p75": 2.4101704578140994
+   },
+   "prevBoi": -0.02400247320890092,
+   "prevBezerro": -0.10024145479428159,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.473171018558246,
    "cria": 0.19852233581367296
   },
   {
    "mes": "2017-07",
+   "estagio": "fim-queda",
+   "rt": 2.0006606274940917,
+   "troca": {
+    "p25": 2.154315398943479,
+    "mediana": 2.2772844204677516,
+    "p75": 2.399789171763726
+   },
+   "prevBoi": 0.02614420126069672,
+   "prevBezerro": -0.08467731795717914,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.446297929550767,
    "cria": 0.20279026919056253
   },
   {
    "mes": "2017-08",
+   "estagio": "fim-queda",
+   "rt": 2.207819432279926,
+   "troca": {
+    "p25": 2.154315398943479,
+    "mediana": 2.2767208616213246,
+    "p75": 2.395478299662226
+   },
+   "prevBoi": 0.006232792935999321,
+   "prevBezerro": -0.08369894458679439,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.4830089594670266,
    "cria": 0.3392139412667339
   },
   {
    "mes": "2017-09",
+   "estagio": "fim-queda",
+   "rt": 2.2047466673951983,
+   "troca": {
+    "p25": 2.154315398943479,
+    "mediana": 2.273796020440061,
+    "p75": 2.395478299662226
+   },
+   "prevBoi": 0.02443498754767992,
+   "prevBezerro": -0.0702504310640697,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.3498466444159005,
    "cria": 0.27596382300468636
   },
   {
    "mes": "2017-10",
+   "estagio": "fim-queda",
+   "rt": 2.142866634426012,
+   "troca": {
+    "p25": 2.1431881028443893,
+    "mediana": 2.266647481918653,
+    "p75": 2.389476316558079
+   },
+   "prevBoi": 0.05152945768468342,
+   "prevBezerro": -0.018219506272918018,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.394158508854972,
    "cria": 0.30661917833789243
   },
   {
    "mes": "2017-11",
+   "estagio": "fim-queda",
+   "rt": 2.128350075850774,
+   "troca": {
+    "p25": 2.142866634426012,
+    "mediana": 2.264618323354231,
+    "p75": 2.387291240548055
+   },
+   "prevBoi": 0.051190302341317606,
+   "prevBezerro": 0.019013710942626938,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.305678276077606,
    "cria": 0.2791969415350324
   },
   {
    "mes": "2017-12",
+   "estagio": "fim-queda",
+   "rt": 2.221382895079336,
+   "troca": {
+    "p25": 2.142866634426012,
+    "mediana": 2.262006358944486,
+    "p75": 2.383891113051994
+   },
+   "prevBoi": 0.009661644240319234,
+   "prevBezerro": 0.04978947631234343,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.29363509753041,
    "cria": 0.35417010317390907
   },
   {
    "mes": "2018-01",
+   "estagio": "fim-queda",
+   "rt": 2.3002658008812453,
+   "troca": {
+    "p25": 2.142866634426012,
+    "mediana": 2.262006358944486,
+    "p75": 2.382307858675494
+   },
+   "prevBoi": -0.021947009087319502,
+   "prevBezerro": 0.059175432899451375,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",
@@ -1544,76 +2849,148 @@
   },
   {
    "mes": "2018-02",
+   "estagio": "fim-queda",
+   "rt": 2.207392722599403,
+   "troca": {
+    "p25": 2.142866634426012,
+    "mediana": 2.2596039084821524,
+    "p75": 2.3767631724305165
+   },
+   "prevBoi": -0.01158069509673365,
+   "prevBezerro": 0.0662488340853764,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.3490664172519597,
    "cria": 0.38973631795049535
   },
   {
    "mes": "2018-03",
+   "estagio": "fim-queda",
+   "rt": 2.1878726128296133,
+   "troca": {
+    "p25": 2.142866634426012,
+    "mediana": 2.257266098954812,
+    "p75": 2.3728428184020305
+   },
+   "prevBoi": -0.012408642550289839,
+   "prevBezerro": 0.06519084260345065,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.3919570190414023,
    "cria": 0.39016512948677784
   },
   {
    "mes": "2018-04",
+   "estagio": "fim-queda",
+   "rt": 2.1623620659685803,
+   "troca": {
+    "p25": 2.142866634426012,
+    "mediana": 2.2546541653811265,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.011224720912057506,
+   "prevBezerro": 0.045635212504033795,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.4659184400499212,
    "cria": 0.4414440160322419
   },
   {
    "mes": "2018-05",
+   "estagio": "fim-queda",
+   "rt": 2.1609901732510415,
+   "troca": {
+    "p25": 2.142866634426012,
+    "mediana": 2.246745055282612,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.03627926553035188,
+   "prevBezerro": 0.06443416970392368,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.091916252644147,
    "cria": 0.5446500556510416
   },
   {
    "mes": "2018-06",
+   "estagio": "fim-queda",
+   "rt": 2.1216484895436807,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.244167757114344,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.08928626819902119,
+   "prevBezerro": 0.06478005721807412,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.246479808701386,
    "cria": 0.5741071234938384
   },
   {
    "mes": "2018-07",
+   "estagio": "fim-queda",
+   "rt": 2.1932454397688277,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.244167757114344,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.09975623000357214,
+   "prevBezerro": 0.05175899042011234,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.987508231124102,
    "cria": 0.6236754815428154
   },
   {
    "mes": "2018-08",
+   "estagio": "fim-queda",
+   "rt": 2.234350389959084,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.244167757114344,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.08867639388282944,
+   "prevBezerro": 0.05771160997865121,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.040504982665586,
    "cria": 0.6877742422906772
   },
   {
    "mes": "2018-09",
+   "estagio": "fim-queda",
+   "rt": 2.3455744146980955,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.246745055282612,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.05818601676819557,
+   "prevBezerro": 0.05025199366535382,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",
@@ -1624,6 +3001,15 @@
   },
   {
    "mes": "2018-10",
+   "estagio": "fim-queda",
+   "rt": 2.250860868367487,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.246745055282612,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.08270498632583445,
+   "prevBezerro": 0.06555366337885404,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",
@@ -1634,56 +3020,110 @@
   },
   {
    "mes": "2018-11",
+   "estagio": "fim-queda",
+   "rt": 2.1400778842726367,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.244167757114344,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.0902692007389092,
+   "prevBezerro": 0.07904694830667336,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.944157196003605,
    "cria": 0.6821204514275241
   },
   {
    "mes": "2018-12",
+   "estagio": "fim-queda",
+   "rt": 2.161420108251766,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.244167757114344,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.05095393526015535,
+   "prevBezerro": 0.07869414409183384,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.0199284687398262,
    "cria": 0.5914115626105978
   },
   {
    "mes": "2019-01",
+   "estagio": "fim-queda",
+   "rt": 2.2083828483426697,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.234350389959084,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": 0.014258092388480081,
+   "prevBezerro": 0.08670851664406198,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.2112015485825145,
    "cria": 0.560979403817019
   },
   {
    "mes": "2019-02",
+   "estagio": "fim-queda",
+   "rt": 2.2058084712882957,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.233883144245144,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": 0.006635993260674544,
+   "prevBezerro": 0.07957912383144161,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.3513970935815465,
    "cria": 0.5348035201099042
   },
   {
    "mes": "2019-03",
+   "estagio": "fim-queda",
+   "rt": 2.2234769650058572,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.233883144245144,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": -0.0032455083464875134,
+   "prevBezerro": 0.0657462622564784,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.61337738565716,
    "cria": 0.5417467266313325
   },
   {
    "mes": "2019-04",
+   "estagio": "fim-queda",
+   "rt": 2.26175160435029,
+   "troca": {
+    "p25": 2.129209145805708,
+    "mediana": 2.234350389959084,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": -0.006798066495061317,
+   "prevBezerro": 0.04366934279502699,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",
@@ -1694,69 +3134,132 @@
   },
   {
    "mes": "2019-05",
+   "estagio": "fim-queda",
+   "rt": 2.125280601014082,
+   "troca": {
+    "p25": 2.128350075850774,
+    "mediana": 2.233883144245144,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": 0.04290672844630583,
+   "prevBezerro": 0.03194715233142165,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.9699162685519926,
    "cria": 0.4466551687940792
   },
   {
    "mes": "2019-06",
+   "estagio": "fim-queda",
+   "rt": 2.0984118229052013,
+   "troca": {
+    "p25": 2.126510263449681,
+    "mediana": 2.2275041835192404,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": 0.07356204715804049,
+   "prevBezerro": 0.03158900496749206,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 3.7241083433513347,
    "cria": 0.5379850450618935
   },
   {
    "mes": "2019-07",
+   "estagio": "fim-queda",
+   "rt": 2.1625423154020385,
+   "troca": {
+    "p25": 2.126510263449681,
+    "mediana": 2.2234769650058572,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": 0.06775356246889741,
+   "prevBezerro": 0.03704138444105731,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 4.081790595688283,
    "cria": 0.4958471777251976
   },
   {
    "mes": "2019-08",
+   "estagio": "fim-queda",
+   "rt": 2.156227783608111,
+   "troca": {
+    "p25": 2.126510263449681,
+    "mediana": 2.221382895079336,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": 0.07771768510358656,
+   "prevBezerro": 0.051092379666998644,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 4.213504463026281,
    "cria": 0.4232462680764013
   },
   {
    "mes": "2019-09",
+   "estagio": "fim-queda",
+   "rt": 2.1300444440014834,
+   "troca": {
+    "p25": 2.126510263449681,
+    "mediana": 2.213659447271268,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": 0.08501954827262459,
+   "prevBezerro": 0.06494811035021586,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 4.162138071286521,
    "cria": 0.3211965473490679
   },
   {
    "mes": "2019-10",
+   "estagio": "fim-queda",
+   "rt": 2.1641298807087286,
+   "troca": {
+    "p25": 2.126510263449681,
+    "mediana": 2.2085185398949565,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": 0.07417137116595862,
+   "prevBezerro": 0.06936176273883454,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 4.189694125602923,
    "cria": 0.27230750013370986
   },
   {
    "mes": "2019-11",
+   "estagio": "meio-alta",
+   "rt": 2.4535328076555207,
+   "troca": {
+    "p25": 2.126510263449681,
+    "mediana": 2.2085185398949565,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": -0.022342862798630625,
+   "prevBezerro": 0.04294202311110418,
    "selos": {
     "cria": "aguarde",
-    "engorda": "melhor",
+    "engorda": "aguarde",
     "iniciante": "aguarde"
    },
    "engorda": 3.7869189310952134,
@@ -1764,9 +3267,18 @@
   },
   {
    "mes": "2019-12",
+   "estagio": "meio-alta",
+   "rt": 2.470318469253917,
+   "troca": {
+    "p25": 2.126510263449681,
+    "mediana": 2.2085185398949565,
+    "p75": 2.3728428184020305
+   },
+   "prevBoi": -0.047404036142127404,
+   "prevBezerro": 0.04293635744561497,
    "selos": {
     "cria": "aguarde",
-    "engorda": "melhor",
+    "engorda": "aguarde",
     "iniciante": "aguarde"
    },
    "engorda": 3.6975943364377217,
@@ -1774,6 +3286,15 @@
   },
   {
    "mes": "2020-01",
+   "estagio": "meio-alta",
+   "rt": 2.179397486905979,
+   "troca": {
+    "p25": 2.126510263449681,
+    "mediana": 2.2083828483426697,
+    "p75": 2.3728428184020305
+   },
+   "prevBoi": 0.005191694332567609,
+   "prevBezerro": 0.05894816665798008,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1784,6 +3305,15 @@
   },
   {
    "mes": "2020-02",
+   "estagio": "meio-alta",
+   "rt": 2.0577370890051685,
+   "troca": {
+    "p25": 2.125280601014082,
+    "mediana": 2.207819432279926,
+    "p75": 2.3728428184020305
+   },
+   "prevBoi": 0.003925165991400137,
+   "prevBezerro": 0.06063909677714352,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1794,6 +3324,15 @@
   },
   {
    "mes": "2020-03",
+   "estagio": "meio-alta",
+   "rt": 2.0232723418893737,
+   "troca": {
+    "p25": 2.1216484895436807,
+    "mediana": 2.207819432279926,
+    "p75": 2.3728428184020305
+   },
+   "prevBoi": 0.0010593421998752461,
+   "prevBezerro": 0.051217834092534,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1804,6 +3343,15 @@
   },
   {
    "mes": "2020-04",
+   "estagio": "meio-alta",
+   "rt": 1.9502181241620653,
+   "troca": {
+    "p25": 2.1216484895436807,
+    "mediana": 2.207819432279926,
+    "p75": 2.3728428184020305
+   },
+   "prevBoi": 0.017554894445568126,
+   "prevBezerro": 0.039517402079304764,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1814,6 +3362,15 @@
   },
   {
    "mes": "2020-05",
+   "estagio": "meio-alta",
+   "rt": 1.9864281747691295,
+   "troca": {
+    "p25": 2.1216484895436807,
+    "mediana": 2.207819432279926,
+    "p75": 2.3728428184020305
+   },
+   "prevBoi": 0.03215151036930908,
+   "prevBezerro": 0.035959507574239824,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1824,6 +3381,15 @@
   },
   {
    "mes": "2020-06",
+   "estagio": "meio-alta",
+   "rt": 1.9664616575226022,
+   "troca": {
+    "p25": 2.1216484895436807,
+    "mediana": 2.207819432279926,
+    "p75": 2.3728428184020305
+   },
+   "prevBoi": 0.060770672965439365,
+   "prevBezerro": 0.03697345796972673,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1834,6 +3400,15 @@
   },
   {
    "mes": "2020-07",
+   "estagio": "meio-alta",
+   "rt": 1.9374231536149724,
+   "troca": {
+    "p25": 2.1183397981918723,
+    "mediana": 2.207392722599403,
+    "p75": 2.3728428184020305
+   },
+   "prevBoi": 0.08861863848819507,
+   "prevBezerro": 0.052306315716639684,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1844,6 +3419,15 @@
   },
   {
    "mes": "2020-08",
+   "estagio": "meio-alta",
+   "rt": 1.9661172371731923,
+   "troca": {
+    "p25": 2.110416285320668,
+    "mediana": 2.2058084712882957,
+    "p75": 2.368721272444695
+   },
+   "prevBoi": 0.11703461806560678,
+   "prevBezerro": 0.07785761085515652,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1854,6 +3438,15 @@
   },
   {
    "mes": "2020-09",
+   "estagio": "meio-alta",
+   "rt": 2.0667835621405644,
+   "troca": {
+    "p25": 2.106341695607167,
+    "mediana": 2.2047466673951983,
+    "p75": 2.36854967754449
+   },
+   "prevBoi": 0.10018022685690697,
+   "prevBezerro": 0.10093115837809208,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1864,6 +3457,15 @@
   },
   {
    "mes": "2020-10",
+   "estagio": "alta-madura",
+   "rt": 2.0658403104421934,
+   "troca": {
+    "p25": 2.1024709020259147,
+    "mediana": 2.1932454397688277,
+    "p75": 2.364577994146334
+   },
+   "prevBoi": 0.10043836062719103,
+   "prevBezerro": 0.1261238792297381,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1874,6 +3476,15 @@
   },
   {
    "mes": "2020-11",
+   "estagio": "alta-madura",
+   "rt": 2.0944832855474598,
+   "troca": {
+    "p25": 2.0984118229052013,
+    "mediana": 2.1878726128296133,
+    "p75": 2.3633283681244945
+   },
+   "prevBoi": 0.020076510754893695,
+   "prevBezerro": 0.11822007159063075,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1884,6 +3495,15 @@
   },
   {
    "mes": "2020-12",
+   "estagio": "alta-madura",
+   "rt": 1.9237805012732836,
+   "troca": {
+    "p25": 2.0981300481081293,
+    "mediana": 2.1821746351472626,
+    "p75": 2.3564810797036526
+   },
+   "prevBoi": 0.034521364184006975,
+   "prevBezerro": 0.1105164329834234,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1894,6 +3514,15 @@
   },
   {
    "mes": "2021-01",
+   "estagio": "alta-madura",
+   "rt": 1.997421718041927,
+   "troca": {
+    "p25": 2.097945681769434,
+    "mediana": 2.179397486905979,
+    "p75": 2.350827250676816
+   },
+   "prevBoi": 0.011942342746554147,
+   "prevBezerro": 0.09477048432506052,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1904,6 +3533,15 @@
   },
   {
    "mes": "2021-02",
+   "estagio": "alta-madura",
+   "rt": 1.96067805584414,
+   "troca": {
+    "p25": 2.0944832855474598,
+    "mediana": 2.178711865094905,
+    "p75": 2.3495641530676483
+   },
+   "prevBoi": 0.0009971322380801784,
+   "prevBezerro": 0.06736165860700138,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1914,6 +3552,15 @@
   },
   {
    "mes": "2021-03",
+   "estagio": "alta-madura",
+   "rt": 1.9234532114776626,
+   "troca": {
+    "p25": 2.0812914391290622,
+    "mediana": 2.1752172191777968,
+    "p75": 2.346800667169523
+   },
+   "prevBoi": 0.014084826734219513,
+   "prevBezerro": 0.05416154349066771,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1924,6 +3571,15 @@
   },
   {
    "mes": "2021-04",
+   "estagio": "alta-madura",
+   "rt": 1.8114930597292347,
+   "troca": {
+    "p25": 2.077309762253235,
+    "mediana": 2.1659692174660483,
+    "p75": 2.3455744146980955
+   },
+   "prevBoi": 0.061455493590353516,
+   "prevBezerro": 0.052943155204731474,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1934,6 +3590,15 @@
   },
   {
    "mes": "2021-05",
+   "estagio": "alta-madura",
+   "rt": 1.7934741247806658,
+   "troca": {
+    "p25": 2.0667835621405644,
+    "mediana": 2.1641298807087286,
+    "p75": 2.3453561444170976
+   },
+   "prevBoi": 0.09938393103575316,
+   "prevBezerro": 0.07240690848098952,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1944,6 +3609,15 @@
   },
   {
    "mes": "2021-06",
+   "estagio": "alta-madura",
+   "rt": 1.8944701653931852,
+   "troca": {
+    "p25": 2.0658403104421934,
+    "mediana": 2.1625423154020385,
+    "p75": 2.3453561444170976
+   },
+   "prevBoi": 0.07090571430659343,
+   "prevBezerro": 0.05365309741263102,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1954,6 +3628,15 @@
   },
   {
    "mes": "2021-07",
+   "estagio": "alta-madura",
+   "rt": 1.9287600393127937,
+   "troca": {
+    "p25": 2.0633633624077565,
+    "mediana": 2.1623620659685803,
+    "p75": 2.3226402857218322
+   },
+   "prevBoi": 0.0678929683883518,
+   "prevBezerro": 0.0396470238905855,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1964,6 +3647,15 @@
   },
   {
    "mes": "2021-08",
+   "estagio": "alta-madura",
+   "rt": 1.989083744476799,
+   "troca": {
+    "p25": 2.062130202230159,
+    "mediana": 2.161420108251766,
+    "p75": 2.3002658008812453
+   },
+   "prevBoi": 0.05376388366641538,
+   "prevBezerro": 0.026949582845424258,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1974,6 +3666,15 @@
   },
   {
    "mes": "2021-09",
+   "estagio": "alta-madura",
+   "rt": 1.9121125801961734,
+   "troca": {
+    "p25": 2.0580788170569124,
+    "mediana": 2.1609901732510415,
+    "p75": 2.292259651740822
+   },
+   "prevBoi": 0.0494014225068109,
+   "prevBezerro": 0.010097638991763747,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1984,6 +3685,15 @@
   },
   {
    "mes": "2021-10",
+   "estagio": "alta-madura",
+   "rt": 1.752183944240675,
+   "troca": {
+    "p25": 2.0577370890051685,
+    "mediana": 2.1606065241275645,
+    "p75": 2.2789781994545035
+   },
+   "prevBoi": 0.0769617498838282,
+   "prevBezerro": -0.00771784381656293,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -1994,6 +3704,15 @@
   },
   {
    "mes": "2021-11",
+   "estagio": "alta-madura",
+   "rt": 1.9270950790662043,
+   "troca": {
+    "p25": 2.0412355311715906,
+    "mediana": 2.1598244480301956,
+    "p75": 2.273796020440061
+   },
+   "prevBoi": -0.0341400906332191,
+   "prevBezerro": -0.03043153744432059,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2004,6 +3723,15 @@
   },
   {
    "mes": "2021-12",
+   "estagio": "alta-madura",
+   "rt": 1.9534238810104323,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.156227783608111,
+    "p75": 2.26175160435029
+   },
+   "prevBoi": -0.040077035019035034,
+   "prevBezerro": -0.03308338875894978,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2014,6 +3742,15 @@
   },
   {
    "mes": "2022-01",
+   "estagio": "alta-madura",
+   "rt": 2.0956096256964796,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1556671818900752,
+    "p75": 2.2546541653811265
+   },
+   "prevBoi": -0.10668137466785443,
+   "prevBezerro": -0.04859120237017567,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2024,6 +3761,15 @@
   },
   {
    "mes": "2022-02",
+   "estagio": "alta-madura",
+   "rt": 2.146196334902811,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1550433728157508,
+    "p75": 2.250860868367487
+   },
+   "prevBoi": -0.13629445960589281,
+   "prevBezerro": -0.07316493667643076,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2034,6 +3780,15 @@
   },
   {
    "mes": "2022-03",
+   "estagio": "alta-madura",
+   "rt": 2.2152857455837847,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1550433728157508,
+    "p75": 2.246745055282612
+   },
+   "prevBoi": -0.15937907254931505,
+   "prevBezerro": -0.09742400726966183,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2044,6 +3799,15 @@
   },
   {
    "mes": "2022-04",
+   "estagio": "alta-madura",
+   "rt": 2.2060497552664637,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1550433728157508,
+    "p75": 2.234350389959084
+   },
+   "prevBoi": -0.15221258935911897,
+   "prevBezerro": -0.13236706509025908,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2054,6 +3818,15 @@
   },
   {
    "mes": "2022-05",
+   "estagio": "alta-madura",
+   "rt": 2.157098215678125,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1550433728157508,
+    "p75": 2.233883144245144
+   },
+   "prevBoi": -0.11472139677388471,
+   "prevBezerro": -0.13623398259404562,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2064,9 +3837,18 @@
   },
   {
    "mes": "2022-06",
+   "estagio": "meio-alta",
+   "rt": 2.231243818112151,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1550433728157508,
+    "p75": 2.231243818112151
+   },
+   "prevBoi": -0.10846333210861203,
+   "prevBezerro": -0.12486971282899406,
    "selos": {
     "cria": "aguarde",
-    "engorda": "bom",
+    "engorda": "aguarde",
     "iniciante": "aguarde"
    },
    "engorda": 1.7447169334365735,
@@ -2074,6 +3856,15 @@
   },
   {
    "mes": "2022-07",
+   "estagio": "meio-alta",
+   "rt": 2.163523222086565,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1550433728157508,
+    "p75": 2.2234769650058572
+   },
+   "prevBoi": -0.06337641339735478,
+   "prevBezerro": -0.10526464482683529,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2084,6 +3875,15 @@
   },
   {
    "mes": "2022-08",
+   "estagio": "meio-alta",
+   "rt": 2.103865134592665,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.154315398943479,
+    "p75": 2.221382895079336
+   },
+   "prevBoi": -0.01677526978565458,
+   "prevBezerro": -0.07686938716511638,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2094,6 +3894,15 @@
   },
   {
    "mes": "2022-09",
+   "estagio": "meio-alta",
+   "rt": 2.1543645118355763,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.154315398943479,
+    "p75": 2.2152857455837847
+   },
+   "prevBoi": -0.0034178749008921816,
+   "prevBezerro": -0.058508876398437715,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2104,6 +3913,15 @@
   },
   {
    "mes": "2022-10",
+   "estagio": "meio-alta",
+   "rt": 2.178869844419325,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.154315398943479,
+    "p75": 2.213659447271268
+   },
+   "prevBoi": 0.014404950331019739,
+   "prevBezerro": -0.038013182341493645,
    "selos": {
     "cria": "aguarde",
     "engorda": "aguarde",
@@ -2114,16 +3932,34 @@
   },
   {
    "mes": "2022-11",
+   "estagio": "fim-queda",
+   "rt": 2.0811176005064564,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.146196334902811,
+    "p75": 2.2085185398949565
+   },
+   "prevBoi": 0.01121722656023616,
+   "prevBezerro": -0.03239063447415669,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 1.6666672981544683,
    "cria": 0.14895791407969283
   },
   {
    "mes": "2022-12",
+   "estagio": "fim-queda",
+   "rt": 2.17088021857266,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.146196334902811,
+    "p75": 2.2083828483426697
+   },
+   "prevBoi": -0.04187298686138197,
+   "prevBezerro": -0.04038899119640316,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",
@@ -2134,6 +3970,15 @@
   },
   {
    "mes": "2023-01",
+   "estagio": "fim-queda",
+   "rt": 2.1489823070060927,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.146196334902811,
+    "p75": 2.207819432279926
+   },
+   "prevBoi": -0.06415984847275624,
+   "prevBezerro": -0.04258861410592252,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",
@@ -2144,6 +3989,15 @@
   },
   {
    "mes": "2023-02",
+   "estagio": "fim-queda",
+   "rt": 2.1934871943704866,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.146196334902811,
+    "p75": 2.207392722599403
+   },
+   "prevBoi": -0.0900001817717726,
+   "prevBezerro": -0.046278912648480164,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",
@@ -2154,96 +4008,186 @@
   },
   {
    "mes": "2023-03",
+   "estagio": "fim-queda",
+   "rt": 2.138130295416184,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1431881028443893,
+    "p75": 2.2060497552664637
+   },
+   "prevBoi": -0.09133119013985802,
+   "prevBezerro": -0.052852730796871916,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 1.9382352317435536,
    "cria": 0.20606637332554278
   },
   {
    "mes": "2023-04",
+   "estagio": "fim-queda",
+   "rt": 2.1174804815455346,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.142866634426012,
+    "p75": 2.2058084712882957
+   },
+   "prevBoi": -0.08539001513994227,
+   "prevBezerro": -0.056364426164606796,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.2310518885782242,
    "cria": 0.16732842427866945
   },
   {
    "mes": "2023-05",
+   "estagio": "fim-queda",
+   "rt": 2.082577612730192,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1400778842726367,
+    "p75": 2.2047466673951983
+   },
+   "prevBoi": -0.06292171581461359,
+   "prevBezerro": -0.0608662827984815,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.673991833543655,
    "cria": 0.23928610820685758
   },
   {
    "mes": "2023-06",
+   "estagio": "fim-queda",
+   "rt": 2.0479814845745805,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.138130295416184,
+    "p75": 2.1934871943704866
+   },
+   "prevBoi": -0.03688619426170292,
+   "prevBezerro": -0.056216217562960136,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.636796301976282,
    "cria": 0.3044726623732399
   },
   {
    "mes": "2023-07",
+   "estagio": "fim-queda",
+   "rt": 2.0741351371041263,
+   "troca": {
+    "p25": 2.0353549274016003,
+    "mediana": 2.1300444440014834,
+    "p75": 2.1932454397688277
+   },
+   "prevBoi": -0.03288020385306056,
+   "prevBezerro": -0.05652151196135624,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.6872780447418005,
    "cria": 0.3083399410375143
   },
   {
    "mes": "2023-08",
+   "estagio": "fim-queda",
+   "rt": 1.915853111501999,
+   "troca": {
+    "p25": 2.0286655321519627,
+    "mediana": 2.129209145805708,
+    "p75": 2.1878726128296133
+   },
+   "prevBoi": 0.0604218528056184,
+   "prevBezerro": -0.04294899827999055,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.77524173550595,
    "cria": 0.4240836663061123
   },
   {
    "mes": "2023-09",
+   "estagio": "fim-queda",
+   "rt": 1.9075347290182874,
+   "troca": {
+    "p25": 2.0232723418893737,
+    "mediana": 2.128350075850774,
+    "p75": 2.1821746351472626
+   },
+   "prevBoi": 0.09461875779418283,
+   "prevBezerro": -0.012093410594268716,
    "selos": {
     "cria": "melhor",
-    "engorda": "aguarde",
-    "iniciante": "aguarde"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.804693057201465,
    "cria": 0.509108076581047
   },
   {
    "mes": "2023-10",
+   "estagio": "fim-queda",
+   "rt": 2.07985406627168,
+   "troca": {
+    "p25": 2.0232723418893737,
+    "mediana": 2.126510263449681,
+    "p75": 2.179397486905979
+   },
+   "prevBoi": 0.039023161622063096,
+   "prevBezerro": 0.015779417293013687,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.8329821099314976,
    "cria": 0.48343234519220846
   },
   {
    "mes": "2023-11",
+   "estagio": "fim-queda",
+   "rt": 2.053227534889956,
+   "troca": {
+    "p25": 2.0232723418893737,
+    "mediana": 2.125280601014082,
+    "p75": 2.178869844419325
+   },
+   "prevBoi": 0.06811189925131189,
+   "prevBezerro": 0.02828304673182447,
    "selos": {
     "cria": "melhor",
-    "engorda": "bom",
-    "iniciante": "bom"
+    "engorda": "melhor",
+    "iniciante": "melhor"
    },
    "engorda": 2.693909724207545,
    "cria": 0.506999389895546
   },
   {
    "mes": "2023-12",
+   "estagio": "fim-queda",
+   "rt": 2.1217051091393606,
+   "troca": {
+    "p25": 2.0232723418893737,
+    "mediana": 2.1217051091393606,
+    "p75": 2.178711865094905
+   },
+   "prevBoi": 0.028542345765902644,
+   "prevBezerro": 0.041043151947961265,
    "selos": {
     "cria": "melhor",
     "engorda": "melhor",

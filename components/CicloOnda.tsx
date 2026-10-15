@@ -27,11 +27,7 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
     const inicio = serie[0].mes;
     const ultimo = serie.length - 1;
     const futuro = previsaoBoi.filter((p) => p.semanas <= 52).sort((a, b) => a.semanas - b.semanas);
-    const ref = fase.sobe ? fase.duracaoSubidas : fase.duracaoQuedas;
-    const zonaMes = fase.desde && {
-      de: indiceMes(inicio, somarMeses(fase.desde.mes, Math.min(...ref))),
-      ate: indiceMes(inicio, somarMeses(fase.desde.mes, Math.max(...ref))),
-    };
+    const zonaMes = fase.janela && { de: indiceMes(inicio, fase.janela.de), ate: indiceMes(inicio, fase.janela.ate) };
     // O eixo vai até a previsão de 1 ano ou até o fim da zona histórica, o que vier depois.
     const nMeses = Math.max(ultimo + 13, (zonaMes?.ate ?? 0) + 3);
     const valores = [...serie.map((s) => s.boiReal), ...futuro.map((p) => p.maximo)];

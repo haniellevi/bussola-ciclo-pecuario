@@ -57,8 +57,30 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
       </div>
       <ul className="space-y-1.5 text-sm text-zinc-400">
         <li>A faixa foi feita para conter o preço real 8 em cada 10 vezes. Em 1 ano ela errou mais: a incerteza é grande.</li>
-        <li>O teste cobre um só trecho do ciclo, quase todo de alta. É pouca prova; o acompanhamento ao vivo abaixo é o que vale.</li>
+        <li>O teste acima cobre um só trecho do ciclo, quase todo de alta. Por isso fizemos o teste mais duro abaixo.</li>
       </ul>
+
+      <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
+        <h3 className="font-display text-lg text-zinc-100">Teste mais duro: ano a ano, {acerto.anoAno.periodo}</h3>
+        <p className="mt-1 text-sm text-zinc-400">Cada ano previsto com o modelo treinado só até o ano anterior.</p>
+        <ul className="mt-3 grid gap-2 text-sm tabular-nums sm:grid-cols-2">
+          {acerto.anoAno.itens.map((it) => {
+            const ganhou = it.erroMedioModelo < it.erroMedioIngenuo;
+            return (
+              <li key={`${it.alvo}${it.semanas}`} className="rounded-lg bg-terra-950 px-3 py-2 text-zinc-300">
+                {NOME[it.alvo]} em {it.semanas} semanas: erro <span className={ganhou ? "text-capim" : "text-sol"}>{pct(it.erroMedioModelo, 1)}</span>{" "}
+                <span className="text-zinc-500">
+                  (preço parado {pct(it.erroMedioIngenuo, 1)}; melhor em {it.anosMelhor} de {it.anos} anos)
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+        <p className="mt-3 text-xs leading-relaxed text-zinc-500">
+          Leitura honesta: em 3 meses o modelo empata com o palpite &quot;o preço fica onde está&quot;. Ele ajuda mais no horizonte de 1 ano. Testamos
+          incluir o dólar e os juros: não melhoraram de forma consistente, então ficaram de fora.
+        </p>
+      </div>
 
       <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
         <h3 className="font-display text-lg text-zinc-100">E os vereditos, teriam acertado?</h3>
