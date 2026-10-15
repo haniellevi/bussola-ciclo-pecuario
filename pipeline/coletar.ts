@@ -122,7 +122,7 @@ async function coletarCepeaViaNa() {
     let adicionados = 0;
     for (const p of novos) {
       const antigo = porData.get(p.data);
-      if (!antigo) {
+      if (!antigo || antigo.origem === "estimado-scot") {
         porData.set(p.data, { ...p, origem: "noticiasagricolas" });
         adicionados++;
       } else if (Math.abs(antigo.valor / p.valor - 1) > 0.005) {
@@ -141,9 +141,94 @@ async function coletarCepeaViaNa() {
   }
 }
 
+// Scot Consultoria: boi gordo por praça (pesquisa própria, não é o Cepea). Serve para
+// conferir o Cepea e como reserva se a coleta do Cepea parar. A página só mostra o dia atual,
+// então o histórico é montado pela coleta diária.
+const URL_SCOT = "https://www.scotconsultoria.com.br/cotacoes/boi-gordo/";
+const PRACA_REFERENCIA = "SP Barretos"; // mesma região do indicador do Cepea
+const num = (s: string) => (s === "-" ? null : Number(s.replace(/\./g, "").replace(",", ".")));
+const ACENTOS: Record<string, string> = { a: "á", e: "é", i: "í", o: "ó", u: "ú", A: "Á", E: "É", I: "Í", O: "Ó", U: "Ú" };
+// A Scot escreve acentos como entidades HTML (&iacute;, &ccedil;, &#227;...).
+const textoHtml = (s: string) =>
+  s
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&([a-zA-Z])acute;/g, (_, l) => ACENTOS[l] ?? l)
+    .replace(/&([a-zA-Z])(tilde|circ|grave);/g, (_, l, t) => (l + { tilde: "̃", circ: "̂", grave: "̀" }[t as string]).normalize("NFC"))
+    .replace(/&ccedil;/g, "ç")
+    .replace(/&Ccedil;/g, "Ç")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ");
+
+async function coletarScot() {
+  const r = await fetch(URL_SCOT, {
+    headers: { "User-Agent": "BussolaCicloPecuario/1.0 (+https://github.com/haniellevi/bussola-ciclo-pecuario)" },
+    signal: AbortSignal.timeout(60_000),
+  });
+  if (!r.ok) throw new Error(`${r.status} em ${URL_SCOT}`);
+  const tabela = [...(await r.text()).matchAll(/<table[\s\S]*?<\/table>/g)]
+    .map(([t]) => textoHtml(t))
+    .find((t) => t.includes("Mercado Físico"));
+  const data = tabela?.match(/Mercado Físico - (\d{2})\/(\d{2})\/(\d{4})/);
+  if (!tabela || !data) throw new Error("Scot: tabela do mercado físico não encontrada (página mudou?)");
+  const valor = "(-|[\\d.]+,\\d{2})";
+  const linha = new RegExp(`([A-Z]{2}) ([A-ZÀ-Úa-zà-ú][A-Za-zÀ-ú. ]*?) ${valor} ${valor}`, "g");
+  const pracas: Record<string, { vista: number | null; prazo30: number | null }> = {};
+  for (const m of tabela.matchAll(linha)) pracas[`${m[1]} ${m[2].trim()}`] = { vista: num(m[3]), prazo30: num(m[4]) };
+  if (!pracas[PRACA_REFERENCIA]?.vista) throw new Error(`Scot: praça ${PRACA_REFERENCIA} não encontrada`);
+
+  const arquivo = new URL("scot/boi-gordo.json", RAIZ);
+  let dados: { data: string; pracas: typeof pracas }[] = [];
+  try {
+    dados = JSON.parse(await readFile(arquivo, "utf8")).dados;
+  } catch {}
+  const dia = `${data[3]}-${data[2]}-${data[1]}`;
+  dados = [...dados.filter((d) => d.data !== dia), { data: dia, pracas }].sort((a, b) => a.data.localeCompare(b.data));
+  await salvar("scot/boi-gordo.json", "Scot Consultoria, boi gordo mercado físico (preço bruto, R$/@)", URL_SCOT, dados);
+}
+
+// Confere Cepea × Scot e, se o Cepea parou, estima os dias faltantes pela Scot.
+const MIN_DIAS_COMUNS = 5;
+async function conferirEReservar() {
+  const arqCepea = new URL("cepea/boi-gordo.json", RAIZ);
+  const cepea = JSON.parse(await readFile(arqCepea, "utf8"));
+  const scot = JSON.parse(await readFile(new URL("scot/boi-gordo.json", RAIZ), "utf8")).dados as { data: string; pracas: Record<string, { vista: number | null }> }[];
+  const reais = new Map<string, number>(cepea.dados.filter((p: { origem?: string }) => p.origem !== "estimado-scot").map((p: Ponto) => [p.data, p.valor]));
+  const razoes = scot
+    .filter((s) => reais.has(s.data) && s.pracas[PRACA_REFERENCIA]?.vista)
+    .slice(-20)
+    .map((s) => reais.get(s.data)! / s.pracas[PRACA_REFERENCIA].vista!);
+  const avisos: string[] = [];
+  if (razoes.length < MIN_DIAS_COMUNS) {
+    console.log(`Scot: ${razoes.length} dia(s) em comum com o Cepea; reserva liga com ${MIN_DIAS_COMUNS}.`);
+  } else {
+    const ordenadas = [...razoes].sort((a, b) => a - b);
+    const mediana = ordenadas[Math.floor(ordenadas.length / 2)];
+    const hoje = razoes.at(-1)!;
+    if (Math.abs(hoje / mediana - 1) > 0.03)
+      avisos.push(`Cepea e Scot se afastaram: Cepea/Scot = ${hoje.toFixed(3)}, normal ≈ ${mediana.toFixed(3)}`);
+    const ultimoReal = [...reais.keys()].sort().at(-1)!;
+    let estimados = 0;
+    for (const s of scot) {
+      const v = s.pracas[PRACA_REFERENCIA]?.vista;
+      if (s.data <= ultimoReal || !v || cepea.dados.some((p: Ponto) => p.data === s.data)) continue;
+      cepea.dados.push({ data: s.data, valor: Math.round(v * mediana * 100) / 100, origem: "estimado-scot" });
+      estimados++;
+    }
+    if (estimados) {
+      cepea.dados.sort((a: Ponto, b: Ponto) => a.data.localeCompare(b.data));
+      avisos.push(`Coleta do Cepea parada desde ${ultimoReal}: ${estimados} dia(s) estimado(s) pela Scot (fator ${mediana.toFixed(3)}).`);
+    }
+  }
+  cepea.reservaScot = avisos;
+  await writeFile(arqCepea, JSON.stringify(cepea, null, 1) + "\n");
+  for (const a of avisos) console.log(`aviso: ${a}`);
+}
+
 // Uma fonte fora do ar não impede as outras; a conferência semanal avisa o que ficou velho.
 let falhas = 0;
-for (const coletar of [coletarCepeaViaNa, coletarBcb, coletarIbgeAbate]) {
+for (const coletar of [coletarCepeaViaNa, coletarScot, conferirEReservar, coletarBcb, coletarIbgeAbate]) {
   try {
     await coletar();
   } catch (e) {

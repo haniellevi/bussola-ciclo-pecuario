@@ -56,10 +56,11 @@ for (const alvo of ALVOS) {
   diarios[alvo] = dias;
   for (const d of raw.divergencias ?? [])
     avisos.push({ nivel: "revisar", texto: `Cepea ${alvo}: valor diferente entre fontes em ${d}.` });
+  for (const t of raw.reservaScot ?? []) avisos.push({ nivel: "revisar", texto: `Reserva Scot: ${t}` });
   const ultimo = dias.at(-1)!;
   const idade = diasEntre(ultimo.data, hoje);
-  if (idade > 14) avisos.push({ nivel: "bloqueia", texto: `Cepea ${alvo}: último dado é de ${ultimo.data} (${idade} dias). Baixe a planilha nova.` });
-  else if (idade > 7) avisos.push({ nivel: "revisar", texto: `Cepea ${alvo}: último dado é de ${ultimo.data} (${idade} dias). Baixe a planilha nova.` });
+  if (idade > 14) avisos.push({ nivel: "bloqueia", texto: `Cepea ${alvo}: último dado é de ${ultimo.data} (${idade} dias). A coleta automática parou; veja o plano B em docs/processo.md.` });
+  else if (idade > 7) avisos.push({ nivel: "revisar", texto: `Cepea ${alvo}: último dado é de ${ultimo.data} (${idade} dias). A coleta automática parou; veja o plano B em docs/processo.md.` });
   for (let i = Math.max(1, dias.length - 30); i < dias.length; i++) {
     if (!(dias[i].valor > 0)) avisos.push({ nivel: "bloqueia", texto: `Cepea ${alvo}: valor inválido em ${dias[i].data}.` });
     const salto = dias[i].valor / dias[i - 1].valor - 1;
@@ -86,7 +87,12 @@ const arqPrev = new URL(`${semana}.json`, PREVISOES);
 mkdirSync(PREVISOES, { recursive: true });
 let registrouAgora = false;
 
-if (!bloqueado && !existsSync(arqPrev)) {
+// Previsão só vale se registrada na hora: nada de registrar depois uma semana já passada.
+const atrasada = segundaDa(dataBase) < somarDias(segundaDa(hoje), -7);
+if (atrasada && !existsSync(arqPrev))
+  avisos.push({ nivel: "bloqueia", texto: `Dados mais novos são da semana ${semana}, já passada; a previsão não foi registrada.` });
+
+if (!bloqueado && !atrasada && !existsSync(arqPrev)) {
   const segunda = segundaDa(dataBase);
   const previsoes = [];
   for (const alvo of ALVOS) {
@@ -138,7 +144,7 @@ const pivos = pivosDePreco(serie, LIMIAR_CICLO);
 const subidas = pivos.flatMap((p, k) => (p.tipo === "vale" && pivos[k + 1] ? [diasEntre(`${p.mes}-01`, `${pivos[k + 1].mes}-01`) / 30.44] : []));
 const l: string[] = [];
 l.push(`# Bússola do Ciclo — semana ${semana}`, "");
-if (bloqueado) l.push("> ⛔ **Previsão desta semana NÃO foi registrada** por problema nos dados (veja abaixo).", "");
+if (bloqueado || (atrasada && !existsSync(arqPrev))) l.push("> ⛔ **Previsão desta semana NÃO foi registrada** por problema nos dados (veja abaixo).", "");
 else if (!registrouAgora) l.push("> A previsão desta semana já tinha sido registrada; nada foi alterado.", "");
 if (avisos.length) {
   l.push("## Precisa da sua atenção", ...avisos.map((a) => `- ${a.nivel === "bloqueia" ? "⛔" : "⚠️"} ${a.texto}`), "");

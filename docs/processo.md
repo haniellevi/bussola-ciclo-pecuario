@@ -11,6 +11,10 @@ O site do Cepea bloqueia robôs e agentes de IA (está escrito no `robots.txt` d
 
 Toda coleta confere os dias que já estavam no histórico: se um valor divergir mais de 0,5%, vira aviso no relatório.
 
+**Reserva automática (Scot Consultoria):** todo dia o robô também guarda o boi gordo da Scot em 24 praças (`data/raw/scot/boi-gordo.json`). É outra pesquisa, por isso não é igual ao Cepea: o robô mede a diferença normal entre os dois (mediana dos últimos 20 dias, usando SP-Barretos) e:
+- avisa se a diferença de hoje fugir mais de 3% do normal;
+- se o Cepea parar, estima os dias faltantes pela Scot, marcados como `estimado-scot`, e troca pelo valor real assim que ele voltar. Só liga depois de 5 dias em comum. Em teste, errou 0,3–0,4%.
+
 **Plano B (só se o relatório avisar que a coleta parou):** baixe as planilhas no Cepea e envie em `data/manual/cepea/` com os nomes `cepea_boi_gordo.xls` e `cepea_bezerro_ms.xls` (GitHub → Add file → Upload files). O robô junta ao histórico; a planilha oficial vence quando houver diferença.
 
 ## O que o robô faz
@@ -19,7 +23,7 @@ Toda coleta confere os dias que já estavam no histórico: se um valor divergir 
 |---|---|---|
 | 1. Coletar (diário) | `pipeline/coletar.ts` | Cepea via Notícias Agrícolas, Banco Central (Selic, IGP-DI, dólar) e IBGE (abate por tipo) em `data/raw/` |
 | 1b. Plano B | `pipeline/ler_cepea.py` | Planilhas enviadas à mão entram no histórico |
-| 2. Conferir | `pipeline/semanal.ts` | Dado do Cepea com mais de 14 dias **bloqueia** a previsão; salto diário acima de 7%, fonte que não respondeu ou dado atrasado gera **aviso para revisar** |
+| 2. Conferir | `pipeline/semanal.ts` | Dado do Cepea com mais de 14 dias, ou dados de uma semana já passada, **bloqueiam** a previsão (nada de previsão registrada com atraso); salto diário acima de 7%, fonte que não respondeu ou dado atrasado gera **aviso para revisar** |
 | 3. Prever e registrar | `pipeline/semanal.ts` | `data/previsoes/AAAA-Snn.json`: boi e bezerro em 4, 13 e 52 semanas, com faixa provável (80%), pesos do modelo e o quanto cada sinal pesou. **Nunca é sobrescrito** |
 | 4. Comparar | `pipeline/semanal.ts` | `data/avaliacoes.json`: cada previsão vencida contra a média real da semana-alvo (erro, dentro da faixa, direção certa) |
 | 5. Ajustar | `pipeline/modelo/previsao.ts` | O modelo é re-treinado toda semana com todos os dados; a faixa é recalibrada com previsões "às cegas" dos 10 anos anteriores. Os pesos de cada semana ficam gravados no arquivo da previsão, então dá para ver o que mudou |

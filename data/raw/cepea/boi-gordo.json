@@ -2,7 +2,7 @@
  "fonte": "INDICADOR DO BOI GORDO CEPEA/ESALQ (Cepea/Esalq-USP, licença CC BY-NC 4.0)",
  "url": "https://www.cepea.org.br",
  "unidade": "R$/arroba",
- "coletadoEm": "2026-10-15T14:52:07.770Z",
+ "coletadoEm": "2026-10-15T14:58:24.196Z",
  "dados": [
   {
    "data": "1997-07-23",
@@ -36367,5 +36367,6 @@
  ],
  "coletaAutomatica": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/boi-gordo-indicador-esalq-bmf",
  "divergencias": [],
- "planilhaLidaEm": "2026-10-15T14:51:36.547158+00:00"
+ "planilhaLidaEm": "2026-10-15T14:51:36.547158+00:00",
+ "reservaScot": []
 }
