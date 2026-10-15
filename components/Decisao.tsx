@@ -570,11 +570,11 @@ export function Decisao({ painel }: { painel: Painel }) {
                 <div key={b.chave} className={b.cor} style={{ width: `${Math.min(100, (r.partes[b.chave] / Math.max(receita, custoTotal)) * 100)}%` }} title={`${NOME_PARTE[b.chave]}: ${reais(r.partes[b.chave])}`} />
               ))}
             </div>
-            <ul className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-zinc-300">
+            <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm text-zinc-300 sm:grid-cols-2">
               {barras.map((b) => (
                 <li key={b.chave} className="flex items-center gap-2">
                   <span className={`h-2.5 w-2.5 shrink-0 rounded-sm ${b.cor}`} aria-hidden />
-                  <span className="flex-1">{b.chave === "compra" ? "Animal" : b.chave === "operacao" ? "Custo diário" : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : "Perdas"}</span>
+                  <span className="flex-1 whitespace-nowrap">{b.chave === "compra" ? "Animal" : b.chave === "operacao" ? "Custo diário" : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : "Perdas"}</span>
                   <span className="tabular-nums text-zinc-50">{reais(r.partes[b.chave])}</span>
                 </li>
               ))}
