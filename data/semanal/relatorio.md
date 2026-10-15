@@ -28,9 +28,8 @@
 - [Indicador do Boi DATAGRO – Boletim de 14-outubro-2026](https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-14-outubro-2026/) — BeefPoint, neutra
 - [BOI: Valorização do boi gordo reduz diferença de preços frente à carne](https://folhaagricola.com.br/2026/10/15/boi-valorizacao-do-boi-gordo-reduz-diferenca-de-precos-frente-a-carne/) — Folha Agrícola, ↑ arroba
 - [Uma arroba de boi gordo paga mais de 30 dias de alimentação no confinamento](https://folhaagricola.com.br/2026/10/15/uma-arroba-de-boi-gordo-paga-mais-de-30-dias-de-alimentacao-no-confinamento/) — Folha Agrícola, ↑ arroba
-- [Parceria entre ASBIA e UFU prepara estudantes para o futuro da pecuária](https://folhaagricola.com.br/2026/10/15/parceria-entre-asbia-e-ufu-prepara-estudantes-para-o-futuro-da-pecuaria/) — Folha Agrícola
+- [Brasil amplia presença no mercado mundial de carne bovina e deve continuar priorizando exportações, aponta Rabobank](https://beefpoint.com.br/brasil-amplia-presenca-no-mercado-mundial-de-carne-bovina-e-deve-continuar-priorizando-exportacoes-aponta-rabobank/) — BeefPoint, ↑ arroba
 - ⚠️ Feed Compre Rural falhou: Compre Rural: HTTP 403
-- ⚠️ Classificação falhou: OpenRouter 401: {"error":{"message":"Missing Authentication header","code":401}}
 
 _Ainda não há previsões vencidas para comparar. A primeira comparação sai em 4 semanas._
 
