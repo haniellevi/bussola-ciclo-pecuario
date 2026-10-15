@@ -10,3 +10,4 @@ out/
 .playwright-mcp/
 next-env.d.ts
 *.tsbuildinfo
+.vercel
