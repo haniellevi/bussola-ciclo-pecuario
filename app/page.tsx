@@ -65,15 +65,15 @@ export default function Pagina() {
       <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-terra-700 bg-terra-700 lg:grid-cols-4">
         {numeros.map((n) => (
           <div key={n.rotulo} className="bg-terra-900 p-4 sm:p-5">
-            <dt className="text-xs text-zinc-500">{n.rotulo}</dt>
+            <dt className="text-xs text-zinc-400">{n.rotulo}</dt>
             <dd className="mt-1 font-display text-xl tabular-nums text-zinc-50 sm:text-2xl">{n.valor}</dd>
-            <dd className="mt-0.5 text-xs text-zinc-500">{n.nota}</dd>
+            <dd className="mt-0.5 text-xs text-zinc-400">{n.nota}</dd>
           </div>
         ))}
       </dl>
 
       <div className="mt-14">
-        <Secao id="decisao" titulo="Comprar ou esperar?" sub="Escolha o seu perfil. O veredito vem de regras simples, com o motivo de cada uma. Mude os preços para ver como ele reage.">
+        <Secao id="decisao" titulo="Vale a pena? Faça a conta do seu negócio" sub="Escolha como você trabalha e digite os seus números. A margem por cabeça aparece na hora, com o motivo e o risco do ciclo. Todo campo muda o resultado.">
           <Decisao painel={p} />
         </Secao>
         <Secao id="onda" titulo="A onda do ciclo" sub="Preço real do boi gordo desde 1997, corrigido pela inflação. Toque ou passe o mouse para ver cada mês.">
@@ -85,7 +85,7 @@ export default function Pagina() {
               <strong className="text-zinc-200">{pct(p.fase.femeas ?? 0, 1)}</strong>, contra {pct(p.fase.femeasMedia10, 1)} nos últimos 10 anos. Quando muitas vacas vão
               para o abate, nascem menos bezerros depois. O nível sozinho não marca a virada, mas a mudança de direção sim: nos ciclos de 2006 a 2023, cada pico de vacas no abate veio antes
               de um pico do boi, sem sinal falso. A virada só conta quando a fatia cai meio ponto a partir do topo, e o IBGE publica com 3 meses de atraso.{" "}
-              <span className="text-zinc-500">Veja o passo a passo na aba Conhecimento.</span>
+              <span className="text-zinc-400">Veja o passo a passo na aba Conhecimento.</span>
             </p>
           </details>
         </Secao>
@@ -145,7 +145,7 @@ export default function Pagina() {
           },
         ]}
       />
-      <footer className="mx-auto max-w-6xl border-t border-terra-800 px-4 py-10 text-xs leading-relaxed text-zinc-500 sm:px-6">
+      <footer className="mx-auto max-w-6xl border-t border-terra-800 px-4 py-10 text-xs leading-relaxed text-zinc-400 sm:px-6">
         <p className="max-w-3xl">
           <strong className="text-zinc-400">Aviso:</strong> esta é uma ferramenta de simulação estatística e de leitura de tendências de mercado, feita com dados
           públicos. Não é recomendação de investimento nem garantia de preço. Decisões de compra e venda são de quem as toma.

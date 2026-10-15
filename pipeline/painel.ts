@@ -72,6 +72,7 @@ const avaliacoes = lerJson("avaliacoes.json").avaliacoes;
 const backtest = lerJson("backtest/relatorio.json");
 const vereditos = lerJson("backtest/vereditos.json");
 const scot = lerJson("raw/scot/boi-gordo.json").dados.at(-1);
+const selic = lerJson("raw/bcb/selic-mensal.json").dados.at(-1);
 const boiDiario = lerJson("raw/cepea/boi-gordo.json").dados;
 const bezerroDiario = lerJson("raw/cepea/bezerro-ms.json").dados;
 
@@ -128,6 +129,7 @@ const painel = {
   },
   noticias,
   pracas: scot && { data: scot.data, valores: scot.pracas },
+  selic: { data: selic.data, valor: selic.valor }, // % a.a., Banco Central
 };
 
 writeFileSync(new URL("painel.json", DATA), JSON.stringify(painel) + "\n");

@@ -32,7 +32,7 @@ export function GuiaChave() {
           <span>{p}</span>
         </li>
       ))}
-      <li className="pl-8 text-xs text-zinc-500">A chave fica só no seu navegador. Nós não guardamos.</li>
+      <li className="pl-8 text-xs text-zinc-400">A chave fica só no seu navegador. Nós não guardamos.</li>
     </ol>
   );
 }

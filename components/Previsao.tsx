@@ -11,7 +11,7 @@ export function Previsao({ previsao }: { previsao: NonNullable<Painel["previsao"
         <caption className="bg-terra-900 px-4 py-3 text-left text-xs text-zinc-400">
           Registrada na semana {previsao.semana}, com o preço de {dataBr(previsao.dataBase)}. Depois de registrada, nunca é alterada.
         </caption>
-        <thead className="bg-terra-900 text-xs text-zinc-500">
+        <thead className="bg-terra-900 text-xs text-zinc-400">
           <tr>
             <th scope="col" className="px-4 py-2 text-left font-medium">Preço</th>
             <th scope="col" className="px-4 py-2 text-right font-medium">Prazo</th>

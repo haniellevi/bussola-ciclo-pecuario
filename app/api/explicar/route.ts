@@ -1,0 +1,115 @@
+// Explicação da margem. O cálculo é feito aqui, no servidor, com as mesmas contas da tela.
+// Jev (modelo de notícias, só responde perguntas fechadas) aponta a causa principal e se o ciclo pesa;
+// Luna (modelo do chat) escreve o texto curto com os números. Sem Jev configurado, só o Luna.
+import { cenarios } from "@/lib/cenarios";
+import { resolverChave } from "@/lib/chave";
+import { calcular, NOME_ESTRUTURA, NOME_PARTE, type Entradas } from "@/lib/margem";
+import { painel } from "@/lib/painel";
+
+export const dynamic = "force-dynamic";
+
+const CAMPOS: (keyof Entradas)[] = [
+  "compraCab", "pesoCompra", "pesoVenda", "gmd", "custoDia", "rendimento", "vendaArroba", "mortalidade", "taxaDesmama",
+  "custoMatrizAno", "valorMatriz", "vendaBezerro", "vendaCab", "diasRevenda", "quebra", "frete", "juros",
+];
+const ESTRUTURAS = ["recria", "confinamento", "cria", "revenda"];
+const DECISIONS = process.env.DECISIONS_URL ?? "https://openrouter.ai/api/alpha/decisions";
+const brl = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+
+const CAUSAS = {
+  compra_cara: "O animal comprado custa caro demais para o preço de venda.",
+  venda_baixa: "O preço de venda está baixo para o que foi gasto.",
+  custo_alto: "O custo diário, o ganho de peso lento ou o prazo longo comem a margem.",
+  frete_juros_perdas: "Frete, juros ou perdas são o que pesa.",
+  nenhuma: "A conta fecha com folga; não há problema principal.",
+} as const;
+
+export async function POST(req: Request) {
+  const k = await resolverChave(req);
+  if (k instanceof Response) return k;
+  const corpo = (await req.json().catch(() => null)) as { entradas?: Record<string, unknown> } | null;
+  const b = corpo?.entradas;
+  if (!b || !ESTRUTURAS.includes(String(b.estrutura))) return Response.json({ erro: "Entrada inválida." }, { status: 400 });
+  const e = { estrutura: b.estrutura } as Entradas;
+  for (const c of CAMPOS) {
+    const v = Number(b[c]);
+    if (!Number.isFinite(v) || v < 0 || v > 1e7) return Response.json({ erro: `Valor inválido em ${c}.` }, { status: 400 });
+    (e as Record<string, unknown>)[c] = v;
+  }
+  const r = calcular(e);
+  const cen = cenarios(e, painel, r.dias);
+
+  const estado = {
+    estrutura: NOME_ESTRUTURA[e.estrutura],
+    margem_por_cabeca_reais: Math.round(r.margem),
+    retorno_sobre_capital_pct: +(r.retorno * 100).toFixed(1),
+    receita: Math.round(r.receita),
+    custos: Object.fromEntries(Object.entries(r.partes).map(([n, v]) => [n, Math.round(v)])),
+    dias: r.dias,
+    preco_de_empate: Math.round(r.empateVenda),
+    margem_se_preco_cair_ao_minimo_da_previsao: cen ? Math.round(cen.pior.margem) : null,
+    ciclo: `preço do boi ${painel.fase.sobe ? "subindo" : "caindo"} há ${painel.fase.meses} meses`,
+  };
+
+  // Jev: perguntas fechadas. Falha ou ausência não impedem a explicação.
+  let causa: string | null = null, cicloPesa: boolean | null = null;
+  const jev = process.env.MODELO_NOTICIAS?.trim();
+  if (jev) {
+    try {
+      const d = await fetch(DECISIONS, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${k.chave}`, "Content-Type": "application/json", "X-Title": "Bussola do Ciclo Pecuario" },
+        body: JSON.stringify({
+          model: jev,
+          state: estado,
+          questions: {
+            causa: { type: "choice", instructions: "Olhando as contas desta operação de pecuária, qual é o problema principal do resultado?", criteria: CAUSAS },
+            ciclo_pesa: {
+              type: "noul",
+              instructions: "O resultado depende de o preço de venda subir, ou piora muito se o preço cair ao mínimo da previsão?",
+              criteria: { true: "Com o preço no mínimo da previsão a margem fica negativa ou perde mais da metade.", false: "A margem aguenta bem a queda do preço." },
+            },
+          },
+        }),
+        signal: AbortSignal.timeout(30_000),
+      });
+      if (d.ok) {
+        const a = (await d.json())?.answers ?? {};
+        if (a.causa?.choice in CAUSAS) causa = a.causa.choice;
+        if (typeof a.ciclo_pesa?.noul === "number") cicloPesa = a.ciclo_pesa.noul >= 0.5;
+      }
+    } catch {}
+  }
+
+  const luna = process.env.MODELO_AGENTE?.trim();
+  if (!luna) return Response.json({ erro: "Modelo do chat não configurado." }, { status: 503 });
+  const t = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${k.chave}`, "Content-Type": "application/json", "X-Title": "Bussola do Ciclo Pecuario" },
+    body: JSON.stringify({
+      model: luna,
+      max_tokens: 450,
+      messages: [
+        {
+          role: "system",
+          content:
+            "Você explica, em português do Brasil simples, o resultado de uma conta de pecuária para quem não é técnico. Use só os números do bloco DADOS, sem inventar nada. " +
+            "Em no máximo 5 linhas: (1) diga se compensa e quanto sobra ou falta por cabeça; (2) diga o que mais pesa e em quanto; (3) diga o que precisaria mudar (preço de venda de empate " +
+            `${brl(r.empateVenda)}, ou o animal comprado por no máximo ${Number.isFinite(r.tetoCompra) ? brl(r.tetoCompra) : "—"}); (4) diga se o ciclo é risco para este caso. ` +
+            "Nunca diga para não comprar de forma absoluta: quem compra todo dia precisa decidir onde e a que preço. Não é recomendação de investimento.",
+        },
+        {
+          role: "user",
+          content: `DADOS: ${JSON.stringify(estado)}\nCausa apontada pelo Jev: ${causa ? `${causa} (${CAUSAS[causa as keyof typeof CAUSAS]})` : `maior custo: ${NOME_PARTE[r.principal]}`}\nCiclo pesa no resultado: ${cicloPesa == null ? "n/d" : cicloPesa ? "sim" : "não"}`,
+        },
+      ],
+    }),
+    signal: AbortSignal.timeout(60_000),
+  }).catch(() => null);
+  if (!t) return Response.json({ erro: "O OpenRouter não respondeu." }, { status: 502 });
+  const j = await t.json().catch(() => null);
+  if (t.status === 401) return Response.json({ erro: k.propria ? "Chave do OpenRouter inválida. Confira na engrenagem." : "A chave do OpenRouter do servidor é inválida." }, { status: 401 });
+  const texto = j?.choices?.[0]?.message?.content;
+  if (!t.ok || !texto) return Response.json({ erro: j?.error?.message ?? "Sem resposta do modelo." }, { status: 502 });
+  return Response.json({ texto, causa, cicloPesa });
+}

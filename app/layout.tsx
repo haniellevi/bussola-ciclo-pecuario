@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Atkinson_Hyperlegible_Next } from "next/font/google";
 import "./globals.css";
 
-const texto = Inter({ subsets: ["latin"], variable: "--font-texto" });
-const titulo = Fraunces({ subsets: ["latin"], variable: "--font-titulo" });
+// Atkinson Hyperlegible: letras desenhadas para não serem confundidas (l/I/1, O/0), boa para ler números.
+const texto = Atkinson_Hyperlegible_Next({ subsets: ["latin", "latin-ext"], variable: "--font-texto" });
+const titulo = Atkinson_Hyperlegible_Next({ subsets: ["latin", "latin-ext"], variable: "--font-titulo", weight: ["600", "700", "800"] });
 
 export const metadata: Metadata = {
   title: "Bússola do Ciclo Pecuário",

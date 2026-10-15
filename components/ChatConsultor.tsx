@@ -47,14 +47,14 @@ function parecer(painel: Painel, r: Respostas): string {
   const perfil = perfilDe(r);
   const e = entradaDoPainel(painel);
   const v = veredito(perfil, e);
-  const linhas = [`Perfil: ${perfil === "cria" ? "Cria" : perfil === "engorda" ? "Recria/Engorda" : "Iniciante"}. Veredito agora: ${v.titulo.toUpperCase()}.`, descreverEstagio(e), ...v.motivos];
+  const linhas = [`Perfil: ${perfil === "cria" ? "Cria" : perfil === "engorda" ? "Recria/Engorda" : "Iniciante"}. Leitura do ciclo para este perfil: ${v.titulo.toUpperCase()}. Isso é só o momento do ciclo: quem compra todo dia decide pela margem do próprio negócio, na calculadora da aba Hoje.`, descreverEstagio(e), ...v.motivos];
   const teto = CAPITAL_TETO[r.capital ?? ""];
   if (teto) {
     const n = Math.floor(teto / painel.hoje.bezerro);
     linhas.push(`Conta do seu capital: ${reais(teto)} compram no máximo ${n} bezerros a ${reais(painel.hoje.bezerro)}, sem sobrar nada para pasto, sal, vacina e imprevistos. Planeje usar no máximo 60% na compra de animais.`);
   }
-  if (r.estrutura === "Pasto arrendado") linhas.push("Arrendamento é custo fixo todo mês: com reposição cara, ele aperta a margem. Faça a conta do custo por arroba no simulador.");
-  if (r.estrutura === "Confinamento") linhas.push("No confinamento, o que decide é o custo da arroba produzida contra o preço do boi. Use o simulador ao lado.");
+  if (r.estrutura === "Pasto arrendado") linhas.push("Arrendamento é custo fixo todo mês: com reposição cara, ele aperta a margem. Faça a conta na calculadora da aba Hoje.");
+  if (r.estrutura === "Confinamento") linhas.push("No confinamento, o que decide é o custo da arroba produzida contra o preço do boi. Use a calculadora da aba Hoje.");
   if (r.estrutura === "Ainda não tenho") linhas.push("Sem terra, parceria (boitel ou integração) reduz o capital necessário e o risco de começar.");
   const local = Object.entries(painel.pracas?.valores ?? {}).filter(([n, p]) => n.startsWith(`${r.uf} `) && p.vista);
   if (!local.length && r.uf) linhas.push(`Ainda não temos cotação de praça para ${r.uf} (a Scot cobre só alguns estados). Use a referência de SP, do Cepea, como base.`);
@@ -155,7 +155,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
       <header className="flex items-center justify-between border-b border-terra-700 px-4 py-3">
         <div>
           <p className="font-display text-lg text-zinc-100">Consultor do Ciclo</p>
-          <p className="text-xs text-zinc-500">{iaLigada ? `IA ligada · ${config.modelo || servidor.modelo}` : "Roteiro com as regras do app"}</p>
+          <p className="text-xs text-zinc-400">{iaLigada ? `IA ligada · ${config.modelo || servidor.modelo}` : "Roteiro com as regras do app"}</p>
         </div>
         <div className="flex gap-1">
           {pronto && (
@@ -274,7 +274,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
             )}
           </div>
         )}
-        {pensando && <p className="text-xs text-zinc-500">Consultor pensando…</p>}
+        {pensando && <p className="text-xs text-zinc-400">Consultor pensando…</p>}
         <div ref={fim} />
       </div>
 

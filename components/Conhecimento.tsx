@@ -111,11 +111,11 @@ function Onda({ hoje }: { hoje: Estagio }) {
         <p className="mt-1 text-sm leading-relaxed text-zinc-300">{cur.o_que}</p>
         <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
           <div>
-            <dt className="text-xs uppercase tracking-wide text-zinc-500">Quem faz recria ou engorda</dt>
+            <dt className="text-xs uppercase tracking-wide text-zinc-400">Quem faz recria ou engorda</dt>
             <dd className="mt-1 text-zinc-300">{PONTOS_ESTAGIO_ENGORDA[cur.id][1]}</dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-wide text-zinc-500">Quem faz cria</dt>
+            <dt className="text-xs uppercase tracking-wide text-zinc-400">Quem faz cria</dt>
             <dd className="mt-1 text-zinc-300">{PONTOS_ESTAGIO_CRIA[cur.id][1]}</dd>
           </div>
         </dl>
@@ -194,7 +194,7 @@ function Sinais({ p }: { p: Painel }) {
   return (
     <div className="grid gap-4 lg:grid-cols-3">
       <div className="rounded-2xl bg-terra-950 p-4">
-        <p className="text-xs uppercase tracking-wide text-zinc-500">Sinal 1 · Preço sem a inflação</p>
+        <p className="text-xs uppercase tracking-wide text-zinc-400">Sinal 1 · Preço sem a inflação</p>
         <svg viewBox="0 0 320 120" role="img" aria-label={`Preço do boi corrigido pela inflação desde ${mesAno(ini)}, com os picos e vales`} className="mt-2 w-full">
           <motion.path d={linha} fill="none" stroke="#e7ece9" strokeWidth={2} initial={parado ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2.2, ease: "easeInOut" }} />
           {pivos.map((v) => {
@@ -210,21 +210,21 @@ function Sinais({ p }: { p: Painel }) {
       </div>
 
       <div className="rounded-2xl bg-terra-950 p-4">
-        <p className="text-xs uppercase tracking-wide text-zinc-500">Sinal 2 · Vacas no abate</p>
+        <p className="text-xs uppercase tracking-wide text-zinc-400">Sinal 2 · Vacas no abate</p>
         <div className="relative mt-6 h-4 rounded-full bg-terra-800" role="img" aria-label={`Vacas são ${pct(fem, 1)} do abate; a média dos últimos 10 anos é ${pct(med, 1)}`}>
           <motion.div className="h-full rounded-full bg-gradient-to-r from-capim to-sol" initial={parado ? false : { width: 0 }} whileInView={{ width: `${fem * 100 * 1.6}%` }} viewport={{ once: true }} transition={{ duration: 1.4, ease: "easeOut" }} style={parado ? { width: `${fem * 160}%` } : undefined} />
           <div className="absolute -top-5 text-[11px] text-zinc-400" style={{ left: `${med * 160}%`, transform: "translateX(-50%)" }}>média {pct(med, 0)}</div>
           <div className="absolute top-0 h-full w-0.5 bg-zinc-300" style={{ left: `${med * 160}%` }} />
         </div>
         <p className="mt-3 font-display text-3xl tabular-nums text-zinc-50">{pct(fem, 1)}</p>
-        <p className="text-xs text-zinc-500">das fêmeas entre os animais abatidos (média de 12 meses)</p>
+        <p className="text-xs text-zinc-400">das fêmeas entre os animais abatidos (média de 12 meses)</p>
         <p className="mt-2 text-sm leading-relaxed text-zinc-300">
           Quando a fatia sobe, o produtor está vendendo vacas e vai nascer menos bezerro. {p.fase.picoVacas ? `O topo desta vez foi em ${mesAno(p.fase.picoVacas.mes)}${p.fase.picoVacas.confirmado ? ", já confirmado." : ", ainda sem confirmar (precisa cair meio ponto)."}` : "O topo desta vez ainda não apareceu."}
         </p>
       </div>
 
       <div className="rounded-2xl bg-terra-950 p-4">
-        <p className="text-xs uppercase tracking-wide text-zinc-500">Sinal 3 · Quanto 1 boi compra</p>
+        <p className="text-xs uppercase tracking-wide text-zinc-400">Sinal 3 · Quanto 1 boi compra</p>
         <div className="mt-3 flex flex-wrap gap-1.5" role="img" aria-label={`1 boi gordo compra ${numero(rt)} bezerros; o normal é ${numero(p.troca.mediana)}`}>
           {Array.from({ length: total }, (_, k) => {
             const parte = Math.min(1, Math.max(0, rt - k));
@@ -237,7 +237,7 @@ function Sinais({ p }: { p: Painel }) {
           })}
         </div>
         <p className="mt-3 font-display text-3xl tabular-nums text-zinc-50">{numero(rt)} bezerros</p>
-        <p className="text-xs text-zinc-500">normal dos últimos 10 anos: {numero(p.troca.mediana)} (os quadros vazios mostram o que falta para o normal)</p>
+        <p className="text-xs text-zinc-400">normal dos últimos 10 anos: {numero(p.troca.mediana)} (os quadros vazios mostram o que falta para o normal)</p>
         <p className="mt-2 text-sm leading-relaxed text-zinc-300">
           Conta: 18 @ × {reais(p.hoje.boi, 2)} ÷ {reais(p.hoje.bezerro)} = {numero(rt)}. Quanto mais bezerros o boi paga, mais barata está a reposição para quem engorda.
         </p>
@@ -264,7 +264,7 @@ function Decisao({ p }: { p: Painel }) {
           return (
             <motion.div key={f.id} initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 * k }} className="rounded-2xl bg-terra-950 p-4">
               <p className="font-medium text-zinc-100">{f.nome}</p>
-              <p className="text-xs text-zinc-500">{f.quem}</p>
+              <p className="text-xs text-zinc-400">{f.quem}</p>
               <p className={`mt-3 inline-block rounded-full border px-3 py-1 text-sm font-medium ${COR_SELO[v.selo]}`}>{TEXTO_SELO[v.selo]}</p>
               <p className="mt-3 text-sm leading-relaxed text-zinc-300">{v.motivos[0]}</p>
             </motion.div>
@@ -273,10 +273,10 @@ function Decisao({ p }: { p: Painel }) {
       </div>
       <div className="mt-4 grid gap-3 text-sm leading-relaxed text-zinc-300 md:grid-cols-2">
         <p className="rounded-2xl bg-terra-950 p-4">
-          <strong className="text-zinc-100">Como o selo é decidido.</strong> Cada perfil soma pontos por duas coisas: a fase do ciclo e a relação de troca. A fase pesa mais, porque foi o que mais separou bons e maus negócios nos testes com dados de 2006 a 2026.
+          <strong className="text-zinc-100">O selo é a leitura do ciclo, não a decisão do seu negócio.</strong> Quem compra todo dia decide pela margem: a calculadora da aba Hoje faz essa conta. O selo soma pontos por duas coisas: a fase do ciclo e a relação de troca. A fase pesa mais, porque foi o que mais separou bons e maus negócios nos testes com dados de 2006 a 2026.
         </p>
         <p className="rounded-2xl bg-terra-950 p-4">
-          <strong className="text-zinc-100">Custo da arroba produzida.</strong> Para quem engorda, a conta é: custo por dia ÷ (ganho de peso por dia em kg ÷ 15). O resultado é quanto custa produzir 1 arroba; compare com o preço do boi. Há um simulador na aba Hoje.
+          <strong className="text-zinc-100">Custo da arroba produzida.</strong> Para quem engorda, a conta é: custo por dia ÷ (ganho de peso por dia em kg ÷ 15). O resultado é quanto custa produzir 1 arroba; compare com o preço do boi. A calculadora da aba Hoje usa essa conta e soma compra, frete e juros.
         </p>
       </div>
     </div>

@@ -2,7 +2,12 @@
 
 @theme {
   --font-sans: var(--font-texto), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-titulo), ui-serif, Georgia, serif;
+  --font-display: var(--font-titulo), ui-sans-serif, system-ui, sans-serif;
+  /* Textos pequenos maiores: 12px e 14px eram difíceis de ler no celular */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.25rem;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.45rem;
   --color-terra-950: #0b0f0d;
   --color-terra-900: #121815;
   --color-terra-800: #1b231f;
@@ -16,9 +21,14 @@
   color-scheme: dark;
 }
 
+html {
+  font-size: 106.25%; /* 17px de base */
+}
+
 body {
   background: var(--color-terra-950);
-  color: #e7ece9;
+  color: #eef2ef;
+  font-feature-settings: "zero" 0; /* sem o zero cortado ao meio, que estranha em preços */
 }
 
 @media (prefers-reduced-motion: reduce) {

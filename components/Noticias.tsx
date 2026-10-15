@@ -49,7 +49,7 @@ export function Noticias({ noticias }: { noticias: NonNullable<Painel["noticias"
             <a href={n.link} target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-200 hover:text-sol">
               {n.titulo}
             </a>
-            <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
+            <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-400">
               <span>
                 {n.fonte}, {dataBr(n.data)}
               </span>
@@ -64,7 +64,7 @@ export function Noticias({ noticias }: { noticias: NonNullable<Painel["noticias"
           </li>
         ))}
       </ul>
-      <p className="max-w-3xl text-xs leading-relaxed text-zinc-500">
+      <p className="max-w-3xl text-xs leading-relaxed text-zinc-400">
         {noticias.classificadas
           ? "A leitura de cada notícia é feita por IA e pode errar. "
           : "A leitura automática (alta ou baixa) liga quando a chave do OpenRouter estiver configurada. "}

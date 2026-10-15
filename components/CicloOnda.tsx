@@ -247,7 +247,7 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
         )}
       </div>
       </div>
-      <p className="mt-2 text-xs text-zinc-500 sm:hidden">Arraste o gráfico para o lado para ver os anos anteriores.</p>
+      <p className="mt-2 text-xs text-zinc-400 sm:hidden">Arraste o gráfico para o lado para ver os anos anteriores.</p>
 
       <figcaption className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-zinc-400">
         <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 bg-capim" /> preço subindo</span>

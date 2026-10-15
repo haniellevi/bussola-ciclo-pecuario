@@ -62,6 +62,7 @@ export type Painel = {
     itens: { fonte: string; titulo: string; link: string; data: string; resumo?: string; classe?: { relevante: boolean; direcao: "sobe" | "cai" | "neutro"; variavel: string } }[];
   } | null;
   pracas: { data: string; valores: Record<string, { vista: number | null; prazo30: number | null }> } | null;
+  selic: { data: string; valor: number };
 };
 
 export const painel = dados as unknown as Painel;

@@ -1,220 +1,530 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { cenarios } from "@/lib/cenarios";
+import { distanciaKm, fretePorCabeca, ufDaPraca, UFS, FATOR_ESTRADA, KM_DENTRO_DO_ESTADO } from "@/lib/frete";
 import { numero, reais } from "@/lib/formato";
-import { entradaDoPainel } from "@/lib/entrada";
+import { calcular, custoArroba, NOME_ESTRUTURA, NOME_PARTE, type Entradas, type Estrutura, type Partes, type Selo } from "@/lib/margem";
 import type { Painel } from "@/lib/painel";
-import { custoArroba, descreverEstagio, estagio, NOME_ESTAGIO, relacaoTroca, veredito, type Estagio, type Perfil, type Selo } from "@/lib/veredito";
+import { descreverEstagio, estagio } from "@/lib/veredito";
+import { entradaDoPainel } from "@/lib/entrada";
 
-export const PERFIS: { id: Perfil; nome: string; quem: string }[] = [
-  { id: "cria", nome: "Cria", quem: "Tenho vacas e vendo bezerros" },
-  { id: "engorda", nome: "Recria / Engorda", quem: "Compro bezerro ou boi magro e vendo boi gordo" },
-  { id: "iniciante", nome: "Iniciante", quem: "Estou pensando em começar" },
+// O Consultor grava aqui o perfil que a pessoa informou (usado só para lembrar a estrutura preferida).
+export const CHAVE_PERFIL = "bussola:perfil";
+const CHAVE_ESTADO = "bussola:calculadora";
+
+const ESTRUTURAS: { id: Estrutura; quem: string }[] = [
+  { id: "recria", quem: "Compro bezerro ou garrote, engordo no pasto e vendo boi gordo" },
+  { id: "confinamento", quem: "Compro boi magro toda semana e termino no cocho" },
+  { id: "cria", quem: "Tenho matrizes e vendo bezerro" },
+  { id: "revenda", quem: "Compro boi gordo onde está mais barato e vendo onde paga mais" },
 ];
 
-export const CHAVE_PERFIL = "bussola:perfil";
-
+const ROTULO_SELO: Record<Selo, string> = { compensa: "Compensa", apertada: "Margem apertada", nao: "Não compensa" };
 const COR_SELO: Record<Selo, string> = {
-  melhor: "border-capim/60 bg-capim/10 text-capim",
-  bom: "border-sol/60 bg-sol/10 text-sol",
-  aguarde: "border-alerta/60 bg-alerta/10 text-alerta",
+  compensa: "border-capim/60 bg-capim/10 text-capim",
+  apertada: "border-sol/60 bg-sol/10 text-sol",
+  nao: "border-alerta/60 bg-alerta/10 text-alerta",
 };
 
-const lerPerfil = (): Perfil => {
-  try {
-    const v = localStorage.getItem(CHAVE_PERFIL);
-    if (v === "cria" || v === "engorda" || v === "iniciante") return v;
-  } catch {}
-  return "iniciante";
-};
+// Valores de partida: preços vêm dos dados; o resto é exemplo para a pessoa trocar pelos da sua fazenda.
+function padrao(estrutura: Estrutura, p: Painel): Entradas {
+  const base: Entradas = {
+    estrutura, compraCab: p.hoje.bezerro, pesoCompra: 200, pesoVenda: 510, gmd: 0.6, custoDia: 4.5, rendimento: 52,
+    vendaArroba: p.hoje.boi, mortalidade: 1.5, taxaDesmama: 70, custoMatrizAno: 1000, valorMatriz: Math.round(p.hoje.bezerro),
+    vendaBezerro: p.hoje.bezerro, vendaCab: Math.round(18 * p.hoje.boi), diasRevenda: 7, quebra: 1, frete: 0, juros: p.selic.valor,
+  };
+  if (estrutura === "confinamento")
+    return { ...base, compraCab: Math.round(12.5 * p.hoje.boi), pesoCompra: 375, pesoVenda: 540, gmd: 1.5, custoDia: 18 };
+  if (estrutura === "revenda") return { ...base, compraCab: Math.round(18 * p.hoje.boi), pesoCompra: 540, pesoVenda: 540 };
+  return base;
+}
 
-function Campo({ rotulo, valor, children }: { rotulo: string; valor: string; children: React.ReactNode }) {
+function Num({ rotulo, valor, onChange, unidade, passo = 1, faixa, dica }: { rotulo: string; valor: number; onChange: (v: number) => void; unidade?: string; passo?: number; faixa?: [number, number]; dica?: string }) {
   return (
     <label className="block">
-      <span className="flex justify-between text-xs text-zinc-400">
+      <span className="flex items-baseline justify-between gap-3 text-sm text-zinc-300">
         <span>{rotulo}</span>
-        <span className="tabular-nums text-zinc-100">{valor}</span>
+        {unidade && <span className="text-xs text-zinc-400">{unidade}</span>}
       </span>
-      {children}
+      <input
+        type="number"
+        inputMode="decimal"
+        min={0}
+        step={passo}
+        value={Number.isFinite(valor) ? valor : ""}
+        onChange={(e) => onChange(e.target.value === "" ? 0 : Math.max(0, +e.target.value))}
+        className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base tabular-nums text-zinc-50"
+      />
+      {faixa && (
+        <input
+          type="range"
+          aria-label={`${rotulo} (ajuste rápido)`}
+          min={faixa[0]}
+          max={faixa[1]}
+          step={passo}
+          value={Math.min(faixa[1], Math.max(faixa[0], valor))}
+          onChange={(e) => onChange(+e.target.value)}
+          className="mt-1 w-full accent-[var(--color-sol)]"
+        />
+      )}
+      {dica && <span className="mt-0.5 block text-xs text-zinc-400">{dica}</span>}
     </label>
   );
 }
 
-const deslizar = "mt-2 w-full accent-[var(--color-sol)]";
+const faixaDe = (v: number): [number, number] => [Math.round(v * 0.5), Math.round(v * 1.6)];
+
+function lerChaveOr(): string {
+  try {
+    return JSON.parse(localStorage.getItem("bussola:openrouter") ?? "{}").chave ?? "";
+  } catch {
+    return "";
+  }
+}
 
 export function Decisao({ painel }: { painel: Painel }) {
-  const [perfil, setPerfil] = useState<Perfil>("iniciante");
-  const [boi, setBoi] = useState(painel.hoje.boi);
-  const [bezerro, setBezerro] = useState(painel.hoje.bezerro);
-  const [praca, setPraca] = useState("");
-  const [custoDia, setCustoDia] = useState(18);
-  const [gmd, setGmd] = useState(1.4);
-  const [faseSim, setFaseSim] = useState<Estagio | "">("");
+  const [estrutura, setEstrutura] = useState<Estrutura>("recria");
+  const [e, setE] = useState<Entradas>(() => padrao("recria", painel));
+  const [ufFazenda, setUfFazenda] = useState("SP");
+  const [ufCompra, setUfCompra] = useState("");
+  const [pracaVenda, setPracaVenda] = useState("");
+  const [rsKm, setRsKm] = useState(7);
+  const [cargaKg, setCargaKg] = useState(24000);
+  const [freteManual, setFreteManual] = useState<number | null>(null);
+  const [explicacao, setExplicacao] = useState<{ texto: string; para: string } | null>(null);
+  const [carregando, setCarregando] = useState(false);
+  const [erro, setErro] = useState("");
 
   useEffect(() => {
-    setPerfil(lerPerfil());
-    const ouvir = () => setPerfil(lerPerfil());
-    window.addEventListener("bussola:perfil", ouvir);
-    return () => window.removeEventListener("bussola:perfil", ouvir);
-  }, []);
-
-  const escolher = (p: Perfil) => {
-    setPerfil(p);
     try {
-      localStorage.setItem(CHAVE_PERFIL, p);
+      const s = JSON.parse(localStorage.getItem(CHAVE_ESTADO) ?? "{}");
+      if (s.ufFazenda && UFS.includes(s.ufFazenda)) setUfFazenda(s.ufFazenda);
+      if (["recria", "confinamento", "cria", "revenda"].includes(s.estrutura)) escolher(s.estrutura);
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const lembrar = (est: Estrutura, uf: string) => {
+    try {
+      localStorage.setItem(CHAVE_ESTADO, JSON.stringify({ estrutura: est, ufFazenda: uf }));
     } catch {}
   };
+  function escolher(est: Estrutura) {
+    setEstrutura(est);
+    setE(padrao(est, painel));
+    setFreteManual(null);
+    setExplicacao(null);
+    lembrar(est, ufFazenda);
+  }
+  const mudar = <K extends keyof Entradas>(k: K, v: Entradas[K]) => setE((x) => ({ ...x, [k]: v }));
+
+  // Praças de boi gordo (Scot): média por estado
+  const porUf = useMemo(() => {
+    const g: Record<string, number[]> = {};
+    for (const [n, p] of Object.entries(painel.pracas?.valores ?? {})) if (p.vista) (g[ufDaPraca(n)] ??= []).push(p.vista);
+    return Object.fromEntries(Object.entries(g).map(([uf, v]) => [uf, v.reduce((a, b) => a + b, 0) / v.length]));
+  }, [painel]);
+  const ufsComPreco = Object.keys(porUf);
+  const maisPerto = ufsComPreco.length ? [...ufsComPreco].sort((a, b) => distanciaKm(ufFazenda, a) - distanciaKm(ufFazenda, b))[0] : null;
+  const ufPreco = porUf[ufFazenda] ? ufFazenda : maisPerto;
+
+  const ufVenda = pracaVenda ? ufDaPraca(pracaVenda) : ufFazenda;
+  const kmCompra = ufCompra ? distanciaKm(ufCompra, ufFazenda) : 0;
+  const kmVenda = distanciaKm(ufFazenda, ufVenda);
+  const freteEstimado =
+    estrutura === "cria"
+      ? 0
+      : estrutura === "revenda"
+        ? Math.round(fretePorCabeca(distanciaKm(ufCompra || ufFazenda, ufVenda), rsKm, e.pesoVenda, cargaKg))
+        : Math.round(fretePorCabeca(kmCompra, rsKm, e.pesoCompra, cargaKg) * (ufCompra ? 1 : 0) + fretePorCabeca(kmVenda, rsKm, e.pesoVenda, cargaKg));
+  const entradas: Entradas = { ...e, estrutura, frete: estrutura === "cria" ? 0 : (freteManual ?? freteEstimado) };
+
+  const r = calcular(entradas);
+  const cen = cenarios(entradas, painel, r.dias);
+  const fase = estagio(entradaDoPainel(painel));
+  const snapshot = JSON.stringify(entradas);
+  const desatualizada = explicacao && explicacao.para !== snapshot;
+
+  // Uma frase pronta, calculada na hora, dizendo por que compensa ou não.
+  const unidadeEmpate = estrutura === "cria" ? "por bezerro" : estrutura === "revenda" ? "por cabeça" : "por arroba";
+  const precoAtual = estrutura === "cria" ? e.vendaBezerro : estrutura === "revenda" ? e.vendaCab : e.vendaArroba;
+  const maior = Object.entries(r.partes).sort((a, b) => b[1] - a[1])[0] as [keyof Partes, number];
+  const porque =
+    r.selo === "nao"
+      ? `Cada ${estrutura === "cria" ? "matriz perde" : "cabeça perde"} ${reais(-r.margem)}. Pesa mais ${NOME_PARTE[maior[0]]}: ${reais(maior[1])}, ${numero((maior[1] / Math.max(1, r.receita)) * 100, 0)}% do que entra. Para empatar, o preço de venda teria de ser ${reais(r.empateVenda)} ${unidadeEmpate} (hoje ${reais(precoAtual)})${Number.isFinite(r.tetoCompra) && estrutura !== "revenda" ? `, ou o animal ser comprado por no máximo ${reais(Math.max(0, r.tetoCompra))}` : ""}.`
+      : r.selo === "apertada"
+        ? `Sobram ${reais(r.margem)} por ${estrutura === "cria" ? "matriz" : "cabeça"} (${numero(r.retorno * 100, 1)}% sobre o dinheiro parado). Já descontados os juros, mas qualquer queda de preço zera a margem: o empate é ${reais(r.empateVenda)} ${unidadeEmpate}.`
+        : `Sobram ${reais(r.margem)} por ${estrutura === "cria" ? "matriz" : "cabeça"}, ${numero(r.retorno * 100, 1)}% sobre o dinheiro parado, já descontados os juros. O preço de venda pode cair até ${reais(r.empateVenda)} ${unidadeEmpate} antes de zerar.`;
+
+  // Onde vender (boi gordo, líquido de frete) — para quem engorda
+  const arrobasCab = (e.pesoVenda * (e.rendimento / 100)) / 15;
+  const vender = Object.entries(painel.pracas?.valores ?? {})
+    .filter(([, p]) => p.vista)
+    .map(([nome, p]) => {
+      const fr = fretePorCabeca(distanciaKm(ufFazenda, ufDaPraca(nome)), rsKm, e.pesoVenda, cargaKg) / Math.max(1, arrobasCab);
+      return { nome, bruto: p.vista!, frete: fr, liquido: p.vista! - fr };
+    })
+    .sort((a, b) => b.liquido - a.liquido);
+
+  // Revenda: melhor par de estados (compra no mais barato, vende onde paga mais), líquido de frete e quebra
+  const pares = useMemo(() => {
+    const out: { de: string; para: string; compra: number; venda: number; frete: number; sobra: number }[] = [];
+    const ufs = Object.keys(porUf);
+    for (const de of ufs)
+      for (const para of ufs) {
+        if (de === para) continue;
+        const compra = 18 * porUf[de], venda = 18 * porUf[para];
+        const frete = fretePorCabeca(distanciaKm(de, para), rsKm, 540, cargaKg);
+        out.push({ de, para, compra, venda, frete, sobra: venda * (1 - e.quebra / 100) - compra - frete });
+      }
+    return out.sort((a, b) => b.sobra - a.sobra).slice(0, 6);
+  }, [porUf, rsKm, cargaKg, e.quebra]);
 
   const escolherPraca = (nome: string) => {
-    setPraca(nome);
-    const v = nome && painel.pracas?.valores[nome]?.vista;
-    setBoi(v || painel.hoje.boi);
+    setPracaVenda(nome);
+    setExplicacao(null);
+    const v = nome ? painel.pracas?.valores[nome]?.vista : null;
+    if (!v) return;
+    if (estrutura === "revenda") mudar("vendaCab", Math.round(18 * v));
+    else mudar("vendaArroba", v);
   };
 
-  const entrada = entradaDoPainel(painel, boi, bezerro);
-  const faseReal = estagio(entrada);
-  const v = veredito(perfil, entrada, faseSim || undefined);
-  const rt = relacaoTroca(boi, bezerro);
-  const alterado = Math.abs(boi - painel.hoje.boi) > 0.5 || Math.abs(bezerro - painel.hoje.bezerro) > 5;
-  // Melhor caso possível nos controles (boi no máximo, bezerro no mínimo): se nem ele muda o selo, o preço não decide nesta fase.
-  const melhorCaso = veredito(perfil, entradaDoPainel(painel, Math.round(painel.hoje.boi * 1.4), Math.round(painel.hoje.bezerro * 0.6)), faseSim || undefined);
-  const precoNaoDecide = melhorCaso.selo === v.selo && v.selo === "aguarde";
-  const ca = custoArroba(custoDia, gmd);
-  const pracas = Object.entries(painel.pracas?.valores ?? {}).filter(([, p]) => p.vista);
+  const aplicarRegiao = () => {
+    if (!ufPreco) return;
+    const v = Math.round(porUf[ufPreco] * 10) / 10;
+    if (estrutura === "revenda") setE((x) => ({ ...x, compraCab: Math.round(18 * v) }));
+    else mudar("vendaArroba", v);
+    setExplicacao(null);
+  };
+
+  async function explicar() {
+    setCarregando(true);
+    setErro("");
+    try {
+      const chave = lerChaveOr();
+      const resp = await fetch("/api/explicar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(chave ? { "x-openrouter-key": chave } : {}) },
+        body: JSON.stringify({ entradas }),
+      });
+      const j = await resp.json().catch(() => ({}));
+      if (!resp.ok) throw new Error(j.erro ?? `Erro ${resp.status}`);
+      setExplicacao({ texto: j.texto, para: snapshot });
+    } catch (x) {
+      setErro((x as Error).message);
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  const receita = Math.max(1, r.receita);
+  const barras: { chave: keyof Partes; cor: string }[] = [
+    { chave: "compra", cor: "bg-zinc-400" },
+    { chave: "operacao", cor: "bg-sol" },
+    { chave: "frete", cor: "bg-sky-400" },
+    { chave: "juros", cor: "bg-violet-400" },
+    { chave: "perdas", cor: "bg-alerta" },
+  ];
+  const custoTotal = Object.values(r.partes).reduce((a, b) => a + b, 0);
+  const qtd = estrutura === "cria" ? "matriz/ano" : "cabeça";
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-      <div>
-        <div role="tablist" aria-label="Seu perfil" className="grid grid-cols-3 gap-1 rounded-xl bg-terra-900 p-1">
-          {PERFIS.map((p) => (
-            <button
-              key={p.id}
-              role="tab"
-              aria-selected={perfil === p.id}
-              onClick={() => escolher(p.id)}
-              className={`rounded-lg px-2 py-2.5 text-sm font-medium transition-colors ${
-                perfil === p.id ? "bg-terra-700 text-zinc-50" : "text-zinc-400 hover:text-zinc-200"
-              }`}
-            >
-              {p.nome}
-            </button>
-          ))}
-        </div>
-        <p className="mt-2 text-xs text-zinc-500">{PERFIS.find((p) => p.id === perfil)!.quem}</p>
-
-        <AnimatePresence mode="wait">
-          <motion.article
-            key={`${perfil}-${v.selo}`}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25 }}
-            className="mt-4 rounded-2xl border border-terra-700 bg-terra-900 p-5"
-            aria-live="polite"
-          >
-            <p className="text-xs uppercase tracking-wider text-zinc-500">Veredito de compra{alterado ? " (com os seus preços)" : ""}{faseSim ? ` · simulando: ${NOME_ESTAGIO[faseSim]}` : ""}</p>
-            <p className={`mt-2 inline-block rounded-full border px-4 py-1.5 font-display text-xl font-semibold ${COR_SELO[v.selo]}`}>{v.titulo}</p>
-            <ul className="mt-4 space-y-2 text-sm leading-relaxed text-zinc-300">
-              <li className="text-zinc-400">{faseSim ? `Cenário: e se o ciclo estivesse em ${NOME_ESTAGIO[faseSim]}? (hoje está em ${NOME_ESTAGIO[faseReal]}.)` : descreverEstagio(entrada)}</li>
-              {v.motivos.map((m) => (
-                <li key={m} className="flex gap-2">
-                  <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-500" />
-                  {m}
-                </li>
-              ))}
-            </ul>
-            {v.pontos && (
-              <p className="mt-4 rounded-lg bg-terra-950 px-3 py-2 text-xs leading-relaxed text-zinc-400">
-                Conta dos pontos: fase do ciclo <strong className="text-zinc-200">{v.pontos.ciclo > 0 ? "+" : ""}{v.pontos.ciclo}</strong>
-                {perfil === "engorda" && <> + relação de troca <strong className="text-zinc-200">{v.pontos.troca > 0 ? "+" : ""}{v.pontos.troca}</strong></>} = <strong className="text-zinc-200">{v.pontos.total > 0 ? "+" : ""}{v.pontos.total}</strong>.
-                {" "}1 ponto vira &quot;Bom para comprar&quot; e 2 viram &quot;Melhor momento&quot;.
-              </p>
-            )}
-            {perfil === "iniciante" && <p className="mt-3 text-xs text-zinc-500">O Iniciante recebe o pior selo entre Cria e Engorda: por cautela, só compra quando os dois estão bons.</p>}
-            {precoNaoDecide && (
-              <p className="mt-3 rounded-lg border border-sol/30 bg-sol/10 px-3 py-2 text-sm text-sol">
-                Nesta fase do ciclo, nenhum preço do boi ou do bezerro muda o veredito: o que pesa é o momento do ciclo. Para ver o veredito reagir, simule outra fase ao lado.
-              </p>
-            )}
-            <p className="mt-4 border-t border-terra-700 pt-4 text-sm leading-relaxed text-zinc-300">{v.venda}</p>
-          </motion.article>
-        </AnimatePresence>
-      </div>
-
-      <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
-        <h3 className="font-display text-lg text-zinc-100">Simule com os seus preços</h3>
-        <p className="mt-1 text-xs text-zinc-500">Mexa nos preços e na fase do ciclo: o veredito reage na hora.</p>
-        <div className="mt-4 space-y-5">
-          <label className="block">
-            <span className="text-xs text-zinc-400">E se o ciclo estivesse em outra fase?</span>
-            <select value={faseSim} onChange={(e) => setFaseSim(e.target.value as Estagio | "")} className="mt-2 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 py-2 text-sm">
-              <option value="">Fase de hoje ({NOME_ESTAGIO[faseReal]})</option>
-              {(Object.keys(NOME_ESTAGIO) as Estagio[]).map((e) => (
-                <option key={e} value={e}>
-                  Simular: {NOME_ESTAGIO[e]}
-                </option>
-              ))}
-            </select>
-          </label>
-          {pracas.length > 0 && (
-            <label className="block">
-              <span className="text-xs text-zinc-400">Sua praça (boi gordo à vista, Scot {painel.pracas!.data.split("-").reverse().join("/")}; só {new Set(pracas.map(([n]) => n.slice(0, 2))).size} estados: {[...new Set(pracas.map(([n]) => n.slice(0, 2)))].join(", ")})</span>
-              <select
-                value={praca}
-                onChange={(e) => escolherPraca(e.target.value)}
-                className="mt-2 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 py-2 text-sm"
+    <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
+      <div className="space-y-6">
+        <fieldset>
+          <legend className="text-sm font-medium text-zinc-200">1. Como você trabalha?</legend>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2">
+            {ESTRUTURAS.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                aria-pressed={estrutura === s.id}
+                onClick={() => escolher(s.id)}
+                className={`rounded-xl border p-3 text-left transition-colors ${estrutura === s.id ? "border-sol bg-sol/10" : "border-terra-700 bg-terra-900 hover:border-zinc-500"}`}
               >
-                <option value="">Referência Cepea (SP)</option>
-                {pracas.map(([nome, p]) => (
-                  <option key={nome} value={nome}>
-                    {nome} — {reais(p.vista!)}
-                  </option>
+                <span className="block font-medium text-zinc-50">{NOME_ESTRUTURA[s.id]}</span>
+                <span className="mt-0.5 block text-xs text-zinc-400">{s.quem}</span>
+              </button>
+            ))}
+          </div>
+        </fieldset>
+
+        <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+          <h3 className="font-display text-lg text-zinc-50">2. Onde fica e para onde vai</h3>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <label className="block text-sm text-zinc-300">
+              Estado da sua fazenda
+              <select
+                value={ufFazenda}
+                onChange={(ev) => {
+                  setUfFazenda(ev.target.value);
+                  lembrar(estrutura, ev.target.value);
+                }}
+                className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
+              >
+                {UFS.map((u) => (
+                  <option key={u}>{u}</option>
                 ))}
               </select>
             </label>
-          )}
-          <Campo rotulo="Boi gordo (R$/@)" valor={reais(boi)}>
-            <input type="range" min={Math.round(painel.hoje.boi * 0.6)} max={Math.round(painel.hoje.boi * 1.4)} step={1} value={boi} onChange={(e) => setBoi(+e.target.value)} className={deslizar} />
-          </Campo>
-          <Campo rotulo="Bezerro (R$/cabeça)" valor={reais(bezerro)}>
-            <input type="range" min={Math.round(painel.hoje.bezerro * 0.6)} max={Math.round(painel.hoje.bezerro * 1.4)} step={10} value={bezerro} onChange={(e) => setBezerro(+e.target.value)} className={deslizar} />
-          </Campo>
-          <p className="rounded-lg bg-terra-950 px-3 py-2 text-sm text-zinc-300">
-            1 boi de 18@ compra <strong className="text-zinc-50">{numero(rt)}</strong> bezerros
-            <span className="block text-xs text-zinc-500">Normal dos últimos 10 anos: {numero(painel.troca.mediana)}</span>
-          </p>
-          {alterado && (
-            <button
-              onClick={() => {
-                setBoi(painel.hoje.boi);
-                setBezerro(painel.hoje.bezerro);
-                setPraca("");
-              }}
-              className="text-xs text-sol underline underline-offset-4"
-            >
-              Voltar aos preços de hoje
-            </button>
-          )}
-
-          <div className="border-t border-terra-700 pt-4">
-            <p className="text-sm font-medium text-zinc-200">Quanto custa produzir 1 arroba?</p>
-            <p className="mt-1 text-xs text-zinc-500">Os valores iniciais são só um exemplo. Troque pelos da sua fazenda.</p>
-            <div className="mt-3 space-y-4">
-              <Campo rotulo="Custo por animal por dia (comida + operação)" valor={reais(custoDia, 2)}>
-                <input type="range" min={3} max={40} step={0.5} value={custoDia} onChange={(e) => setCustoDia(+e.target.value)} className={deslizar} />
-              </Campo>
-              <Campo rotulo="Ganho de peso por dia" valor={`${numero(gmd, 2)} kg`}>
-                <input type="range" min={0.2} max={2} step={0.05} value={gmd} onChange={(e) => setGmd(+e.target.value)} className={deslizar} />
-              </Campo>
-              <p className="text-sm text-zinc-300">
-                Cada arroba produzida custa <strong className={ca < boi ? "text-capim" : "text-alerta"}>{reais(ca)}</strong>
-                {ca < boi ? " — abaixo do preço do boi." : " — acima do preço do boi: engordar não compensa."}
-                <span className="block text-xs text-zinc-500">Conta: custo diário ÷ (ganho diário ÷ 15 kg). Só conta comida e operação: o bezerro comprado, o pasto e os juros ficam de fora.</span>
-              </p>
-            </div>
+            {estrutura !== "cria" && (
+              <label className="block text-sm text-zinc-300">
+                {estrutura === "revenda" ? "Comprar em (estado)" : "Comprar animais de (estado)"}
+                <select value={ufCompra} onChange={(ev) => setUfCompra(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base">
+                  <option value="">{estrutura === "revenda" ? `No meu estado (${ufFazenda})` : "Do meu estado, sem frete de compra"}</option>
+                  {UFS.filter((u) => estrutura === "revenda" || u !== ufFazenda).map((u) => (
+                    <option key={u}>{u}</option>
+                  ))}
+                </select>
+              </label>
+            )}
+            {estrutura !== "cria" && (
+              <label className="block text-sm text-zinc-300 sm:col-span-2">
+                {estrutura === "revenda" ? "Vender em" : "Vender o boi gordo em"}
+                <select value={pracaVenda} onChange={(ev) => escolherPraca(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base">
+                  <option value="">Na minha região ({ufFazenda})</option>
+                  {vender.map((v) => (
+                    <option key={v.nome} value={v.nome}>
+                      {v.nome} — {reais(v.bruto)}/@
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
           </div>
-        </div>
+          {ufPreco ? (
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <button type="button" onClick={aplicarRegiao} className="h-11 rounded-lg bg-sol px-4 text-sm font-semibold text-terra-950 hover:brightness-110">
+                Usar preços de {ufPreco}
+              </button>
+              <span className="text-xs text-zinc-400">
+                {ufPreco !== ufFazenda ? `${ufFazenda} não tem cotação; o estado com cotação mais perto é ${ufPreco}. ` : ""}Boi gordo à vista: {reais(porUf[ufPreco], 2)}/@ (Scot, {painel.pracas!.data.split("-").reverse().join("/")}). O preço do bezerro por região ainda não tem fonte aberta: digite o que você paga.
+              </span>
+            </div>
+          ) : null}
+        </section>
+
+        <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+          <h3 className="font-display text-lg text-zinc-50">3. Os números do seu negócio</h3>
+          <p className="mt-1 text-xs text-zinc-400">Preços de hoje vêm dos dados. O resto é só exemplo: troque pelos da sua fazenda, tudo muda o resultado na hora.</p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {(estrutura === "recria" || estrutura === "confinamento") && (
+              <>
+                <Num rotulo="Preço pago por animal" unidade="R$/cabeça" passo={50} valor={e.compraCab} onChange={(v) => mudar("compraCab", v)} faixa={faixaDe(padrao(estrutura, painel).compraCab)} dica={estrutura === "recria" ? `Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}` : "Exemplo: 12,5 arrobas × preço da arroba"} />
+                <Num rotulo="Preço de venda do boi gordo" unidade="R$/@" passo={1} valor={e.vendaArroba} onChange={(v) => mudar("vendaArroba", v)} faixa={faixaDe(painel.hoje.boi)} dica={`Cepea hoje: ${reais(painel.hoje.boi, 2)}`} />
+                <Num rotulo="Peso na compra" unidade="kg vivo" passo={5} valor={e.pesoCompra} onChange={(v) => mudar("pesoCompra", v)} />
+                <Num rotulo="Peso na venda" unidade="kg vivo" passo={5} valor={e.pesoVenda} onChange={(v) => mudar("pesoVenda", v)} />
+                <Num rotulo="Ganho de peso por dia" unidade="kg/dia" passo={0.05} valor={e.gmd} onChange={(v) => mudar("gmd", v)} faixa={[0.2, 2]} />
+                <Num rotulo="Custo por animal por dia" unidade="R$/dia" passo={0.5} valor={e.custoDia} onChange={(v) => mudar("custoDia", v)} faixa={[2, 40]} dica="Comida, sal, mão de obra, vacina" />
+                <Num rotulo="Rendimento de carcaça" unidade="%" passo={0.5} valor={e.rendimento} onChange={(v) => mudar("rendimento", v)} />
+                <Num rotulo="Animais que se perdem" unidade="%" passo={0.5} valor={e.mortalidade} onChange={(v) => mudar("mortalidade", v)} />
+              </>
+            )}
+            {estrutura === "cria" && (
+              <>
+                <Num rotulo="Preço do bezerro vendido" unidade="R$/cabeça" passo={50} valor={e.vendaBezerro} onChange={(v) => mudar("vendaBezerro", v)} faixa={faixaDe(painel.hoje.bezerro)} dica={`Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}`} />
+                <Num rotulo="Bezerros desmamados por matriz" unidade="% ao ano" passo={1} valor={e.taxaDesmama} onChange={(v) => mudar("taxaDesmama", v)} faixa={[30, 100]} />
+                <Num rotulo="Custo de manter uma matriz" unidade="R$/ano" passo={50} valor={e.custoMatrizAno} onChange={(v) => mudar("custoMatrizAno", v)} faixa={[300, 3000]} dica="Pasto, sal, vacina, mão de obra" />
+                <Num rotulo="Valor da matriz" unidade="R$" passo={100} valor={e.valorMatriz} onChange={(v) => mudar("valorMatriz", v)} dica="Dinheiro parado na vaca" />
+              </>
+            )}
+            {estrutura === "revenda" && (
+              <>
+                <Num rotulo="Preço de compra" unidade="R$/cabeça de 18@" passo={50} valor={e.compraCab} onChange={(v) => mudar("compraCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
+                <Num rotulo="Preço de venda" unidade="R$/cabeça de 18@" passo={50} valor={e.vendaCab} onChange={(v) => mudar("vendaCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
+                <Num rotulo="Dias até vender" unidade="dias" valor={e.diasRevenda} onChange={(v) => mudar("diasRevenda", v)} />
+                <Num rotulo="Perda no transporte" unidade="%" passo={0.5} valor={e.quebra} onChange={(v) => mudar("quebra", v)} dica="Quebra de peso e mortes" />
+              </>
+            )}
+            <Num rotulo="Custo do dinheiro" unidade="% ao ano" passo={0.5} valor={e.juros} onChange={(v) => mudar("juros", v)} dica={`Selic hoje: ${numero(painel.selic.valor)}% (Banco Central)`} />
+          </div>
+
+          {estrutura !== "cria" && (
+            <div className="mt-5 border-t border-terra-700 pt-4">
+              <p className="text-sm font-medium text-zinc-200">Frete (estimado pela distância)</p>
+              <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                <Num rotulo="Preço do frete" unidade="R$ por km rodado" passo={0.5} valor={rsKm} onChange={setRsKm} dica="Exemplo: pergunte ao seu transportador" />
+                <Num rotulo="Carga do caminhão" unidade="kg" passo={500} valor={cargaKg} onChange={setCargaKg} dica="Exemplo: carreta boiadeira" />
+              </div>
+              {(
+                <p className="mt-3 text-sm text-zinc-300">
+                  Frete por cabeça: <strong className="text-zinc-50">{reais(entradas.frete)}</strong>
+                  {freteManual == null ? " (estimado)" : " (digitado)"}
+                  <span className="mt-1 block text-xs text-zinc-400">
+                    {estrutura === "revenda" ? `Viagem: ${numero(distanciaKm(ufCompra || ufFazenda, ufVenda), 0)} km.` : `Compra: ${ufCompra ? `${numero(kmCompra, 0)} km` : "sem frete"} · Venda: ${numero(kmVenda, 0)} km.`} Distância em linha reta entre as capitais × {FATOR_ESTRADA} para a estrada; dentro do mesmo estado, {KM_DENTRO_DO_ESTADO} km. É estimativa.
+                  </span>
+                </p>
+              )}
+              {(
+                <div className="mt-2 flex flex-wrap items-end gap-3">
+                  <div className="w-44">
+                    <Num rotulo="Ou digite o frete" unidade="R$/cabeça" passo={5} valor={freteManual ?? freteEstimado} onChange={setFreteManual} />
+                  </div>
+                  {freteManual != null && (
+                    <button type="button" onClick={() => setFreteManual(null)} className="mb-2 text-sm text-sol underline underline-offset-4">
+                      Voltar ao estimado
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </section>
+      </div>
+
+      <div className="space-y-4 lg:sticky lg:top-4 lg:self-start">
+        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5" aria-live="polite">
+          <p className="text-xs uppercase tracking-wider text-zinc-400">
+            Resultado · {NOME_ESTRUTURA[estrutura]} · por {qtd}
+          </p>
+          <p className={`mt-2 inline-block rounded-full border px-4 py-1.5 font-display text-xl font-bold ${COR_SELO[r.selo]}`}>{ROTULO_SELO[r.selo]}</p>
+          <dl className="mt-4 grid grid-cols-3 gap-px overflow-hidden rounded-xl border border-terra-700 bg-terra-700 text-center">
+            {[
+              { t: estrutura === "cria" ? "Sobra por matriz/ano" : "Sobra por cabeça", v: reais(r.margem), cor: r.margem >= 0 ? "text-capim" : "text-alerta" },
+              { t: "Por mês", v: reais(r.margemMes), cor: r.margemMes >= 0 ? "text-capim" : "text-alerta" },
+              { t: estrutura === "cria" ? "Prazo" : "Dias no negócio", v: numero(r.dias, 0), cor: "text-zinc-50" },
+            ].map((x) => (
+              <div key={x.t} className="bg-terra-900 p-3">
+                <dt className="text-xs text-zinc-400">{x.t}</dt>
+                <dd className={`mt-1 font-display text-lg font-bold tabular-nums sm:text-xl ${x.cor}`}>{x.v}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-4 rounded-xl border-2 border-sol/50 bg-sol/10 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-sol">{r.selo === "nao" ? "Por que não compensa" : r.selo === "apertada" ? "Por que está apertado" : "Por que compensa"}</p>
+            <p className="mt-1 text-base leading-relaxed text-zinc-50">{porque}</p>
+          </div>
+
+          <div className="mt-4">
+            <p className="text-sm text-zinc-300">
+              Para cada {reais(receita)} que entram, {reais(custoTotal)} saem:
+            </p>
+            <div className="mt-2 flex h-4 w-full overflow-hidden rounded-full bg-terra-950" role="img" aria-label="Divisão dos custos">
+              {barras.map((b) => (
+                <div key={b.chave} className={b.cor} style={{ width: `${Math.min(100, (r.partes[b.chave] / Math.max(receita, custoTotal)) * 100)}%` }} title={`${NOME_PARTE[b.chave]}: ${reais(r.partes[b.chave])}`} />
+              ))}
+            </div>
+            <ul className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-zinc-300">
+              {barras.map((b) => (
+                <li key={b.chave} className="flex items-center gap-2">
+                  <span className={`h-2.5 w-2.5 shrink-0 rounded-sm ${b.cor}`} aria-hidden />
+                  <span className="flex-1">{b.chave === "compra" ? "Animal" : b.chave === "operacao" ? "Custo diário" : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : "Perdas"}</span>
+                  <span className="tabular-nums text-zinc-50">{reais(r.partes[b.chave])}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </article>
+
+        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5">
+          <h3 className="font-display text-lg text-zinc-50">E se o preço de venda mudar?</h3>
+          <p className="mt-1 text-sm text-zinc-300">{descreverEstagio(entradaDoPainel(painel))}</p>
+          {cen ? (
+            <>
+              <p className="mt-3 text-xs text-zinc-400">Previsão registrada para {cen.semanas} semanas, faixa de 80% (perto do prazo da operação). O seu preço de venda é movido na mesma proporção.</p>
+              <ul className="mt-2 grid grid-cols-3 gap-2 text-center">
+                {[
+                  { t: "Preço no mínimo", x: cen.pior },
+                  { t: "Esperado", x: cen.esperado },
+                  { t: "Preço no máximo", x: cen.melhor },
+                ].map(({ t, x }) => (
+                  <li key={t} className="rounded-lg bg-terra-950 p-2">
+                    <span className="block text-xs text-zinc-400">{t}</span>
+                    <span className={`block font-display text-base font-bold tabular-nums ${x.margem >= 0 ? "text-capim" : "text-alerta"}`}>{reais(x.margem)}</span>
+                  </li>
+                ))}
+              </ul>
+              {cen.pior.margem < 0 && r.margem >= 0 && <p className="mt-2 text-sm text-sol">Atenção: se o preço cair ao mínimo da faixa, a conta fica negativa. Vender parte antes ou travar preço na B3 reduz esse risco.</p>}
+              {cen.melhor.margem < 0 && <p className="mt-2 text-sm text-alerta">Mesmo com o preço no máximo da faixa, a conta não fecha. O problema está no custo ou no preço pago, não no ciclo.</p>}
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-zinc-400">Na revenda o preço de venda é o que você combina, sem previsão do modelo. Fase do ciclo hoje: {fase === "alta-madura" ? "fim da alta" : "veja acima"}.</p>
+          )}
+        </article>
+
+        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="font-display text-lg text-zinc-50">Explicação da IA</h3>
+            <button type="button" onClick={explicar} disabled={carregando} className="h-11 rounded-lg border border-sol/60 px-4 text-sm font-semibold text-sol hover:bg-sol/10 disabled:opacity-50">
+              {carregando ? "Pensando…" : explicacao ? "Atualizar explicação" : "Explicar com IA"}
+            </button>
+          </div>
+          {erro && <p className="mt-2 text-sm text-alerta">{erro}</p>}
+          {explicacao ? (
+            <>
+              {desatualizada && <p className="mt-2 text-sm text-sol">Você mudou os números. Clique em &quot;Atualizar explicação&quot;.</p>}
+              <p className={`mt-2 whitespace-pre-line text-base leading-relaxed ${desatualizada ? "text-zinc-400" : "text-zinc-50"}`}>{explicacao.texto}</p>
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-zinc-400">A conta acima é instantânea. A explicação em texto (IA) só é gerada quando você clica, para não gastar créditos a cada toque.</p>
+          )}
+        </article>
+      </div>
+
+      <div className="space-y-4 lg:col-span-2">
+        {estrutura === "revenda" ? (
+          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-zinc-50">Onde comprar e onde vender</h3>
+            <p className="mt-1 text-sm text-zinc-300">Melhores pares de estados para boi gordo de 18@, depois do frete e da perda de {numero(e.quebra, 1)}%. Preço à vista da Scot, média dos estados.</p>
+            <ul className="mt-3 divide-y divide-terra-700 text-sm">
+              {pares.map((p) => (
+                <li key={`${p.de}${p.para}`} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
+                  <span className="min-w-28 font-medium text-zinc-50">
+                    {p.de} → {p.para}
+                  </span>
+                  <span className="flex-1 text-zinc-300">
+                    compra {reais(p.compra)} · vende {reais(p.venda)} · frete {reais(p.frete)}
+                  </span>
+                  <span className={`font-display font-bold tabular-nums ${p.sobra >= 0 ? "text-capim" : "text-alerta"}`}>{reais(p.sobra)}/cab</span>
+                  <button type="button" onClick={() => {
+                    setUfCompra(p.de);
+                    setPracaVenda(Object.keys(painel.pracas?.valores ?? {}).find((n) => ufDaPraca(n) === p.para) ?? "");
+                    setFreteManual(null);
+                    setExplicacao(null);
+                    setE((x) => ({ ...x, compraCab: Math.round(p.compra), vendaCab: Math.round(p.venda) }));
+                  }} className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10">
+                    Usar na conta
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : estrutura !== "cria" ? (
+          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-zinc-50">Onde vender o boi gordo</h3>
+            <p className="mt-1 text-sm text-zinc-300">
+              Praças da Scot, já descontado o frete saindo de {ufFazenda} (carga de {numero(cargaKg / 1000, 1)} t, {reais(rsKm, 2)}/km). Veja se a diferença de preço paga a viagem.
+            </p>
+            <ul className="mt-3 divide-y divide-terra-700 text-sm">
+              {vender.slice(0, 6).map((v, i) => (
+                <li key={v.nome} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
+                  <span className="w-5 text-zinc-400">{i + 1}.</span>
+                  <span className="min-w-36 flex-1 font-medium text-zinc-50">{v.nome}</span>
+                  <span className="text-zinc-300">
+                    {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
+                  </span>
+                  <span className="font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
+                  <button type="button" onClick={() => { setPracaVenda(v.nome); mudar("vendaArroba", v.bruto); }} className="h-9 rounded-lg border border-terra-700 px-3 text-sm text-sol hover:bg-sol/10">
+                    Usar na conta
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-xs text-zinc-400">Onde comprar o bezerro e o boi magro mais barato: ainda falta uma fonte aberta de preços de reposição por estado (a página da Scot bloqueia robôs). Enquanto isso, digite o preço que você paga e use o frete acima para comparar origens.</p>
+          </section>
+        ) : null}
+
+        {(estrutura === "recria" || estrutura === "confinamento") && (
+          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-zinc-50">Quanto custa produzir 1 arroba?</h3>
+            <p className="mt-2 text-base text-zinc-300">
+              Com o custo e o ganho de peso acima, cada arroba produzida custa <strong className={custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? "text-capim" : "text-alerta"}>{reais(custoArroba(e.custoDia, e.gmd))}</strong>
+              {custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? ", abaixo do preço do boi." : ", acima do preço do boi."}
+              <span className="mt-1 block text-xs text-zinc-400">Conta: custo diário ÷ (ganho diário ÷ 15 kg). Só conta comida e operação; o animal comprado, o frete e os juros entram na margem acima.</span>
+            </p>
+          </section>
+        )}
       </div>
     </div>
   );

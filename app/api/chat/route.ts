@@ -1,5 +1,6 @@
 // Repassa a conversa para o OpenRouter. Usa a chave do próprio usuário (cabeçalho, nunca gravada)
 // ou, se não vier, a chave do servidor (OPENROUTER_API_KEY em .env.local), com limite por visitante.
+import { resolverChave } from "@/lib/chave";
 import { masterLigada } from "@/lib/master";
 import { painel } from "@/lib/painel";
 
@@ -9,16 +10,6 @@ const URL_OPENROUTER = "https://openrouter.ai/api/v1/chat/completions";
 const MODELO_PADRAO = process.env.MODELO_AGENTE ?? "";
 
 const CHAVE_SERVIDOR = process.env.OPENROUTER_API_KEY?.trim() ?? "";
-// Limite para a chave do servidor: cada visitante gasta créditos do dono.
-const LIMITE_POR_HORA = Number(process.env.CHAT_LIMITE_HORA ?? 20);
-const usos = new Map<string, number[]>();
-function dentroDoLimite(ip: string) {
-  const agora = Date.now();
-  const recentes = (usos.get(ip) ?? []).filter((t) => agora - t < 3_600_000);
-  if (recentes.length >= LIMITE_POR_HORA) return false;
-  usos.set(ip, [...recentes, agora]);
-  return true;
-}
 
 // servidor = a chave master está ligada e pronta. masterDesligada = o dono desligou: cada pessoa usa a sua.
 export async function GET() {
@@ -53,16 +44,13 @@ Regras:
 - Sempre ligue o conselho ao perfil do usuário (estrutura, capital, experiência, região) e ao momento do ciclo.
 - Mostre a conta quando usar um número.
 - Não é recomendação de investimento; é leitura estatística de dados públicos. Diga isso quando a pessoa pedir uma decisão de compra ou venda.
+- O momento do ciclo é só contexto de risco do preço de venda. Nunca diga "não compre" só pela fase: quem compra todo dia (confinamento, giro contínuo) precisa decidir onde e a que preço. Oriente a usar a calculadora de margem da aba Hoje (compra, frete, custo diário, venda) e o que mudaria o resultado.
 - Custo da arroba produzida = custo diário ÷ (ganho diário em kg ÷ 15).`;
 
 export async function POST(req: Request) {
-  const chaveUsuario = req.headers.get("x-openrouter-key")?.trim();
-  if (!chaveUsuario && !(await masterLigada()))
-    return Response.json({ erro: "Configure a sua chave do OpenRouter na engrenagem do Consultor.", masterDesligada: true }, { status: 403 });
-  const chave = chaveUsuario || CHAVE_SERVIDOR;
-  if (!chave) return Response.json({ erro: "Sem chave do OpenRouter." }, { status: 400 });
-  if (!chaveUsuario && !dentroDoLimite(req.headers.get("x-forwarded-for")?.split(",")[0].trim() || "local"))
-    return Response.json({ erro: "Limite de perguntas por hora atingido. Tente mais tarde." }, { status: 429 });
+  const k = await resolverChave(req);
+  if (k instanceof Response) return k;
+  const { chave, propria: chaveUsuario } = k;
   const { mensagens, perfil, modelo } = (await req.json()) as { mensagens: Mensagem[]; perfil?: string; modelo?: string };
   const nomeModelo = (modelo || MODELO_PADRAO).trim();
   if (!nomeModelo) return Response.json({ erro: "Informe o modelo (ex.: empresa/modelo) nas configurações do chat." }, { status: 400 });

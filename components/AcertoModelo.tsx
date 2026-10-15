@@ -28,7 +28,7 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
           <caption className="bg-terra-900 px-4 py-3 text-left text-xs text-zinc-400">
             Teste no passado: modelo ajustado só com dados até {acerto.teste.treinoAte.slice(0, 4)}, previsões feitas às cegas em {acerto.teste.periodo}.
           </caption>
-          <thead className="bg-terra-900 text-xs text-zinc-500">
+          <thead className="bg-terra-900 text-xs text-zinc-400">
             <tr>
               <th scope="col" className="px-4 py-2 text-left font-medium">Previsão</th>
               <th scope="col" className="px-4 py-2 text-right font-medium">Erro médio</th>
@@ -46,7 +46,7 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
                     {NOME[it.alvo]} em {it.semanas} semanas
                   </th>
                   <td className={`px-4 py-2.5 text-right ${ganhou ? "text-capim" : "text-zinc-300"}`}>{pct(it.erroMedioModelo, 1)}</td>
-                  <td className="px-4 py-2.5 text-right text-zinc-500">{pct(it.erroMedioIngenuo, 1)}</td>
+                  <td className="px-4 py-2.5 text-right text-zinc-400">{pct(it.erroMedioIngenuo, 1)}</td>
                   <td className="px-4 py-2.5 text-right text-zinc-300">{pct(it.acertoDirecao)}</td>
                   <td className={`px-4 py-2.5 text-right ${it.dentroDaFaixa80 >= 0.7 ? "text-zinc-300" : "text-sol"}`}>{pct(it.dentroDaFaixa80)}</td>
                 </tr>
@@ -69,14 +69,14 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
             return (
               <li key={`${it.alvo}${it.semanas}`} className="rounded-lg bg-terra-950 px-3 py-2 text-zinc-300">
                 {NOME[it.alvo]} em {it.semanas} semanas: erro <span className={ganhou ? "text-capim" : "text-sol"}>{pct(it.erroMedioModelo, 1)}</span>{" "}
-                <span className="text-zinc-500">
+                <span className="text-zinc-400">
                   (preço parado {pct(it.erroMedioIngenuo, 1)}; melhor em {it.anosMelhor} de {it.anos} anos)
                 </span>
               </li>
             );
           })}
         </ul>
-        <p className="mt-3 text-xs leading-relaxed text-zinc-500">
+        <p className="mt-3 text-xs leading-relaxed text-zinc-400">
           Leitura honesta: em 3 meses o modelo empata com o palpite &quot;o preço fica onde está&quot;. Ele ajuda mais no horizonte de 1 ano. Testamos
           incluir o dólar e os juros: não melhoraram de forma consistente, então ficaram de fora.
         </p>
@@ -94,19 +94,19 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
             return (
               <div key={chave} className="rounded-xl bg-terra-950 p-4">
                 <p className="text-sm font-medium text-zinc-200">{titulo}</p>
-                <p className="mt-0.5 text-xs text-zinc-500">{explica}</p>
+                <p className="mt-0.5 text-xs text-zinc-400">{explica}</p>
                 <dl className="mt-3 space-y-1.5 text-sm tabular-nums">
                   {(["melhor", "bom", "aguarde"] as const).map((s) =>
                     r[s] ? (
                       <div key={s} className="flex justify-between gap-3">
                         <dt className={COR[s]}>{ROTULO[s]}</dt>
                         <dd className="text-zinc-300">
-                          {fmt(r[s]!.media)} <span className="text-zinc-500">· {r[s]!.meses} meses</span>
+                          {fmt(r[s]!.media)} <span className="text-zinc-400">· {r[s]!.meses} meses</span>
                         </dd>
                       </div>
                     ) : null,
                   )}
-                  <div className="flex justify-between gap-3 border-t border-terra-800 pt-1.5 text-zinc-500">
+                  <div className="flex justify-between gap-3 border-t border-terra-800 pt-1.5 text-zinc-400">
                     <dt>Se comprasse sempre</dt>
                     <dd>{fmt(r.corte)} (mediana)</dd>
                   </div>
@@ -115,7 +115,7 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
             );
           })}
         </div>
-        <p className="mt-4 text-xs leading-relaxed text-zinc-500">
+        <p className="mt-4 text-xs leading-relaxed text-zinc-400">
           Cuidado: são só três ciclos completos, e os meses vizinhos se parecem, então há poucas decisões realmente independentes. As regras
           também foram escritas por quem já conhecia essa história. Para a cria, usamos a valorização do bezerro porque não há série pública de
           preço de matriz.
