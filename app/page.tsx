@@ -76,14 +76,14 @@ export default function Pagina() {
         <Secao id="decisao" titulo="Comprar ou esperar?" sub="Escolha o seu perfil. O veredito vem de regras simples, com o motivo de cada uma. Mude os preços para ver como ele reage.">
           <Decisao painel={p} />
         </Secao>
-        <Secao id="onda" titulo="A onda do ciclo" sub="Preço real do boi gordo desde 2006, corrigido pela inflação. Toque ou passe o mouse para ver cada mês.">
+        <Secao id="onda" titulo="A onda do ciclo" sub="Preço real do boi gordo desde 1997, corrigido pela inflação. Toque ou passe o mouse para ver cada mês.">
           <CicloOnda serie={p.serie} pivos={p.pivos} fase={p.fase} hoje={p.hoje} previsaoBoi={prevBoi} />
           <details className="mt-6 max-w-3xl text-sm leading-relaxed text-zinc-400">
             <summary className="cursor-pointer text-zinc-300 hover:text-sol">Como a Bússola percebe a virada do ciclo</summary>
             <p className="mt-3">
               Picos e vales só contam depois que o preço anda 20% no sentido contrário. Além do preço, olhamos as vacas no abate (média de 12 meses):{" "}
               <strong className="text-zinc-200">{pct(p.fase.femeas ?? 0, 1)}</strong>, contra {pct(p.fase.femeasMedia10, 1)} nos últimos 10 anos. Quando muitas vacas vão
-              para o abate, nascem menos bezerros depois. O nível sozinho não marca a virada, mas a mudança de direção sim: desde 2006, cada pico de vacas no abate veio antes
+              para o abate, nascem menos bezerros depois. O nível sozinho não marca a virada, mas a mudança de direção sim: nos ciclos de 2006 a 2023, cada pico de vacas no abate veio antes
               de um pico do boi, sem sinal falso. A virada só conta quando a fatia cai meio ponto a partir do topo, e o IBGE publica com 3 meses de atraso.{" "}
               <span className="text-zinc-500">Veja o passo a passo na aba Conhecimento.</span>
             </p>

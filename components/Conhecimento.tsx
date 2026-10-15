@@ -323,7 +323,7 @@ export function Conhecimento({ painel: p }: { painel: Painel }) {
       <Passo n={5} titulo="O que a Bússola não sabe" resumo="Ela é uma leitura estatística, não uma bola de cristal. Três avisos honestos:">
         <ul className="space-y-3 text-sm leading-relaxed text-zinc-300">
           <li className="rounded-2xl bg-terra-950 p-4">
-            <strong className="text-zinc-100">Poucos ciclos.</strong> Desde 2006 foram só 3 ciclos completos. A janela do próximo pico é uma estimativa, não uma data.
+            <strong className="text-zinc-100">Poucos ciclos.</strong> Temos dados do boi desde 1997, mas só os 3 ciclos completos desde 2006 entram nas contas: o de 1998–2006 foi atípico e piorou os testes. A janela do próximo pico é uma estimativa, não uma data.
           </li>
           <li className="rounded-2xl bg-terra-950 p-4">
             <strong className="text-zinc-100">Previsão curta é difícil.</strong> Em 3 meses o modelo empata com o palpite “o preço fica onde está”. Ele ajuda mais em 1 ano. A aba <em>Previsão</em> mostra os testes.

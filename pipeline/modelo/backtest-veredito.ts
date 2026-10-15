@@ -5,10 +5,16 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { estagio, relacaoTroca, veredito, type Entrada, type Perfil, type Selo } from "../../lib/veredito.ts";
 import { montarSerie } from "./dados.ts";
-import { lerFasePreco, mesesEntre, pivosDePreco, relogioFemeas } from "./fase.ts";
+import { CICLOS_DESDE, lerFasePreco, mesesEntre, pivosDePreco, relogioFemeas } from "./fase.ts";
 import { prever, treinar } from "./previsao.ts";
 
 const LIMIAR = 0.2;
+// Padrão 2006–2023 (resultado publicado). Para olhar 2003–2005: TESTE_DE=2003-01 RTS_MIN=36 (o bezerro só existe desde fev/2000).
+// Nesses anos não há ciclo completo no histórico das regras, então a leitura é só um teste extra.
+const TESTE_DE = process.env.TESTE_DE ?? "2006-01";
+const RTS_MIN = Number(process.env.RTS_MIN ?? 60);
+const REL_DE = process.env.REL_DE ?? "0000-00"; // recorte só para a leitura do relatório (ex.: 2015-01 = período de teste das regras)
+const REL_ATE = process.env.REL_ATE ?? "9999-99";
 const VACAS = process.env.SEM_VACAS !== "1"; // SEM_VACAS=1 roda a regra antiga, só pelo preço
 const MESES_ENGORDA = 18; // bezerro comprado vira boi gordo vendido
 const MESES_CRIA = 30; // matriz comprada → bezerros vendidos
@@ -25,12 +31,12 @@ const linhas: Linha[] = [];
 
 for (let i = 0; i < serie.length; i++) {
   const m = serie[i];
-  if (m.mes < "2006-01" || m.mes > "2023-12" || !m.bezerro) continue;
+  if (m.mes < TESTE_DE || m.mes > "2023-12" || !m.bezerro) continue;
 
   // Fase e durações só com o passado.
   const passado = serie.slice(0, i + 1);
   const fase = lerFasePreco(passado, i, LIMIAR);
-  const pivos = pivosDePreco(passado, LIMIAR).filter((p) => p.mes !== serie[0].mes);
+  const pivos = pivosDePreco(passado, LIMIAR).filter((p) => p.mes >= CICLOS_DESDE);
   const dur = (de: string, para: string) =>
     pivos.flatMap((p, k) => (p.tipo === de && pivos[k + 1]?.tipo === para ? [mesesEntre(p.mes, pivos[k + 1].mes)] : []));
   const vacas = relogioFemeas(serie, i, pivos, fase.sobe ? (fase.ultimoPivo?.mes ?? null) : null);
@@ -39,7 +45,7 @@ for (let i = 0; i < serie.length; i++) {
 
   // Faixas da relação de troca: até 10 anos anteriores (mínimo 5).
   const rts = serie.slice(Math.max(0, i - 119), i + 1).map((x) => x.rt).filter((v): v is number => v != null);
-  if (rts.length < 60) continue;
+  if (rts.length < RTS_MIN) continue;
 
   // Previsão de 13 semanas treinada só com resultados conhecidos até o mês.
   const varPrev = (alvo: "boi" | "bezerro") => {
@@ -89,7 +95,7 @@ const NOME: Record<Selo, string> = { melhor: "Melhor momento", bom: "Bom para co
 const relatorio: Record<string, unknown> = {};
 
 function avaliar(perfil: Perfil, criterio: "engorda" | "cria") {
-  const validas = linhas.filter((l) => l[criterio] != null);
+  const validas = linhas.filter((l) => l[criterio] != null && l.mes >= REL_DE && l.mes <= REL_ATE);
   const todos = validas.map((l) => l[criterio]!);
   const corte = mediana(todos);
   const fmt = (v: number) => (criterio === "engorda" ? `${v.toFixed(2)} bezerros` : `${v >= 0 ? "+" : ""}${pct(v)}`);
@@ -120,7 +126,7 @@ avaliar("iniciante", "cria");
 console.log("\nSelo mais frequente por ano (engorda | cria | iniciante):");
 const anos = [...new Set(linhas.map((l) => l.mes.slice(0, 4)))];
 for (const a of anos) {
-  const g = linhas.filter((l) => l.mes.startsWith(a));
+  const g = linhas.filter((l) => l.mes.startsWith(a) && l.mes >= REL_DE && l.mes <= REL_ATE);
   const moda = (p: Perfil) => {
     const c = SELOS.map((s) => [s, g.filter((l) => l.selos[p] === s).length] as const).sort((x, y) => y[1] - x[1]);
     return c[0][0];
@@ -128,8 +134,9 @@ for (const a of anos) {
   console.log(`  ${a}: ${moda("engorda").padEnd(8)} | ${moda("cria").padEnd(8)} | ${moda("iniciante")}`);
 }
 
-mkdirSync(new URL("../../data/backtest/", import.meta.url), { recursive: true });
+const SAIDA = process.env.BACKTEST_DIR ?? "../../data/backtest/";
+mkdirSync(new URL(SAIDA, import.meta.url), { recursive: true });
 writeFileSync(
-  new URL("../../data/backtest/vereditos.json", import.meta.url),
-  JSON.stringify({ geradoEm: new Date().toISOString(), periodo: "2006–2023", relatorio, linhas }, null, 1) + "\n",
+  new URL(`${SAIDA}vereditos.json`, import.meta.url),
+  JSON.stringify({ geradoEm: new Date().toISOString(), periodo: `${linhas[0].mes.slice(0, 4)}–2023`, relatorio, linhas }, null, 1) + "\n",
 );

@@ -1,5 +1,5 @@
 {
- "geradoEm": "2026-10-15T15:48:13.827Z",
+ "geradoEm": "2026-10-15T19:41:34.189Z",
  "fimTreino": "2022-12",
  "regraFase": {
   "janelaMedia": 60,
@@ -12,8 +12,8 @@
      "janelaMedia": 60,
      "janelaDirecao": 3
     },
-    "acerto": 0.6321243523316062,
-    "meses": 193
+    "acerto": 0.6697674418604651,
+    "meses": 215
    },
    "teste": {
     "acerto": 0.2826086956521739,
@@ -21,18 +21,18 @@
    }
   },
   "preco": {
-   "limiar": 0.2,
-   "acerto": 0.6468253968253969,
-   "meses": 252,
+   "limiar": 0.08,
+   "acerto": 0.648936170212766,
+   "meses": 282,
    "teste": {
-    "acerto": 0.7391304347826086,
+    "acerto": 0.6739130434782609,
     "meses": 46
    }
   },
   "linhaDeBase": {
    "treino": {
-    "acerto": 0.6958333333333333,
-    "meses": 240
+    "acerto": 0.6851851851851852,
+    "meses": 270
    },
    "teste": {
     "acerto": 0.7391304347826086,
@@ -47,7 +47,7 @@
    "meses": 1,
    "amostrasTreino": 155,
    "previsoesTeste": 45,
-   "erroMedioModelo": 0.033822522583904266,
+   "erroMedioModelo": 0.033822522583904245,
    "erroMedioIngenuo": 0.03855753499916362,
    "acertoDirecao": 0.7111111111111111,
    "dentroDaFaixa80": 0.7111111111111111
@@ -58,7 +58,7 @@
    "meses": 3,
    "amostrasTreino": 153,
    "previsoesTeste": 43,
-   "erroMedioModelo": 0.05694531144881856,
+   "erroMedioModelo": 0.056945311448818516,
    "erroMedioIngenuo": 0.07407528212062413,
    "acertoDirecao": 0.7674418604651163,
    "dentroDaFaixa80": 0.8837209302325582
@@ -69,7 +69,7 @@
    "meses": 12,
    "amostrasTreino": 144,
    "previsoesTeste": 34,
-   "erroMedioModelo": 0.1572037251899276,
+   "erroMedioModelo": 0.15720372518992734,
    "erroMedioIngenuo": 0.1619960490348039,
    "acertoDirecao": 0.8823529411764706,
    "dentroDaFaixa80": 0.5882352941176471
@@ -80,7 +80,7 @@
    "meses": 1,
    "amostrasTreino": 155,
    "previsoesTeste": 45,
-   "erroMedioModelo": 0.020486878019560287,
+   "erroMedioModelo": 0.02048687801956027,
    "erroMedioIngenuo": 0.021819772609090238,
    "acertoDirecao": 0.6888888888888889,
    "dentroDaFaixa80": 0.8666666666666667
@@ -91,7 +91,7 @@
    "meses": 3,
    "amostrasTreino": 153,
    "previsoesTeste": 43,
-   "erroMedioModelo": 0.04874265047074045,
+   "erroMedioModelo": 0.04874265047074037,
    "erroMedioIngenuo": 0.050755601511421645,
    "acertoDirecao": 0.813953488372093,
    "dentroDaFaixa80": 0.9069767441860465
@@ -112,7 +112,7 @@
   {
    "alvo": "boi",
    "semanas": 13,
-   "erroMedioModelo": 0.06053837972999113,
+   "erroMedioModelo": 0.060538379729991126,
    "erroMedioIngenuo": 0.06171434777724996,
    "anosMelhor": 6,
    "anos": 12
@@ -120,7 +120,7 @@
   {
    "alvo": "boi",
    "semanas": 52,
-   "erroMedioModelo": 0.13266769567920483,
+   "erroMedioModelo": 0.132667695679205,
    "erroMedioIngenuo": 0.14647763779329542,
    "anosMelhor": 7,
    "anos": 12
@@ -136,7 +136,7 @@
   {
    "alvo": "bezerro",
    "semanas": 52,
-   "erroMedioModelo": 0.1408639672609765,
+   "erroMedioModelo": 0.14086396726097664,
    "erroMedioIngenuo": 0.1667507169505664,
    "anosMelhor": 7,
    "anos": 12
@@ -151,14 +151,14 @@
    "minimo": 366.9084273540931,
    "maximo": 405.3816757650242,
    "contribuicoes": {
-    "femeasVsMedia": 0.0019929573478658443,
-    "femeasDirecao": 0.0016389117138952073,
-    "momento3m": 0.0045682762538350906,
-    "momento12m": 0.008257390696611506,
-    "precoRealVsMedia": -0.023851088459791697,
-    "trocaVsMedia": -0.00009143034708376383,
+    "femeasVsMedia": 0.001992957347865808,
+    "femeasDirecao": 0.0016389117138952108,
+    "momento3m": 0.004568276253835075,
+    "momento12m": 0.008257390696611503,
+    "precoRealVsMedia": -0.023851088459791548,
+    "trocaVsMedia": -0.00009143034708376361,
     "sazonalSen": 0.02022770685303256,
-    "sazonalCos": 0.000040087587192392844
+    "sazonalCos": 0.0000400875871923928
    }
   },
   {
@@ -166,17 +166,17 @@
    "meses": 3,
    "base": 374.4666666666667,
    "previsto": 396.88061319172516,
-   "minimo": 368.47166768365616,
+   "minimo": 368.4716676836563,
    "maximo": 444.37996192401874,
    "contribuicoes": {
-    "femeasVsMedia": 0.01700841020083237,
-    "femeasDirecao": 0.0055851447718823985,
-    "momento3m": 0.007460971669745271,
-    "momento12m": 0.018705230166890227,
-    "precoRealVsMedia": -0.05971557528930441,
-    "trocaVsMedia": -7.430999335228434e-7,
-    "sazonalSen": 0.04598487028030765,
-    "sazonalCos": 8.818499365143217e-19
+    "femeasVsMedia": 0.0170084102008322,
+    "femeasDirecao": 0.005585144771882393,
+    "momento3m": 0.0074609716697452534,
+    "momento12m": 0.01870523016689023,
+    "precoRealVsMedia": -0.05971557528930408,
+    "trocaVsMedia": -7.430999335228424e-7,
+    "sazonalSen": 0.045984870280307635,
+    "sazonalCos": 8.81849936514324e-19
    }
   },
   {
@@ -184,17 +184,17 @@
    "meses": 12,
    "base": 374.4666666666667,
    "previsto": 437.4007091417517,
-   "minimo": 371.47853938757055,
-   "maximo": 569.1081770978806,
+   "minimo": 371.4785393875707,
+   "maximo": 569.1081770978807,
    "contribuicoes": {
-    "femeasVsMedia": 0.1368752993995124,
-    "femeasDirecao": 0.013866202805496074,
-    "momento3m": 0.0328608694549628,
-    "momento12m": 0.044100643788867556,
-    "precoRealVsMedia": -0.16391034643128266,
-    "trocaVsMedia": 0.0014956101462418826,
-    "sazonalSen": 0.0036256905449582994,
-    "sazonalCos": 0.00034034832714199375
+    "femeasVsMedia": 0.13687529939951174,
+    "femeasDirecao": 0.013866202805496068,
+    "momento3m": 0.03286086945496273,
+    "momento12m": 0.04410064378886765,
+    "precoRealVsMedia": -0.16391034643128197,
+    "trocaVsMedia": 0.0014956101462418785,
+    "sazonalSen": 0.003625690544958255,
+    "sazonalCos": 0.0003403483271419938
    }
   },
   {
@@ -205,50 +205,50 @@
    "minimo": 3460.5915509520155,
    "maximo": 3724.3657902888694,
    "contribuicoes": {
-    "femeasVsMedia": 0.01591261401990999,
-    "femeasDirecao": 0.0027915693381907925,
-    "momento3m": -0.000017887248556603756,
-    "momento12m": 0.003784983912714784,
-    "precoRealVsMedia": -0.005745871507921611,
-    "trocaVsMedia": 0.000024478860068499826,
-    "sazonalSen": 0.005260676827805615,
-    "sazonalCos": 0.000060520914262540305
+    "femeasVsMedia": 0.015912614019909968,
+    "femeasDirecao": 0.0027915693381907916,
+    "momento3m": -0.000017887248556603715,
+    "momento12m": 0.003784983912714788,
+    "precoRealVsMedia": -0.005745871507921606,
+    "trocaVsMedia": 0.000024478860068499857,
+    "sazonalSen": 0.005260676827805614,
+    "sazonalCos": 0.00006052091426254031
    }
   },
   {
    "alvo": "bezerro",
    "meses": 3,
    "base": 3471.15,
-   "previsto": 3815.9946923757625,
-   "minimo": 3490.2645707279626,
-   "maximo": 4206.731697071123,
+   "previsto": 3815.9946923757616,
+   "minimo": 3490.264570727962,
+   "maximo": 4206.731697071122,
    "contribuicoes": {
-    "femeasVsMedia": 0.04946453875141026,
-    "femeasDirecao": 0.008476925761528366,
-    "momento3m": 0.00010400783532028603,
-    "momento12m": 0.014523185413539298,
-    "precoRealVsMedia": -0.02943638295852028,
-    "trocaVsMedia": -3.53139670853684e-8,
-    "sazonalSen": 0.025826927924071846,
-    "sazonalCos": -2.8828058431107052e-18
+    "femeasVsMedia": 0.04946453875141006,
+    "femeasDirecao": 0.00847692576152836,
+    "momento3m": 0.00010400783532028618,
+    "momento12m": 0.014523185413539355,
+    "precoRealVsMedia": -0.029436382958520378,
+    "trocaVsMedia": -3.531396708536909e-8,
+    "sazonalSen": 0.025826927924071826,
+    "sazonalCos": -2.8828058431107095e-18
    }
   },
   {
    "alvo": "bezerro",
    "meses": 12,
    "base": 3471.15,
-   "previsto": 4348.303805859076,
+   "previsto": 4348.303805859075,
    "minimo": 3548.6781809319154,
-   "maximo": 5606.385519837195,
+   "maximo": 5606.385519837192,
    "contribuicoes": {
-    "femeasVsMedia": 0.20750319427310865,
-    "femeasDirecao": 0.019269516464709067,
-    "momento3m": -0.00003386812594135557,
-    "momento12m": 0.03539376618647219,
-    "precoRealVsMedia": -0.1304892521779999,
-    "trocaVsMedia": 0.0004988412739062426,
-    "sazonalSen": -0.0060098506144759855,
-    "sazonalCos": 0.000012698340786809716
+    "femeasVsMedia": 0.2075031942731081,
+    "femeasDirecao": 0.019269516464709018,
+    "momento3m": -0.000033868125941355504,
+    "momento12m": 0.03539376618647229,
+    "precoRealVsMedia": -0.13048925217799975,
+    "trocaVsMedia": 0.0004988412739062402,
+    "sazonalSen": -0.00600985061447604,
+    "sazonalCos": 0.000012698340786809865
    }
   }
  ]

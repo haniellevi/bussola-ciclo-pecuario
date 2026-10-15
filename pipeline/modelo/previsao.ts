@@ -4,7 +4,11 @@ import type { Mes } from "./dados.ts";
 
 export type Alvo = "boi" | "bezerro";
 
-const JANELA_LONGA = 120; // 10 anos
+const JANELA_LONGA = 120; // até 10 anos de histórico para as médias de referência
+// Mínimo de meses com dado dentro da janela longa. 120 = exige os 10 anos completos (modelo anterior);
+// 60 ou 36 aceitam menos anos e treinam com mais meses, mas no teste ano a ano de 2014–2025 o resultado ficou instável
+// (melhor em 3 meses, pior em 1 ano), então o padrão continua 120.
+const JANELA_MIN = Number(process.env.JANELA_MIN ?? 120);
 
 const media = (v: number[]) => v.reduce((a, b) => a + b, 0) / v.length;
 
@@ -13,21 +17,23 @@ export function sinais(serie: Mes[], i: number, alvo: Alvo): Record<string, numb
   const m = serie[i];
   const preco = (k: number) => serie[k]?.[alvo];
   const real = (k: number) => (alvo === "boi" ? serie[k]?.boiReal : serie[k]?.bezerroReal);
-  if (i < JANELA_LONGA || m.femeas == null || serie[i - 6].femeas == null) return null;
+  if (i < 12 || m.femeas == null || serie[i - 6]?.femeas == null) return null;
   const p = preco(i), p3 = preco(i - 3), p12 = preco(i - 12);
-  const reaisLongos = serie.slice(i - JANELA_LONGA + 1, i + 1).map((_, k) => real(i - JANELA_LONGA + 1 + k));
-  const femeasLongas = serie.slice(i - JANELA_LONGA + 1, i + 1).map((x) => x.femeas);
-  const rts = serie.slice(i - JANELA_LONGA + 1, i + 1).map((x) => x.rt);
-  if ([p, p3, p12, m.rt].some((v) => v == null) || reaisLongos.some((v) => v == null)) return null;
-  if (femeasLongas.some((v) => v == null) || rts.some((v) => v == null)) return null;
+  const trecho = serie.slice(Math.max(0, i - JANELA_LONGA + 1), i + 1);
+  const presentes = (v: (number | null | undefined)[]) => v.filter((x): x is number => x != null);
+  const reaisLongos = presentes(trecho.map((_, k) => real(i - trecho.length + 1 + k)));
+  const femeasLongas = presentes(trecho.map((x) => x.femeas));
+  const rts = presentes(trecho.map((x) => x.rt));
+  if ([p, p3, p12, m.rt, real(i)].some((v) => v == null)) return null;
+  if ([reaisLongos, femeasLongas, rts].some((v) => v.length < JANELA_MIN)) return null;
   const mesDoAno = Number(m.mes.slice(5)) - 1;
   return {
-    femeasVsMedia: (m.femeas - media(femeasLongas as number[])) * 100,
+    femeasVsMedia: (m.femeas - media(femeasLongas)) * 100,
     femeasDirecao: (m.femeas - serie[i - 6].femeas!) * 100,
     momento3m: Math.log(p! / p3!),
     momento12m: Math.log(p! / p12!),
-    precoRealVsMedia: Math.log(real(i)! / media(reaisLongos as number[])),
-    trocaVsMedia: Math.log(m.rt! / media(rts as number[])),
+    precoRealVsMedia: Math.log(real(i)! / media(reaisLongos)),
+    trocaVsMedia: Math.log(m.rt! / media(rts)),
     sazonalSen: Math.sin((2 * Math.PI * mesDoAno) / 12),
     sazonalCos: Math.cos((2 * Math.PI * mesDoAno) / 12),
   };

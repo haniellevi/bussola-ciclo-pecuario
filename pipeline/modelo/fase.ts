@@ -33,6 +33,12 @@ export function lerFase(serie: Mes[], i: number, p: ParamsFase): LeituraFase | n
   return { fase, femeas: atual, media, variacao };
 }
 
+// Ciclos que entram nas durações (subida, queda) e nos atrasos do pico de vacas: de 2006 em diante.
+// O boi tem dados desde jul/1997, mas o ciclo de 1998–2006 (subida de 17 meses, queda de 79) foge do padrão
+// (câmbio, plano econômico) e, incluído, piorou o teste dos vereditos: em 2006–2014 o "Aguarde" acertou 59%
+// em vez de 80%, e em 2003–2005 o "Melhor momento" acertou 47%. Os dados antigos seguem no gráfico e nos estudos.
+export const CICLOS_DESDE = "2006-01";
+
 // Gabarito olhando para trás: o preço real estava entre um vale e o pico seguinte?
 // Viradas só contam quando o preço anda pelo menos `limiar` (ex.: 20%) a partir do extremo.
 type Pivo = { i: number; tipo: "pico" | "vale" };

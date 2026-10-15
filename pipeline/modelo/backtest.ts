@@ -1,7 +1,7 @@
 // Teste no passado: ajusta tudo só com dados até 2022 e mede o acerto em 2023–2026.
 // Uso: node pipeline/modelo/backtest.ts
 import { mkdirSync, writeFileSync } from "node:fs";
-import { montarSerie } from "./dados.ts";
+import { INICIO_SERIE, montarSerie } from "./dados.ts";
 import { FASES_DE_SUBIDA, gabaritoSubida, lerFase, lerFasePreco, pivosDePreco, type ParamsFase } from "./fase.ts";
 import { prever, treinar, treinarCalibrado, type Alvo } from "./previsao.ts";
 
@@ -47,7 +47,7 @@ function acertoMomento(de: string, ate: string, gab: boolean[]) {
 const candidatos: ParamsFase[] = [];
 for (const janelaMedia of [60, 84, 120]) for (const janelaDirecao of [3, 6, 9, 12]) candidatos.push({ janelaMedia, janelaDirecao });
 const ranking = candidatos
-  .map((p) => ({ p, ...acertoFase(p, "2000-01", FIM_GABARITO_TREINO, gabaritoTreino) }))
+  .map((p) => ({ p, ...acertoFase(p, INICIO_SERIE, FIM_GABARITO_TREINO, gabaritoTreino) }))
   .sort((a, b) => b.acerto - a.acerto);
 const melhor = ranking[0].p;
 
@@ -62,9 +62,9 @@ function acertoPreco(limiar: number, de: string, ate: string, gab: boolean[]) {
   return { acerto: ok / n, meses: n };
 }
 const regrasPreco = [0.08, 0.1, 0.15, 0.2]
-  .map((l) => ({ limiar: l, ...acertoPreco(l, "2000-01", FIM_GABARITO_TREINO, gabaritoTreino) }))
+  .map((l) => ({ limiar: l, ...acertoPreco(l, INICIO_SERIE, FIM_GABARITO_TREINO, gabaritoTreino) }))
   .sort((a, b) => b.acerto - a.acerto);
-const momentoTreino = acertoMomento("2000-01", FIM_GABARITO_TREINO, gabaritoTreino);
+const momentoTreino = acertoMomento(INICIO_SERIE, FIM_GABARITO_TREINO, gabaritoTreino);
 const faseTeste = acertoFase(melhor, "2023-01", "2026-12", gabarito);
 const momentoTeste = acertoMomento("2023-01", "2026-12", gabarito);
 
@@ -157,9 +157,10 @@ for (const alvo of ["boi", "bezerro"] as Alvo[])
     console.log(`${alvo.padEnd(7)} ${String(r.semanas).padStart(2)} sem: erro ${pct(r.erroMedioModelo)} (preço parado ${pct(r.erroMedioIngenuo)}) | melhor em ${anosMelhor} de ${anos} anos`);
   }
 
-mkdirSync(new URL("../../data/backtest/", import.meta.url), { recursive: true });
+const SAIDA = process.env.BACKTEST_DIR ?? "../../data/backtest/";
+mkdirSync(new URL(SAIDA, import.meta.url), { recursive: true });
 writeFileSync(
-  new URL("../../data/backtest/relatorio.json", import.meta.url),
+  new URL(`${SAIDA}relatorio.json`, import.meta.url),
   JSON.stringify({ geradoEm: new Date().toISOString(), fimTreino: FIM_TREINO, regraFase: melhor,
     fase: { femeas: { treino: ranking[0], teste: faseTeste }, preco: { ...melhorPreco, teste: precoTeste }, linhaDeBase: { treino: momentoTreino, teste: momentoTeste } }, previsao: resultados, rolante, hoje }, null, 1) + "\n",
 );

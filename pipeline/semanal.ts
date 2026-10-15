@@ -3,7 +3,7 @@
 // Uso: node pipeline/semanal.ts   (gera data/semanal/relatorio.md e sai com código 0)
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { montarSerie } from "./modelo/dados.ts";
-import { lerFasePreco, pivosDePreco, relogioFemeas } from "./modelo/fase.ts";
+import { CICLOS_DESDE, lerFasePreco, pivosDePreco, relogioFemeas } from "./modelo/fase.ts";
 import { prever, treinarCalibrado, type Alvo } from "./modelo/previsao.ts";
 
 const DATA = new URL("../data/", import.meta.url);
@@ -140,7 +140,7 @@ writeFileSync(new URL("avaliacoes.json", DATA), JSON.stringify({ atualizadoEm: n
 
 // ---------- 4. Relatório (vira a issue semanal e o e-mail) ----------
 const atual = existsSync(arqPrev) ? JSON.parse(readFileSync(arqPrev, "utf8")) : null;
-const pivos = pivosDePreco(serie, LIMIAR_CICLO);
+const pivos = pivosDePreco(serie, LIMIAR_CICLO).filter((p) => p.mes >= CICLOS_DESDE);
 const subidas = pivos.flatMap((p, k) => (p.tipo === "vale" && pivos[k + 1] ? [diasEntre(`${p.mes}-01`, `${pivos[k + 1].mes}-01`) / 30.44] : []));
 const l: string[] = [];
 l.push(`# Bússola do Ciclo — semana ${semana}`, "");
@@ -157,7 +157,7 @@ if (f.sobe && subidas.length)
 if (f.realVsPicoAnterior) l.push(`- Boi, descontada a inflação, está em ${pct(f.realVsPicoAnterior)} do último pico.`);
 if (serie[iUlt].femeas) l.push(`- Fêmeas no abate (média 12 meses): ${pct(serie[iUlt].femeas!)}.`);
 {
-  const pv = pivosDePreco(serie, LIMIAR_CICLO).filter((p) => p.mes !== serie[0].mes);
+  const pv = pivosDePreco(serie, LIMIAR_CICLO).filter((p) => p.mes >= CICLOS_DESDE);
   const v = relogioFemeas(serie, iUlt, pv, f.sobe ? (f.ultimoPivo?.mes ?? null) : null);
   if (f.sobe && v.atrasos.length)
     l.push(v.pico

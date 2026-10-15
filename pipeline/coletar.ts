@@ -45,13 +45,14 @@ async function coletarBcb() {
   for (const [nome, codigo] of Object.entries(SERIES_BCB)) {
     const base = `https://api.bcb.gov.br/dados/serie/bcdata.sgs.${codigo}/dados?formato=json`;
     const bruto: { data: string; valor: string }[] = [];
-    for (let ini = 2000; ini <= anoAtual; ini += 10) {
+    // Desde 1994 (Plano Real): o Cepea boi começa em 1997 e precisa do IGP-DI desde lá para corrigir os preços.
+    for (let ini = 1994; ini <= anoAtual; ini += 10) {
       const fim = Math.min(ini + 9, anoAtual);
       bruto.push(
         ...((await baixarJson(`${base}&dataInicial=01/01/${ini}&dataFinal=31/12/${fim}`)) as typeof bruto),
       );
     }
-    const url = `${base}&dataInicial=01/01/2000`;
+    const url = `${base}&dataInicial=01/01/1994`;
     const pontos: Ponto[] = bruto.map((p) => {
       const [d, m, a] = p.data.split("/");
       return { data: `${a}-${m}-${d}`, valor: Number(p.valor) };

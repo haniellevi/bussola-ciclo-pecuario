@@ -7,6 +7,10 @@ const ler = <T>(c: string): T => JSON.parse(readFileSync(new URL(c, RAW), "utf8"
 // Atraso de publicação do IBGE: o abate do mês t só é conhecido por volta de t+3.
 export const ATRASO_IBGE = 3;
 
+// Primeiro mês da série. O Cepea boi começa em jul/1997; o bezerro MS, em fev/2000 (antes disso o RT fica vazio).
+// INICIO_SERIE=2000-01 reproduz o modelo anterior, para comparar antes e depois.
+export const INICIO_SERIE = process.env.INICIO_SERIE ?? "1997-01";
+
 export type Mes = {
   mes: string; // AAAA-MM
   boi: number; // R$/@ nominal, média do mês
@@ -73,7 +77,7 @@ export function montarSerie(): Mes[] {
   const serie: Mes[] = [];
   let indiceAnterior = 1;
   for (const mes of [...boi.keys()].sort()) {
-    if (mes < "2000-01") continue;
+    if (mes < INICIO_SERIE) continue;
     const ind = indice.get(mes) ?? (mes > [...indice.keys()].at(-1)! ? ultimoIndice : indiceAnterior);
     indiceAnterior = ind;
     const deflator = ultimoIndice / ind;

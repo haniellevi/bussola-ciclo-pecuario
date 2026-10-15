@@ -3,7 +3,7 @@
 // Uso: node pipeline/painel.ts
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { montarSerie } from "./modelo/dados.ts";
-import { lerFasePreco, mesesEntre, pivosDePreco, pivosFemeas, relogioFemeas } from "./modelo/fase.ts";
+import { CICLOS_DESDE, lerFasePreco, mesesEntre, pivosDePreco, pivosFemeas, relogioFemeas } from "./modelo/fase.ts";
 import { somarMeses } from "../lib/formato.ts";
 
 const DATA = new URL("../data/", import.meta.url);
@@ -13,7 +13,9 @@ const LIMIAR_CICLO = 0.2;
 const serie = montarSerie();
 const i = serie.length - 1;
 // O primeiro mês da série não é um pico/vale de verdade, só o começo dos dados.
-const pivos = pivosDePreco(serie, LIMIAR_CICLO).filter((p) => p.mes !== serie[0].mes);
+const todosPivos = pivosDePreco(serie, LIMIAR_CICLO).filter((p) => p.mes !== serie[0].mes);
+// Durações e relógio das vacas só com os ciclos de 2006 em diante (ver CICLOS_DESDE).
+const pivos = todosPivos.filter((p) => p.mes >= CICLOS_DESDE);
 const fase = lerFasePreco(serie, i, LIMIAR_CICLO);
 const duracoes = (de: string, para: string) =>
   pivos.flatMap((p, k) => (p.tipo === de && pivos[k + 1]?.tipo === para ? [mesesEntre(p.mes, pivos[k + 1].mes)] : []));
@@ -84,7 +86,6 @@ const painel = {
     dataBezerro: bezerroDiario.at(-1).data,
   },
   serie: serie
-    .filter((m) => m.mes >= "2006-01")
     .map((m) => ({
       mes: m.mes,
       boi: +m.boi.toFixed(2),
@@ -93,7 +94,7 @@ const painel = {
       rt: m.rt && +m.rt.toFixed(3),
       femeas: m.femeas && +m.femeas.toFixed(4),
     })),
-  pivos: pivos.filter((p) => p.mes >= "2006-01").map((p) => ({ ...p, boiReal: +p.boiReal.toFixed(2) })),
+  pivos: todosPivos.map((p) => ({ ...p, boiReal: +p.boiReal.toFixed(2) })),
   fase: {
     sobe: fase.sobe,
     desde: fase.ultimoPivo,
