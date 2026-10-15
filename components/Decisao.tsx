@@ -243,7 +243,7 @@ export function Decisao({ painel }: { painel: Painel }) {
       });
       const j = await resp.json().catch(() => ({}));
       if (!resp.ok) throw new Error(j.erro ?? `Erro ${resp.status}`);
-      setExplicacao({ texto: j.texto, para: snapshot });
+      setExplicacao({ texto: String(j.texto).replace(/R\$ /g, "R$\u00a0"), para: snapshot }); // "R$" não se separa do número
     } catch (x) {
       setErro((x as Error).message);
     } finally {
