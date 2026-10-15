@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     headers: { Authorization: `Bearer ${k.chave}`, "Content-Type": "application/json", "X-Title": "Bussola do Ciclo Pecuario" },
     body: JSON.stringify({
       model: luna,
-      max_tokens: 450,
+      max_tokens: 1200,
       messages: [
         {
           role: "system",
