@@ -1,0 +1,70 @@
+name: Rodada semanal
+
+on:
+  schedule:
+    - cron: "0 12 * * 1" # segunda, 9h de Brasília
+  push:
+    branches: [main]
+    paths: ["data/manual/cepea/**"] # planilha nova do Cepea
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: semanal
+  cancel-in-progress: false
+
+jobs:
+  rodada:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar leitor de planilha
+        run: pip install xlrd==2.0.1
+
+      - name: Coletar Banco Central e IBGE
+        # Se uma fonte falhar, segue com o último dado salvo; a conferência avisa no relatório.
+        continue-on-error: true
+        run: node pipeline/coletar.ts
+
+      - name: Ler planilhas do Cepea
+        run: python pipeline/ler_cepea.py
+
+      - name: Conferir, prever, comparar
+        run: node pipeline/semanal.ts
+
+      - name: Salvar dados no repositório
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "dados: rodada semanal $(date -u +%F)"
+          git push
+
+      - name: Relatório como issue (o GitHub avisa por e-mail)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          titulo="$(head -1 data/semanal/relatorio.md | sed 's/^# //')"
+          printf '\n@%s\n' "${{ github.repository_owner }}" >> data/semanal/relatorio.md
+          gh label create semanal --color 0E8A16 --description "Relatório semanal" --force
+          numero="$(gh issue list --label semanal --state open --search "\"$titulo\" in:title" --json number --jq '.[0].number')"
+          if [ -n "$numero" ]; then
+            gh issue comment "$numero" --body-file data/semanal/relatorio.md
+          else
+            for antigo in $(gh issue list --label semanal --state open --json number --jq '.[].number'); do
+              gh issue close "$antigo" --comment "Substituído pelo relatório da semana nova."
+            done
+            gh issue create --title "$titulo" --label semanal --body-file data/semanal/relatorio.md
+          fi
