@@ -1,7 +1,7 @@
 {
  "fonte": "Banco Central do Brasil, SGS série 4189",
  "url": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.4189/dados?formato=json&dataInicial=01/01/2000",
- "coletadoEm": "2026-10-15T13:43:19.357Z",
+ "coletadoEm": "2026-10-15T14:43:57.323Z",
  "dados": [
   {
    "data": "2000-01-01",
