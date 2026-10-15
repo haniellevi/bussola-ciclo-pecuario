@@ -2,7 +2,7 @@
 
 @theme {
   --font-sans: var(--font-texto), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-titulo), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-texto), ui-sans-serif, system-ui, sans-serif;
   /* Textos pequenos maiores: 12px e 14px eram difíceis de ler no celular */
   --text-xs: 0.8125rem;
   --text-xs--line-height: 1.25rem;

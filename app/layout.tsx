@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible_Next } from "next/font/google";
+import { Lexend } from "next/font/google";
 import "./globals.css";
 
-// Atkinson Hyperlegible: letras desenhadas para não serem confundidas (l/I/1, O/0), boa para ler números.
-const texto = Atkinson_Hyperlegible_Next({ subsets: ["latin", "latin-ext"], variable: "--font-texto" });
-const titulo = Atkinson_Hyperlegible_Next({ subsets: ["latin", "latin-ext"], variable: "--font-titulo", weight: ["600", "700", "800"] });
+// Lexend: feita para facilitar a leitura, letras abertas e zero sem risco (preços ficam limpos).
+const texto = Lexend({ subsets: ["latin", "latin-ext"], variable: "--font-texto" });
 
 export const metadata: Metadata = {
   title: "Bússola do Ciclo Pecuário",
@@ -15,7 +14,7 @@ export const viewport: Viewport = { themeColor: "#0b0f0d" };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${texto.variable} ${titulo.variable}`}>
+    <html lang="pt-BR" className={texto.variable}>
       <body className="min-h-dvh font-sans antialiased">{children}</body>
     </html>
   );
