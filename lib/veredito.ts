@@ -1,5 +1,5 @@
 // Veredito de compra por perfil. Regras simples e explicadas: cada ponto vira um motivo na tela.
-import { numero, pct } from "./formato";
+import { numero, pct } from "./formato.ts";
 
 export type Perfil = "cria" | "engorda" | "iniciante";
 export type Selo = "melhor" | "bom" | "aguarde";

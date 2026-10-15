@@ -21,6 +21,9 @@ export type AcertoTeste = {
 };
 export type AvaliacaoAoVivo = { alvo: "boi" | "bezerro"; semanas: number; erro: number; dentro: boolean; direcaoCerta: boolean };
 
+type GrupoSelo = { meses: number; media: number; acerto: number };
+export type ResultadoVeredito = { corte: number; meses: number; melhor?: GrupoSelo; bom?: GrupoSelo; aguarde?: GrupoSelo };
+
 export type Painel = {
   geradoEm: string;
   fontes: string;
@@ -39,7 +42,11 @@ export type Painel = {
   };
   troca: { atual: number; p25: number; mediana: number; p75: number };
   previsao: { semana: string; dataBase: string; itens: ItemPrevisao[] } | null;
-  acerto: { teste: { periodo: string; treinoAte: string; itens: AcertoTeste[] }; aoVivo: AvaliacaoAoVivo[] };
+  acerto: {
+    teste: { periodo: string; treinoAte: string; itens: AcertoTeste[] };
+    aoVivo: AvaliacaoAoVivo[];
+    vereditos: { periodo: string; relatorio: Record<string, ResultadoVeredito> };
+  };
   pracas: { data: string; valores: Record<string, { vista: number | null; prazo30: number | null }> } | null;
 };
 

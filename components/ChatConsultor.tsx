@@ -66,10 +66,12 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [texto, setTexto] = useState("");
   const [config, setConfig] = useState({ chave: "", modelo: "" });
+  const [servidor, setServidor] = useState({ servidor: false, modelo: "" });
   const [abrirConfig, setAbrirConfig] = useState(false);
   const [pensando, setPensando] = useState(false);
   const fim = useRef<HTMLDivElement>(null);
 
+  const iaLigada = (config.chave && config.modelo) || servidor.servidor;
   const passo = PERGUNTAS.findIndex((p) => !resp[p.campo]);
   const pronto = passo === -1;
 
@@ -77,6 +79,10 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
     const r = ler<Respostas>(CHAVE_RESPOSTAS, {});
     setResp(r);
     setConfig(ler(CHAVE_OR, { chave: "", modelo: "" }));
+    fetch("/api/chat")
+      .then((r) => r.json())
+      .then(setServidor)
+      .catch(() => {});
     const inicio: Msg[] = [{ de: "consultor", texto: "Olá! Sou o Consultor do Ciclo. Cinco perguntas rápidas e eu digo o que o momento do ciclo significa para você." }];
     if (PERGUNTAS.every((p) => r[p.campo])) inicio.push({ de: "consultor", texto: parecer(painel, r) });
     setMsgs(inicio);
@@ -115,7 +121,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
     setTexto("");
     const historico = [...msgs, { de: "voce" as const, texto: pergunta }];
     setMsgs(historico);
-    if (!config.chave || !config.modelo) {
+    if (!iaLigada) {
       setMsgs((m) => [...m, { de: "consultor", texto: "Para conversar livremente, configure sua chave e o modelo do OpenRouter na engrenagem acima. Sem isso, eu respondo só pelo roteiro." }]);
       setAbrirConfig(true);
       return;
@@ -124,9 +130,9 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
     try {
       const r = await fetch("/api/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-openrouter-key": config.chave },
+        headers: { "Content-Type": "application/json", ...(config.chave ? { "x-openrouter-key": config.chave } : {}) },
         body: JSON.stringify({
-          modelo: config.modelo,
+          modelo: config.modelo || servidor.modelo,
           perfil: Object.entries(resp).map(([k, v]) => `${k}: ${v}`).join("; "),
           mensagens: historico.slice(1).map((m) => ({ role: m.de === "voce" ? "user" : "assistant", content: m.texto })),
         }),
@@ -145,7 +151,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
       <header className="flex items-center justify-between border-b border-terra-700 px-4 py-3">
         <div>
           <p className="font-display text-lg text-zinc-100">Consultor do Ciclo</p>
-          <p className="text-xs text-zinc-500">{config.chave && config.modelo ? `IA ligada · ${config.modelo}` : "Roteiro com as regras do app"}</p>
+          <p className="text-xs text-zinc-500">{iaLigada ? `IA ligada · ${config.modelo || servidor.modelo}` : "Roteiro com as regras do app"}</p>
         </div>
         <div className="flex gap-1">
           {pronto && (

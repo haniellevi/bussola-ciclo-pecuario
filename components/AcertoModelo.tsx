@@ -1,7 +1,16 @@
-import { pct } from "@/lib/formato";
+import { numero, pct } from "@/lib/formato";
 import type { Painel } from "@/lib/painel";
 
 const NOME = { boi: "Boi gordo", bezerro: "Bezerro" } as const;
+const ROTULO = { melhor: "Melhor momento", bom: "Bom para comprar", aguarde: "Aguarde" } as const;
+const COR = { melhor: "text-capim", bom: "text-sol", aguarde: "text-alerta" } as const;
+const sinal = (v: number) => `${v >= 0 ? "+" : ""}${pct(v)}`;
+const VEREDITOS = [
+  { chave: "engorda/engorda", titulo: "Recria / Engorda", explica: "Quantos bezerros o boi vendido 18 meses depois pagou", fmt: (v: number) => `${numero(v)} bezerros` },
+  { chave: "cria/cria", titulo: "Cria", explica: "Quanto o bezerro valorizou (descontada a inflação) em 30 meses", fmt: sinal },
+  { chave: "iniciante/engorda", titulo: "Iniciante (engorda)", explica: "Mesmo critério da engorda", fmt: (v: number) => `${numero(v)} bezerros` },
+  { chave: "iniciante/cria", titulo: "Iniciante (cria)", explica: "Mesmo critério da cria", fmt: sinal },
+];
 
 export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
   const vivo = acerto.aoVivo;
@@ -50,6 +59,46 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
         <li>A faixa foi feita para conter o preço real 8 em cada 10 vezes. Em 1 ano ela errou mais: a incerteza é grande.</li>
         <li>O teste cobre um só trecho do ciclo, quase todo de alta. É pouca prova; o acompanhamento ao vivo abaixo é o que vale.</li>
       </ul>
+
+      <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
+        <h3 className="font-display text-lg text-zinc-100">E os vereditos, teriam acertado?</h3>
+        <p className="mt-1 text-sm text-zinc-400">
+          As regras de cada perfil aplicadas mês a mês em {acerto.vereditos.periodo}, usando só o que se sabia em cada mês.
+        </p>
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          {VEREDITOS.map(({ chave, titulo, explica, fmt }) => {
+            const r = acerto.vereditos.relatorio[chave];
+            if (!r) return null;
+            return (
+              <div key={chave} className="rounded-xl bg-terra-950 p-4">
+                <p className="text-sm font-medium text-zinc-200">{titulo}</p>
+                <p className="mt-0.5 text-xs text-zinc-500">{explica}</p>
+                <dl className="mt-3 space-y-1.5 text-sm tabular-nums">
+                  {(["melhor", "bom", "aguarde"] as const).map((s) =>
+                    r[s] ? (
+                      <div key={s} className="flex justify-between gap-3">
+                        <dt className={COR[s]}>{ROTULO[s]}</dt>
+                        <dd className="text-zinc-300">
+                          {fmt(r[s]!.media)} <span className="text-zinc-500">· {r[s]!.meses} meses</span>
+                        </dd>
+                      </div>
+                    ) : null,
+                  )}
+                  <div className="flex justify-between gap-3 border-t border-terra-800 pt-1.5 text-zinc-500">
+                    <dt>Se comprasse sempre</dt>
+                    <dd>{fmt(r.corte)} (mediana)</dd>
+                  </div>
+                </dl>
+              </div>
+            );
+          })}
+        </div>
+        <p className="mt-4 text-xs leading-relaxed text-zinc-500">
+          Cuidado: são só três ciclos completos, e os meses vizinhos se parecem, então há poucas decisões realmente independentes. As regras
+          também foram escritas por quem já conhecia essa história. Para a cria, usamos a valorização do bezerro porque não há série pública de
+          preço de matriz.
+        </p>
+      </div>
 
       <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
         <h3 className="font-display text-lg text-zinc-100">Ao vivo, semana a semana</h3>

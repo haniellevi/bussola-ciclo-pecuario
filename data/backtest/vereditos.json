@@ -1,0 +1,2256 @@
+{
+ "geradoEm": "2026-10-15T15:26:53.684Z",
+ "periodo": "2006–2023",
+ "relatorio": {
+  "engorda/engorda": {
+   "corte": 2.6147583996748485,
+   "meses": 216,
+   "melhor": {
+    "meses": 14,
+    "media": 2.988650067491181,
+    "acimaDaMediana": 0.7142857142857143,
+    "acerto": 0.7142857142857143
+   },
+   "bom": {
+    "meses": 48,
+    "media": 3.1012065072998247,
+    "acimaDaMediana": 0.7708333333333334,
+    "acerto": 0.7708333333333334
+   },
+   "aguarde": {
+    "meses": 154,
+    "media": 2.4785230491276424,
+    "acimaDaMediana": 0.38961038961038963,
+    "acerto": 0.6103896103896104
+   }
+  },
+  "cria/cria": {
+   "corte": 0.05445083193719236,
+   "meses": 216,
+   "melhor": {
+    "meses": 55,
+    "media": 0.44338474343631157,
+    "acimaDaMediana": 1,
+    "acerto": 1
+   },
+   "bom": {
+    "meses": 41,
+    "media": 0.34778781285248006,
+    "acimaDaMediana": 0.8292682926829268,
+    "acerto": 0.8292682926829268
+   },
+   "aguarde": {
+    "meses": 120,
+    "media": -0.0820867667964853,
+    "acimaDaMediana": 0.15,
+    "acerto": 0.85
+   }
+  },
+  "iniciante/engorda": {
+   "corte": 2.6147583996748485,
+   "meses": 216,
+   "melhor": {
+    "meses": 10,
+    "media": 2.761702244029713,
+    "acimaDaMediana": 0.6,
+    "acerto": 0.6
+   },
+   "bom": {
+    "meses": 46,
+    "media": 3.1637594241399953,
+    "acimaDaMediana": 0.8043478260869565,
+    "acerto": 0.8043478260869565
+   },
+   "aguarde": {
+    "meses": 160,
+    "media": 2.495260043188676,
+    "acimaDaMediana": 0.4,
+    "acerto": 0.6
+   }
+  },
+  "iniciante/cria": {
+   "corte": 0.05445083193719236,
+   "meses": 216,
+   "melhor": {
+    "meses": 10,
+    "media": 0.44787856578184615,
+    "acimaDaMediana": 1,
+    "acerto": 1
+   },
+   "bom": {
+    "meses": 46,
+    "media": 0.4225645886741076,
+    "acimaDaMediana": 1,
+    "acerto": 1
+   },
+   "aguarde": {
+    "meses": 160,
+    "media": 0.030489327897144793,
+    "acimaDaMediana": 0.31875,
+    "acerto": 0.68125
+   }
+  }
+ },
+ "linhas": [
+  {
+   "mes": "2006-01",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.3083219240107082,
+   "cria": 0.864791605957262
+  },
+  {
+   "mes": "2006-02",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.4440155116734346,
+   "cria": 0.832380751231171
+  },
+  {
+   "mes": "2006-03",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.275320142578683,
+   "cria": 0.7769811924547725
+  },
+  {
+   "mes": "2006-04",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.329644887415787,
+   "cria": 0.6979235467403597
+  },
+  {
+   "mes": "2006-05",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.6033959835770473,
+   "cria": 0.5893025777450724
+  },
+  {
+   "mes": "2006-06",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.6256827352318535,
+   "cria": 0.48408085198977013
+  },
+  {
+   "mes": "2006-07",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.737652103129392,
+   "cria": 0.47007059524328487
+  },
+  {
+   "mes": "2006-08",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 3.6948943087226795,
+   "cria": 0.4373938876297967
+  },
+  {
+   "mes": "2006-09",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 3.731227758975307,
+   "cria": 0.4557222717703753
+  },
+  {
+   "mes": "2006-10",
+   "selos": {
+    "cria": "bom",
+    "engorda": "melhor",
+    "iniciante": "bom"
+   },
+   "engorda": 3.7215452232482025,
+   "cria": 0.4832327034899513
+  },
+  {
+   "mes": "2006-11",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.92479333807251,
+   "cria": 0.46484439519094845
+  },
+  {
+   "mes": "2006-12",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 4.510802847821396,
+   "cria": 0.5243507679834127
+  },
+  {
+   "mes": "2007-01",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 4.5671504885863925,
+   "cria": 0.5140521581041944
+  },
+  {
+   "mes": "2007-02",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 4.396132400996802,
+   "cria": 0.4199658856796826
+  },
+  {
+   "mes": "2007-03",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 4.058540885844581,
+   "cria": 0.33883346261017544
+  },
+  {
+   "mes": "2007-04",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 4.001108523716036,
+   "cria": 0.27039162167134934
+  },
+  {
+   "mes": "2007-05",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.7935037699593255,
+   "cria": 0.2300278186232141
+  },
+  {
+   "mes": "2007-06",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.465095691762921,
+   "cria": 0.21618022295640915
+  },
+  {
+   "mes": "2007-07",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.4759328995079275,
+   "cria": 0.20051736431116662
+  },
+  {
+   "mes": "2007-08",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.2432832063826362,
+   "cria": 0.17257500431695383
+  },
+  {
+   "mes": "2007-09",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.018938785951855,
+   "cria": 0.23078226231909293
+  },
+  {
+   "mes": "2007-10",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.0855525612767063,
+   "cria": 0.32367607262472364
+  },
+  {
+   "mes": "2007-11",
+   "selos": {
+    "cria": "bom",
+    "engorda": "melhor",
+    "iniciante": "bom"
+   },
+   "engorda": 3.0180200137982536,
+   "cria": 0.328115601258802
+  },
+  {
+   "mes": "2007-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "bom",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.0214824034903343,
+   "cria": 0.32294043810335715
+  },
+  {
+   "mes": "2008-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "bom",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.970580970533044,
+   "cria": 0.22482038883320365
+  },
+  {
+   "mes": "2008-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.781934650984271,
+   "cria": 0.16787359066732943
+  },
+  {
+   "mes": "2008-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.6887392520459956,
+   "cria": 0.18144356839922304
+  },
+  {
+   "mes": "2008-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.5180666110797505,
+   "cria": 0.14632428059257285
+  },
+  {
+   "mes": "2008-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.145826630986833,
+   "cria": 0.018466949361942264
+  },
+  {
+   "mes": "2008-06",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.886550011032583,
+   "cria": -0.11092636636799713
+  },
+  {
+   "mes": "2008-07",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.813032137365632,
+   "cria": -0.1664391183429027
+  },
+  {
+   "mes": "2008-08",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.8732045503382133,
+   "cria": -0.14528639681060318
+  },
+  {
+   "mes": "2008-09",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.9593693634643938,
+   "cria": -0.09345277461377222
+  },
+  {
+   "mes": "2008-10",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.067222895446456,
+   "cria": -0.04212752344433168
+  },
+  {
+   "mes": "2008-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.070351527864607,
+   "cria": -0.026489697713071858
+  },
+  {
+   "mes": "2008-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.2418072146966117,
+   "cria": 0.005348195459055738
+  },
+  {
+   "mes": "2009-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.3806162178183143,
+   "cria": 0.04195081198508399
+  },
+  {
+   "mes": "2009-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.550899177393775,
+   "cria": 0.02850744604972677
+  },
+  {
+   "mes": "2009-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.6536839108824717,
+   "cria": -0.02973153088672842
+  },
+  {
+   "mes": "2009-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.7792293882060486,
+   "cria": -0.03610218206537441
+  },
+  {
+   "mes": "2009-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.2098369373541833,
+   "cria": 0.009499862956552363
+  },
+  {
+   "mes": "2009-06",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.911693564376065,
+   "cria": -0.035834710822921445
+  },
+  {
+   "mes": "2009-07",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.9076375776130887,
+   "cria": -0.04576260096723017
+  },
+  {
+   "mes": "2009-08",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.04847996548346,
+   "cria": -0.01598313094308068
+  },
+  {
+   "mes": "2009-09",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.12688657526338,
+   "cria": -0.017343779389927372
+  },
+  {
+   "mes": "2009-10",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.1467635158416134,
+   "cria": 0.021801226841303478
+  },
+  {
+   "mes": "2009-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.0517993859115133,
+   "cria": -0.006971100187798895
+  },
+  {
+   "mes": "2009-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.9461257495161766,
+   "cria": -0.012938996050928964
+  },
+  {
+   "mes": "2010-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.9744755720017384,
+   "cria": -0.0466233473963521
+  },
+  {
+   "mes": "2010-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.9897864564943326,
+   "cria": -0.07201059515547059
+  },
+  {
+   "mes": "2010-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.731417372728815,
+   "cria": -0.12173046826812184
+  },
+  {
+   "mes": "2010-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.546347314898577,
+   "cria": -0.17762217331665298
+  },
+  {
+   "mes": "2010-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.6467316474812783,
+   "cria": -0.18135666222563462
+  },
+  {
+   "mes": "2010-06",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.5340996910719196,
+   "cria": -0.19187384011029496
+  },
+  {
+   "mes": "2010-07",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.6147583996748485,
+   "cria": -0.11588649846352361
+  },
+  {
+   "mes": "2010-08",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.6174441656769316,
+   "cria": -0.09391411420268059
+  },
+  {
+   "mes": "2010-09",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.4372433045663464,
+   "cria": -0.08131796972626826
+  },
+  {
+   "mes": "2010-10",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.3904475536629888,
+   "cria": -0.07684188286470939
+  },
+  {
+   "mes": "2010-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "bom",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.3277637695383375,
+   "cria": -0.05450322203070623
+  },
+  {
+   "mes": "2010-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.359624256052568,
+   "cria": -0.04171857857992178
+  },
+  {
+   "mes": "2011-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.3451267375306624,
+   "cria": 0.003562415638723504
+  },
+  {
+   "mes": "2011-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.277234530273234,
+   "cria": -0.018543101558719854
+  },
+  {
+   "mes": "2011-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.3192502787381692,
+   "cria": -0.05769038702975948
+  },
+  {
+   "mes": "2011-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.226814681772944,
+   "cria": -0.08070166467423523
+  },
+  {
+   "mes": "2011-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.2788811099661106,
+   "cria": -0.07193535660596329
+  },
+  {
+   "mes": "2011-06",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.313850611133959,
+   "cria": -0.024123436952868227
+  },
+  {
+   "mes": "2011-07",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.3460797106441724,
+   "cria": -0.0064537987573273226
+  },
+  {
+   "mes": "2011-08",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.403784693467415,
+   "cria": 0.03576767396730807
+  },
+  {
+   "mes": "2011-09",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.4850858462523555,
+   "cria": 0.13482235944482923
+  },
+  {
+   "mes": "2011-10",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.4693099839818484,
+   "cria": 0.17643991559874816
+  },
+  {
+   "mes": "2011-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.369720001117956,
+   "cria": 0.20134653829141214
+  },
+  {
+   "mes": "2011-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.4478245057954533,
+   "cria": 0.22395140436079974
+  },
+  {
+   "mes": "2012-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.575949210317226,
+   "cria": 0.26284999077989
+  },
+  {
+   "mes": "2012-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.563062495015702,
+   "cria": 0.2828944849642243
+  },
+  {
+   "mes": "2012-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.7374425907497155,
+   "cria": 0.32950856856643695
+  },
+  {
+   "mes": "2012-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.702022017330345,
+   "cria": 0.3157905117311721
+  },
+  {
+   "mes": "2012-05",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.765580829770603,
+   "cria": 0.4597476937506675
+  },
+  {
+   "mes": "2012-06",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.8606191551007356,
+   "cria": 0.48107246314213037
+  },
+  {
+   "mes": "2012-07",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.9460713080174283,
+   "cria": 0.5681015039639696
+  },
+  {
+   "mes": "2012-08",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.083355509583735,
+   "cria": 0.6724284596636578
+  },
+  {
+   "mes": "2012-09",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.2171013906539114,
+   "cria": 0.7352022269815182
+  },
+  {
+   "mes": "2012-10",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.191702468739981,
+   "cria": 0.7220424927741043
+  },
+  {
+   "mes": "2012-11",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.1075725268016123,
+   "cria": 0.7673577487717615
+  },
+  {
+   "mes": "2012-12",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.1304070098388306,
+   "cria": 0.7591053161393899
+  },
+  {
+   "mes": "2013-01",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.980241889464297,
+   "cria": 0.5850699709674867
+  },
+  {
+   "mes": "2013-02",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.0862866748925533,
+   "cria": 0.47830582565958557
+  },
+  {
+   "mes": "2013-03",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.0722411325025343,
+   "cria": 0.4321048618853869
+  },
+  {
+   "mes": "2013-04",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.1149971680200506,
+   "cria": 0.38062037954782957
+  },
+  {
+   "mes": "2013-05",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.283806775238684,
+   "cria": 0.42480963199916677
+  },
+  {
+   "mes": "2013-06",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.286061332942055,
+   "cria": 0.42608794817817497
+  },
+  {
+   "mes": "2013-07",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.2018154466341464,
+   "cria": 0.36278370304937524
+  },
+  {
+   "mes": "2013-08",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.222379865453393,
+   "cria": 0.40060832590195017
+  },
+  {
+   "mes": "2013-09",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.237906224004903,
+   "cria": 0.436368030658717
+  },
+  {
+   "mes": "2013-10",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.285646230323114,
+   "cria": 0.4259964524432531
+  },
+  {
+   "mes": "2013-11",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.226251030402949,
+   "cria": 0.3533446637053501
+  },
+  {
+   "mes": "2013-12",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.09324328122423,
+   "cria": 0.2924998345662331
+  },
+  {
+   "mes": "2014-01",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.946670544006059,
+   "cria": 0.23159637976186387
+  },
+  {
+   "mes": "2014-02",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.8525991695870077,
+   "cria": 0.18920188022281637
+  },
+  {
+   "mes": "2014-03",
+   "selos": {
+    "cria": "bom",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.715997625639993,
+   "cria": 0.12368178688642173
+  },
+  {
+   "mes": "2014-04",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.6241332662886783,
+   "cria": 0.05445083193719236
+  },
+  {
+   "mes": "2014-05",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.556569596855246,
+   "cria": -0.0046865104332053376
+  },
+  {
+   "mes": "2014-06",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.5471025732425168,
+   "cria": -0.0029219231507849885
+  },
+  {
+   "mes": "2014-07",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.578500054354006,
+   "cria": -0.027184168559201916
+  },
+  {
+   "mes": "2014-08",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.6271442690868723,
+   "cria": -0.0658781523042774
+  },
+  {
+   "mes": "2014-09",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.611402003254813,
+   "cria": -0.1212029358980602
+  },
+  {
+   "mes": "2014-10",
+   "selos": {
+    "cria": "bom",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.593616807010352,
+   "cria": -0.12151885836742304
+  },
+  {
+   "mes": "2014-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.3504669718308917,
+   "cria": -0.20803857696936845
+  },
+  {
+   "mes": "2014-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.3466933823770266,
+   "cria": -0.2125958550817848
+  },
+  {
+   "mes": "2015-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.2593087711615363,
+   "cria": -0.21026305170289827
+  },
+  {
+   "mes": "2015-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.0917540648568633,
+   "cria": -0.26295392410734597
+  },
+  {
+   "mes": "2015-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.9780703451928852,
+   "cria": -0.24384648272435816
+  },
+  {
+   "mes": "2015-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.9730155815568091,
+   "cria": -0.23862324455392647
+  },
+  {
+   "mes": "2015-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.8901508146006025,
+   "cria": -0.2604078484154355
+  },
+  {
+   "mes": "2015-06",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.907971949016035,
+   "cria": -0.26083476680250783
+  },
+  {
+   "mes": "2015-07",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.0371891586051674,
+   "cria": -0.22619090272644227
+  },
+  {
+   "mes": "2015-08",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.136319094449057,
+   "cria": -0.1409522179600734
+  },
+  {
+   "mes": "2015-09",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.0572699782051838,
+   "cria": -0.15016827821520828
+  },
+  {
+   "mes": "2015-10",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.9457332021350444,
+   "cria": -0.1506541061011566
+  },
+  {
+   "mes": "2015-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.8356025449836155,
+   "cria": -0.2119078738251814
+  },
+  {
+   "mes": "2015-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.7410069384945832,
+   "cria": -0.2147392425036716
+  },
+  {
+   "mes": "2016-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.6946124366575779,
+   "cria": -0.20983085840850224
+  },
+  {
+   "mes": "2016-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.7723134113901364,
+   "cria": -0.22740202094538842
+  },
+  {
+   "mes": "2016-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.8550192445077738,
+   "cria": -0.26785279891958114
+  },
+  {
+   "mes": "2016-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.8146267898950612,
+   "cria": -0.24434721956615213
+  },
+  {
+   "mes": "2016-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.8844808767513868,
+   "cria": -0.17004180418328196
+  },
+  {
+   "mes": "2016-06",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.9525513810430788,
+   "cria": -0.1332940453612591
+  },
+  {
+   "mes": "2016-07",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.039801124112255,
+   "cria": -0.11391597314027369
+  },
+  {
+   "mes": "2016-08",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.0480904432833764,
+   "cria": -0.11863344000539244
+  },
+  {
+   "mes": "2016-09",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.0543607870896694,
+   "cria": -0.11558331514622588
+  },
+  {
+   "mes": "2016-10",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.0432468618867707,
+   "cria": -0.10712861619455927
+  },
+  {
+   "mes": "2016-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.046732831775336,
+   "cria": -0.06206805448016661
+  },
+  {
+   "mes": "2016-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.9986449967937956,
+   "cria": -0.07394447719005459
+  },
+  {
+   "mes": "2017-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.0636141623570787,
+   "cria": -0.0699107712335536
+  },
+  {
+   "mes": "2017-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.1724146365547874,
+   "cria": -0.025270106461520947
+  },
+  {
+   "mes": "2017-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.3544778146070695,
+   "cria": 0.05147323459213249
+  },
+  {
+   "mes": "2017-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.341031146594781,
+   "cria": 0.05010447653483152
+  },
+  {
+   "mes": "2017-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.4011409965250228,
+   "cria": 0.17294957211555584
+  },
+  {
+   "mes": "2017-06",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.473171018558246,
+   "cria": 0.19852233581367296
+  },
+  {
+   "mes": "2017-07",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.446297929550767,
+   "cria": 0.20279026919056253
+  },
+  {
+   "mes": "2017-08",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.4830089594670266,
+   "cria": 0.3392139412667339
+  },
+  {
+   "mes": "2017-09",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.3498466444159005,
+   "cria": 0.27596382300468636
+  },
+  {
+   "mes": "2017-10",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.394158508854972,
+   "cria": 0.30661917833789243
+  },
+  {
+   "mes": "2017-11",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.305678276077606,
+   "cria": 0.2791969415350324
+  },
+  {
+   "mes": "2017-12",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.29363509753041,
+   "cria": 0.35417010317390907
+  },
+  {
+   "mes": "2018-01",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 2.403696237757996,
+   "cria": 0.4623275977176533
+  },
+  {
+   "mes": "2018-02",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.3490664172519597,
+   "cria": 0.38973631795049535
+  },
+  {
+   "mes": "2018-03",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.3919570190414023,
+   "cria": 0.39016512948677784
+  },
+  {
+   "mes": "2018-04",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.4659184400499212,
+   "cria": 0.4414440160322419
+  },
+  {
+   "mes": "2018-05",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.091916252644147,
+   "cria": 0.5446500556510416
+  },
+  {
+   "mes": "2018-06",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.246479808701386,
+   "cria": 0.5741071234938384
+  },
+  {
+   "mes": "2018-07",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.987508231124102,
+   "cria": 0.6236754815428154
+  },
+  {
+   "mes": "2018-08",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.040504982665586,
+   "cria": 0.6877742422906772
+  },
+  {
+   "mes": "2018-09",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 3.1398231237168397,
+   "cria": 0.7847330930229859
+  },
+  {
+   "mes": "2018-10",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 3.0237037235426443,
+   "cria": 0.8361071182480613
+  },
+  {
+   "mes": "2018-11",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.944157196003605,
+   "cria": 0.6821204514275241
+  },
+  {
+   "mes": "2018-12",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.0199284687398262,
+   "cria": 0.5914115626105978
+  },
+  {
+   "mes": "2019-01",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.2112015485825145,
+   "cria": 0.560979403817019
+  },
+  {
+   "mes": "2019-02",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.3513970935815465,
+   "cria": 0.5348035201099042
+  },
+  {
+   "mes": "2019-03",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 3.61337738565716,
+   "cria": 0.5417467266313325
+  },
+  {
+   "mes": "2019-04",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 3.8053971599100724,
+   "cria": 0.47457051448534515
+  },
+  {
+   "mes": "2019-05",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.9699162685519926,
+   "cria": 0.4466551687940792
+  },
+  {
+   "mes": "2019-06",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.7241083433513347,
+   "cria": 0.5379850450618935
+  },
+  {
+   "mes": "2019-07",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 4.081790595688283,
+   "cria": 0.4958471777251976
+  },
+  {
+   "mes": "2019-08",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 4.213504463026281,
+   "cria": 0.4232462680764013
+  },
+  {
+   "mes": "2019-09",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 4.162138071286521,
+   "cria": 0.3211965473490679
+  },
+  {
+   "mes": "2019-10",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 4.189694125602923,
+   "cria": 0.27230750013370986
+  },
+  {
+   "mes": "2019-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "melhor",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.7869189310952134,
+   "cria": 0.15632378521812829
+  },
+  {
+   "mes": "2019-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "melhor",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.6975943364377217,
+   "cria": 0.062864754321176
+  },
+  {
+   "mes": "2020-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.597105900165334,
+   "cria": 0.08845295993944235
+  },
+  {
+   "mes": "2020-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.2907380660181857,
+   "cria": 0.0058357951778178485
+  },
+  {
+   "mes": "2020-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.0501706116493295,
+   "cria": -0.053966256998498
+  },
+  {
+   "mes": "2020-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.6342248767681964,
+   "cria": -0.1085521200863121
+  },
+  {
+   "mes": "2020-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.938597706035198,
+   "cria": -0.08837539082350954
+  },
+  {
+   "mes": "2020-06",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 3.0068498057449324,
+   "cria": -0.1339363886590832
+  },
+  {
+   "mes": "2020-07",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.9622591683520825,
+   "cria": -0.18170164624605545
+  },
+  {
+   "mes": "2020-08",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.92833214890972,
+   "cria": -0.17085977972264932
+  },
+  {
+   "mes": "2020-09",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.867013019131892,
+   "cria": -0.17114832708636196
+  },
+  {
+   "mes": "2020-10",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.6155278028237445,
+   "cria": -0.16558135926824857
+  },
+  {
+   "mes": "2020-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.371744604159514,
+   "cria": -0.22603987363427802
+  },
+  {
+   "mes": "2020-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.2985194662599535,
+   "cria": -0.2527379084935235
+  },
+  {
+   "mes": "2021-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.242060387636369,
+   "cria": -0.26523378073782455
+  },
+  {
+   "mes": "2021-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.036483747688973,
+   "cria": -0.32540330678123885
+  },
+  {
+   "mes": "2021-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.8861835280284849,
+   "cria": -0.36405684171399344
+  },
+  {
+   "mes": "2021-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.7007464462804653,
+   "cria": -0.3880832424233843
+  },
+  {
+   "mes": "2021-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.6367915027551798,
+   "cria": -0.36526642972005907
+  },
+  {
+   "mes": "2021-06",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.744127801829572,
+   "cria": -0.33140385968622854
+  },
+  {
+   "mes": "2021-07",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.7310967685129726,
+   "cria": -0.3182041446044457
+  },
+  {
+   "mes": "2021-08",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.8287095001835423,
+   "cria": -0.2980355408634675
+  },
+  {
+   "mes": "2021-09",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.7839071952749646,
+   "cria": -0.2960377582863507
+  },
+  {
+   "mes": "2021-10",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.8577654741265217,
+   "cria": -0.26091771366659333
+  },
+  {
+   "mes": "2021-11",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.7081007484080573,
+   "cria": -0.2729379064721805
+  },
+  {
+   "mes": "2021-12",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.5144984717261283,
+   "cria": -0.32059255005817167
+  },
+  {
+   "mes": "2022-01",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.5529258678799254,
+   "cria": -0.315214993306554
+  },
+  {
+   "mes": "2022-02",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.389799185176892,
+   "cria": -0.27795897384727175
+  },
+  {
+   "mes": "2022-03",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.3657355220344207,
+   "cria": -0.24261904695116077
+  },
+  {
+   "mes": "2022-04",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.565906029747552,
+   "cria": -0.19267430408657604
+  },
+  {
+   "mes": "2022-05",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.5680575447387077,
+   "cria": -0.048587028149237765
+  },
+  {
+   "mes": "2022-06",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "bom",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.7447169334365735,
+   "cria": 0.03509218063165043
+  },
+  {
+   "mes": "2022-07",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.6649558565107234,
+   "cria": -0.03527204886946367
+  },
+  {
+   "mes": "2022-08",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.5966402447289247,
+   "cria": -0.03153716203523205
+  },
+  {
+   "mes": "2022-09",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.653403953984911,
+   "cria": 0.022992299851425813
+  },
+  {
+   "mes": "2022-10",
+   "selos": {
+    "cria": "aguarde",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 1.6925543791041302,
+   "cria": 0.10216086617581244
+  },
+  {
+   "mes": "2022-11",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 1.6666672981544683,
+   "cria": 0.14895791407969283
+  },
+  {
+   "mes": "2022-12",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 1.6402690751184257,
+   "cria": 0.18707190904599647
+  },
+  {
+   "mes": "2023-01",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 1.7229110876667744,
+   "cria": 0.17740694360288156
+  },
+  {
+   "mes": "2023-02",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 1.7797528847510549,
+   "cria": 0.1817252539587133
+  },
+  {
+   "mes": "2023-03",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 1.9382352317435536,
+   "cria": 0.20606637332554278
+  },
+  {
+   "mes": "2023-04",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.2310518885782242,
+   "cria": 0.16732842427866945
+  },
+  {
+   "mes": "2023-05",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.673991833543655,
+   "cria": 0.23928610820685758
+  },
+  {
+   "mes": "2023-06",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.636796301976282,
+   "cria": 0.3044726623732399
+  },
+  {
+   "mes": "2023-07",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.6872780447418005,
+   "cria": 0.3083399410375143
+  },
+  {
+   "mes": "2023-08",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.77524173550595,
+   "cria": 0.4240836663061123
+  },
+  {
+   "mes": "2023-09",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "aguarde",
+    "iniciante": "aguarde"
+   },
+   "engorda": 2.804693057201465,
+   "cria": 0.509108076581047
+  },
+  {
+   "mes": "2023-10",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.8329821099314976,
+   "cria": 0.48343234519220846
+  },
+  {
+   "mes": "2023-11",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "bom",
+    "iniciante": "bom"
+   },
+   "engorda": 2.693909724207545,
+   "cria": 0.506999389895546
+  },
+  {
+   "mes": "2023-12",
+   "selos": {
+    "cria": "melhor",
+    "engorda": "melhor",
+    "iniciante": "melhor"
+   },
+   "engorda": 2.6753470801353374,
+   "cria": 0.4817270683366526
+  }
+ ]
+}
