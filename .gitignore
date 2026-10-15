@@ -7,3 +7,6 @@ out/
 .claude/
 .DS_Store
 *.log
+.playwright-mcp/
+next-env.d.ts
+*.tsbuildinfo

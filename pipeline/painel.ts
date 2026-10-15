@@ -1,0 +1,90 @@
+// Gera data/painel.json: tudo o que o app mostra, num arquivo só.
+// Roda depois de semanal.ts (no robô) e antes do build do app.
+// Uso: node pipeline/painel.ts
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { montarSerie } from "./modelo/dados.ts";
+import { lerFasePreco, pivosDePreco } from "./modelo/fase.ts";
+
+const DATA = new URL("../data/", import.meta.url);
+const lerJson = (c: string) => JSON.parse(readFileSync(new URL(c, DATA), "utf8"));
+const LIMIAR_CICLO = 0.2;
+
+const serie = montarSerie();
+const i = serie.length - 1;
+// O primeiro mês da série não é um pico/vale de verdade, só o começo dos dados.
+const pivos = pivosDePreco(serie, LIMIAR_CICLO).filter((p) => p.mes !== serie[0].mes);
+const fase = lerFasePreco(serie, i, LIMIAR_CICLO);
+const mesesEntre = (a: string, b: string) => {
+  const [ya, ma] = a.split("-").map(Number);
+  const [yb, mb] = b.split("-").map(Number);
+  return (yb - ya) * 12 + (mb - ma);
+};
+const duracoes = (de: string, para: string) =>
+  pivos.flatMap((p, k) => (p.tipo === de && pivos[k + 1]?.tipo === para ? [mesesEntre(p.mes, pivos[k + 1].mes)] : []));
+
+const ultimos10 = serie.slice(-120);
+const quantil = (v: number[], q: number) => {
+  const s = [...v].sort((a, b) => a - b);
+  return s[Math.round(q * (s.length - 1))];
+};
+const rts = ultimos10.map((m) => m.rt!).filter(Boolean);
+
+const arqsPrev = readdirSync(new URL("previsoes/", DATA)).filter((f) => f.endsWith(".json")).sort();
+const previsao = arqsPrev.length ? lerJson(`previsoes/${arqsPrev.at(-1)}`) : null;
+const avaliacoes = lerJson("avaliacoes.json").avaliacoes;
+const backtest = lerJson("backtest/relatorio.json");
+const scot = lerJson("raw/scot/boi-gordo.json").dados.at(-1);
+const boiDiario = lerJson("raw/cepea/boi-gordo.json").dados;
+const bezerroDiario = lerJson("raw/cepea/bezerro-ms.json").dados;
+
+const painel = {
+  geradoEm: new Date().toISOString(),
+  fontes: "Cepea/Esalq-USP (CC BY-NC 4.0), IBGE, Banco Central, Scot Consultoria",
+  hoje: {
+    data: boiDiario.at(-1).data,
+    boi: boiDiario.at(-1).valor,
+    boiEstimado: boiDiario.at(-1).origem === "estimado-scot",
+    bezerro: bezerroDiario.at(-1).valor,
+    dataBezerro: bezerroDiario.at(-1).data,
+  },
+  serie: serie
+    .filter((m) => m.mes >= "2006-01")
+    .map((m) => ({
+      mes: m.mes,
+      boi: +m.boi.toFixed(2),
+      boiReal: +m.boiReal.toFixed(2),
+      bezerro: m.bezerro && +m.bezerro.toFixed(0),
+      rt: m.rt && +m.rt.toFixed(3),
+      femeas: m.femeas && +m.femeas.toFixed(4),
+    })),
+  pivos: pivos.filter((p) => p.mes >= "2006-01").map((p) => ({ ...p, boiReal: +p.boiReal.toFixed(2) })),
+  fase: {
+    sobe: fase.sobe,
+    desde: fase.ultimoPivo,
+    meses: fase.mesesDesdePivo,
+    realVsPicoAnterior: fase.realVsPicoAnterior,
+    duracaoSubidas: duracoes("vale", "pico"),
+    duracaoQuedas: duracoes("pico", "vale"),
+    femeas: serie[i].femeas,
+    femeasMedia10: (() => {
+      const f = ultimos10.map((m) => m.femeas).filter((v): v is number => v != null);
+      return f.reduce((a, b) => a + b, 0) / f.length;
+    })(),
+  },
+  troca: { atual: serie[i].rt, p25: quantil(rts, 0.25), mediana: quantil(rts, 0.5), p75: quantil(rts, 0.75) },
+  previsao: previsao && {
+    semana: previsao.semana,
+    dataBase: previsao.dataBase,
+    itens: previsao.previsoes.map((p: Record<string, number | string>) => ({
+      alvo: p.alvo, semanas: p.semanas, base: p.base, previsto: p.previsto, minimo: p.minimo, maximo: p.maximo, segundaAlvo: p.segundaAlvo,
+    })),
+  },
+  acerto: {
+    teste: { periodo: "2023–2026", treinoAte: backtest.fimTreino, itens: backtest.previsao },
+    aoVivo: avaliacoes,
+  },
+  pracas: scot && { data: scot.data, valores: scot.pracas },
+};
+
+writeFileSync(new URL("painel.json", DATA), JSON.stringify(painel) + "\n");
+console.log(`ok data/painel.json (${painel.serie.length} meses, fase ${fase.sobe ? "subindo" : "caindo"} há ${fase.mesesDesdePivo}m)`);

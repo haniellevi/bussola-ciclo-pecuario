@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-texto), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-titulo), ui-serif, Georgia, serif;
+  --color-terra-950: #0b0f0d;
+  --color-terra-900: #121815;
+  --color-terra-800: #1b231f;
+  --color-terra-700: #28332d;
+  --color-capim: #4ade80;
+  --color-sol: #fbbf24;
+  --color-alerta: #fb7185;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-terra-950);
+  color: #e7ece9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

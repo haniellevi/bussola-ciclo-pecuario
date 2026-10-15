@@ -27,7 +27,8 @@ Toda coleta confere os dias que já estavam no histórico: se um valor divergir 
 | 3. Prever e registrar | `pipeline/semanal.ts` | `data/previsoes/AAAA-Snn.json`: boi e bezerro em 4, 13 e 52 semanas, com faixa provável (80%), pesos do modelo e o quanto cada sinal pesou. **Nunca é sobrescrito** |
 | 4. Comparar | `pipeline/semanal.ts` | `data/avaliacoes.json`: cada previsão vencida contra a média real da semana-alvo (erro, dentro da faixa, direção certa) |
 | 5. Ajustar | `pipeline/modelo/previsao.ts` | O modelo é re-treinado toda semana com todos os dados; a faixa é recalibrada com previsões "às cegas" dos 10 anos anteriores. Os pesos de cada semana ficam gravados no arquivo da previsão, então dá para ver o que mudou |
-| 6. Publicar | workflow | Dados salvos no repositório + issue com o relatório (o GitHub manda por e-mail) |
+| 6. Dados do app | `pipeline/painel.ts` | `data/painel.json`: tudo que o site mostra (série, fase, previsão, acerto, praças) |
+| 7. Publicar | workflow | Dados salvos no repositório + issue com o relatório (o GitHub manda por e-mail) |
 
 ## O modelo
 
@@ -42,3 +43,16 @@ node pipeline/coletar.ts                                   # precisa de internet
 uv run --no-project --with xlrd python pipeline/ler_cepea.py
 node pipeline/semanal.ts
 ```
+
+## O app
+
+```sh
+npm install
+npm run painel   # gera data/painel.json
+npm run dev      # abre em http://localhost:3000
+```
+
+- **Onda do ciclo:** preço real do boi desde 2006, picos e vales, zona histórica de pico e previsão com faixa.
+- **Veredito por perfil** (Cria, Recria/Engorda, Iniciante): regras em `lib/veredito.ts`, cada uma com o motivo na tela. O simulador recalcula ao vivo.
+- **Acerto do modelo:** teste no passado + comparação ao vivo semana a semana.
+- **Consultor:** 5 perguntas e parecer pelas regras. Com a chave do OpenRouter do próprio usuário (guardada só no navegador dele), vira conversa livre; a chave passa por `app/api/chat` e não é gravada.
