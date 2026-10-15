@@ -57,6 +57,7 @@ function parecer(painel: Painel, r: Respostas): string {
   if (r.estrutura === "Confinamento") linhas.push("No confinamento, o que decide é o custo da arroba produzida contra o preço do boi. Use o simulador ao lado.");
   if (r.estrutura === "Ainda não tenho") linhas.push("Sem terra, parceria (boitel ou integração) reduz o capital necessário e o risco de começar.");
   const local = Object.entries(painel.pracas?.valores ?? {}).filter(([n, p]) => n.startsWith(`${r.uf} `) && p.vista);
+  if (!local.length && r.uf) linhas.push(`Ainda não temos cotação de praça para ${r.uf} (a Scot cobre só alguns estados). Use a referência de SP, do Cepea, como base.`);
   if (local.length) linhas.push(`Boi gordo no seu estado (Scot): ${local.map(([n, p]) => `${n.slice(3)} ${reais(p.vista!)}`).join(", ")}.`);
   linhas.push(v.venda, "Isto é leitura estatística de dados públicos, não recomendação de investimento.");
   return linhas.join("\n\n");

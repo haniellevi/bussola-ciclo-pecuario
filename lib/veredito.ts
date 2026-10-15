@@ -21,7 +21,8 @@ export type Entrada = {
   previsaoBezerro13: number | null;
 };
 
-export type Veredito = { selo: Selo; titulo: string; motivos: string[]; venda: string };
+// pontos: como o selo foi somado (fase do ciclo + relação de troca). 1 ponto = Bom, 2 ou mais = Melhor.
+export type Veredito = { selo: Selo; titulo: string; motivos: string[]; venda: string; pontos?: { ciclo: number; troca: number; total: number } };
 
 export const TEXTO_SELO: Record<Selo, string> = {
   melhor: "Melhor momento de compra",
@@ -97,19 +98,21 @@ export const PONTOS_ESTAGIO_CRIA: Record<Estagio, [number, string]> = {
 const variacao = (v: number | null, nome: string) =>
   v == null ? "" : ` O modelo prevê ${nome} ${v >= 0 ? "subindo" : "caindo"} ${pct(Math.abs(v), 1)} em 13 semanas.`;
 
-export function veredito(perfil: Perfil, e: Entrada): Veredito {
-  const est = estagio(e);
+// estForcado: simulador "e se o ciclo estivesse em..."; sem ele, a fase vem dos dados.
+export function veredito(perfil: Perfil, e: Entrada, estForcado?: Estagio): Veredito {
+  const est = estForcado ?? estagio(e);
   const rt = relacaoTroca(e.boi, e.bezerro);
   const [pTroca, mTroca] = pontosTroca(rt, e.troca);
 
   const engorda = (): Veredito => {
     const [pEst, mEst] = PONTOS_ESTAGIO_ENGORDA[est];
-    const selo = seloPorPontos(Math.max(0, pTroca - 1) + pEst);
+    const efTroca = Math.max(0, pTroca - 1);
+    const selo = seloPorPontos(efTroca + pEst);
     const venda =
       e.previsaoBoi13 != null && e.previsaoBoi13 > 0.02
         ? `Venda do boi gordo: se o pasto e o caixa permitem, segurar pode compensar.${variacao(e.previsaoBoi13, "o boi")} Para se proteger de queda, avalie travar parte na B3.`
         : `Venda do boi gordo: sem alta forte prevista.${variacao(e.previsaoBoi13, "o boi")} Animal pronto não precisa esperar.`;
-    return { selo, titulo: TEXTO_SELO[selo], motivos: [mTroca, mEst], venda };
+    return { selo, titulo: TEXTO_SELO[selo], motivos: [mTroca, mEst], venda, pontos: { ciclo: pEst, troca: efTroca, total: efTroca + pEst } };
   };
 
   const cria = (): Veredito => {
@@ -118,7 +121,7 @@ export function veredito(perfil: Perfil, e: Entrada): Veredito {
     const venda = e.sobe
       ? `Venda de bezerros: bom momento, bezerro valorizado (${e.bezerro.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}/cabeça).${variacao(e.previsaoBezerro13, "o bezerro")} Com o ciclo ${est === "alta-madura" ? "perto do pico" : "em alta"}, segurar fêmeas para reprodução faz sentido só se houver pasto.`
       : "Venda de bezerros: preço em queda. Descartar vacas velhas e improdutivas agora ajuda o caixa.";
-    return { selo, titulo: TEXTO_SELO[selo], motivos: [mEst, `Para a cria, a troca pesa menos: ${mTroca.charAt(0).toLowerCase()}${mTroca.slice(1)}`], venda };
+    return { selo, titulo: TEXTO_SELO[selo], motivos: [mEst, `Para a cria, a troca pesa menos: ${mTroca.charAt(0).toLowerCase()}${mTroca.slice(1)}`], venda, pontos: { ciclo: pEst, troca: 0, total: pEst } };
   };
 
   if (perfil === "engorda") return engorda();
