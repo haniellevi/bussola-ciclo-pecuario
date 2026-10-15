@@ -27,11 +27,13 @@ export const VARIAVEIS = {
   clima: "chuva, seca, pastagens, El Niño/La Niña",
   juros: "juros, crédito rural, dólar",
   politica: "impostos, leis, sanidade, rastreabilidade",
+  mercado: "cotação do dia do boi ou do bezerro, boletim de preços, sem dizer a causa",
   outro: "outro assunto",
 } as const;
 type Variavel = keyof typeof VARIAVEIS;
-type Classe = { relevante: boolean; direcao: "sobe" | "cai" | "neutro"; variavel: Variavel; resumo: string };
-export type Noticia = { fonte: string; titulo: string; link: string; data: string; classe?: Classe };
+type Classe = { relevante: boolean; direcao: "sobe" | "cai" | "neutro"; variavel: Variavel };
+// resumo = começo do texto do próprio site (o Jev não escreve resumos).
+export type Noticia = { fonte: string; titulo: string; link: string; data: string; resumo?: string; classe?: Classe };
 
 function semanaIso(data: Date) {
   const q = new Date(Date.UTC(data.getUTCFullYear(), data.getUTCMonth(), data.getUTCDate(), 12));
@@ -51,9 +53,41 @@ async function lerFeed(f: (typeof FEEDS)[number]): Promise<Noticia[]> {
   const xml = await r.text();
   const limite = Date.now() - DIAS * 86_400_000;
   return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)]
-    .map(([, it]) => ({ fonte: f.fonte, titulo: tag(it, "title"), link: tag(it, "link"), data: new Date(tag(it, "pubDate")).toISOString().slice(0, 10), resumo: tag(it, "description").slice(0, 300) }))
-    .filter((n) => n.titulo && n.link && new Date(n.data).getTime() >= limite && ASSUNTO.test(`${n.titulo} ${n.resumo}`))
-    .map(({ resumo: _, ...n }) => n);
+    .map(([, it]) => ({ fonte: f.fonte, titulo: tag(it, "title"), link: tag(it, "link"), data: new Date(tag(it, "pubDate")).toISOString().slice(0, 10), resumo: tag(it, "description").replace(/\s*(The post|O post) .*$/, "").slice(0, 240) }))
+    .filter((n) => n.titulo && n.link && new Date(n.data).getTime() >= limite && ASSUNTO.test(`${n.titulo} ${n.resumo}`));
+}
+
+// O Jev não escreve texto: responde perguntas fechadas (sim/não e escolha entre opções) pela
+// Decisions API do OpenRouter. Uma chamada por notícia, com as três perguntas juntas.
+const DECISIONS = process.env.DECISIONS_URL ?? "https://openrouter.ai/api/alpha/decisions";
+const PERGUNTAS = {
+  relevante: {
+    type: "noul",
+    instructions: "Esta notícia pode mudar o preço do boi gordo ou do bezerro no Brasil nas próximas semanas ou meses?",
+    criteria: { true: "Fala de fato que mexe com oferta, demanda, custos ou exportação de gado de corte.", false: "Assunto sem efeito no preço do gado (evento, tecnologia, propaganda, outra cultura)." },
+  },
+  direcao: {
+    type: "choice",
+    instructions: "Para onde esta notícia empurra o preço da arroba do boi gordo no Brasil?",
+    criteria: { sobe: "Menos oferta de boi, mais exportação ou consumo, retenção de fêmeas.", cai: "Mais oferta de boi, embargo, queda de exportação ou consumo, descarte de vacas.", neutro: "Não dá para dizer ou não afeta o preço." },
+  },
+  variavel: { type: "choice", instructions: "Qual é o assunto principal da notícia?", criteria: VARIAVEIS },
+};
+
+async function decidir(n: Noticia, chave: string, modelo: string): Promise<Classe | null> {
+  const r = await fetch(DECISIONS, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${chave}`, "Content-Type": "application/json", "X-Title": "Bussola do Ciclo Pecuario" },
+    body: JSON.stringify({ model: modelo, state: { fonte: n.fonte, data: n.data, manchete: n.titulo, trecho: n.resumo ?? "" }, questions: PERGUNTAS }),
+    signal: AbortSignal.timeout(60_000),
+  });
+  if (!r.ok) throw new Error(`${r.status}: ${(await r.text()).slice(0, 200)}`);
+  const a = (await r.json())?.answers ?? {};
+  // Só aceita respostas dentro do formato combinado; o resto fica sem classificação.
+  if (typeof a.relevante?.noul !== "number" || !["sobe", "cai", "neutro"].includes(a.direcao?.choice) || !(a.variavel?.choice in VARIAVEIS)) return null;
+  // Direção com pouca certeza vira "neutro" para não inflar o saldo.
+  const direcao = a.direcao.confidence >= 0.5 ? a.direcao.choice : "neutro";
+  return { relevante: a.relevante.noul >= 0.5, direcao, variavel: a.variavel.choice };
 }
 
 export async function classificar(itens: Noticia[]): Promise<Map<string, Classe>> {
@@ -61,36 +95,28 @@ export async function classificar(itens: Noticia[]): Promise<Map<string, Classe>
   const modelo = process.env.MODELO_NOTICIAS?.trim();
   const saida = new Map<string, Classe>();
   if (!chave || !modelo || !itens.length) return saida;
-  const pedido = `Você classifica notícias para pecuaristas de corte no Brasil. Para cada manchete, responda:
-- relevante: true se afeta o preço do boi gordo ou do bezerro nas próximas semanas ou meses.
-- direcao: "sobe", "cai" ou "neutro" — para onde a notícia empurra o preço da arroba do boi.
-- variavel: uma de ${Object.entries(VARIAVEIS).map(([k, v]) => `"${k}" (${v})`).join(", ")}.
-- resumo: uma frase curta em português simples, sem inventar número que não esteja na manchete.
-Responda SÓ um JSON: {"itens":[{"i":0,"relevante":true,"direcao":"sobe","variavel":"exportacao","resumo":"..."}]}
-
-Manchetes:
-${itens.map((n, i) => `${i}. [${n.fonte}, ${n.data}] ${n.titulo}`).join("\n")}`;
-  const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${chave}`, "Content-Type": "application/json", "X-Title": "Bussola do Ciclo Pecuario" },
-    body: JSON.stringify({ model: modelo, messages: [{ role: "user", content: pedido }], response_format: { type: "json_object" }, max_tokens: 4000 }),
-    signal: AbortSignal.timeout(120_000),
-  });
-  if (!r.ok) throw new Error(`OpenRouter ${r.status}: ${(await r.text()).slice(0, 200)}`);
-  const texto: string = (await r.json())?.choices?.[0]?.message?.content ?? "";
-  const json = JSON.parse(texto.slice(texto.indexOf("{"), texto.lastIndexOf("}") + 1));
-  for (const c of json.itens ?? []) {
-    const n = itens[c.i];
-    // Só aceita respostas dentro do formato combinado; o resto fica sem classificação.
-    if (!n || typeof c.relevante !== "boolean" || !["sobe", "cai", "neutro"].includes(c.direcao) || !(c.variavel in VARIAVEIS)) continue;
-    saida.set(n.link, { relevante: c.relevante, direcao: c.direcao, variavel: c.variavel, resumo: String(c.resumo ?? "").slice(0, 240) });
-  }
+  const erros: string[] = [];
+  const fila = [...itens];
+  await Promise.all(
+    Array.from({ length: 6 }, async () => {
+      for (let n = fila.shift(); n; n = fila.shift()) {
+        try {
+          const c = await decidir(n, chave, modelo);
+          if (c) saida.set(n.link, c);
+        } catch (e) {
+          erros.push((e as Error).message);
+        }
+      }
+    }),
+  );
+  if (!saida.size && erros.length) throw new Error(`OpenRouter ${erros[0]}`);
   return saida;
 }
 
 // Termômetro: saldo das notícias relevantes (sobe − cai) ÷ relevantes, de −1 a +1, por variável.
+// Boletim de preço ("mercado") fica fora: é o próprio preço, não uma causa; contar seria circular.
 export function termometro(itens: Noticia[]) {
-  const rel = itens.filter((n) => n.classe?.relevante);
+  const rel = itens.filter((n) => n.classe?.relevante && n.classe.variavel !== "mercado");
   const saldo = (g: Noticia[]) => (g.length ? (g.filter((n) => n.classe!.direcao === "sobe").length - g.filter((n) => n.classe!.direcao === "cai").length) / g.length : 0);
   const porVariavel = Object.fromEntries(
     Object.keys(VARIAVEIS).flatMap((v) => {
@@ -109,7 +135,7 @@ if (import.meta.main) {
   const avisos: string[] = [];
   for (const f of FEEDS) {
     try {
-      for (const n of await lerFeed(f)) if (!conhecidas.has(n.link)) conhecidas.set(n.link, n);
+      for (const n of await lerFeed(f)) conhecidas.set(n.link, { ...n, classe: conhecidas.get(n.link)?.classe });
     } catch (e) {
       avisos.push(`Feed ${f.fonte} falhou: ${(e as Error).message}`);
     }

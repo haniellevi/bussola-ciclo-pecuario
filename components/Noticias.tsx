@@ -16,6 +16,7 @@ const VARIAVEL: Record<string, string> = {
   clima: "Clima",
   juros: "Juros e dólar",
   politica: "Leis e sanidade",
+  mercado: "Preço do dia",
   outro: "Outros",
 };
 
@@ -27,7 +28,7 @@ export function Noticias({ noticias }: { noticias: NonNullable<Painel["noticias"
       {noticias.classificadas && t.relevantes > 0 && (
         <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
           <p className="text-sm text-zinc-300">
-            Das {t.relevantes} notícias que importam nesta semana, o saldo é{" "}
+            Das {t.relevantes} notícias desta semana que falam das causas do preço, o saldo é{" "}
             <strong className={t.saldo > 0.15 ? "text-capim" : t.saldo < -0.15 ? "text-alerta" : "text-zinc-100"}>
               {t.saldo > 0.15 ? "de alta" : t.saldo < -0.15 ? "de baixa" : "equilibrado"}
             </strong>{" "}
@@ -59,7 +60,7 @@ export function Noticias({ noticias }: { noticias: NonNullable<Painel["noticias"
                 </>
               )}
             </p>
-            {n.classe?.resumo && <p className="mt-1 text-xs text-zinc-400">{n.classe.resumo}</p>}
+            {n.resumo && <p className="mt-1 line-clamp-2 text-xs text-zinc-400">{n.resumo}</p>}
           </li>
         ))}
       </ul>

@@ -59,7 +59,7 @@ export type Painel = {
     semana: string;
     classificadas: boolean;
     termometro: { relevantes: number; saldo: number; porVariavel: Record<string, { n: number; saldo: number }> };
-    itens: { fonte: string; titulo: string; link: string; data: string; classe?: { relevante: boolean; direcao: "sobe" | "cai" | "neutro"; variavel: string; resumo: string } }[];
+    itens: { fonte: string; titulo: string; link: string; data: string; resumo?: string; classe?: { relevante: boolean; direcao: "sobe" | "cai" | "neutro"; variavel: string } }[];
   } | null;
   pracas: { data: string; valores: Record<string, { vista: number | null; prazo30: number | null }> } | null;
 };

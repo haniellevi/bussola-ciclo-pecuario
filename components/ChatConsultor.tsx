@@ -71,7 +71,8 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
   const [pensando, setPensando] = useState(false);
   const fim = useRef<HTMLDivElement>(null);
 
-  const iaLigada = (config.chave && config.modelo) || servidor.servidor;
+  // Basta colar a chave: o modelo vem do servidor (MODELO_AGENTE) se o campo ficar vazio.
+  const iaLigada = (config.chave && (config.modelo || servidor.modelo)) || servidor.servidor;
   const passo = PERGUNTAS.findIndex((p) => !resp[p.campo]);
   const pronto = passo === -1;
 
@@ -122,7 +123,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
     const historico = [...msgs, { de: "voce" as const, texto: pergunta }];
     setMsgs(historico);
     if (!iaLigada) {
-      setMsgs((m) => [...m, { de: "consultor", texto: "Para conversar livremente, configure sua chave e o modelo do OpenRouter na engrenagem acima. Sem isso, eu respondo só pelo roteiro." }]);
+      setMsgs((m) => [...m, { de: "consultor", texto: "Para conversar livremente, cole sua chave do OpenRouter na engrenagem acima. Sem isso, eu respondo só pelo roteiro." }]);
       setAbrirConfig(true);
       return;
     }
@@ -199,11 +200,11 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
                 />
               </label>
               <label className="block">
-                <span className="text-xs text-zinc-400">Modelo (identificador no OpenRouter)</span>
+                <span className="text-xs text-zinc-400">Modelo (pode deixar vazio)</span>
                 <input
                   value={config.modelo}
                   onChange={(e) => setConfig({ ...config, modelo: e.target.value })}
-                  placeholder="empresa/modelo"
+                  placeholder={servidor.modelo || "empresa/modelo"}
                   className="mt-1 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 py-2"
                 />
               </label>
