@@ -7,6 +7,7 @@ import type { Painel } from "@/lib/painel";
 import { descreverEstagio, veredito, type Perfil } from "@/lib/veredito";
 import { entradaDoPainel } from "@/lib/entrada";
 import { CHAVE_PERFIL } from "./Decisao";
+import { GuiaChave } from "./GuiaChave";
 
 type Msg = { de: "consultor" | "voce"; texto: string };
 type Respostas = { estrutura?: string; capital?: string; experiencia?: string; atividade?: string; uf?: string };
@@ -66,13 +67,14 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [texto, setTexto] = useState("");
   const [config, setConfig] = useState({ chave: "", modelo: "" });
-  const [servidor, setServidor] = useState({ servidor: false, modelo: "" });
+  const [servidor, setServidor] = useState({ servidor: false, masterDesligada: false, modelo: "" });
   const [abrirConfig, setAbrirConfig] = useState(false);
   const [pensando, setPensando] = useState(false);
   const fim = useRef<HTMLDivElement>(null);
 
   // Basta colar a chave: o modelo vem do servidor (MODELO_AGENTE) se o campo ficar vazio.
   const iaLigada = (config.chave && (config.modelo || servidor.modelo)) || servidor.servidor;
+  const precisaChave = servidor.masterDesligada && !config.chave;
   const passo = PERGUNTAS.findIndex((p) => !resp[p.campo]);
   const pronto = passo === -1;
 
@@ -123,7 +125,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
     const historico = [...msgs, { de: "voce" as const, texto: pergunta }];
     setMsgs(historico);
     if (!iaLigada) {
-      setMsgs((m) => [...m, { de: "consultor", texto: "Para conversar livremente, cole sua chave do OpenRouter na engrenagem acima. Sem isso, eu respondo só pelo roteiro." }]);
+      setMsgs((m) => [...m, { de: "consultor", texto: precisaChave ? "A chave compartilhada está desligada. Siga o passo a passo acima para colocar a sua chave." : "Para conversar livremente, cole sua chave do OpenRouter na engrenagem acima. Sem isso, eu respondo só pelo roteiro." }]);
       setAbrirConfig(true);
       return;
     }
@@ -173,6 +175,18 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
           </button>
         </div>
       </header>
+
+      {precisaChave && (
+        <div role="alert" className="max-h-64 shrink-0 overflow-y-auto border-b border-sol/30 bg-sol/10 p-4">
+          <p className="text-sm font-medium text-sol">A chave compartilhada foi desligada. Coloque a sua chave do OpenRouter para conversar com a IA.</p>
+          <div className="mt-3">
+            <GuiaChave />
+          </div>
+          <button onClick={() => setAbrirConfig(true)} className="mt-3 rounded-lg bg-sol px-3 py-1.5 text-xs font-semibold text-terra-950">
+            Abrir a engrenagem
+          </button>
+        </div>
+      )}
 
       <AnimatePresence>
         {abrirConfig && (

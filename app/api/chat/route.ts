@@ -1,5 +1,6 @@
 // Repassa a conversa para o OpenRouter. Usa a chave do próprio usuário (cabeçalho, nunca gravada)
 // ou, se não vier, a chave do servidor (OPENROUTER_API_KEY em .env.local), com limite por visitante.
+import { masterLigada } from "@/lib/master";
 import { painel } from "@/lib/painel";
 
 export const dynamic = "force-dynamic";
@@ -19,8 +20,10 @@ function dentroDoLimite(ip: string) {
   return true;
 }
 
-export function GET() {
-  return Response.json({ servidor: Boolean(CHAVE_SERVIDOR && MODELO_PADRAO), modelo: MODELO_PADRAO });
+// servidor = a chave master está ligada e pronta. masterDesligada = o dono desligou: cada pessoa usa a sua.
+export async function GET() {
+  const ligada = await masterLigada();
+  return Response.json({ servidor: Boolean(ligada && CHAVE_SERVIDOR && MODELO_PADRAO), masterDesligada: !ligada, modelo: MODELO_PADRAO });
 }
 
 type Mensagem = { role: "user" | "assistant"; content: string };
@@ -54,6 +57,8 @@ Regras:
 
 export async function POST(req: Request) {
   const chaveUsuario = req.headers.get("x-openrouter-key")?.trim();
+  if (!chaveUsuario && !(await masterLigada()))
+    return Response.json({ erro: "Configure a sua chave do OpenRouter na engrenagem do Consultor.", masterDesligada: true }, { status: 403 });
   const chave = chaveUsuario || CHAVE_SERVIDOR;
   if (!chave) return Response.json({ erro: "Sem chave do OpenRouter." }, { status: 400 });
   if (!chaveUsuario && !dentroDoLimite(req.headers.get("x-forwarded-for")?.split(",")[0].trim() || "local"))

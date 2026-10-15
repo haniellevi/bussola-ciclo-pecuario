@@ -29,6 +29,15 @@ export const TEXTO_SELO: Record<Selo, string> = {
   aguarde: "Aguarde",
 };
 
+export const NOME_ESTAGIO: Record<Estagio, string> = {
+  "inicio-alta": "início da alta",
+  "meio-alta": "alta",
+  "alta-madura": "fim da alta",
+  "inicio-queda": "início da queda",
+  "meio-queda": "queda",
+  "fim-queda": "fim da queda",
+};
+
 export const relacaoTroca = (boi: number, bezerro: number) => (18 * boi) / bezerro;
 
 export function estagio(e: Entrada): Estagio {
@@ -67,7 +76,7 @@ function pontosTroca(rt: number, t: Entrada["troca"]): [number, string] {
 
 // Pesos testados em 2015–2023 depois de desenhados só com 2006–2014 (pipeline/modelo/backtest-veredito.ts).
 // O que mais separou bons e maus negócios foi o momento do ciclo; a troca só ajuda quando está entre as melhores.
-const PONTOS_ESTAGIO_ENGORDA: Record<Estagio, [number, string]> = {
+export const PONTOS_ESTAGIO_ENGORDA: Record<Estagio, [number, string]> = {
   "inicio-alta": [1, "Quem compra agora tende a vender com o boi mais caro."],
   "meio-alta": [-1, "A alta já passou da metade do que costuma durar: o bezerro tende a encarecer mais rápido que o boi."],
   "alta-madura": [-1, "Já está na faixa em que os ciclos anteriores viraram. Quem compra caro agora pode vender depois do pico."],
@@ -76,7 +85,7 @@ const PONTOS_ESTAGIO_ENGORDA: Record<Estagio, [number, string]> = {
   "fim-queda": [2, "Reposição barata e alta pela frente, se o ciclo repetir."],
 };
 
-const PONTOS_ESTAGIO_CRIA: Record<Estagio, [number, string]> = {
+export const PONTOS_ESTAGIO_CRIA: Record<Estagio, [number, string]> = {
   "inicio-alta": [1, "Matrizes ainda em preço razoável e bezerro valorizando."],
   "meio-alta": [0, "Matrizes já subiram."],
   "alta-madura": [-1, "Matrizes e novilhas no auge do preço. Comprar agora é pagar o topo."],

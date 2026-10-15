@@ -9,6 +9,7 @@
     "painel": "node pipeline/painel.ts"
   },
   "dependencies": {
+    "@vercel/blob": "^2.8.2",
     "motion": "^14.3.0",
     "next": "^16.4.1",
     "react": "^19.3.1",
