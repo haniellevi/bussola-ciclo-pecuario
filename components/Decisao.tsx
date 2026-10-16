@@ -92,6 +92,23 @@ const AVANCADOS: Record<Estrutura, { campos: (keyof Entradas)[]; nomes: string }
   revenda: { campos: ["diasRevenda", "quebra", "juros"], nomes: "Dias até vender, perda no transporte, juros e frete" },
 };
 
+// Listas de lugares: 3 à vista, o resto com um toque (no celular cada linha ocupa espaço).
+function ListaCurta<T>({ itens, linha }: { itens: T[]; linha: (x: T, i: number) => React.ReactNode }) {
+  const [todos, setTodos] = useState(false);
+  return (
+    <>
+      <ul className="mt-3 divide-y divide-linha text-sm">{(todos ? itens : itens.slice(0, 3)).map(linha)}</ul>
+      {itens.length > 3 && (
+        <button type="button" onClick={() => setTodos((v) => !v)} aria-expanded={todos} className="mt-1 min-h-11 text-sm font-medium text-tinta">
+          {todos ? "Mostrar menos" : `Ver mais ${itens.length - 3}`}
+        </button>
+      )}
+    </>
+  );
+}
+
+const usarCls = "h-11 shrink-0 rounded-lg border border-linha px-3 text-sm text-tinta hover:bg-tinta/10";
+
 const CATEGORIA_PADRAO: Record<Estrutura, CategoriaReposicao> = { recria: "bezerro", confinamento: "boiMagro", cria: "desmama", revenda: "boiMagro" };
 
 const faixaDe = (v: number): [number, number] => [Math.round(v * 0.5), Math.round(v * 1.6)];
@@ -628,7 +645,7 @@ export function Decisao({ painel }: { painel: Painel }) {
         </section>
       </div>
 
-      <div className="min-w-0 space-y-4 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
+      <div className="min-w-0 space-y-4 lg:sticky lg:top-20 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
         <article className="rounded-2xl border border-linha bg-superficie p-4 sm:p-5" aria-live="polite">
           <p className="text-xs uppercase tracking-wider text-texto-3">
             Resultado · {NOME_ESTRUTURA[estrutura]} · por {qtd}
@@ -691,8 +708,7 @@ export function Decisao({ painel }: { painel: Painel }) {
           {cen ? (
             <>
               <p className="mt-3 text-xs text-texto-3">
-                Previsão registrada para {cen.semanas} semanas (perto do prazo da operação), com a faixa provável.
-                {dentroNoTeste != null && ` No teste de ${painel.acerto.teste.periodo}, o preço real ficou dentro dessa faixa em ${pct(dentroNoTeste)} das vezes.`} O seu preço de venda é movido na mesma proporção.
+                Previsão de {cen.semanas} semanas, com a faixa provável{dentroNoTeste != null && `; no teste, o preço real ficou dentro dela em ${pct(dentroNoTeste)} das vezes`}. Seu preço de venda muda na mesma proporção.
               </p>
               <ul className="mt-2 grid grid-cols-3 gap-2 text-center">
                 {[
@@ -739,29 +755,34 @@ export function Decisao({ painel }: { painel: Painel }) {
           <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
             <h3 className="font-display text-lg text-texto">Onde comprar e onde vender</h3>
             <p className="mt-1 text-sm text-texto-2">Melhores pares de estados para boi gordo de 18@, depois do frete e da perda de {numero(e.quebra, 1)}%. Preço à vista da Scot, média dos estados.</p>
-            <ul className="mt-3 divide-y divide-linha text-sm">
-              {pares.map((p) => (
-                <li key={`${p.de}${p.para}`} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
-                  <span className="min-w-28 font-medium text-texto">
-                    {p.de} → {p.para}
+            <ListaCurta
+              itens={pares}
+              linha={(p) => (
+                <li key={`${p.de}${p.para}`} className="flex items-center gap-3 py-2.5">
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-baseline justify-between gap-x-2">
+                      <span className="font-medium text-texto">
+                      {p.de} → {p.para}
+                    </span>
+                      <span className={`whitespace-nowrap font-display font-bold tabular-nums ${p.sobra >= 0 ? "text-capim" : "text-alerta"}`}>{reais(p.sobra)}/cab</span>
+                    </span>
+                    <span className="block text-xs text-texto-3">
+                      compra {reais(p.compra)} · vende {reais(p.venda)} · frete {reais(p.frete)}
+                    </span>
                   </span>
-                  <span className="basis-full text-texto-2 sm:basis-auto sm:flex-1">
-                    compra {reais(p.compra)} · vende {reais(p.venda)} · frete {reais(p.frete)}
-                  </span>
-                  <span className={`font-display font-bold tabular-nums ${p.sobra >= 0 ? "text-capim" : "text-alerta"}`}>{reais(p.sobra)}/cab</span>
-                  <button type="button" onClick={() => {
+                  <button type="button" aria-label={`Usar ${p.de} para ${p.para} na conta`} onClick={() => {
                     setUfCompra(p.de);
                     setPracaVenda(Object.keys(painel.pracas?.valores ?? {}).find((n) => ufDaPraca(n) === p.para) ?? "");
                     setFreteManual(null);
                     setExplicacao(null);
                     digitar("compraCab", Math.round(p.compra), true);
                     digitar("vendaCab", Math.round(p.venda), true);
-                  }} className="h-11 rounded-lg border border-linha px-4 text-sm text-tinta hover:bg-tinta/10">
-                    Usar na conta
+                  }} className={usarCls}>
+                    Usar
                   </button>
                 </li>
-              ))}
-            </ul>
+              )}
+            />
           </section>
         ) : estrutura !== "cria" ? (
           <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
@@ -769,21 +790,26 @@ export function Decisao({ painel }: { painel: Painel }) {
             <p className="mt-1 text-sm text-texto-2">
               Praças da Scot, já descontado o frete saindo de {ufFazenda} (carga de {numero(cargaKg / 1000, 1)} t, {reais(rsKm, 2)}/km). Veja se a diferença de preço paga a viagem.
             </p>
-            <ul className="mt-3 divide-y divide-linha text-sm">
-              {vender.slice(0, 6).map((v, i) => (
-                <li key={v.nome} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
-                  <span className="w-5 text-texto-3">{i + 1}.</span>
-                  <span className="min-w-36 flex-1 font-medium text-texto">{v.nome}</span>
-                  <span className="text-texto-2">
-                    {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
+            <ListaCurta
+              itens={vender.slice(0, 6)}
+              linha={(v, i) => (
+                <li key={v.nome} className="flex items-center gap-3 py-2.5">
+                  <span className="w-4 shrink-0 text-texto-3">{i + 1}.</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-baseline justify-between gap-x-2">
+                      <span className="font-medium text-texto">{v.nome}</span>
+                      <span className="whitespace-nowrap font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
+                    </span>
+                    <span className="block text-xs text-texto-3">
+                      {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
+                    </span>
                   </span>
-                  <span className="font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
-                  <button type="button" onClick={() => escolherPraca(v.nome)} className="h-11 rounded-lg border border-linha px-4 text-sm text-tinta hover:bg-tinta/10">
-                    Usar na conta
+                  <button type="button" aria-label={`Usar ${v.nome} na conta`} onClick={() => escolherPraca(v.nome)} className={usarCls}>
+                    Usar
                   </button>
                 </li>
-              ))}
-            </ul>
+              )}
+            />
           </section>
         ) : null}
 
@@ -793,20 +819,26 @@ export function Decisao({ painel }: { painel: Painel }) {
             <p className="mt-1 text-sm text-texto-2">
               {cat.nome} Nelore ({cat.ref}), preço médio de cada estado {estrutura === "cria" ? "menos" : "mais"} o frete {estrutura === "cria" ? "saindo de" : "até"} {ufFazenda}. Como quem enche o caminhão onde compensa mais.
             </p>
-            <ul className="mt-3 divide-y divide-linha text-sm">
-              {mercadoAnimal.slice(0, 6).map((m, i) => (
-                <li key={m.uf} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
-                  <span className="w-5 text-texto-3">{i + 1}.</span>
-                  <span className="min-w-12 flex-1 font-medium text-texto">
-                    {m.uf}
-                    {m.marcado ? "*" : ""}
+            <ListaCurta
+              itens={mercadoAnimal.slice(0, 6)}
+              linha={(m, i) => (
+                <li key={m.uf} className="flex items-center gap-3 py-2.5">
+                  <span className="w-4 shrink-0 text-texto-3">{i + 1}.</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-baseline justify-between gap-x-2">
+                      <span className="font-medium text-texto">
+                      {m.uf}
+                      {m.marcado ? "*" : ""}
+                    </span>
+                      <span className="whitespace-nowrap font-display font-bold tabular-nums text-capim">{reais(m.total)}/cab</span>
+                    </span>
+                    <span className="block text-xs text-texto-3">
+                      {reais(m.cab)} {estrutura === "cria" ? "−" : "+"} frete {reais(m.frete)}
+                    </span>
                   </span>
-                  <span className="text-texto-2">
-                    {reais(m.cab)} {estrutura === "cria" ? "−" : "+"} frete {reais(m.frete)}
-                  </span>
-                  <span className="font-display font-bold tabular-nums text-capim">{reais(m.total)}/cab</span>
                   <button
                     type="button"
+                    aria-label={`Usar ${m.uf} na conta`}
                     onClick={() => {
                       setExplicacao(null);
                       if (estrutura === "cria") digitar("vendaBezerro", Math.round(m.total), true);
@@ -816,13 +848,13 @@ export function Decisao({ painel }: { painel: Painel }) {
                         digitar("pesoCompra", cat.peso, true);
                       }
                     }}
-                    className="h-11 rounded-lg border border-linha px-4 text-sm text-tinta hover:bg-tinta/10"
+                    className={usarCls}
                   >
-                    Usar na conta
+                    Usar
                   </button>
                 </li>
-              ))}
-            </ul>
+              )}
+            />
             <p className="mt-3 text-xs text-texto-3">
               Scot Consultoria, {rep!.data.split("-").reverse().join("/")}, via Notícias Agrícolas. {mercadoAnimal.some((m) => m.marcado) ? "A fonte marca RS e SC com * sem explicar o motivo. " : ""}Frete estimado pela distância, como na conta acima.
               {estrutura === "cria" ? " Na conta, o preço líquido (já sem o frete) entra como preço de venda." : ""}
