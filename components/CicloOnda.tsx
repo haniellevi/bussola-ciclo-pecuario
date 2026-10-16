@@ -94,7 +94,15 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
       const picoI = Math.max(ultimo + 3, zona && zona.ate > ultimo ? Math.round((zona.de + zona.ate) / 2) : Math.round(valeAtual.i + subida));
       const fase01 = (i: number) => (i <= picoI ? (i - valeAtual.i) / (picoI - valeAtual.i) : 1 + (i - picoI) / descida);
       const f = serie[ultimo].boiReal / media(fase01(ultimo)).m;
-      for (let i = ultimo; i <= picoI + descida; i++) {
+      // De hoje ao pico: sobe sempre, acelerando como nos ciclos passados (sem o vaivém da média, que confundia).
+      const hojeV = serie[ultimo].boiReal;
+      const p = media(1);
+      const picoV = Math.max(p.m * f, hojeV);
+      for (let i = ultimo; i <= picoI; i++) {
+        const t = ((i - ultimo) / (picoI - ultimo)) ** 2;
+        proj.push({ i, v: hojeV + (picoV - hojeV) * t, min: hojeV + (Math.min(p.min * f, picoV) - hojeV) * t, max: hojeV + (Math.max(p.max * f, picoV) - hojeV) * t });
+      }
+      for (let i = picoI + 1; i <= picoI + descida; i++) {
         const x = media(fase01(i));
         proj.push({ i, v: x.m * f, min: x.min * f, max: x.max * f });
       }
