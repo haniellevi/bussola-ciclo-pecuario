@@ -22,6 +22,15 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
   const reduzir = useReducedMotion();
   const caixa = useRef<HTMLDivElement>(null);
   const [foco, setFoco] = useState<number | null>(null);
+  // Escala dos textos: o desenho encolhe na tela pequena, então o texto cresce na mesma proporção.
+  const [k, setK] = useState(1);
+  useEffect(() => {
+    const el = caixa.current;
+    if (!el) return;
+    const o = new ResizeObserver(() => setK(Math.max(1, W / el.getBoundingClientRect().width)));
+    o.observe(el);
+    return () => o.disconnect();
+  }, []);
 
   const g = useMemo(() => {
     const inicio = serie[0].mes;
@@ -108,6 +117,7 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
         <svg
           viewBox={`0 0 ${W} ${H}`}
           className="h-auto w-full"
+          style={{ "--k": k } as React.CSSProperties}
           role="img"
           aria-label={`Preço real do boi gordo de ${mesAno(serie[0].mes)} a ${mesAno(serie[g.ultimo].mes)}, com picos e vales do ciclo e previsão para 12 meses.`}
         >
@@ -122,13 +132,13 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
           {g.linhasY.map((v) => (
             <g key={v}>
               <line x1={M.l} x2={W - M.r} y1={g.y(v)} y2={g.y(v)} stroke="var(--color-terra-700)" strokeDasharray="2 6" />
-              <text x={M.l - 10} y={g.y(v) + 4} textAnchor="end" className="fill-zinc-500 text-[13px] tabular-nums">
+              <text x={M.l - 10} y={g.y(v) + 4} textAnchor="end" className="fill-zinc-500 text-[length:calc(13px*var(--k))] tabular-nums">
                 {Math.round(v)}
               </text>
             </g>
           ))}
           {g.anos.map((a) => (
-            <text key={a.i} x={g.x(a.i)} y={H - 12} textAnchor="middle" className="fill-zinc-500 text-[13px] tabular-nums">
+            <text key={a.i} x={g.x(a.i)} y={H - 12} textAnchor="middle" className="fill-zinc-500 text-[length:calc(13px*var(--k))] tabular-nums">
               {a.rotulo}
             </text>
           ))}
@@ -136,9 +146,9 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
           {g.zona && (
             <motion.g initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: reduzir ? 0 : DURACAO, duration: 0.8 }}>
               <rect x={g.x(g.zona.de)} y={M.t} width={g.x(g.zona.ate) - g.x(g.zona.de)} height={H - M.t - M.b} fill="url(#zona)" />
-              <text x={(g.x(g.zona.de) + g.x(g.zona.ate)) / 2} y={M.t + 14} textAnchor="middle" className="fill-sol text-[11px] font-medium uppercase tracking-wider">
+              <text x={Math.min(g.x(g.zona.ate), W - 2)} y={M.t + 14 * k} textAnchor="end" className="fill-sol text-[length:calc(12px*var(--k))] font-medium uppercase tracking-wider">
                 <tspan>Zona histórica</tspan>
-                <tspan x={(g.x(g.zona.de) + g.x(g.zona.ate)) / 2} dy={14}>
+                <tspan x={Math.min(g.x(g.zona.ate), W - 2)} dy={14 * k}>
                   {fase.sobe ? "de pico" : "de fundo"}
                 </tspan>
               </text>
@@ -170,7 +180,7 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
                 x={g.x(p.i)}
                 y={g.y(p.boiReal) + (p.tipo === "pico" ? -12 : 22)}
                 textAnchor="middle"
-                className="fill-zinc-400 text-[12px]"
+                className="fill-zinc-400 text-[length:calc(12.5px*var(--k))]"
               >
                 {p.tipo} {mesAno(p.mes).replace("/20", "/")}
               </text>
@@ -187,7 +197,7 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
               strokeDasharray="6 6"
             />
             {g.pontosFut.filter((f) => f.p.semanas >= 13).map((f) => (
-              <text key={f.p.semanas} x={g.x(f.i) - 4} y={g.y(f.p.previsto) - 10} textAnchor="end" className="fill-sol text-[12px] tabular-nums">
+              <text key={f.p.semanas} x={g.x(f.i) - 4} y={g.y(f.p.previsto) - 10} textAnchor="end" className="fill-sol text-[length:calc(12.5px*var(--k))] tabular-nums">
                 {Math.round(f.p.previsto)}
               </text>
             ))}

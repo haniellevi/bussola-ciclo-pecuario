@@ -36,8 +36,8 @@ export default function Pagina() {
   const numeros = [
     { rotulo: "Boi gordo hoje", valor: `${reais(p.hoje.boi, 2)}/@`, nota: `Cepea, ${dataBr(p.hoje.data)}${p.hoje.boiEstimado ? " (estimado pela Scot)" : ""}` },
     { rotulo: "Bezerro MS", valor: reais(p.hoje.bezerro), nota: "por cabeça" },
-    { rotulo: "1 boi compra", valor: `${numero(relacaoTroca(p.hoje.boi, p.hoje.bezerro))} bezerros`, nota: `normal: ${numero(p.troca.mediana)}` },
-    boi13 && { rotulo: "Boi em 13 semanas", valor: reais(boi13.previsto), nota: `faixa ${reais(boi13.minimo)}–${reais(boi13.maximo)}` },
+    { rotulo: "Bezerros que 1 boi compra", valor: numero(relacaoTroca(p.hoje.boi, p.hoje.bezerro)), nota: `normal: ${numero(p.troca.mediana)}` },
+    boi13 && { rotulo: "Boi em 13 semanas", valor: reais(boi13.previsto), nota: `faixa ${reais(boi13.minimo)} a ${Math.round(boi13.maximo)}` },
   ].filter(Boolean) as { rotulo: string; valor: string; nota: string }[];
 
   const leitura = [
@@ -64,9 +64,9 @@ export default function Pagina() {
       </ul>
       <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-terra-700 bg-terra-700 lg:grid-cols-4">
         {numeros.map((n) => (
-          <div key={n.rotulo} className="bg-terra-900 p-4 sm:p-5">
+          <div key={n.rotulo} className="bg-terra-900 p-3 sm:p-5">
             <dt className="text-xs text-zinc-400">{n.rotulo}</dt>
-            <dd className="mt-1 font-display text-xl tabular-nums text-zinc-50 sm:text-2xl">{n.valor}</dd>
+            <dd className="mt-1 whitespace-nowrap font-display text-xl tabular-nums text-zinc-50 sm:text-2xl">{n.valor}</dd>
             <dd className="mt-0.5 text-xs text-zinc-400">{n.nota}</dd>
           </div>
         ))}

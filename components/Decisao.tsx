@@ -306,7 +306,7 @@ export function Decisao({ painel }: { painel: Painel }) {
               <label className="block text-sm text-zinc-300">
                 {estrutura === "revenda" ? "Comprar em (estado)" : "Comprar animais de (estado)"}
                 <select value={ufCompra} onChange={(ev) => setUfCompra(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base">
-                  <option value="">{estrutura === "revenda" ? `No meu estado (${ufFazenda})` : "Do meu estado, sem frete de compra"}</option>
+                  <option value="">{estrutura === "revenda" ? `No meu estado (${ufFazenda})` : "Meu estado (sem frete)"}</option>
                   {UFS.filter((u) => estrutura === "revenda" || u !== ufFazenda).map((u) => (
                     <option key={u}>{u}</option>
                   ))}
