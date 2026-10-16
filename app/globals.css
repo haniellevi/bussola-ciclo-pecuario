@@ -90,6 +90,10 @@ body {
   outline: 2px solid var(--tinta);
   outline-offset: 2px;
 }
+/* Títulos que recebem o foco só para o leitor de tela não ganham contorno */
+[tabindex="-1"]:focus {
+  outline: none;
+}
 
 /* Barra de vidro só nas abas (camada de controle), nunca no conteúdo. Sem transparência se a pessoa pedir. */
 .vidro {

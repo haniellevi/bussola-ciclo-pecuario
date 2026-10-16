@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cenarios } from "@/lib/cenarios";
 import { distanciaKm, distanciaLocais, fretePorCabeca, localDaPraca, ufDaPraca, UFS, FATOR_ESTRADA, KM_DENTRO_DO_ESTADO, type Local } from "@/lib/frete";
 import { numero, pct, reais } from "@/lib/formato";
@@ -109,6 +109,69 @@ function ListaCurta<T>({ itens, linha }: { itens: T[]; linha: (x: T, i: number) 
 
 const usarCls = "h-11 shrink-0 rounded-lg border border-linha px-3 text-sm text-tinta hover:bg-tinta/10";
 
+// O passo a passo: uma pergunta por tela. Só os números que mais mudam a conta; o resto fica em "Outros números".
+type Passo = "tipo" | "local" | "animal" | "ganho" | "custo" | "venda" | "bezerro" | "desmama" | "matriz" | "compraRev" | "vendaRev";
+const PASSOS: Record<Estrutura, Passo[]> = {
+  recria: ["tipo", "local", "animal", "ganho", "custo", "venda"],
+  confinamento: ["tipo", "local", "animal", "ganho", "custo", "venda"],
+  cria: ["tipo", "local", "bezerro", "desmama", "matriz"],
+  revenda: ["tipo", "local", "compraRev", "vendaRev"],
+};
+const NOME_CAMPO: Partial<Record<keyof Entradas, string>> = {
+  pesoCompra: "peso na compra", pesoVenda: "peso de venda", rendimento: "rendimento", mortalidade: "perdas",
+  valorMatriz: "valor da vaca", descarte: "descarte", valorDescarte: "valor da vaca de descarte", diasRevenda: "dias até vender", quebra: "perda no transporte",
+};
+
+// Campo grande de uma pergunta só: número em destaque, régua para ajuste rápido e uma linha de ajuda.
+function Grande({ rotulo, valor, onChange, unidade, passo = 1, faixa, dica }: { rotulo: string; valor: number; onChange: (v: number) => void; unidade: string; passo?: number; faixa?: [number, number]; dica?: string }) {
+  return (
+    <div>
+      <span className="relative block">
+        <input
+          type="number"
+          inputMode="decimal"
+          aria-label={rotulo}
+          min={0}
+          step={passo}
+          value={Number.isFinite(valor) ? valor : ""}
+          onChange={(ev) => onChange(ev.target.value === "" ? 0 : Math.max(0, +ev.target.value))}
+          className="h-16 w-full rounded-2xl border border-linha bg-fundo pl-4 font-display text-3xl font-semibold tabular-nums text-texto"
+          style={{ paddingRight: `${unidade.length * 0.5 + 1.5}rem` }}
+        />
+        <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-sm text-texto-3">{unidade}</span>
+      </span>
+      {faixa && (
+        <input type="range" aria-label={`${rotulo} (ajuste rápido)`} min={faixa[0]} max={faixa[1]} step={passo} value={Math.min(faixa[1], Math.max(faixa[0], valor))} onChange={(ev) => onChange(+ev.target.value)} className="mt-3 w-full accent-[var(--color-tinta)]" />
+      )}
+      {dica && <p className="mt-2 text-sm text-texto-3">{dica}</p>}
+    </div>
+  );
+}
+
+// Linha de uma lista que abre com um toque (como nos Ajustes do celular).
+function Item({ titulo, resumo, children }: { titulo: string; resumo?: string; children: React.ReactNode }) {
+  return (
+    <details className="group">
+      <summary className="flex min-h-14 cursor-pointer list-none items-center gap-3 px-5 py-3 [&::-webkit-details-marker]:hidden">
+        <span className="min-w-0 flex-1">
+          <span className="block font-medium text-texto">{titulo}</span>
+          {resumo && <span className="block truncate text-sm text-texto-3">{resumo}</span>}
+        </span>
+        <Seta className="transition-transform group-open:rotate-90" />
+      </summary>
+      <div className="px-5 pb-5">{children}</div>
+    </details>
+  );
+}
+
+function Seta({ className = "" }: { className?: string }) {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className={`h-5 w-5 shrink-0 text-texto-4 ${className}`} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="m9 6 6 6-6 6" />
+    </svg>
+  );
+}
+
 const CATEGORIA_PADRAO: Record<Estrutura, CategoriaReposicao> = { recria: "bezerro", confinamento: "boiMagro", cria: "desmama", revenda: "boiMagro" };
 
 const faixaDe = (v: number): [number, number] => [Math.round(v * 0.5), Math.round(v * 1.6)];
@@ -166,6 +229,11 @@ export function Decisao({ painel }: { painel: Painel }) {
   const [regiao, setRegiao] = useState(false);
   const [categoriaEscolhida, setCategoriaEscolhida] = useState(false);
   const [carregou, setCarregou] = useState(false);
+  const [passo, setPasso] = useState(0);
+  const [ufEntrada, setUfEntrada] = useState("");
+  const [mexeu, setMexeu] = useState(false); // só move a tela depois que a pessoa tocou em algo
+  const topo = useRef<HTMLDivElement>(null);
+  const pergunta = useRef<HTMLHeadingElement>(null);
   const alteradosAvancados =
     AVANCADOS[estrutura].campos.filter((k) => k in digitados).length +
     (estrutura !== "cria" ? Number(freteManual != null) + Number(rsKm !== 7) + Number(cargaKg !== 24000) : 0);
@@ -227,6 +295,7 @@ export function Decisao({ painel }: { painel: Painel }) {
     if (typeof s.cargaKg === "number") setCargaKg(s.cargaKg);
     const est = s.estrutura && ESTRUTURAS_ID.includes(s.estrutura) ? s.estrutura : "recria";
     aplicar(est, uf, s.por?.[est]);
+    if (s.por?.[est]?.meus) setPasso(PASSOS[est].length); // já respondeu antes: abre no resultado
     setCarregou(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -240,6 +309,14 @@ export function Decisao({ painel }: { painel: Painel }) {
       localStorage.setItem(CHAVE_ESTADO, JSON.stringify({ ...s, estrutura, ufFazenda, cidade, rsKm, cargaKg, por: { ...s.por, [estrutura]: atual } }));
     } catch {}
   }, [carregou, estrutura, ufFazenda, cidade, rsKm, cargaKg, digitados, regiao, categoriaEscolhida, categoria, pracaVenda, ufCompra, freteManual, meus]);
+
+  // A cada pergunta: leva a tela para o começo do cartão e o foco para a pergunta.
+  useEffect(() => {
+    if (!mexeu) return;
+    const t = topo.current;
+    if (t && t.getBoundingClientRect().top < 0) t.scrollIntoView({ block: "start" });
+    pergunta.current?.focus({ preventScroll: true });
+  }, [passo, mexeu]);
 
   const escolher = (est: Estrutura) => aplicar(est, ufFazenda, lerSalvo().por?.[est]);
   const voltarAoExemplo = () => {
@@ -308,12 +385,16 @@ export function Decisao({ painel }: { painel: Painel }) {
   const unidadeEmpate = estrutura === "cria" ? "por bezerro" : estrutura === "revenda" ? "por cabeça" : "por arroba";
   const precoAtual = estrutura === "cria" ? e.vendaBezerro : estrutura === "revenda" ? e.vendaCab : e.vendaArroba;
   const maior = Object.entries(r.partes).sort((a, b) => b[1] - a[1])[0] as [keyof Partes, number];
-  const porque =
+  // Duas ou três linhas curtas em vez de um parágrafo: o que precisa mudar para empatar e o que mais pesa.
+  const empate = `${reais(r.empateVenda)} ${unidadeEmpate}`;
+  const maiorNome = nomeParte(estrutura, maior[0]).replace(/^(o|a|os|as) /, "");
+  const motivos: { t: string; v: string }[] = [
     r.selo === "nao"
-      ? `Cada ${estrutura === "cria" ? "matriz perde" : "cabeça perde"} ${reais(-r.margem)}. Pesa mais ${nomeParte(estrutura, maior[0])}: ${reais(maior[1])}, ${numero((maior[1] / Math.max(1, r.receita)) * 100, 0)}% do que entra. Para empatar, o preço de venda teria de ser ${reais(r.empateVenda)} ${unidadeEmpate} (hoje ${reais(precoAtual)})${Number.isFinite(r.tetoCompra) && estrutura !== "revenda" ? `, ou o animal ser comprado por no máximo ${reais(Math.max(0, r.tetoCompra))}` : ""}.`
-      : r.selo === "apertada"
-        ? `Sobram ${reais(r.margem)} por ${estrutura === "cria" ? "matriz" : "cabeça"} (${numero(r.retorno * 100, 1)}% sobre o dinheiro parado). Já descontados os juros, mas qualquer queda de preço zera a margem: o empate é ${reais(r.empateVenda)} ${unidadeEmpate}.`
-        : `Sobram ${reais(r.margem)} por ${estrutura === "cria" ? "matriz" : "cabeça"}, ${numero(r.retorno * 100, 1)}% sobre o dinheiro parado, já descontados os juros. O preço de venda pode cair até ${reais(r.empateVenda)} ${unidadeEmpate} antes de zerar.`;
+      ? { t: "Para empatar", v: `vender a ${empate} (hoje ${reais(precoAtual)})${Number.isFinite(r.tetoCompra) && estrutura !== "revenda" && estrutura !== "cria" ? `, ou pagar até ${reais(Math.max(0, r.tetoCompra))} no animal` : ""}` }
+      : { t: "O preço pode cair até", v: `${empate} (hoje ${reais(precoAtual)})` },
+    ...(r.selo !== "nao" ? [{ t: "Rende", v: `${numero(r.retorno * 100, 1)}% sobre o dinheiro, já com juros` }] : []),
+    { t: "Maior custo", v: `${maiorNome[0].toUpperCase()}${maiorNome.slice(1)}: ${reais(maior[1])}` },
+  ];
 
   // Onde vender (boi gordo, líquido de frete) — para quem engorda
   const arrobasCab = (e.pesoVenda * (e.rendimento / 100)) / 15;
@@ -417,464 +498,502 @@ export function Decisao({ painel }: { painel: Painel }) {
   const custoTotal = Object.values(r.partes).reduce((a, b) => a + b, 0);
   const qtd = estrutura === "cria" ? "matriz/ano" : "cabeça";
 
-  return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.1fr]">
-      <div className="min-w-0 space-y-6 lg:col-start-1 lg:row-start-1">
-        <fieldset>
-          <legend className="text-sm font-medium text-texto-2">1. Como você trabalha?</legend>
-          <div className="mt-2 grid gap-2 sm:grid-cols-2">
-            {ESTRUTURAS.map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                aria-pressed={estrutura === s.id}
-                onClick={() => escolher(s.id)}
-                className={`rounded-xl border p-3 text-left transition-colors ${estrutura === s.id ? "border-tinta bg-tinta/10" : "border-linha bg-superficie hover:border-texto-4"}`}
-              >
-                <span className="block font-medium text-texto">{NOME_ESTRUTURA[s.id]}</span>
-                <span className="mt-0.5 block text-xs text-texto-3">{s.quem}</span>
-              </button>
-            ))}
-          </div>
-        </fieldset>
+  const lista = PASSOS[estrutura];
+  const total = lista.length;
+  const noResultado = passo >= total;
+  const atual = lista[Math.min(passo, total - 1)];
+  const dataRep = rep ? rep.data.split("-").reverse().join("/") : "";
+  const dataPracas = painel.pracas?.data.split("-").reverse().join("/") ?? "";
 
-        <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
-          <h3 className="font-display text-lg text-texto">2. Onde fica e para onde vai</h3>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <label className="block text-sm text-texto-2">
-              Estado da sua fazenda
-              <select
-                value={ufFazenda}
-                onChange={(ev) => {
-                  setUfFazenda(ev.target.value);
-                  setCidade("");
-                }}
-                className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base"
-              >
-                {UFS.map((u) => (
-                  <option key={u}>{u}</option>
-                ))}
-              </select>
-            </label>
-            <label className="block text-sm text-texto-2">
-              Cidade da fazenda (opcional)
-              <input
-                list="cidades-fazenda"
-                value={cidade}
-                onChange={(ev) => setCidade(ev.target.value)}
-                placeholder="Comece a digitar"
-                autoComplete="off"
-                className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base text-texto"
-              />
-              <datalist id="cidades-fazenda">
-                {municipios?.[ufFazenda]?.map((m) => <option key={m[0]} value={m[0]} />)}
-              </datalist>
-              {cidade.trim() && municipios && !achada && <span className="mt-1 block text-xs text-sol">Não achei essa cidade em {ufFazenda}. O frete usa a capital do estado.</span>}
-              {achada && <span className="mt-1 block text-xs text-texto-3">O frete sai de {achada[0]}.</span>}
-            </label>
-            {estrutura !== "cria" && (
-              <label className="block text-sm text-texto-2">
-                {estrutura === "revenda" ? "Comprar em (estado)" : "Comprar animais de (estado)"}
-                <select value={ufCompra} onChange={(ev) => setUfCompra(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base">
-                  <option value="">{estrutura === "revenda" ? `No meu estado (${ufFazenda})` : "Meu estado (sem frete)"}</option>
-                  {UFS.filter((u) => estrutura === "revenda" || u !== ufFazenda).map((u) => (
-                    <option key={u}>{u}</option>
-                  ))}
-                </select>
-              </label>
-            )}
-            {estrutura !== "cria" && (
-              <label className="block text-sm text-texto-2 sm:col-span-2">
-                {estrutura === "revenda" ? "Vender em" : "Vender o boi gordo em"}
-                <select value={pracaVenda} onChange={(ev) => escolherPraca(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base">
-                  <option value="">Na minha região ({ufFazenda})</option>
-                  {vender.map((v) => (
-                    <option key={v.nome} value={v.nome}>
-                      {v.nome} — {reais(v.bruto)}/@
-                    </option>
-                  ))}
-                </select>
-              </label>
-            )}
+  // Ir para uma pergunta (ou o resultado). Entrar na pergunta do lugar guarda o estado de agora para saber se mudou.
+  function ir(n: number) {
+    if (PASSOS[estrutura][n] === "local") setUfEntrada(ufFazenda);
+    setPasso(n);
+    setMexeu(true);
+  }
+  function continuar() {
+    if (atual === "local" && (!regiao || ufFazenda !== ufEntrada)) aplicarRegiao();
+    if (passo + 1 >= total) setMeus(true);
+    ir(passo + 1);
+  }
+
+  // Resposta curta de cada pergunta, para a lista "Suas respostas".
+  const resposta: Record<Passo, string> = {
+    tipo: NOME_ESTRUTURA[estrutura],
+    local: achada ? `${achada[0]}, ${ufFazenda}` : ufFazenda,
+    animal: `${cat?.nome ?? "Animal"}: ${reais(e.compraCab)}`,
+    ganho: `${numero(e.gmd, 2)} kg por dia`,
+    custo: `${reais(e.custoDia, 2)} por dia`,
+    venda: `${reais(e.vendaArroba, 2)}/@${pracaVenda ? ` em ${pracaVenda}` : ""}`,
+    bezerro: `${cat?.nome ?? "Bezerro"}: ${reais(e.vendaBezerro)}`,
+    desmama: `${numero(e.taxaDesmama, 0)} de cada 100 vacas`,
+    matriz: `${reais(e.custoMatrizAno)} por ano`,
+    compraRev: `${reais(e.compraCab)}${ufCompra ? ` em ${ufCompra}` : ""}`,
+    vendaRev: `${reais(e.vendaCab)}${pracaVenda ? ` em ${pracaVenda}` : ""}`,
+  };
+  const TITULO: Record<Passo, string> = {
+    tipo: "Como você trabalha?",
+    local: "Onde fica a sua fazenda?",
+    animal: estrutura === "confinamento" ? "Quanto você paga no animal?" : "Quanto você paga no bezerro?",
+    ganho: "Quanto ele engorda por dia?",
+    custo: "Quanto custa cada animal por dia?",
+    venda: "Por quanto você vende a arroba?",
+    bezerro: "Quanto você recebe pelo bezerro?",
+    desmama: "De cada 100 vacas, quantos bezerros você desmama por ano?",
+    matriz: "Quanto custa manter uma vaca por ano?",
+    compraRev: "Quanto você paga no boi gordo?",
+    vendaRev: "Por quanto você vende?",
+  };
+  // Campos de exemplo que a pessoa nunca viu nem mudou (ficam em "Outros números").
+  const exemploEscondido = EXEMPLO[estrutura].campos.filter((k) => AVANCADOS[estrutura].campos.includes(k) && !(k in digitados)).map((k) => NOME_CAMPO[k]);
+
+  const escolhaAnimal = usaReposicao && (
+    <div className="flex flex-wrap gap-2">
+      {(Object.keys(rep!.categorias) as CategoriaReposicao[]).map((c) => (
+        <button key={c} type="button" aria-pressed={categoria === c} onClick={() => escolherCategoria(c)} className={`min-h-11 rounded-full border px-4 text-sm ${categoria === c ? "border-tinta bg-tinta/10 text-tinta" : "border-linha text-texto-2"}`}>
+          {rep!.categorias[c].nome}
+        </button>
+      ))}
+    </div>
+  );
+  const notaAnimal = usaReposicao ? `Média em ${ufRep} hoje: ${reais(cat!.ufs[ufRep!].cab)} (${cat!.ref}). Fonte: Scot, ${dataRep}.` : undefined;
+  const escolhaPraca = (
+    <label className="block text-sm text-texto-2">
+      Onde você vende?
+      <select value={pracaVenda} onChange={(ev) => escolherPraca(ev.target.value)} className="mt-1 h-12 w-full rounded-xl border border-linha bg-fundo px-3 text-base text-texto">
+        <option value="">Na minha região ({ufFazenda})</option>
+        {vender.map((v) => (
+          <option key={v.nome} value={v.nome}>
+            {v.nome}: {reais(v.bruto)}/@
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+
+  return (
+    <div ref={topo} className="mx-auto max-w-xl scroll-mt-24">
+      {!noResultado ? (
+        <div className="rounded-3xl border border-linha bg-superficie p-5 sm:p-7">
+          <div className="flex items-center gap-3">
+            <div className="flex flex-1 gap-1.5" aria-hidden>
+              {lista.map((_, i) => (
+                <span key={i} className={`h-1.5 flex-1 rounded-full ${i <= passo ? "bg-tinta" : "bg-superficie-2"}`} />
+              ))}
+            </div>
+            <span className="text-xs text-texto-3">
+              {passo + 1} de {total}
+            </span>
           </div>
-          {(ufPreco || usaReposicao) && (
-            <div className="mt-4 rounded-xl border border-tinta/40 bg-tinta/5 p-3">
-              {usaReposicao && (
+
+          <h3 ref={pergunta} tabIndex={-1} className="mt-6 font-display text-2xl leading-snug text-texto outline-none sm:text-3xl">
+            {TITULO[atual]}
+          </h3>
+
+          <div className="mt-5 space-y-4">
+            {atual === "tipo" &&
+              ESTRUTURAS.map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => {
+                    escolher(s.id);
+                    setPasso(1);
+                    setUfEntrada(ufFazenda);
+                    setMexeu(true);
+                  }}
+                  className={`flex w-full items-center gap-3 rounded-2xl border p-4 text-left transition-colors ${estrutura === s.id ? "border-tinta bg-tinta/5" : "border-linha hover:border-texto-4"}`}
+                >
+                  <span className="flex-1">
+                    <span className="block text-lg font-medium text-texto">{NOME_ESTRUTURA[s.id]}</span>
+                    <span className="mt-0.5 block text-sm text-texto-3">{s.quem}</span>
+                  </span>
+                  <Seta />
+                </button>
+              ))}
+
+            {atual === "local" && (
+              <>
                 <label className="block text-sm text-texto-2">
-                  {estrutura === "cria" ? "Animal que você vende" : "Animal que você compra"}
-                  <select value={categoria} onChange={(ev) => escolherCategoria(ev.target.value as CategoriaReposicao)} className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base">
-                    {(Object.keys(rep!.categorias) as CategoriaReposicao[]).map((c) => (
-                      <option key={c} value={c}>
-                        {rep!.categorias[c].nome} ({rep!.categorias[c].ref})
-                      </option>
+                  Estado
+                  <select
+                    value={ufFazenda}
+                    onChange={(ev) => {
+                      setUfFazenda(ev.target.value);
+                      setCidade("");
+                    }}
+                    className="mt-1 h-12 w-full rounded-xl border border-linha bg-fundo px-3 text-lg text-texto"
+                  >
+                    {UFS.map((u) => (
+                      <option key={u}>{u}</option>
                     ))}
                   </select>
                 </label>
-              )}
-              <button type="button" onClick={aplicarRegiao} className="mt-3 h-11 w-full rounded-lg bg-tinta px-4 text-base font-semibold text-sobre-tinta hover:brightness-110 sm:w-auto">
-                Usar preços de {usaReposicao && ufRep !== ufPreco && estrutura !== "cria" ? `${ufRep} e ${ufPreco}` : usaReposicao ? ufRep : ufPreco}
-              </button>
-              <ul className="mt-2 space-y-0.5 text-sm text-texto-2">
-                {usaReposicao && (
-                  <li>
-                    {cat!.nome} em {ufRep}: <strong className="text-texto">{reais(cat!.ufs[ufRep!].cab)}</strong> por cabeça ({reais(cat!.ufs[ufRep!].kg, 2)}/kg)
-                    {ufRep !== ufFazenda && <span className="text-texto-3"> · {ufFazenda} não tem cotação, usamos o estado mais perto</span>}
-                  </li>
-                )}
-                {ufPreco && estrutura !== "cria" && (
-                  <li>
-                    Boi gordo em {ufPreco}: <strong className="text-texto">{reais(porUf[ufPreco], 2)}/@</strong> à vista
-                    {ufPreco !== ufFazenda && <span className="text-texto-3"> · estado com cotação mais perto</span>}
-                  </li>
-                )}
-              </ul>
-              <p className="mt-1 text-xs text-texto-3">
-                Fonte: Scot Consultoria{rep ? ` (reposição de ${rep.data.split("-").reverse().join("/")}, via Notícias Agrícolas)` : ""}; boi gordo de {painel.pracas?.data.split("-").reverse().join("/")}. É o preço médio do estado; o seu negócio pode sair diferente.
-              </p>
-            </div>
-          )}
-        </section>
+                <label className="block text-sm text-texto-2">
+                  Cidade (se quiser, para o frete ficar mais certo)
+                  <input
+                    list="cidades-fazenda"
+                    value={cidade}
+                    onChange={(ev) => setCidade(ev.target.value)}
+                    placeholder="Comece a digitar"
+                    autoComplete="off"
+                    className="mt-1 h-12 w-full rounded-xl border border-linha bg-fundo px-3 text-lg text-texto"
+                  />
+                  <datalist id="cidades-fazenda">
+                    {municipios?.[ufFazenda]?.map((m) => <option key={m[0]} value={m[0]} />)}
+                  </datalist>
+                  {cidade.trim() && municipios && !achada && <span className="mt-1 block text-xs text-sol">Não achei essa cidade em {ufFazenda}. O frete conta da capital.</span>}
+                </label>
+                <p className="text-sm text-texto-3">Vamos usar os preços de hoje do seu estado.</p>
+              </>
+            )}
 
-        <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
-          <h3 className="font-display text-lg text-texto">3. Os números do seu negócio</h3>
-          <p className="mt-1 text-xs text-texto-3">
-            Preços de hoje vêm dos dados. O resto é só exemplo: troque pelos da sua fazenda, tudo muda o resultado na hora. O que você digitar fica salvo neste aparelho.
-          </p>
-          {(Object.keys(digitados).length > 0 || meus || regiao || categoriaEscolhida) && (
-            <button type="button" onClick={voltarAoExemplo} className="mt-2 min-h-11 text-sm text-tinta underline underline-offset-4">
-              Apagar meus números e voltar ao exemplo
-            </button>
-          )}
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            {(estrutura === "recria" || estrutura === "confinamento") && (
+            {atual === "animal" && (
               <>
-                <Num rotulo="Preço pago por animal" unidade="R$/cabeça" passo={50} valor={e.compraCab} onChange={(v) => digitar("compraCab", v)} faixa={faixaDe(padrao(estrutura, painel).compraCab)} dica={estrutura === "recria" ? `Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}. Use o botão de região para o preço do seu estado.` : "Exemplo: 12,5 arrobas × preço da arroba. Use o botão de região para o preço do boi magro."} />
-                <Num rotulo="Preço de venda do boi gordo" unidade="R$/@" passo={1} valor={e.vendaArroba} onChange={(v) => digitar("vendaArroba", v)} faixa={faixaDe(painel.hoje.boi)} dica={`Cepea hoje: ${reais(painel.hoje.boi, 2)}`} />
-                <Num rotulo="Ganho de peso por dia" unidade="kg/dia" passo={0.05} valor={e.gmd} onChange={(v) => digitar("gmd", v)} faixa={[0.2, 2]} />
-                <Num rotulo="Custo por animal por dia" unidade="R$/dia" passo={0.5} valor={e.custoDia} onChange={(v) => digitar("custoDia", v)} faixa={[2, 40]} dica="Comida, sal, mão de obra, vacina" />
+                {escolhaAnimal}
+                <Grande rotulo={TITULO.animal} unidade="R$ por cabeça" passo={50} valor={e.compraCab} onChange={(v) => digitar("compraCab", v)} faixa={faixaDe(padrao(estrutura, painel).compraCab)} dica={notaAnimal} />
               </>
             )}
-            {estrutura === "cria" && (
+            {atual === "ganho" && (
+              <Grande rotulo={TITULO.ganho} unidade="kg por dia" passo={0.05} valor={e.gmd} onChange={(v) => digitar("gmd", v)} faixa={[0.2, 2]} dica={`Já preenchido com um exemplo (${numero(padrao(estrutura, painel).gmd, 2)} kg). Troque pelo da sua fazenda.`} />
+            )}
+            {atual === "custo" && (
+              <Grande rotulo={TITULO.custo} unidade="R$ por dia" passo={0.5} valor={e.custoDia} onChange={(v) => digitar("custoDia", v)} faixa={[2, 40]} dica="Some comida, sal, vacina e mão de obra. O valor que aparece é só um exemplo." />
+            )}
+            {atual === "venda" && (
               <>
-                <Num rotulo="Preço do bezerro vendido" unidade="R$/cabeça" passo={50} valor={e.vendaBezerro} onChange={(v) => digitar("vendaBezerro", v)} faixa={faixaDe(painel.hoje.bezerro)} dica={`Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}`} />
-                <Num rotulo="Bezerros desmamados por matriz" unidade="% ao ano" passo={1} valor={e.taxaDesmama} onChange={(v) => digitar("taxaDesmama", v)} faixa={[30, 100]} />
-                <Num rotulo="Custo de manter uma matriz" unidade="R$/ano" passo={50} valor={e.custoMatrizAno} onChange={(v) => digitar("custoMatrizAno", v)} faixa={[300, 3000]} dica="Pasto, sal, vacina, mão de obra" />
+                {escolhaPraca}
+                <Grande rotulo={TITULO.venda} unidade="R$ por arroba" passo={1} valor={e.vendaArroba} onChange={(v) => digitar("vendaArroba", v)} faixa={faixaDe(painel.hoje.boi)} dica={`Preço à vista da Scot (${dataPracas}). Cepea SP hoje: ${reais(painel.hoje.boi, 2)}.`} />
               </>
             )}
-            {estrutura === "revenda" && (
+            {atual === "bezerro" && (
               <>
-                <Num rotulo="Preço de compra" unidade="R$/cabeça de 18@" passo={50} valor={e.compraCab} onChange={(v) => digitar("compraCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
-                <Num rotulo="Preço de venda" unidade="R$/cabeça de 18@" passo={50} valor={e.vendaCab} onChange={(v) => digitar("vendaCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
+                {escolhaAnimal}
+                <Grande rotulo={TITULO.bezerro} unidade="R$ por cabeça" passo={50} valor={e.vendaBezerro} onChange={(v) => digitar("vendaBezerro", v)} faixa={faixaDe(painel.hoje.bezerro)} dica={notaAnimal} />
+              </>
+            )}
+            {atual === "desmama" && (
+              <Grande rotulo={TITULO.desmama} unidade="bezerros" passo={1} valor={e.taxaDesmama} onChange={(v) => digitar("taxaDesmama", v)} faixa={[30, 100]} dica="Já preenchido com um exemplo. Troque pelo da sua fazenda." />
+            )}
+            {atual === "matriz" && (
+              <Grande rotulo={TITULO.matriz} unidade="R$ por ano" passo={50} valor={e.custoMatrizAno} onChange={(v) => digitar("custoMatrizAno", v)} faixa={[300, 3000]} dica="Pasto, sal, vacina e mão de obra de uma vaca. O valor que aparece é só um exemplo." />
+            )}
+            {atual === "compraRev" && (
+              <>
+                <label className="block text-sm text-texto-2">
+                  Onde você compra?
+                  <select value={ufCompra} onChange={(ev) => setUfCompra(ev.target.value)} className="mt-1 h-12 w-full rounded-xl border border-linha bg-fundo px-3 text-base text-texto">
+                    <option value="">No meu estado ({ufFazenda})</option>
+                    {UFS.map((u) => (
+                      <option key={u}>{u}</option>
+                    ))}
+                  </select>
+                </label>
+                <Grande rotulo={TITULO.compraRev} unidade="R$ por cabeça de 18@" passo={50} valor={e.compraCab} onChange={(v) => digitar("compraCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} dica={`Boi de 18 arrobas. Média da Scot no estado (${dataPracas}).`} />
+              </>
+            )}
+            {atual === "vendaRev" && (
+              <>
+                {escolhaPraca}
+                <Grande rotulo={TITULO.vendaRev} unidade="R$ por cabeça de 18@" passo={50} valor={e.vendaCab} onChange={(v) => digitar("vendaCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
               </>
             )}
           </div>
 
-          {/* Números que mudam pouco ficam guardados atrás de um toque: a conta usa todos, aberto ou fechado. */}
-          <details className="group mt-5 border-t border-linha pt-4">
-            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 rounded-lg text-left [&::-webkit-details-marker]:hidden">
-              <span>
-                <span className="block font-medium text-tinta">
-                  <span className="group-open:hidden">Mostrar mais números</span>
-                  <span className="hidden group-open:inline">Mostrar menos</span>
-                </span>
-                <span className="block text-xs text-texto-3">
-                  {AVANCADOS[estrutura].nomes}
-                  {alteradosAvancados > 0 && ` · ${alteradosAvancados} ${alteradosAvancados === 1 ? "mudado" : "mudados"} por você`}
-                </span>
-              </span>
-              <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-texto-3 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="m6 9 6 6 6-6" />
-              </svg>
-            </summary>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              {(estrutura === "recria" || estrutura === "confinamento") && (
-                <>
-                  <Num rotulo="Peso na compra" unidade="kg vivo" passo={5} valor={e.pesoCompra} onChange={(v) => digitar("pesoCompra", v)} />
-                  <Num rotulo="Peso na venda" unidade="kg vivo" passo={5} valor={e.pesoVenda} onChange={(v) => digitar("pesoVenda", v)} />
-                  <Num rotulo="Rendimento de carcaça" unidade="%" passo={0.5} valor={e.rendimento} onChange={(v) => digitar("rendimento", v)} />
-                  <Num rotulo="Animais que se perdem" unidade="%" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} />
-                </>
-              )}
-              {estrutura === "cria" && (
-                <>
-                  <Num rotulo="Valor da matriz" unidade="R$" passo={100} valor={e.valorMatriz} onChange={(v) => digitar("valorMatriz", v)} dica={`Exemplo: 15 @ ao preço do boi. É o dinheiro parado na vaca e o custo de repor uma matriz.`} />
-                  <Num rotulo="Vacas descartadas por ano" unidade="% das matrizes" passo={1} valor={e.descarte} onChange={(v) => digitar("descarte", v)} faixa={[0, 40]} dica="Vacas velhas ou vazias vendidas; cada uma é reposta por uma matriz nova" />
-                  <Num rotulo="Valor da vaca de descarte" unidade="R$/cabeça" passo={50} valor={e.valorDescarte} onChange={(v) => digitar("valorDescarte", v)} dica={`Exemplo: vaca de 12 @ ao preço do boi (${reais(painel.hoje.boi, 2)}/@). A vaca costuma valer um pouco menos.`} />
-                  <Num rotulo="Matrizes que morrem" unidade="% ao ano" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} dica="Cada uma também é reposta" />
-                </>
-              )}
-              {estrutura === "revenda" && (
-                <>
-                  <Num rotulo="Dias até vender" unidade="dias" valor={e.diasRevenda} onChange={(v) => digitar("diasRevenda", v)} />
-                  <Num rotulo="Perda no transporte" unidade="%" passo={0.5} valor={e.quebra} onChange={(v) => digitar("quebra", v)} dica="Quebra de peso e mortes" />
-                </>
-              )}
-              <Num rotulo="Custo do dinheiro" unidade="% ao ano" passo={0.5} valor={e.juros} onChange={(v) => digitar("juros", v)} dica={`Selic hoje: ${numero(painel.selic.valor)}% (Banco Central)`} />
-            </div>
-            {estrutura !== "cria" && (
-              <div className="mt-5 border-t border-linha pt-4">
-                <p className="text-sm font-medium text-texto-2">Frete (estimado pela distância)</p>
-                <div className="mt-3 grid gap-4 sm:grid-cols-2">
-                  <Num rotulo="Preço do frete" unidade="R$ por km rodado" passo={0.5} valor={rsKm} onChange={setRsKm} dica="Exemplo: pergunte ao seu transportador" />
-                  <Num rotulo="Carga do caminhão" unidade="kg" passo={500} valor={cargaKg} onChange={setCargaKg} dica="Exemplo: carreta boiadeira" />
-                </div>
-                {(
-                  <p className="mt-3 text-sm text-texto-2">
-                    Frete por cabeça: <strong className="text-texto">{reais(entradas.frete)}</strong>
-                    {freteManual == null ? " (estimado)" : " (digitado)"}
-                    <span className="mt-1 block text-xs text-texto-3">
-                      {estrutura === "revenda" ? `Viagem: ${numero(kmRevenda, 0)} km.` : `Compra: ${ufCompra ? `${numero(kmCompra, 0)} km` : "sem frete"} · Venda: ${numero(kmVenda, 0)} km.`} Distância em linha reta × {FATOR_ESTRADA} para a estrada, {achada ? `saindo de ${achada[0]}` : "saindo da capital (informe a cidade da fazenda para melhorar)"}; outro estado conta da capital, praça conta da cidade de referência. No mesmo estado sem cidade, {KM_DENTRO_DO_ESTADO} km. É estimativa.
-                    </span>
-                  </p>
-                )}
-                {(
-                  <div className="mt-2 flex flex-wrap items-end gap-3">
-                    <div className="w-full max-w-60">
-                      <Num rotulo="Ou digite o frete" unidade="R$/cabeça" passo={5} valor={freteManual ?? freteEstimado} onChange={setFreteManual} />
-                    </div>
-                    {freteManual != null && (
-                      <button type="button" onClick={() => setFreteManual(null)} className="mb-2 text-sm text-tinta underline underline-offset-4">
-                        Voltar ao estimado
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-          </details>
-        </section>
-      </div>
-
-      <div className="min-w-0 space-y-4 lg:sticky lg:top-20 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
-        <article className="rounded-2xl border border-linha bg-superficie p-4 sm:p-5" aria-live="polite">
-          <p className="text-xs uppercase tracking-wider text-texto-3">
-            Resultado · {NOME_ESTRUTURA[estrutura]} · por {qtd}
-          </p>
-          <p className={`mt-2 inline-block rounded-full border px-4 py-1.5 font-display text-xl font-bold ${meus ? COR_SELO[r.selo] : "border-linha text-texto-2"}`}>{meus ? ROTULO_SELO[r.selo] : "Números de exemplo"}</p>
-          <dl className="mt-4 grid grid-cols-2 gap-px sm:grid-cols-3 overflow-hidden rounded-xl border border-linha bg-linha text-center">
-            {[
-              { t: estrutura === "cria" ? "Sobra por matriz/ano" : "Sobra por cabeça", v: reais(r.margem), cor: !meus ? "text-texto" : r.margem >= 0 ? "text-capim" : "text-alerta" },
-              { t: "Por mês", v: reais(r.margemMes), cor: !meus ? "text-texto" : r.margemMes >= 0 ? "text-capim" : "text-alerta" },
-              { t: estrutura === "cria" ? "Prazo" : "Dias no negócio", v: numero(r.dias, 0), cor: "text-texto" },
-            ].map((x, i) => (
-              <div key={x.t} className={`bg-superficie p-3 ${i === 0 ? "col-span-2 sm:col-span-1" : ""}`}>
-                <dt className="text-xs text-texto-3">{x.t}</dt>
-                <dd className={`mt-1 whitespace-nowrap font-display font-bold tabular-nums ${i === 0 ? "text-2xl sm:text-xl" : "text-lg sm:text-xl"} ${x.cor}`}>{x.v}</dd>
-              </div>
-            ))}
-          </dl>
-
-          {meus ? (
-            <div className={`mt-4 rounded-xl border-2 ${COR_SELO[r.selo]} p-4`}>
-              <p className="text-xs font-semibold uppercase tracking-wider">{r.selo === "nao" ? "Por que não compensa" : r.selo === "apertada" ? "Por que está apertado" : "Por que compensa"}</p>
-              <p className="mt-1 text-base leading-relaxed text-texto">{porque}</p>
-            </div>
-          ) : (
-            <div className="mt-4 rounded-xl border-2 border-linha bg-fundo p-4">
-              <p className="text-xs font-semibold uppercase tracking-wider text-texto-2">Ainda não dá para dizer se compensa</p>
-              <p className="mt-1 text-base leading-relaxed text-texto">
-                Esta conta usa números de exemplo para {EXEMPLO[estrutura].nomes}. Troque pelos da sua fazenda no passo 3 e o veredito aparece aqui.
-              </p>
-              <button type="button" onClick={() => setMeus(true)} className="mt-3 min-h-11 w-full rounded-lg border border-linha px-4 text-sm text-texto-2 hover:border-tinta hover:text-tinta sm:w-auto">
-                Estes números já são os meus
+          {atual !== "tipo" && (
+            <div className="mt-8 flex gap-3">
+              <button type="button" onClick={() => ir(passo - 1)} className="h-12 rounded-xl border border-linha px-5 text-base text-texto-2">
+                Voltar
+              </button>
+              <button type="button" onClick={continuar} className="h-12 flex-1 rounded-xl bg-tinta px-5 text-base font-semibold text-sobre-tinta hover:brightness-110">
+                {passo + 1 >= total ? "Ver resultado" : "Continuar"}
               </button>
             </div>
           )}
-
-          <div className="mt-4">
-            <p className="text-sm text-texto-2">
-              Para cada {reais(receita)} que entram, {reais(custoTotal)} saem:
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <article className={`rounded-3xl border-2 p-5 sm:p-7 ${COR_SELO[r.selo]}`} aria-live="polite">
+            <p className="text-sm text-texto-3">
+              {NOME_ESTRUTURA[estrutura]} · {resposta.local}
             </p>
-            <div className="mt-2 flex h-4 w-full overflow-hidden rounded-full bg-fundo" role="img" aria-label="Divisão dos custos">
-              {barrasUsadas.map((b) => (
-                <div key={b.chave} className={b.cor} style={{ width: `${Math.min(100, (r.partes[b.chave] / Math.max(receita, custoTotal)) * 100)}%` }} title={`${nomeParte(estrutura, b.chave)}: ${reais(r.partes[b.chave])}`} />
+            <p className="mt-2 font-display text-3xl font-bold sm:text-4xl">{ROTULO_SELO[r.selo]}</p>
+            <p className="mt-3 text-texto">
+              <span className={`font-display text-4xl font-bold tabular-nums ${r.margem >= 0 ? "text-capim" : "text-alerta"}`}>{r.margem >= 0 ? reais(r.margem) : `−${reais(-r.margem)}`}</span>
+              <span className="ml-2 text-base text-texto-2">{r.margem >= 0 ? "sobram" : "faltam"} por {estrutura === "cria" ? "vaca no ano" : "cabeça"}</span>
+            </p>
+            <dl className="mt-4 space-y-2 text-texto">
+              {motivos.map((m) => (
+                <div key={m.t}>
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-texto-3">{m.t}</dt>
+                  <dd className="text-base">{m.v}</dd>
+                </div>
               ))}
-            </div>
-            <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm text-texto-2 sm:grid-cols-2">
-              {barrasUsadas.map((b) => (
-                <li key={b.chave} className="flex items-center gap-2">
-                  <span className={`h-2.5 w-2.5 shrink-0 rounded-sm ${b.cor}`} aria-hidden />
-                  <span className="flex-1 whitespace-nowrap">{b.chave === "compra" ? (estrutura === "cria" ? "Reposição" : "Animal") : b.chave === "operacao" ? (estrutura === "cria" ? "Custo das matrizes" : "Custo diário") : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : estrutura === "cria" ? "Mortes" : "Perdas"}</span>
-                  <span className="tabular-nums text-texto">{reais(r.partes[b.chave])}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </article>
+            </dl>
+            {exemploEscondido.length > 0 && <p className="mt-3 text-xs text-texto-3">Usamos exemplo para {exemploEscondido.join(", ")}. Ajuste em &quot;Outros números&quot;.</p>}
+          </article>
 
-        <article className="rounded-2xl border border-linha bg-superficie p-4 sm:p-5">
-          <h3 className="font-display text-lg text-texto">E se o preço de venda mudar?</h3>
-          <p className="mt-1 text-sm text-texto-2">{descreverEstagio(entradaDoPainel(painel))}</p>
-          {cen ? (
-            <>
-              <p className="mt-3 text-xs text-texto-3">
-                Previsão de {cen.semanas} semanas, com a faixa provável{dentroNoTeste != null && `; no teste, o preço real ficou dentro dela em ${pct(dentroNoTeste)} das vezes`}. Seu preço de venda muda na mesma proporção.
-              </p>
-              <ul className="mt-2 grid grid-cols-3 gap-2 text-center">
-                {[
-                  { t: "Preço no mínimo", x: cen.pior },
-                  { t: "Esperado", x: cen.esperado },
-                  { t: "Preço no máximo", x: cen.melhor },
-                ].map(({ t, x }) => (
-                  <li key={t} className="flex flex-col justify-between rounded-lg bg-fundo px-1.5 py-2">
-                    <span className="block text-xs text-texto-3">{t}</span>
-                    <span className={`mt-0.5 block whitespace-nowrap font-display text-sm font-bold tabular-nums sm:text-base ${!meus ? "text-texto" : x.margem >= 0 ? "text-capim" : "text-alerta"}`}>{reais(x.margem)}</span>
+          <div className="divide-y divide-linha overflow-hidden rounded-3xl border border-linha bg-superficie">
+            <Item titulo="Suas respostas" resumo="Toque para mudar">
+              <ul className="divide-y divide-linha">
+                {lista.map((p, i) => (
+                  <li key={p} className="flex items-center gap-3 py-2">
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs text-texto-3">{TITULO[p]}</span>
+                      <span className="block text-texto">{resposta[p]}</span>
+                    </span>
+                    <button type="button" onClick={() => ir(i)} className={usarCls}>
+                      Mudar
+                    </button>
                   </li>
                 ))}
               </ul>
-              {meus && cen.pior.margem < 0 && r.margem >= 0 && <p className="mt-2 text-sm text-sol">Atenção: se o preço cair ao mínimo da faixa, a conta fica negativa. Vender parte antes ou travar preço na B3 reduz esse risco.</p>}
-              {meus && cen.melhor.margem < 0 && <p className="mt-2 text-sm text-alerta">Mesmo com o preço no máximo da faixa, a conta não fecha. O problema está no custo ou no preço pago, não no ciclo.</p>}
-            </>
-          ) : (
-            <p className="mt-2 text-sm text-texto-3">Na revenda o preço de venda é o que você combina na hora, por isso não usamos a previsão do modelo.</p>
-          )}
-        </article>
+            </Item>
 
-        <article className="rounded-2xl border border-linha bg-superficie p-4 sm:p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="font-display text-lg text-texto">Explicação da IA</h3>
-            <button type="button" onClick={explicar} disabled={carregando || !meus} className="h-11 rounded-lg border border-tinta/60 px-4 text-sm font-semibold text-tinta hover:bg-tinta/10 disabled:opacity-50">
-              {carregando ? "Pensando…" : explicacao ? "Atualizar explicação" : "Explicar com IA"}
+            <Item titulo="Para onde vai o dinheiro" resumo={`Entram ${reais(receita)}, saem ${reais(custoTotal)}`}>
+              <div className="flex h-4 w-full overflow-hidden rounded-full bg-fundo" role="img" aria-label="Divisão dos custos">
+                {barrasUsadas.map((b) => (
+                  <div key={b.chave} className={b.cor} style={{ width: `${Math.min(100, (r.partes[b.chave] / Math.max(receita, custoTotal)) * 100)}%` }} />
+                ))}
+              </div>
+              <ul className="mt-3 space-y-1 text-sm text-texto-2">
+                {barrasUsadas.map((b) => (
+                  <li key={b.chave} className="flex items-center gap-2">
+                    <span className={`h-2.5 w-2.5 shrink-0 rounded-sm ${b.cor}`} aria-hidden />
+                    <span className="flex-1">{b.chave === "compra" ? (estrutura === "cria" ? "Reposição das vacas" : "Animal comprado") : b.chave === "operacao" ? (estrutura === "cria" ? "Custo das vacas" : "Custo diário") : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : estrutura === "cria" ? "Mortes" : "Perdas"}</span>
+                    <span className="tabular-nums text-texto">{reais(r.partes[b.chave])}</span>
+                  </li>
+                ))}
+              </ul>
+              {(estrutura === "recria" || estrutura === "confinamento") && (
+                <p className="mt-3 text-sm text-texto-2">
+                  Cada arroba que você produz custa <strong className={custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? "text-capim" : "text-alerta"}>{reais(custoArroba(e.custoDia, e.gmd))}</strong> (só comida e operação).
+                </p>
+              )}
+            </Item>
+
+            {cen && (
+              <Item titulo="E se o preço cair?" resumo={`No pior caso: ${reais(cen.pior.margem)}`}>
+                <p className="text-sm text-texto-2">{descreverEstagio(entradaDoPainel(painel))}</p>
+                <ul className="mt-3 grid grid-cols-3 gap-2 text-center">
+                  {[
+                    { t: "Preço no mínimo", x: cen.pior },
+                    { t: "Esperado", x: cen.esperado },
+                    { t: "Preço no máximo", x: cen.melhor },
+                  ].map(({ t, x }) => (
+                    <li key={t} className="flex flex-col justify-between rounded-xl bg-fundo px-1.5 py-2">
+                      <span className="block text-xs text-texto-3">{t}</span>
+                      <span className={`mt-0.5 block whitespace-nowrap font-display text-sm font-bold tabular-nums sm:text-base ${x.margem >= 0 ? "text-capim" : "text-alerta"}`}>{reais(x.margem)}</span>
+                    </li>
+                  ))}
+                </ul>
+                {cen.pior.margem < 0 && r.margem >= 0 && <p className="mt-2 text-sm text-sol">Se o preço cair ao mínimo da faixa, a conta fica negativa. Vender parte antes ou travar preço na B3 reduz esse risco.</p>}
+                {cen.melhor.margem < 0 && <p className="mt-2 text-sm text-alerta">Mesmo com o preço no máximo, a conta não fecha. O problema está no custo ou no preço pago, não no ciclo.</p>}
+                <p className="mt-2 text-xs text-texto-3">
+                  Previsão de {cen.semanas} semanas{dentroNoTeste != null && `; no teste, o preço real ficou dentro da faixa em ${pct(dentroNoTeste)} das vezes`}.
+                </p>
+              </Item>
+            )}
+
+            {estrutura === "revenda" ? (
+              <Item titulo="Onde comprar e vender" resumo={pares[0] ? `Melhor: ${pares[0].de} → ${pares[0].para}` : ""}>
+                <p className="text-sm text-texto-3">Pares de estados para boi de 18@, já tirando frete e perda de {numero(e.quebra, 1)}%. Scot, {dataPracas}.</p>
+                <ListaCurta
+                  itens={pares}
+                  linha={(p) => (
+                    <li key={`${p.de}${p.para}`} className="flex items-center gap-3 py-2.5">
+                      <span className="min-w-0 flex-1">
+                        <span className="flex flex-wrap items-baseline justify-between gap-x-2">
+                          <span className="font-medium text-texto">
+                            {p.de} → {p.para}
+                          </span>
+                          <span className={`whitespace-nowrap font-display font-bold tabular-nums ${p.sobra >= 0 ? "text-capim" : "text-alerta"}`}>{reais(p.sobra)}/cab</span>
+                        </span>
+                        <span className="block text-xs text-texto-3">
+                          compra {reais(p.compra)} · vende {reais(p.venda)} · frete {reais(p.frete)}
+                        </span>
+                      </span>
+                      <button
+                        type="button"
+                        aria-label={`Usar ${p.de} para ${p.para} na conta`}
+                        onClick={() => {
+                          setUfCompra(p.de);
+                          setPracaVenda(Object.keys(painel.pracas?.valores ?? {}).find((n) => ufDaPraca(n) === p.para) ?? "");
+                          setFreteManual(null);
+                          setExplicacao(null);
+                          digitar("compraCab", Math.round(p.compra), true);
+                          digitar("vendaCab", Math.round(p.venda), true);
+                        }}
+                        className={usarCls}
+                      >
+                        Usar
+                      </button>
+                    </li>
+                  )}
+                />
+              </Item>
+            ) : estrutura !== "cria" ? (
+              <Item titulo="Onde vender o boi gordo" resumo={vender[0] ? `Melhor: ${vender[0].nome}` : ""}>
+                <p className="text-sm text-texto-3">Preço da Scot ({dataPracas}) já tirando o frete saindo de {achada ? achada[0] : ufFazenda}.</p>
+                <ListaCurta
+                  itens={vender.slice(0, 6)}
+                  linha={(v, i) => (
+                    <li key={v.nome} className="flex items-center gap-3 py-2.5">
+                      <span className="w-4 shrink-0 text-texto-3">{i + 1}.</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="flex flex-wrap items-baseline justify-between gap-x-2">
+                          <span className="font-medium text-texto">{v.nome}</span>
+                          <span className="whitespace-nowrap font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
+                        </span>
+                        <span className="block text-xs text-texto-3">
+                          {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
+                        </span>
+                      </span>
+                      <button type="button" aria-label={`Usar ${v.nome} na conta`} onClick={() => escolherPraca(v.nome)} className={usarCls}>
+                        Usar
+                      </button>
+                    </li>
+                  )}
+                />
+              </Item>
+            ) : null}
+
+            {estrutura !== "revenda" && cat && mercadoAnimal.length > 0 && (
+              <Item titulo={estrutura === "cria" ? `Onde vender o ${cat.nome.toLowerCase()}` : `Onde comprar o ${cat.nome.toLowerCase()}`} resumo={`Melhor: ${mercadoAnimal[0].uf}`}>
+                <p className="text-sm text-texto-3">
+                  {cat.nome} Nelore ({cat.ref}), média de cada estado {estrutura === "cria" ? "menos" : "mais"} o frete. Scot, {dataRep}.
+                  {mercadoAnimal.some((m) => m.marcado) ? " A fonte marca RS e SC com * sem explicar." : ""}
+                </p>
+                <ListaCurta
+                  itens={mercadoAnimal.slice(0, 6)}
+                  linha={(m, i) => (
+                    <li key={m.uf} className="flex items-center gap-3 py-2.5">
+                      <span className="w-4 shrink-0 text-texto-3">{i + 1}.</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="flex flex-wrap items-baseline justify-between gap-x-2">
+                          <span className="font-medium text-texto">
+                            {m.uf}
+                            {m.marcado ? "*" : ""}
+                          </span>
+                          <span className="whitespace-nowrap font-display font-bold tabular-nums text-capim">{reais(m.total)}/cab</span>
+                        </span>
+                        <span className="block text-xs text-texto-3">
+                          {reais(m.cab)} {estrutura === "cria" ? "−" : "+"} frete {reais(m.frete)}
+                        </span>
+                      </span>
+                      <button
+                        type="button"
+                        aria-label={`Usar ${m.uf} na conta`}
+                        onClick={() => {
+                          setExplicacao(null);
+                          if (estrutura === "cria") digitar("vendaBezerro", Math.round(m.total), true);
+                          else {
+                            setUfCompra(m.uf === ufFazenda ? "" : m.uf);
+                            digitar("compraCab", m.cab, true);
+                            digitar("pesoCompra", cat.peso, true);
+                          }
+                        }}
+                        className={usarCls}
+                      >
+                        Usar
+                      </button>
+                    </li>
+                  )}
+                />
+              </Item>
+            )}
+
+            <Item titulo="Outros números" resumo={alteradosAvancados > 0 ? `${alteradosAvancados} ${alteradosAvancados === 1 ? "mudado" : "mudados"} por você` : AVANCADOS[estrutura].nomes}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {(estrutura === "recria" || estrutura === "confinamento") && (
+                  <>
+                    <Num rotulo="Peso na compra" unidade="kg vivo" passo={5} valor={e.pesoCompra} onChange={(v) => digitar("pesoCompra", v)} />
+                    <Num rotulo="Peso na venda" unidade="kg vivo" passo={5} valor={e.pesoVenda} onChange={(v) => digitar("pesoVenda", v)} />
+                    <Num rotulo="Rendimento de carcaça" unidade="%" passo={0.5} valor={e.rendimento} onChange={(v) => digitar("rendimento", v)} />
+                    <Num rotulo="Animais que se perdem" unidade="%" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} />
+                    <label className="block text-sm text-texto-2">
+                      Comprar animais de
+                      <select value={ufCompra} onChange={(ev) => setUfCompra(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base text-texto">
+                        <option value="">Meu estado (sem frete)</option>
+                        {UFS.filter((u) => u !== ufFazenda).map((u) => (
+                          <option key={u}>{u}</option>
+                        ))}
+                      </select>
+                    </label>
+                  </>
+                )}
+                {estrutura === "cria" && (
+                  <>
+                    <Num rotulo="Valor da vaca" unidade="R$" passo={100} valor={e.valorMatriz} onChange={(v) => digitar("valorMatriz", v)} dica="Exemplo: 15 @ ao preço do boi. É o dinheiro parado na vaca e o custo de repor." />
+                    <Num rotulo="Vacas descartadas por ano" unidade="% das vacas" passo={1} valor={e.descarte} onChange={(v) => digitar("descarte", v)} faixa={[0, 40]} />
+                    <Num rotulo="Valor da vaca de descarte" unidade="R$/cabeça" passo={50} valor={e.valorDescarte} onChange={(v) => digitar("valorDescarte", v)} dica="Exemplo: 12 @ ao preço do boi." />
+                    <Num rotulo="Vacas que morrem" unidade="% ao ano" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} />
+                  </>
+                )}
+                {estrutura === "revenda" && (
+                  <>
+                    <Num rotulo="Dias até vender" unidade="dias" valor={e.diasRevenda} onChange={(v) => digitar("diasRevenda", v)} />
+                    <Num rotulo="Perda no transporte" unidade="%" passo={0.5} valor={e.quebra} onChange={(v) => digitar("quebra", v)} dica="Quebra de peso e mortes" />
+                  </>
+                )}
+                <Num rotulo="Custo do dinheiro" unidade="% ao ano" passo={0.5} valor={e.juros} onChange={(v) => digitar("juros", v)} dica={`Selic hoje: ${numero(painel.selic.valor)}% (Banco Central)`} />
+              </div>
+              {estrutura !== "cria" && (
+                <div className="mt-5 border-t border-linha pt-4">
+                  <p className="text-sm text-texto-2">
+                    Frete por cabeça: <strong className="text-texto">{reais(entradas.frete)}</strong> {freteManual == null ? "(estimado pela distância)" : "(digitado)"}
+                  </p>
+                  <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                    <Num rotulo="Preço do frete" unidade="R$ por km" passo={0.5} valor={rsKm} onChange={setRsKm} dica="Exemplo: pergunte ao seu transportador" />
+                    <Num rotulo="Carga do caminhão" unidade="kg" passo={500} valor={cargaKg} onChange={setCargaKg} dica="Exemplo: carreta boiadeira" />
+                    <Num rotulo="Ou digite o frete" unidade="R$/cabeça" passo={5} valor={freteManual ?? freteEstimado} onChange={setFreteManual} />
+                  </div>
+                  {freteManual != null && (
+                    <button type="button" onClick={() => setFreteManual(null)} className="mt-2 min-h-11 text-sm text-tinta">
+                      Voltar ao estimado
+                    </button>
+                  )}
+                  <p className="mt-2 text-xs text-texto-3">
+                    {estrutura === "revenda" ? `Viagem: ${numero(kmRevenda, 0)} km.` : `Compra: ${ufCompra ? `${numero(kmCompra, 0)} km` : "sem frete"} · Venda: ${numero(kmVenda, 0)} km.`} Linha reta × {FATOR_ESTRADA}; sem cidade, {KM_DENTRO_DO_ESTADO} km no mesmo estado. É estimativa.
+                  </p>
+                </div>
+              )}
+            </Item>
+
+            <Item titulo="Explicar com IA" resumo={explicacao ? (desatualizada ? "Desatualizada" : "Pronta") : "Um texto sobre a sua conta"}>
+              {explicacao ? (
+                <>
+                  {desatualizada && <p className="mb-2 text-sm text-sol">Você mudou os números. Peça de novo.</p>}
+                  <p className={`whitespace-pre-line text-base leading-relaxed ${desatualizada ? "text-texto-3" : "text-texto"}`}>{explicacao.texto}</p>
+                </>
+              ) : (
+                <p className="text-sm text-texto-3">A IA lê a sua conta e explica em palavras simples. Só roda quando você toca, para não gastar à toa.</p>
+              )}
+              {erro && <p className="mt-2 text-sm text-alerta">{erro}</p>}
+              <button type="button" onClick={explicar} disabled={carregando} className="mt-3 h-11 rounded-xl bg-tinta px-5 text-sm font-semibold text-sobre-tinta disabled:opacity-50">
+                {carregando ? "Pensando…" : explicacao ? "Explicar de novo" : "Explicar com IA"}
+              </button>
+            </Item>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <button type="button" onClick={() => ir(1)} className="h-12 flex-1 rounded-xl border border-linha px-5 text-base text-texto-2">
+              Refazer as perguntas
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                voltarAoExemplo();
+                ir(0);
+              }}
+              className="h-12 rounded-xl px-4 text-sm text-texto-3"
+            >
+              Começar do zero
             </button>
           </div>
-          {erro && <p className="mt-2 text-sm text-alerta">{erro}</p>}
-          {explicacao ? (
-            <>
-              {desatualizada && <p className="mt-2 text-sm text-sol">Você mudou os números. Clique em &quot;Atualizar explicação&quot;.</p>}
-              <p className={`mt-2 whitespace-pre-line text-base leading-relaxed ${desatualizada ? "text-texto-3" : "text-texto"}`}>{explicacao.texto}</p>
-            </>
-          ) : (
-            <p className="mt-2 text-sm text-texto-3">{meus ? "A conta acima é instantânea. A explicação em texto (IA) só é gerada quando você clica, para não gastar créditos a cada toque." : "Troque os números de exemplo pelos seus para pedir a explicação."}</p>
-          )}
-        </article>
-      </div>
-
-      <div className="min-w-0 space-y-6 lg:col-start-1 lg:row-start-2">
-
-        {estrutura === "revenda" ? (
-          <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-texto">Onde comprar e onde vender</h3>
-            <p className="mt-1 text-sm text-texto-2">Melhores pares de estados para boi gordo de 18@, depois do frete e da perda de {numero(e.quebra, 1)}%. Preço à vista da Scot, média dos estados.</p>
-            <ListaCurta
-              itens={pares}
-              linha={(p) => (
-                <li key={`${p.de}${p.para}`} className="flex items-center gap-3 py-2.5">
-                  <span className="min-w-0 flex-1">
-                    <span className="flex flex-wrap items-baseline justify-between gap-x-2">
-                      <span className="font-medium text-texto">
-                      {p.de} → {p.para}
-                    </span>
-                      <span className={`whitespace-nowrap font-display font-bold tabular-nums ${p.sobra >= 0 ? "text-capim" : "text-alerta"}`}>{reais(p.sobra)}/cab</span>
-                    </span>
-                    <span className="block text-xs text-texto-3">
-                      compra {reais(p.compra)} · vende {reais(p.venda)} · frete {reais(p.frete)}
-                    </span>
-                  </span>
-                  <button type="button" aria-label={`Usar ${p.de} para ${p.para} na conta`} onClick={() => {
-                    setUfCompra(p.de);
-                    setPracaVenda(Object.keys(painel.pracas?.valores ?? {}).find((n) => ufDaPraca(n) === p.para) ?? "");
-                    setFreteManual(null);
-                    setExplicacao(null);
-                    digitar("compraCab", Math.round(p.compra), true);
-                    digitar("vendaCab", Math.round(p.venda), true);
-                  }} className={usarCls}>
-                    Usar
-                  </button>
-                </li>
-              )}
-            />
-          </section>
-        ) : estrutura !== "cria" ? (
-          <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-texto">Onde vender o boi gordo</h3>
-            <p className="mt-1 text-sm text-texto-2">
-              Praças da Scot, já descontado o frete saindo de {ufFazenda} (carga de {numero(cargaKg / 1000, 1)} t, {reais(rsKm, 2)}/km). Veja se a diferença de preço paga a viagem.
-            </p>
-            <ListaCurta
-              itens={vender.slice(0, 6)}
-              linha={(v, i) => (
-                <li key={v.nome} className="flex items-center gap-3 py-2.5">
-                  <span className="w-4 shrink-0 text-texto-3">{i + 1}.</span>
-                  <span className="min-w-0 flex-1">
-                    <span className="flex flex-wrap items-baseline justify-between gap-x-2">
-                      <span className="font-medium text-texto">{v.nome}</span>
-                      <span className="whitespace-nowrap font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
-                    </span>
-                    <span className="block text-xs text-texto-3">
-                      {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
-                    </span>
-                  </span>
-                  <button type="button" aria-label={`Usar ${v.nome} na conta`} onClick={() => escolherPraca(v.nome)} className={usarCls}>
-                    Usar
-                  </button>
-                </li>
-              )}
-            />
-          </section>
-        ) : null}
-
-        {estrutura !== "revenda" && cat && mercadoAnimal.length > 0 && (
-          <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-texto">{estrutura === "cria" ? `Onde vender o ${cat.nome.toLowerCase()}` : `Onde comprar o ${cat.nome.toLowerCase()}`}</h3>
-            <p className="mt-1 text-sm text-texto-2">
-              {cat.nome} Nelore ({cat.ref}), preço médio de cada estado {estrutura === "cria" ? "menos" : "mais"} o frete {estrutura === "cria" ? "saindo de" : "até"} {ufFazenda}. Como quem enche o caminhão onde compensa mais.
-            </p>
-            <ListaCurta
-              itens={mercadoAnimal.slice(0, 6)}
-              linha={(m, i) => (
-                <li key={m.uf} className="flex items-center gap-3 py-2.5">
-                  <span className="w-4 shrink-0 text-texto-3">{i + 1}.</span>
-                  <span className="min-w-0 flex-1">
-                    <span className="flex flex-wrap items-baseline justify-between gap-x-2">
-                      <span className="font-medium text-texto">
-                      {m.uf}
-                      {m.marcado ? "*" : ""}
-                    </span>
-                      <span className="whitespace-nowrap font-display font-bold tabular-nums text-capim">{reais(m.total)}/cab</span>
-                    </span>
-                    <span className="block text-xs text-texto-3">
-                      {reais(m.cab)} {estrutura === "cria" ? "−" : "+"} frete {reais(m.frete)}
-                    </span>
-                  </span>
-                  <button
-                    type="button"
-                    aria-label={`Usar ${m.uf} na conta`}
-                    onClick={() => {
-                      setExplicacao(null);
-                      if (estrutura === "cria") digitar("vendaBezerro", Math.round(m.total), true);
-                      else {
-                        setUfCompra(m.uf === ufFazenda ? "" : m.uf);
-                        digitar("compraCab", m.cab, true);
-                        digitar("pesoCompra", cat.peso, true);
-                      }
-                    }}
-                    className={usarCls}
-                  >
-                    Usar
-                  </button>
-                </li>
-              )}
-            />
-            <p className="mt-3 text-xs text-texto-3">
-              Scot Consultoria, {rep!.data.split("-").reverse().join("/")}, via Notícias Agrícolas. {mercadoAnimal.some((m) => m.marcado) ? "A fonte marca RS e SC com * sem explicar o motivo. " : ""}Frete estimado pela distância, como na conta acima.
-              {estrutura === "cria" ? " Na conta, o preço líquido (já sem o frete) entra como preço de venda." : ""}
-            </p>
-          </section>
-        )}
-
-        {(estrutura === "recria" || estrutura === "confinamento") && (
-          <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-texto">Quanto custa produzir 1 arroba?</h3>
-            <p className="mt-2 text-base text-texto-2">
-              Com o custo e o ganho de peso acima, cada arroba produzida custa <strong className={custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? "text-capim" : "text-alerta"}>{reais(custoArroba(e.custoDia, e.gmd))}</strong>
-              {custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? ", abaixo do preço do boi." : ", acima do preço do boi."}
-              <span className="mt-1 block text-xs text-texto-3">Conta: custo diário ÷ (ganho diário ÷ 15 kg). Só conta comida e operação; o animal comprado, o frete e os juros entram na margem acima.</span>
-            </p>
-          </section>
-        )}
-      
-      </div>
-
+          <p className="text-xs text-texto-3">O que você respondeu fica salvo só neste aparelho.</p>
+        </div>
+      )}
     </div>
   );
 }

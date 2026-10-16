@@ -73,7 +73,7 @@ export default function Pagina() {
       </dl>
 
       <div className="mt-14">
-        <Secao id="decisao" titulo="Vale a pena? Faça a conta do seu negócio" sub="Escolha como você trabalha e digite os seus números. A margem por cabeça aparece na hora, com o motivo e o risco do ciclo. Todo campo muda o resultado.">
+        <Secao id="decisao" titulo="Vale a pena?" sub="Responda algumas perguntas rápidas e veja se a conta fecha.">
           <Decisao painel={p} />
         </Secao>
         <Secao id="onda" titulo="A onda do ciclo" sub="Preço real do boi gordo desde 1997, corrigido pela inflação. Toque ou passe o mouse para ver cada mês.">
