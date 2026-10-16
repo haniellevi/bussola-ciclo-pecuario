@@ -1,24 +1,80 @@
 @import "tailwindcss";
 
-@theme {
+/* Cores por função, não por tom: o mesmo nome serve no claro e no escuro.
+   Azul (tinta) = dá para tocar. Verde, amarelo e vermelho = resultado ou alerta. Nunca o contrário. */
+@theme inline {
   --font-sans: var(--font-texto), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-texto), ui-sans-serif, system-ui, sans-serif;
+  --color-fundo: var(--fundo);
+  --color-superficie: var(--superficie);
+  --color-superficie-2: var(--superficie-2);
+  --color-linha: var(--linha);
+  --color-texto: var(--texto);
+  --color-texto-2: var(--texto-2);
+  --color-texto-3: var(--texto-3);
+  --color-texto-4: var(--texto-4);
+  --color-tinta: var(--tinta);
+  --color-sobre-tinta: var(--sobre-tinta);
+  --color-capim: var(--capim);
+  --color-sol: var(--sol);
+  --color-alerta: var(--alerta);
+  --color-laranja: var(--laranja);
+}
+
+@theme {
   /* Textos pequenos maiores: 12px e 14px eram difíceis de ler no celular */
   --text-xs: 0.8125rem;
   --text-xs--line-height: 1.25rem;
   --text-sm: 0.9375rem;
   --text-sm--line-height: 1.45rem;
-  --color-terra-950: #0b0f0d;
-  --color-terra-900: #121815;
-  --color-terra-800: #1b231f;
-  --color-terra-700: #28332d;
-  --color-capim: #4ade80;
-  --color-sol: #fbbf24;
-  --color-alerta: #fb7185;
 }
 
+/* Claro: lê bem no sol, no campo. */
 :root {
-  color-scheme: dark;
+  color-scheme: light dark;
+  --fundo: #f3f4f0;
+  --superficie: #ffffff;
+  --superficie-2: #e9ece6;
+  --linha: #d6dbd3;
+  --texto: #131915;
+  --texto-2: #323c37;
+  --texto-3: #55605a;
+  --texto-4: #8a948e;
+  --tinta: #0a5fbf;
+  --sobre-tinta: #ffffff;
+  --capim: #157a3c;
+  --sol: #985c00;
+  --alerta: #bb1238;
+  --laranja: #c2410c;
+}
+
+/* Escuro: segue o aparelho. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fundo: #0d1210;
+    --superficie: #151b18;
+    --superficie-2: #1e2622;
+    --linha: #2a3430;
+    --texto: #eef2ef;
+    --texto-2: #c8d0cb;
+    --texto-3: #9ba6a0;
+    --texto-4: #6c7772;
+    --tinta: #70b5ff;
+    --sobre-tinta: #0d1210;
+    --capim: #4ade80;
+    --sol: #fbbf24;
+    --alerta: #fb7185;
+    --laranja: #fb923c;
+  }
+}
+
+/* Mais contraste pedido no aparelho: textos secundários ficam mais fortes. */
+@media (prefers-contrast: more) {
+  :root {
+    --texto-2: var(--texto);
+    --texto-3: var(--texto-2);
+    --linha: var(--texto-4);
+  }
 }
 
 html {
@@ -26,8 +82,27 @@ html {
 }
 
 body {
-  background: var(--color-terra-950);
-  color: #eef2ef;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+:focus-visible {
+  outline: 2px solid var(--tinta);
+  outline-offset: 2px;
+}
+
+/* Barra de vidro só nas abas (camada de controle), nunca no conteúdo. Sem transparência se a pessoa pedir. */
+.vidro {
+  background: color-mix(in oklab, var(--superficie) 88%, transparent);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .vidro {
+    background: var(--superficie);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

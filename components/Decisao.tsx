@@ -53,7 +53,7 @@ function padrao(estrutura: Estrutura, p: Painel): Entradas {
 function Num({ rotulo, valor, onChange, unidade, passo = 1, faixa, dica }: { rotulo: string; valor: number; onChange: (v: number) => void; unidade?: string; passo?: number; faixa?: [number, number]; dica?: string }) {
   return (
     <label className="block">
-      <span className="block text-sm text-zinc-300">{rotulo}</span>
+      <span className="block text-sm text-texto-2">{rotulo}</span>
       <span className="relative mt-1 block">
       <input
         type="number"
@@ -62,10 +62,10 @@ function Num({ rotulo, valor, onChange, unidade, passo = 1, faixa, dica }: { rot
         step={passo}
         value={Number.isFinite(valor) ? valor : ""}
         onChange={(e) => onChange(e.target.value === "" ? 0 : Math.max(0, +e.target.value))}
-        className="h-11 w-full rounded-lg border border-terra-700 bg-terra-950 pl-3 text-base tabular-nums text-zinc-50"
+        className="h-11 w-full rounded-lg border border-linha bg-fundo pl-3 text-base tabular-nums text-texto"
         style={{ paddingRight: unidade ? `${unidade.length * 0.5 + 1.25}rem` : undefined }}
       />
-      {unidade && <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-zinc-400">{unidade}</span>}
+      {unidade && <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-texto-3">{unidade}</span>}
       </span>
       {faixa && (
         <input
@@ -76,10 +76,10 @@ function Num({ rotulo, valor, onChange, unidade, passo = 1, faixa, dica }: { rot
           step={passo}
           value={Math.min(faixa[1], Math.max(faixa[0], valor))}
           onChange={(e) => onChange(+e.target.value)}
-          className="mt-1 w-full accent-[var(--color-sol)]"
+          className="mt-1 w-full accent-[var(--color-tinta)]"
         />
       )}
-      {dica && <span className="mt-0.5 block text-xs text-zinc-400">{dica}</span>}
+      {dica && <span className="mt-0.5 block text-xs text-texto-3">{dica}</span>}
     </label>
   );
 }
@@ -379,7 +379,7 @@ export function Decisao({ painel }: { painel: Painel }) {
 
   const receita = Math.max(1, r.receita);
   const barras: { chave: keyof Partes; cor: string }[] = [
-    { chave: "compra", cor: "bg-zinc-400" },
+    { chave: "compra", cor: "bg-texto-3" },
     { chave: "operacao", cor: "bg-sol" },
     { chave: "frete", cor: "bg-sky-400" },
     { chave: "juros", cor: "bg-violet-400" },
@@ -393,7 +393,7 @@ export function Decisao({ painel }: { painel: Painel }) {
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.1fr]">
       <div className="min-w-0 space-y-6 lg:col-start-1 lg:row-start-1">
         <fieldset>
-          <legend className="text-sm font-medium text-zinc-200">1. Como você trabalha?</legend>
+          <legend className="text-sm font-medium text-texto-2">1. Como você trabalha?</legend>
           <div className="mt-2 grid gap-2 sm:grid-cols-2">
             {ESTRUTURAS.map((s) => (
               <button
@@ -401,19 +401,19 @@ export function Decisao({ painel }: { painel: Painel }) {
                 type="button"
                 aria-pressed={estrutura === s.id}
                 onClick={() => escolher(s.id)}
-                className={`rounded-xl border p-3 text-left transition-colors ${estrutura === s.id ? "border-sol bg-sol/10" : "border-terra-700 bg-terra-900 hover:border-zinc-500"}`}
+                className={`rounded-xl border p-3 text-left transition-colors ${estrutura === s.id ? "border-tinta bg-tinta/10" : "border-linha bg-superficie hover:border-texto-4"}`}
               >
-                <span className="block font-medium text-zinc-50">{NOME_ESTRUTURA[s.id]}</span>
-                <span className="mt-0.5 block text-xs text-zinc-400">{s.quem}</span>
+                <span className="block font-medium text-texto">{NOME_ESTRUTURA[s.id]}</span>
+                <span className="mt-0.5 block text-xs text-texto-3">{s.quem}</span>
               </button>
             ))}
           </div>
         </fieldset>
 
-        <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
-          <h3 className="font-display text-lg text-zinc-50">2. Onde fica e para onde vai</h3>
+        <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
+          <h3 className="font-display text-lg text-texto">2. Onde fica e para onde vai</h3>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <label className="block text-sm text-zinc-300">
+            <label className="block text-sm text-texto-2">
               Estado da sua fazenda
               <select
                 value={ufFazenda}
@@ -421,14 +421,14 @@ export function Decisao({ painel }: { painel: Painel }) {
                   setUfFazenda(ev.target.value);
                   setCidade("");
                 }}
-                className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
+                className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base"
               >
                 {UFS.map((u) => (
                   <option key={u}>{u}</option>
                 ))}
               </select>
             </label>
-            <label className="block text-sm text-zinc-300">
+            <label className="block text-sm text-texto-2">
               Cidade da fazenda (opcional)
               <input
                 list="cidades-fazenda"
@@ -436,18 +436,18 @@ export function Decisao({ painel }: { painel: Painel }) {
                 onChange={(ev) => setCidade(ev.target.value)}
                 placeholder="Comece a digitar"
                 autoComplete="off"
-                className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base text-zinc-50"
+                className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base text-texto"
               />
               <datalist id="cidades-fazenda">
                 {municipios?.[ufFazenda]?.map((m) => <option key={m[0]} value={m[0]} />)}
               </datalist>
               {cidade.trim() && municipios && !achada && <span className="mt-1 block text-xs text-sol">Não achei essa cidade em {ufFazenda}. O frete usa a capital do estado.</span>}
-              {achada && <span className="mt-1 block text-xs text-zinc-400">O frete sai de {achada[0]}.</span>}
+              {achada && <span className="mt-1 block text-xs text-texto-3">O frete sai de {achada[0]}.</span>}
             </label>
             {estrutura !== "cria" && (
-              <label className="block text-sm text-zinc-300">
+              <label className="block text-sm text-texto-2">
                 {estrutura === "revenda" ? "Comprar em (estado)" : "Comprar animais de (estado)"}
-                <select value={ufCompra} onChange={(ev) => setUfCompra(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base">
+                <select value={ufCompra} onChange={(ev) => setUfCompra(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base">
                   <option value="">{estrutura === "revenda" ? `No meu estado (${ufFazenda})` : "Meu estado (sem frete)"}</option>
                   {UFS.filter((u) => estrutura === "revenda" || u !== ufFazenda).map((u) => (
                     <option key={u}>{u}</option>
@@ -456,9 +456,9 @@ export function Decisao({ painel }: { painel: Painel }) {
               </label>
             )}
             {estrutura !== "cria" && (
-              <label className="block text-sm text-zinc-300 sm:col-span-2">
+              <label className="block text-sm text-texto-2 sm:col-span-2">
                 {estrutura === "revenda" ? "Vender em" : "Vender o boi gordo em"}
-                <select value={pracaVenda} onChange={(ev) => escolherPraca(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base">
+                <select value={pracaVenda} onChange={(ev) => escolherPraca(ev.target.value)} className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base">
                   <option value="">Na minha região ({ufFazenda})</option>
                   {vender.map((v) => (
                     <option key={v.nome} value={v.nome}>
@@ -470,11 +470,11 @@ export function Decisao({ painel }: { painel: Painel }) {
             )}
           </div>
           {(ufPreco || usaReposicao) && (
-            <div className="mt-4 rounded-xl border border-sol/40 bg-sol/5 p-3">
+            <div className="mt-4 rounded-xl border border-tinta/40 bg-tinta/5 p-3">
               {usaReposicao && (
-                <label className="block text-sm text-zinc-300">
+                <label className="block text-sm text-texto-2">
                   {estrutura === "cria" ? "Animal que você vende" : "Animal que você compra"}
-                  <select value={categoria} onChange={(ev) => escolherCategoria(ev.target.value as CategoriaReposicao)} className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base">
+                  <select value={categoria} onChange={(ev) => escolherCategoria(ev.target.value as CategoriaReposicao)} className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base">
                     {(Object.keys(rep!.categorias) as CategoriaReposicao[]).map((c) => (
                       <option key={c} value={c}>
                         {rep!.categorias[c].nome} ({rep!.categorias[c].ref})
@@ -483,37 +483,37 @@ export function Decisao({ painel }: { painel: Painel }) {
                   </select>
                 </label>
               )}
-              <button type="button" onClick={aplicarRegiao} className="mt-3 h-11 w-full rounded-lg bg-sol px-4 text-base font-semibold text-terra-950 hover:brightness-110 sm:w-auto">
+              <button type="button" onClick={aplicarRegiao} className="mt-3 h-11 w-full rounded-lg bg-tinta px-4 text-base font-semibold text-sobre-tinta hover:brightness-110 sm:w-auto">
                 Usar preços de {usaReposicao && ufRep !== ufPreco && estrutura !== "cria" ? `${ufRep} e ${ufPreco}` : usaReposicao ? ufRep : ufPreco}
               </button>
-              <ul className="mt-2 space-y-0.5 text-sm text-zinc-300">
+              <ul className="mt-2 space-y-0.5 text-sm text-texto-2">
                 {usaReposicao && (
                   <li>
-                    {cat!.nome} em {ufRep}: <strong className="text-zinc-50">{reais(cat!.ufs[ufRep!].cab)}</strong> por cabeça ({reais(cat!.ufs[ufRep!].kg, 2)}/kg)
-                    {ufRep !== ufFazenda && <span className="text-zinc-400"> · {ufFazenda} não tem cotação, usamos o estado mais perto</span>}
+                    {cat!.nome} em {ufRep}: <strong className="text-texto">{reais(cat!.ufs[ufRep!].cab)}</strong> por cabeça ({reais(cat!.ufs[ufRep!].kg, 2)}/kg)
+                    {ufRep !== ufFazenda && <span className="text-texto-3"> · {ufFazenda} não tem cotação, usamos o estado mais perto</span>}
                   </li>
                 )}
                 {ufPreco && estrutura !== "cria" && (
                   <li>
-                    Boi gordo em {ufPreco}: <strong className="text-zinc-50">{reais(porUf[ufPreco], 2)}/@</strong> à vista
-                    {ufPreco !== ufFazenda && <span className="text-zinc-400"> · estado com cotação mais perto</span>}
+                    Boi gordo em {ufPreco}: <strong className="text-texto">{reais(porUf[ufPreco], 2)}/@</strong> à vista
+                    {ufPreco !== ufFazenda && <span className="text-texto-3"> · estado com cotação mais perto</span>}
                   </li>
                 )}
               </ul>
-              <p className="mt-1 text-xs text-zinc-400">
+              <p className="mt-1 text-xs text-texto-3">
                 Fonte: Scot Consultoria{rep ? ` (reposição de ${rep.data.split("-").reverse().join("/")}, via Notícias Agrícolas)` : ""}; boi gordo de {painel.pracas?.data.split("-").reverse().join("/")}. É o preço médio do estado; o seu negócio pode sair diferente.
               </p>
             </div>
           )}
         </section>
 
-        <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
-          <h3 className="font-display text-lg text-zinc-50">3. Os números do seu negócio</h3>
-          <p className="mt-1 text-xs text-zinc-400">
+        <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
+          <h3 className="font-display text-lg text-texto">3. Os números do seu negócio</h3>
+          <p className="mt-1 text-xs text-texto-3">
             Preços de hoje vêm dos dados. O resto é só exemplo: troque pelos da sua fazenda, tudo muda o resultado na hora. O que você digitar fica salvo neste aparelho.
           </p>
           {(Object.keys(digitados).length > 0 || meus || regiao || categoriaEscolhida) && (
-            <button type="button" onClick={voltarAoExemplo} className="mt-2 min-h-11 text-sm text-sol underline underline-offset-4">
+            <button type="button" onClick={voltarAoExemplo} className="mt-2 min-h-11 text-sm text-tinta underline underline-offset-4">
               Apagar meus números e voltar ao exemplo
             </button>
           )}
@@ -553,17 +553,17 @@ export function Decisao({ painel }: { painel: Painel }) {
           </div>
 
           {estrutura !== "cria" && (
-            <div className="mt-5 border-t border-terra-700 pt-4">
-              <p className="text-sm font-medium text-zinc-200">Frete (estimado pela distância)</p>
+            <div className="mt-5 border-t border-linha pt-4">
+              <p className="text-sm font-medium text-texto-2">Frete (estimado pela distância)</p>
               <div className="mt-3 grid gap-4 sm:grid-cols-2">
                 <Num rotulo="Preço do frete" unidade="R$ por km rodado" passo={0.5} valor={rsKm} onChange={setRsKm} dica="Exemplo: pergunte ao seu transportador" />
                 <Num rotulo="Carga do caminhão" unidade="kg" passo={500} valor={cargaKg} onChange={setCargaKg} dica="Exemplo: carreta boiadeira" />
               </div>
               {(
-                <p className="mt-3 text-sm text-zinc-300">
-                  Frete por cabeça: <strong className="text-zinc-50">{reais(entradas.frete)}</strong>
+                <p className="mt-3 text-sm text-texto-2">
+                  Frete por cabeça: <strong className="text-texto">{reais(entradas.frete)}</strong>
                   {freteManual == null ? " (estimado)" : " (digitado)"}
-                  <span className="mt-1 block text-xs text-zinc-400">
+                  <span className="mt-1 block text-xs text-texto-3">
                     {estrutura === "revenda" ? `Viagem: ${numero(kmRevenda, 0)} km.` : `Compra: ${ufCompra ? `${numero(kmCompra, 0)} km` : "sem frete"} · Venda: ${numero(kmVenda, 0)} km.`} Distância em linha reta × {FATOR_ESTRADA} para a estrada, {achada ? `saindo de ${achada[0]}` : "saindo da capital (informe a cidade da fazenda para melhorar)"}; outro estado conta da capital, praça conta da cidade de referência. No mesmo estado sem cidade, {KM_DENTRO_DO_ESTADO} km. É estimativa.
                   </span>
                 </p>
@@ -574,7 +574,7 @@ export function Decisao({ painel }: { painel: Painel }) {
                     <Num rotulo="Ou digite o frete" unidade="R$/cabeça" passo={5} valor={freteManual ?? freteEstimado} onChange={setFreteManual} />
                   </div>
                   {freteManual != null && (
-                    <button type="button" onClick={() => setFreteManual(null)} className="mb-2 text-sm text-sol underline underline-offset-4">
+                    <button type="button" onClick={() => setFreteManual(null)} className="mb-2 text-sm text-tinta underline underline-offset-4">
                       Voltar ao estimado
                     </button>
                   )}
@@ -586,68 +586,68 @@ export function Decisao({ painel }: { painel: Painel }) {
       </div>
 
       <div className="min-w-0 space-y-4 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
-        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5" aria-live="polite">
-          <p className="text-xs uppercase tracking-wider text-zinc-400">
+        <article className="rounded-2xl border border-linha bg-superficie p-4 sm:p-5" aria-live="polite">
+          <p className="text-xs uppercase tracking-wider text-texto-3">
             Resultado · {NOME_ESTRUTURA[estrutura]} · por {qtd}
           </p>
-          <p className={`mt-2 inline-block rounded-full border px-4 py-1.5 font-display text-xl font-bold ${meus ? COR_SELO[r.selo] : "border-terra-700 text-zinc-300"}`}>{meus ? ROTULO_SELO[r.selo] : "Números de exemplo"}</p>
-          <dl className="mt-4 grid grid-cols-2 gap-px sm:grid-cols-3 overflow-hidden rounded-xl border border-terra-700 bg-terra-700 text-center">
+          <p className={`mt-2 inline-block rounded-full border px-4 py-1.5 font-display text-xl font-bold ${meus ? COR_SELO[r.selo] : "border-linha text-texto-2"}`}>{meus ? ROTULO_SELO[r.selo] : "Números de exemplo"}</p>
+          <dl className="mt-4 grid grid-cols-2 gap-px sm:grid-cols-3 overflow-hidden rounded-xl border border-linha bg-linha text-center">
             {[
-              { t: estrutura === "cria" ? "Sobra por matriz/ano" : "Sobra por cabeça", v: reais(r.margem), cor: !meus ? "text-zinc-50" : r.margem >= 0 ? "text-capim" : "text-alerta" },
-              { t: "Por mês", v: reais(r.margemMes), cor: !meus ? "text-zinc-50" : r.margemMes >= 0 ? "text-capim" : "text-alerta" },
-              { t: estrutura === "cria" ? "Prazo" : "Dias no negócio", v: numero(r.dias, 0), cor: "text-zinc-50" },
+              { t: estrutura === "cria" ? "Sobra por matriz/ano" : "Sobra por cabeça", v: reais(r.margem), cor: !meus ? "text-texto" : r.margem >= 0 ? "text-capim" : "text-alerta" },
+              { t: "Por mês", v: reais(r.margemMes), cor: !meus ? "text-texto" : r.margemMes >= 0 ? "text-capim" : "text-alerta" },
+              { t: estrutura === "cria" ? "Prazo" : "Dias no negócio", v: numero(r.dias, 0), cor: "text-texto" },
             ].map((x, i) => (
-              <div key={x.t} className={`bg-terra-900 p-3 ${i === 0 ? "col-span-2 sm:col-span-1" : ""}`}>
-                <dt className="text-xs text-zinc-400">{x.t}</dt>
+              <div key={x.t} className={`bg-superficie p-3 ${i === 0 ? "col-span-2 sm:col-span-1" : ""}`}>
+                <dt className="text-xs text-texto-3">{x.t}</dt>
                 <dd className={`mt-1 whitespace-nowrap font-display font-bold tabular-nums ${i === 0 ? "text-2xl sm:text-xl" : "text-lg sm:text-xl"} ${x.cor}`}>{x.v}</dd>
               </div>
             ))}
           </dl>
 
           {meus ? (
-            <div className="mt-4 rounded-xl border-2 border-sol/50 bg-sol/10 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wider text-sol">{r.selo === "nao" ? "Por que não compensa" : r.selo === "apertada" ? "Por que está apertado" : "Por que compensa"}</p>
-              <p className="mt-1 text-base leading-relaxed text-zinc-50">{porque}</p>
+            <div className={`mt-4 rounded-xl border-2 ${COR_SELO[r.selo]} p-4`}>
+              <p className="text-xs font-semibold uppercase tracking-wider">{r.selo === "nao" ? "Por que não compensa" : r.selo === "apertada" ? "Por que está apertado" : "Por que compensa"}</p>
+              <p className="mt-1 text-base leading-relaxed text-texto">{porque}</p>
             </div>
           ) : (
-            <div className="mt-4 rounded-xl border-2 border-terra-700 bg-terra-950 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-300">Ainda não dá para dizer se compensa</p>
-              <p className="mt-1 text-base leading-relaxed text-zinc-50">
+            <div className="mt-4 rounded-xl border-2 border-linha bg-fundo p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-texto-2">Ainda não dá para dizer se compensa</p>
+              <p className="mt-1 text-base leading-relaxed text-texto">
                 Esta conta usa números de exemplo para {EXEMPLO[estrutura].nomes}. Troque pelos da sua fazenda no passo 3 e o veredito aparece aqui.
               </p>
-              <button type="button" onClick={() => setMeus(true)} className="mt-3 min-h-11 w-full rounded-lg border border-terra-700 px-4 text-sm text-zinc-200 hover:border-sol hover:text-sol sm:w-auto">
+              <button type="button" onClick={() => setMeus(true)} className="mt-3 min-h-11 w-full rounded-lg border border-linha px-4 text-sm text-texto-2 hover:border-tinta hover:text-tinta sm:w-auto">
                 Estes números já são os meus
               </button>
             </div>
           )}
 
           <div className="mt-4">
-            <p className="text-sm text-zinc-300">
+            <p className="text-sm text-texto-2">
               Para cada {reais(receita)} que entram, {reais(custoTotal)} saem:
             </p>
-            <div className="mt-2 flex h-4 w-full overflow-hidden rounded-full bg-terra-950" role="img" aria-label="Divisão dos custos">
+            <div className="mt-2 flex h-4 w-full overflow-hidden rounded-full bg-fundo" role="img" aria-label="Divisão dos custos">
               {barrasUsadas.map((b) => (
                 <div key={b.chave} className={b.cor} style={{ width: `${Math.min(100, (r.partes[b.chave] / Math.max(receita, custoTotal)) * 100)}%` }} title={`${nomeParte(estrutura, b.chave)}: ${reais(r.partes[b.chave])}`} />
               ))}
             </div>
-            <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm text-zinc-300 sm:grid-cols-2">
+            <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm text-texto-2 sm:grid-cols-2">
               {barrasUsadas.map((b) => (
                 <li key={b.chave} className="flex items-center gap-2">
                   <span className={`h-2.5 w-2.5 shrink-0 rounded-sm ${b.cor}`} aria-hidden />
                   <span className="flex-1 whitespace-nowrap">{b.chave === "compra" ? (estrutura === "cria" ? "Reposição" : "Animal") : b.chave === "operacao" ? (estrutura === "cria" ? "Custo das matrizes" : "Custo diário") : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : estrutura === "cria" ? "Mortes" : "Perdas"}</span>
-                  <span className="tabular-nums text-zinc-50">{reais(r.partes[b.chave])}</span>
+                  <span className="tabular-nums text-texto">{reais(r.partes[b.chave])}</span>
                 </li>
               ))}
             </ul>
           </div>
         </article>
 
-        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5">
-          <h3 className="font-display text-lg text-zinc-50">E se o preço de venda mudar?</h3>
-          <p className="mt-1 text-sm text-zinc-300">{descreverEstagio(entradaDoPainel(painel))}</p>
+        <article className="rounded-2xl border border-linha bg-superficie p-4 sm:p-5">
+          <h3 className="font-display text-lg text-texto">E se o preço de venda mudar?</h3>
+          <p className="mt-1 text-sm text-texto-2">{descreverEstagio(entradaDoPainel(painel))}</p>
           {cen ? (
             <>
-              <p className="mt-3 text-xs text-zinc-400">
+              <p className="mt-3 text-xs text-texto-3">
                 Previsão registrada para {cen.semanas} semanas (perto do prazo da operação), com a faixa provável.
                 {dentroNoTeste != null && ` No teste de ${painel.acerto.teste.periodo}, o preço real ficou dentro dessa faixa em ${pct(dentroNoTeste)} das vezes.`} O seu preço de venda é movido na mesma proporção.
               </p>
@@ -657,9 +657,9 @@ export function Decisao({ painel }: { painel: Painel }) {
                   { t: "Esperado", x: cen.esperado },
                   { t: "Preço no máximo", x: cen.melhor },
                 ].map(({ t, x }) => (
-                  <li key={t} className="flex flex-col justify-between rounded-lg bg-terra-950 px-1.5 py-2">
-                    <span className="block text-xs text-zinc-400">{t}</span>
-                    <span className={`mt-0.5 block whitespace-nowrap font-display text-sm font-bold tabular-nums sm:text-base ${!meus ? "text-zinc-50" : x.margem >= 0 ? "text-capim" : "text-alerta"}`}>{reais(x.margem)}</span>
+                  <li key={t} className="flex flex-col justify-between rounded-lg bg-fundo px-1.5 py-2">
+                    <span className="block text-xs text-texto-3">{t}</span>
+                    <span className={`mt-0.5 block whitespace-nowrap font-display text-sm font-bold tabular-nums sm:text-base ${!meus ? "text-texto" : x.margem >= 0 ? "text-capim" : "text-alerta"}`}>{reais(x.margem)}</span>
                   </li>
                 ))}
               </ul>
@@ -667,14 +667,14 @@ export function Decisao({ painel }: { painel: Painel }) {
               {meus && cen.melhor.margem < 0 && <p className="mt-2 text-sm text-alerta">Mesmo com o preço no máximo da faixa, a conta não fecha. O problema está no custo ou no preço pago, não no ciclo.</p>}
             </>
           ) : (
-            <p className="mt-2 text-sm text-zinc-400">Na revenda o preço de venda é o que você combina na hora, por isso não usamos a previsão do modelo.</p>
+            <p className="mt-2 text-sm text-texto-3">Na revenda o preço de venda é o que você combina na hora, por isso não usamos a previsão do modelo.</p>
           )}
         </article>
 
-        <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5">
+        <article className="rounded-2xl border border-linha bg-superficie p-4 sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="font-display text-lg text-zinc-50">Explicação da IA</h3>
-            <button type="button" onClick={explicar} disabled={carregando || !meus} className="h-11 rounded-lg border border-sol/60 px-4 text-sm font-semibold text-sol hover:bg-sol/10 disabled:opacity-50">
+            <h3 className="font-display text-lg text-texto">Explicação da IA</h3>
+            <button type="button" onClick={explicar} disabled={carregando || !meus} className="h-11 rounded-lg border border-tinta/60 px-4 text-sm font-semibold text-tinta hover:bg-tinta/10 disabled:opacity-50">
               {carregando ? "Pensando…" : explicacao ? "Atualizar explicação" : "Explicar com IA"}
             </button>
           </div>
@@ -682,10 +682,10 @@ export function Decisao({ painel }: { painel: Painel }) {
           {explicacao ? (
             <>
               {desatualizada && <p className="mt-2 text-sm text-sol">Você mudou os números. Clique em &quot;Atualizar explicação&quot;.</p>}
-              <p className={`mt-2 whitespace-pre-line text-base leading-relaxed ${desatualizada ? "text-zinc-400" : "text-zinc-50"}`}>{explicacao.texto}</p>
+              <p className={`mt-2 whitespace-pre-line text-base leading-relaxed ${desatualizada ? "text-texto-3" : "text-texto"}`}>{explicacao.texto}</p>
             </>
           ) : (
-            <p className="mt-2 text-sm text-zinc-400">{meus ? "A conta acima é instantânea. A explicação em texto (IA) só é gerada quando você clica, para não gastar créditos a cada toque." : "Troque os números de exemplo pelos seus para pedir a explicação."}</p>
+            <p className="mt-2 text-sm text-texto-3">{meus ? "A conta acima é instantânea. A explicação em texto (IA) só é gerada quando você clica, para não gastar créditos a cada toque." : "Troque os números de exemplo pelos seus para pedir a explicação."}</p>
           )}
         </article>
       </div>
@@ -693,16 +693,16 @@ export function Decisao({ painel }: { painel: Painel }) {
       <div className="min-w-0 space-y-6 lg:col-start-1 lg:row-start-2">
 
         {estrutura === "revenda" ? (
-          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-zinc-50">Onde comprar e onde vender</h3>
-            <p className="mt-1 text-sm text-zinc-300">Melhores pares de estados para boi gordo de 18@, depois do frete e da perda de {numero(e.quebra, 1)}%. Preço à vista da Scot, média dos estados.</p>
-            <ul className="mt-3 divide-y divide-terra-700 text-sm">
+          <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-texto">Onde comprar e onde vender</h3>
+            <p className="mt-1 text-sm text-texto-2">Melhores pares de estados para boi gordo de 18@, depois do frete e da perda de {numero(e.quebra, 1)}%. Preço à vista da Scot, média dos estados.</p>
+            <ul className="mt-3 divide-y divide-linha text-sm">
               {pares.map((p) => (
                 <li key={`${p.de}${p.para}`} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
-                  <span className="min-w-28 font-medium text-zinc-50">
+                  <span className="min-w-28 font-medium text-texto">
                     {p.de} → {p.para}
                   </span>
-                  <span className="basis-full text-zinc-300 sm:basis-auto sm:flex-1">
+                  <span className="basis-full text-texto-2 sm:basis-auto sm:flex-1">
                     compra {reais(p.compra)} · vende {reais(p.venda)} · frete {reais(p.frete)}
                   </span>
                   <span className={`font-display font-bold tabular-nums ${p.sobra >= 0 ? "text-capim" : "text-alerta"}`}>{reais(p.sobra)}/cab</span>
@@ -713,7 +713,7 @@ export function Decisao({ painel }: { painel: Painel }) {
                     setExplicacao(null);
                     digitar("compraCab", Math.round(p.compra), true);
                     digitar("vendaCab", Math.round(p.venda), true);
-                  }} className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10">
+                  }} className="h-11 rounded-lg border border-linha px-4 text-sm text-tinta hover:bg-tinta/10">
                     Usar na conta
                   </button>
                 </li>
@@ -721,21 +721,21 @@ export function Decisao({ painel }: { painel: Painel }) {
             </ul>
           </section>
         ) : estrutura !== "cria" ? (
-          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-zinc-50">Onde vender o boi gordo</h3>
-            <p className="mt-1 text-sm text-zinc-300">
+          <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-texto">Onde vender o boi gordo</h3>
+            <p className="mt-1 text-sm text-texto-2">
               Praças da Scot, já descontado o frete saindo de {ufFazenda} (carga de {numero(cargaKg / 1000, 1)} t, {reais(rsKm, 2)}/km). Veja se a diferença de preço paga a viagem.
             </p>
-            <ul className="mt-3 divide-y divide-terra-700 text-sm">
+            <ul className="mt-3 divide-y divide-linha text-sm">
               {vender.slice(0, 6).map((v, i) => (
                 <li key={v.nome} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
-                  <span className="w-5 text-zinc-400">{i + 1}.</span>
-                  <span className="min-w-36 flex-1 font-medium text-zinc-50">{v.nome}</span>
-                  <span className="text-zinc-300">
+                  <span className="w-5 text-texto-3">{i + 1}.</span>
+                  <span className="min-w-36 flex-1 font-medium text-texto">{v.nome}</span>
+                  <span className="text-texto-2">
                     {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
                   </span>
                   <span className="font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
-                  <button type="button" onClick={() => escolherPraca(v.nome)} className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10">
+                  <button type="button" onClick={() => escolherPraca(v.nome)} className="h-11 rounded-lg border border-linha px-4 text-sm text-tinta hover:bg-tinta/10">
                     Usar na conta
                   </button>
                 </li>
@@ -745,20 +745,20 @@ export function Decisao({ painel }: { painel: Painel }) {
         ) : null}
 
         {estrutura !== "revenda" && cat && mercadoAnimal.length > 0 && (
-          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-zinc-50">{estrutura === "cria" ? `Onde vender o ${cat.nome.toLowerCase()}` : `Onde comprar o ${cat.nome.toLowerCase()}`}</h3>
-            <p className="mt-1 text-sm text-zinc-300">
+          <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-texto">{estrutura === "cria" ? `Onde vender o ${cat.nome.toLowerCase()}` : `Onde comprar o ${cat.nome.toLowerCase()}`}</h3>
+            <p className="mt-1 text-sm text-texto-2">
               {cat.nome} Nelore ({cat.ref}), preço médio de cada estado {estrutura === "cria" ? "menos" : "mais"} o frete {estrutura === "cria" ? "saindo de" : "até"} {ufFazenda}. Como quem enche o caminhão onde compensa mais.
             </p>
-            <ul className="mt-3 divide-y divide-terra-700 text-sm">
+            <ul className="mt-3 divide-y divide-linha text-sm">
               {mercadoAnimal.slice(0, 6).map((m, i) => (
                 <li key={m.uf} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
-                  <span className="w-5 text-zinc-400">{i + 1}.</span>
-                  <span className="min-w-12 flex-1 font-medium text-zinc-50">
+                  <span className="w-5 text-texto-3">{i + 1}.</span>
+                  <span className="min-w-12 flex-1 font-medium text-texto">
                     {m.uf}
                     {m.marcado ? "*" : ""}
                   </span>
-                  <span className="text-zinc-300">
+                  <span className="text-texto-2">
                     {reais(m.cab)} {estrutura === "cria" ? "−" : "+"} frete {reais(m.frete)}
                   </span>
                   <span className="font-display font-bold tabular-nums text-capim">{reais(m.total)}/cab</span>
@@ -773,14 +773,14 @@ export function Decisao({ painel }: { painel: Painel }) {
                         digitar("pesoCompra", cat.peso, true);
                       }
                     }}
-                    className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10"
+                    className="h-11 rounded-lg border border-linha px-4 text-sm text-tinta hover:bg-tinta/10"
                   >
                     Usar na conta
                   </button>
                 </li>
               ))}
             </ul>
-            <p className="mt-3 text-xs text-zinc-400">
+            <p className="mt-3 text-xs text-texto-3">
               Scot Consultoria, {rep!.data.split("-").reverse().join("/")}, via Notícias Agrícolas. {mercadoAnimal.some((m) => m.marcado) ? "A fonte marca RS e SC com * sem explicar o motivo. " : ""}Frete estimado pela distância, como na conta acima.
               {estrutura === "cria" ? " Na conta, o preço líquido (já sem o frete) entra como preço de venda." : ""}
             </p>
@@ -788,12 +788,12 @@ export function Decisao({ painel }: { painel: Painel }) {
         )}
 
         {(estrutura === "recria" || estrutura === "confinamento") && (
-          <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
-            <h3 className="font-display text-lg text-zinc-50">Quanto custa produzir 1 arroba?</h3>
-            <p className="mt-2 text-base text-zinc-300">
+          <section className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
+            <h3 className="font-display text-lg text-texto">Quanto custa produzir 1 arroba?</h3>
+            <p className="mt-2 text-base text-texto-2">
               Com o custo e o ganho de peso acima, cada arroba produzida custa <strong className={custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? "text-capim" : "text-alerta"}>{reais(custoArroba(e.custoDia, e.gmd))}</strong>
               {custoArroba(e.custoDia, e.gmd) < e.vendaArroba ? ", abaixo do preço do boi." : ", acima do preço do boi."}
-              <span className="mt-1 block text-xs text-zinc-400">Conta: custo diário ÷ (ganho diário ÷ 15 kg). Só conta comida e operação; o animal comprado, o frete e os juros entram na margem acima.</span>
+              <span className="mt-1 block text-xs text-texto-3">Conta: custo diário ÷ (ganho diário ÷ 15 kg). Só conta comida e operação; o animal comprado, o frete e os juros entram na margem acima.</span>
             </p>
           </section>
         )}

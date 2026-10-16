@@ -12,23 +12,23 @@ export function Previsao({ previsao, teste }: { previsao: NonNullable<Painel["pr
     <>
     {/* Celular: um cartão por preço, sem tabela larga escondendo números */}
     <div className="space-y-3 sm:hidden">
-      <p className="text-xs text-zinc-400">
+      <p className="text-xs text-texto-3">
         Registrada na semana {previsao.semana}, com o preço de {dataBr(previsao.dataBase)}. Depois de registrada, nunca é alterada. {nota}
       </p>
       {(["boi", "bezerro"] as const).map((alvo) => (
-        <div key={alvo} className="rounded-2xl border border-terra-700 bg-terra-900 p-4">
-          <p className="font-medium text-zinc-100">{NOME[alvo]}</p>
-          <ul className="mt-2 divide-y divide-terra-800 tabular-nums">
+        <div key={alvo} className="rounded-2xl border border-linha bg-superficie p-4">
+          <p className="font-medium text-texto">{NOME[alvo]}</p>
+          <ul className="mt-2 divide-y divide-linha tabular-nums">
             {previsao.itens.filter((i) => i.alvo === alvo).map((i) => (
               <li key={i.semanas} className="flex items-baseline justify-between gap-3 py-2">
-                <span className="whitespace-nowrap text-sm text-zinc-400">{i.semanas} semanas</span>
+                <span className="whitespace-nowrap text-sm text-texto-3">{i.semanas} semanas</span>
                 <span className="text-right">
-                  <span className="block text-lg font-semibold text-zinc-50">{reais(i.previsto)}</span>
-                  <span className="block text-xs text-zinc-400">
+                  <span className="block text-lg font-semibold text-texto">{reais(i.previsto)}</span>
+                  <span className="block text-xs text-texto-3">
                     faixa {reais(i.minimo)} a {reais(i.maximo)}
                   </span>
                   {dentro(i.alvo, i.semanas) != null && (
-                    <span className={`block text-xs ${dentro(i.alvo, i.semanas)! >= 0.7 ? "text-zinc-400" : "text-sol"}`}>no teste: {pct(dentro(i.alvo, i.semanas)!)} dentro</span>
+                    <span className={`block text-xs ${dentro(i.alvo, i.semanas)! >= 0.7 ? "text-texto-3" : "text-sol"}`}>no teste: {pct(dentro(i.alvo, i.semanas)!)} dentro</span>
                   )}
                 </span>
               </li>
@@ -37,12 +37,12 @@ export function Previsao({ previsao, teste }: { previsao: NonNullable<Painel["pr
         </div>
       ))}
     </div>
-    <div className="hidden overflow-x-auto rounded-2xl border border-terra-700 sm:block">
+    <div className="hidden overflow-x-auto rounded-2xl border border-linha sm:block">
       <table className="w-full min-w-[40rem] text-sm">
-        <caption className="bg-terra-900 px-4 py-3 text-left text-xs text-zinc-400">
+        <caption className="bg-superficie px-4 py-3 text-left text-xs text-texto-3">
           Registrada na semana {previsao.semana}, com o preço de {dataBr(previsao.dataBase)}. Depois de registrada, nunca é alterada. {nota}
         </caption>
-        <thead className="bg-terra-900 text-xs text-zinc-400">
+        <thead className="bg-superficie text-xs text-texto-3">
           <tr>
             <th scope="col" className="px-4 py-2 text-left font-medium">Preço</th>
             <th scope="col" className="px-4 py-2 text-right font-medium">Prazo</th>
@@ -53,12 +53,12 @@ export function Previsao({ previsao, teste }: { previsao: NonNullable<Painel["pr
         </thead>
         <tbody className="tabular-nums">
           {previsao.itens.map((i) => (
-            <tr key={`${i.alvo}${i.semanas}`} className="border-t border-terra-800">
-              <th scope="row" className="px-4 py-2.5 text-left font-normal text-zinc-300">{NOME[i.alvo]}</th>
-              <td className="px-4 py-2.5 text-right text-zinc-400">{i.semanas} semanas</td>
-              <td className="px-4 py-2.5 text-right font-medium text-zinc-100">{reais(i.previsto)}</td>
-              <td className="px-4 py-2.5 text-right text-zinc-400">{reais(i.minimo)} a {reais(i.maximo)}</td>
-              <td className={`px-4 py-2.5 text-right ${(dentro(i.alvo, i.semanas) ?? 1) >= 0.7 ? "text-zinc-400" : "text-sol"}`}>{dentro(i.alvo, i.semanas) != null ? pct(dentro(i.alvo, i.semanas)!) : "—"}</td>
+            <tr key={`${i.alvo}${i.semanas}`} className="border-t border-linha">
+              <th scope="row" className="px-4 py-2.5 text-left font-normal text-texto-2">{NOME[i.alvo]}</th>
+              <td className="px-4 py-2.5 text-right text-texto-3">{i.semanas} semanas</td>
+              <td className="px-4 py-2.5 text-right font-medium text-texto">{reais(i.previsto)}</td>
+              <td className="px-4 py-2.5 text-right text-texto-3">{reais(i.minimo)} a {reais(i.maximo)}</td>
+              <td className={`px-4 py-2.5 text-right ${(dentro(i.alvo, i.semanas) ?? 1) >= 0.7 ? "text-texto-3" : "text-sol"}`}>{dentro(i.alvo, i.semanas) != null ? pct(dentro(i.alvo, i.semanas)!) : "—"}</td>
             </tr>
           ))}
         </tbody>

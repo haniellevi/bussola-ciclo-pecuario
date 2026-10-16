@@ -135,14 +135,14 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
 
           {g.linhasY.map((v) => (
             <g key={v}>
-              <line x1={M.l} x2={W - M.r} y1={g.y(v)} y2={g.y(v)} stroke="var(--color-terra-700)" strokeDasharray="2 6" />
-              <text x={M.l - 10} y={g.y(v) + 4} textAnchor="end" className="fill-zinc-500 text-[length:calc(13px*var(--k))] tabular-nums">
+              <line x1={M.l} x2={W - M.r} y1={g.y(v)} y2={g.y(v)} stroke="var(--color-linha)" strokeDasharray="2 6" />
+              <text x={M.l - 10} y={g.y(v) + 4} textAnchor="end" className="fill-texto-4 text-[length:calc(13px*var(--k))] tabular-nums">
                 {Math.round(v)}
               </text>
             </g>
           ))}
           {g.anos.map((a) => (
-            <text key={a.i} x={g.x(a.i)} y={H - 12} textAnchor="middle" className="fill-zinc-500 text-[length:calc(13px*var(--k))] tabular-nums">
+            <text key={a.i} x={g.x(a.i)} y={H - 12} textAnchor="middle" className="fill-texto-4 text-[length:calc(13px*var(--k))] tabular-nums">
               {a.rotulo}
             </text>
           ))}
@@ -184,7 +184,7 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
                 x={g.x(p.i)}
                 y={g.y(p.boiReal) + (p.tipo === "pico" ? -12 : 22)}
                 textAnchor="middle"
-                className="fill-zinc-400 text-[length:calc(12.5px*var(--k))]"
+                className="fill-texto-3 text-[length:calc(12.5px*var(--k))]"
               >
                 {p.tipo} {mesAno(p.mes).replace("/20", "/")}
               </text>
@@ -219,38 +219,38 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
                 transition={{ delay: DURACAO, duration: 1.8, repeat: Infinity, ease: "easeOut" }}
               />
             )}
-            <circle r={5.5} className="fill-capim stroke-terra-950" strokeWidth={2} />
+            <circle r={5.5} className="fill-capim stroke-fundo" strokeWidth={2} />
           </g>
 
           {foco != null && ponto && (
             <g pointerEvents="none">
-              <line x1={g.x(foco)} x2={g.x(foco)} y1={M.t} y2={H - M.b} stroke="#a1a1aa" strokeOpacity={0.4} />
-              <circle cx={g.x(foco)} cy={g.y(ponto.boiReal)} r={5} fill="white" />
+              <line x1={g.x(foco)} x2={g.x(foco)} y1={M.t} y2={H - M.b} stroke="var(--color-texto-3)" strokeOpacity={0.4} />
+              <circle cx={g.x(foco)} cy={g.y(ponto.boiReal)} r={5} fill="var(--color-texto)" />
             </g>
           )}
         </svg>
 
         {foco != null && ponto && (
           <div
-            className="pointer-events-none absolute top-2 z-10 w-52 rounded-lg border border-terra-700 bg-terra-900/95 p-3 text-xs shadow-xl backdrop-blur"
+            className="pointer-events-none absolute top-2 z-10 w-52 rounded-lg border border-linha bg-superficie/95 p-3 text-xs shadow-xl backdrop-blur"
             style={pctX > 55 ? { right: `${100 - pctX + 2}%` } : { left: `${pctX + 2}%` }}
           >
-            <p className="mb-1.5 font-semibold text-zinc-100">{mesAno(ponto.mes)}</p>
-            <dl className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-0.5 tabular-nums text-zinc-400">
+            <p className="mb-1.5 font-semibold text-texto">{mesAno(ponto.mes)}</p>
+            <dl className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-0.5 tabular-nums text-texto-3">
               <dt>Boi gordo</dt>
-              <dd className="text-right text-zinc-100">{reais(ponto.boi)}/@</dd>
+              <dd className="text-right text-texto">{reais(ponto.boi)}/@</dd>
               <dt>Em valores de hoje</dt>
-              <dd className="text-right text-zinc-100">{reais(ponto.boiReal)}/@</dd>
+              <dd className="text-right text-texto">{reais(ponto.boiReal)}/@</dd>
               {ponto.bezerro && (
                 <>
                   <dt>Bezerro MS</dt>
-                  <dd className="text-right text-zinc-100">{reais(ponto.bezerro)}</dd>
+                  <dd className="text-right text-texto">{reais(ponto.bezerro)}</dd>
                 </>
               )}
               {ponto.rt && (
                 <>
                   <dt>Boi compra</dt>
-                  <dd className="text-right text-zinc-100">{numero(ponto.rt)} bezerros</dd>
+                  <dd className="text-right text-texto">{numero(ponto.rt)} bezerros</dd>
                 </>
               )}
             </dl>
@@ -261,9 +261,9 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
         )}
       </div>
       </div>
-      <p className="mt-2 text-xs text-zinc-400 sm:hidden">Arraste o gráfico para o lado para ver os anos anteriores.</p>
+      <p className="mt-2 text-xs text-texto-3 sm:hidden">Arraste o gráfico para o lado para ver os anos anteriores.</p>
 
-      <figcaption className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-zinc-400">
+      <figcaption className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-texto-3">
         <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 bg-capim" /> preço subindo</span>
         <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 bg-alerta" /> preço caindo</span>
         <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 border-t-2 border-dashed border-sol" /> previsão e faixa provável</span>

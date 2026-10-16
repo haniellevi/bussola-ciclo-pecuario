@@ -4,7 +4,7 @@ import type { Painel } from "@/lib/painel";
 const DIRECAO = {
   sobe: { texto: "puxa a arroba para cima", cor: "border-capim/50 text-capim" },
   cai: { texto: "puxa a arroba para baixo", cor: "border-alerta/50 text-alerta" },
-  neutro: { texto: "neutra para o preço", cor: "border-terra-700 text-zinc-400" },
+  neutro: { texto: "neutra para o preço", cor: "border-linha text-texto-3" },
 } as const;
 
 const VARIAVEL: Record<string, string> = {
@@ -26,30 +26,30 @@ export function Noticias({ noticias }: { noticias: NonNullable<Painel["noticias"
   return (
     <div className="space-y-5">
       {noticias.classificadas && t.relevantes > 0 && (
-        <div className="rounded-2xl border border-terra-700 bg-terra-900/60 p-5">
-          <p className="text-sm text-zinc-300">
+        <div className="rounded-2xl border border-linha bg-superficie/60 p-5">
+          <p className="text-sm text-texto-2">
             Das {t.relevantes} notícias desta semana que falam das causas do preço, o saldo é{" "}
-            <strong className={t.saldo > 0.15 ? "text-capim" : t.saldo < -0.15 ? "text-alerta" : "text-zinc-100"}>
+            <strong className={t.saldo > 0.15 ? "text-capim" : t.saldo < -0.15 ? "text-alerta" : "text-texto"}>
               {t.saldo > 0.15 ? "de alta" : t.saldo < -0.15 ? "de baixa" : "equilibrado"}
             </strong>{" "}
             para a arroba.
           </p>
           <ul className="mt-3 flex flex-wrap gap-2 text-xs">
             {variaveis.map(([v, x]) => (
-              <li key={v} className="rounded-full border border-terra-700 px-3 py-1 text-zinc-400">
+              <li key={v} className="rounded-full border border-linha px-3 py-1 text-texto-3">
                 {VARIAVEL[v] ?? v}: {x.n} {x.saldo > 0 ? "↑" : x.saldo < 0 ? "↓" : "→"}
               </li>
             ))}
           </ul>
         </div>
       )}
-      <ul className="divide-y divide-terra-800 rounded-2xl border border-terra-700">
+      <ul className="divide-y divide-linha rounded-2xl border border-linha">
         {noticias.itens.map((n) => (
           <li key={n.link} className="px-4 py-3">
-            <a href={n.link} target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-200 hover:text-sol">
+            <a href={n.link} target="_blank" rel="noopener noreferrer" className="text-sm text-texto-2 hover:text-tinta">
               {n.titulo}
             </a>
-            <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-400">
+            <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-texto-3">
               <span>
                 {n.fonte}, {dataBr(n.data)}
               </span>
@@ -60,11 +60,11 @@ export function Noticias({ noticias }: { noticias: NonNullable<Painel["noticias"
                 </>
               )}
             </p>
-            {n.resumo && <p className="mt-1 line-clamp-2 text-xs text-zinc-400">{n.resumo}</p>}
+            {n.resumo && <p className="mt-1 line-clamp-2 text-xs text-texto-3">{n.resumo}</p>}
           </li>
         ))}
       </ul>
-      <p className="max-w-3xl text-xs leading-relaxed text-zinc-400">
+      <p className="max-w-3xl text-xs leading-relaxed text-texto-3">
         {noticias.classificadas
           ? "A leitura de cada notícia é feita por IA e pode errar. "
           : "A leitura automática (alta ou baixa) liga quando a chave do OpenRouter estiver configurada. "}

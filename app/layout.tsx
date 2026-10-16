@@ -10,7 +10,13 @@ export const metadata: Metadata = {
   description: "Em que fase está o ciclo do boi, o que esperar dos preços e quando comprar, com dados reais e previsão conferida toda semana.",
 };
 
-export const viewport: Viewport = { themeColor: "#0b0f0d" };
+export const viewport: Viewport = {
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f3f4f0" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d1210" },
+  ],
+};
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -10,12 +10,12 @@ import { estagio, NOME_ESTAGIO, PONTOS_ESTAGIO_CRIA, PONTOS_ESTAGIO_ENGORDA, rel
 // Aula em 5 passos. Os números vêm do painel (dados reais); os desenhos explicam a ideia.
 
 const ESTAGIOS: { id: Estagio; de: number; ate: number; cor: string; o_que: string }[] = [
-  { id: "inicio-alta", de: 0, ate: 0.17, cor: "#4ade80", o_que: "O preço saiu do fundo. Sobra pouco boi no mercado e o produtor começa a segurar as vacas." },
-  { id: "meio-alta", de: 0.17, ate: 0.34, cor: "#4ade80", o_que: "Preço firme e subindo. As vacas continuam no pasto e o bezerro encarece mais rápido que o boi." },
-  { id: "alta-madura", de: 0.34, ate: 0.5, cor: "#fbbf24", o_que: "Perto do topo. Já passou o tempo que as altas costumam durar e o descarte de vacas virou." },
-  { id: "inicio-queda", de: 0.5, ate: 0.67, cor: "#fb7185", o_que: "O pico passou. Chegam mais animais ao mercado e o preço começa a ceder." },
-  { id: "meio-queda", de: 0.67, ate: 0.84, cor: "#fb7185", o_que: "Muito boi e muita vaca indo para o abate. O preço está baixo e a reposição vai ficando barata." },
-  { id: "fim-queda", de: 0.84, ate: 1, cor: "#4ade80", o_que: "Fundo do ciclo. Todo mundo vendendo, bezerro e matriz baratos. É aqui que nasce a próxima alta." },
+  { id: "inicio-alta", de: 0, ate: 0.17, cor: "var(--color-capim)", o_que: "O preço saiu do fundo. Sobra pouco boi no mercado e o produtor começa a segurar as vacas." },
+  { id: "meio-alta", de: 0.17, ate: 0.34, cor: "var(--color-capim)", o_que: "Preço firme e subindo. As vacas continuam no pasto e o bezerro encarece mais rápido que o boi." },
+  { id: "alta-madura", de: 0.34, ate: 0.5, cor: "var(--color-sol)", o_que: "Perto do topo. Já passou o tempo que as altas costumam durar e o descarte de vacas virou." },
+  { id: "inicio-queda", de: 0.5, ate: 0.67, cor: "var(--color-alerta)", o_que: "O pico passou. Chegam mais animais ao mercado e o preço começa a ceder." },
+  { id: "meio-queda", de: 0.67, ate: 0.84, cor: "var(--color-alerta)", o_que: "Muito boi e muita vaca indo para o abate. O preço está baixo e a reposição vai ficando barata." },
+  { id: "fim-queda", de: 0.84, ate: 1, cor: "var(--color-capim)", o_que: "Fundo do ciclo. Todo mundo vendendo, bezerro e matriz baratos. É aqui que nasce a próxima alta." },
 ];
 
 // Largura do desenho: no celular a onda fica mais estreita para não achatar.
@@ -33,11 +33,11 @@ function Passo({ n, titulo, resumo, children }: { n: number; titulo: string; res
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="rounded-3xl border border-terra-700 bg-terra-900/50 p-5 sm:p-8"
+      className="rounded-3xl border border-linha bg-superficie/50 p-5 sm:p-8"
     >
-      <p className="text-xs font-medium uppercase tracking-[0.18em] text-sol">Passo {n} de 5</p>
-      <h3 className="mt-2 font-display text-2xl text-zinc-50 sm:text-3xl">{titulo}</h3>
-      <p className="mt-2 max-w-2xl text-base leading-relaxed text-zinc-300">{resumo}</p>
+      <p className="text-xs font-medium uppercase tracking-[0.18em] text-texto-3">Passo {n} de 5</p>
+      <h3 className="mt-2 font-display text-2xl text-texto sm:text-3xl">{titulo}</h3>
+      <p className="mt-2 max-w-2xl text-base leading-relaxed text-texto-2">{resumo}</p>
       <div className="mt-6">{children}</div>
     </motion.section>
   );
@@ -83,27 +83,27 @@ function Onda({ hoje }: { hoje: Estagio }) {
             />
           </g>
         ))}
-        <motion.path key={L} d={caminho} fill="none" stroke="#e7ece9" strokeWidth={3} strokeLinecap="round" initial={parado ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2, ease: "easeInOut" }} />
-        <text x={ponto(0.5).x} y={22} textAnchor="middle" fontSize={12} className="text-[16px] sm:text-[13px]" fill="#fbbf24">pico</text>
-        <text x={ponto(0).x + 4} y={A - 60} fontSize={12} className="text-[16px] sm:text-[13px]" fill="#4ade80">fundo</text>
-        <text x={ponto(1).x - 4} y={A - 60} textAnchor="end" fontSize={12} className="text-[16px] sm:text-[13px]" fill="#4ade80">fundo</text>
+        <motion.path key={L} d={caminho} fill="none" stroke="var(--color-texto)" strokeWidth={3} strokeLinecap="round" initial={parado ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2, ease: "easeInOut" }} />
+        <text x={ponto(0.5).x} y={22} textAnchor="middle" fontSize={12} className="text-[16px] sm:text-[13px]" fill="var(--color-sol)">pico</text>
+        <text x={ponto(0).x + 4} y={A - 60} fontSize={12} className="text-[16px] sm:text-[13px]" fill="var(--color-capim)">fundo</text>
+        <text x={ponto(1).x - 4} y={A - 60} textAnchor="end" fontSize={12} className="text-[16px] sm:text-[13px]" fill="var(--color-capim)">fundo</text>
         {!parado && (
           <motion.circle
             r={6}
-            fill="#fbbf24"
+            fill="var(--color-sol)"
             animate={{ cx: amostras.map((p) => p.x), cy: amostras.map((p) => p.y) }}
             transition={{ duration: 16, ease: "linear", repeat: Infinity }}
           />
         )}
         <g>
-          <circle cx={pin.x} cy={pin.y} r={9} fill="none" stroke="#fb923c" strokeWidth={2.5}>
+          <circle cx={pin.x} cy={pin.y} r={9} fill="none" stroke="var(--color-laranja)" strokeWidth={2.5}>
             {!parado && <animate attributeName="r" values="9;15;9" dur="2s" repeatCount="indefinite" />}
           </circle>
-          <circle cx={pin.x} cy={pin.y} r={4} fill="#fb923c" />
-          <text {...rotulo} fontSize={12} fontWeight={600} className="text-[16px] sm:text-[13px]" fill="#fb923c">estamos aqui</text>
+          <circle cx={pin.x} cy={pin.y} r={4} fill="var(--color-laranja)" />
+          <text {...rotulo} fontSize={12} fontWeight={600} className="text-[16px] sm:text-[13px]" fill="var(--color-laranja)">estamos aqui</text>
         </g>
         {ESTAGIOS.map((s) => (
-          <text key={s.id} x={20 + ((s.de + s.ate) / 2) * (L - 40)} y={A - 8} textAnchor="middle" fontSize={12} className="max-sm:hidden" fill={sel === s.id ? "#fbbf24" : "#71807a"}>
+          <text key={s.id} x={20 + ((s.de + s.ate) / 2) * (L - 40)} y={A - 8} textAnchor="middle" fontSize={12} className="max-sm:hidden" fill={sel === s.id ? "var(--color-sol)" : "var(--color-texto-3)"}>
             {NOME_ESTAGIO[s.id]}
           </text>
         ))}
@@ -114,24 +114,24 @@ function Onda({ hoje }: { hoje: Estagio }) {
             key={s.id}
             onClick={() => setSel(s.id)}
             aria-pressed={sel === s.id}
-            className={`min-h-11 rounded-full border px-4 py-2 text-sm transition-colors ${sel === s.id ? "border-sol bg-sol/15 text-sol" : "border-terra-700 text-zinc-300 hover:border-zinc-500"}`}
+            className={`min-h-11 rounded-full border px-4 py-2 text-sm transition-colors ${sel === s.id ? "border-tinta bg-tinta/15 text-tinta" : "border-linha text-texto-2 hover:border-texto-4"}`}
           >
             {NOME_ESTAGIO[s.id]}
             {s.id === hoje && " · hoje"}
           </button>
         ))}
       </div>
-      <motion.div key={sel} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-4 rounded-2xl bg-terra-950 p-4 sm:p-5">
-        <p className="font-display text-lg text-zinc-50">{NOME_ESTAGIO[cur.id][0].toUpperCase() + NOME_ESTAGIO[cur.id].slice(1)}</p>
-        <p className="mt-1 text-sm leading-relaxed text-zinc-300">{cur.o_que}</p>
+      <motion.div key={sel} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-4 rounded-2xl bg-fundo p-4 sm:p-5">
+        <p className="font-display text-lg text-texto">{NOME_ESTAGIO[cur.id][0].toUpperCase() + NOME_ESTAGIO[cur.id].slice(1)}</p>
+        <p className="mt-1 text-sm leading-relaxed text-texto-2">{cur.o_que}</p>
         <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
           <div>
-            <dt className="text-xs uppercase tracking-wide text-zinc-400">Quem faz recria ou engorda</dt>
-            <dd className="mt-1 text-zinc-300">{PONTOS_ESTAGIO_ENGORDA[cur.id][1]}</dd>
+            <dt className="text-xs uppercase tracking-wide text-texto-3">Quem faz recria ou engorda</dt>
+            <dd className="mt-1 text-texto-2">{PONTOS_ESTAGIO_ENGORDA[cur.id][1]}</dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-wide text-zinc-400">Quem faz cria</dt>
-            <dd className="mt-1 text-zinc-300">{PONTOS_ESTAGIO_CRIA[cur.id][1]}</dd>
+            <dt className="text-xs uppercase tracking-wide text-texto-3">Quem faz cria</dt>
+            <dd className="mt-1 text-texto-2">{PONTOS_ESTAGIO_CRIA[cur.id][1]}</dd>
           </div>
         </dl>
       </motion.div>
@@ -169,18 +169,18 @@ function Engrenagem() {
                 setRodando(false);
               }}
               aria-current={i === k}
-              className={`relative h-full w-full rounded-2xl border p-4 text-left transition-colors ${i === k ? "border-sol bg-sol/10" : "border-terra-700 bg-terra-950/60 hover:border-zinc-600"}`}
+              className={`relative h-full w-full rounded-2xl border p-4 text-left transition-colors ${i === k ? "border-tinta bg-tinta/10" : "border-linha bg-fundo/60 hover:border-texto-4"}`}
             >
-              <span className={`flex h-7 w-7 items-center justify-center rounded-full text-sm font-semibold ${i === k ? "bg-sol text-terra-950" : "bg-terra-800 text-zinc-300"}`}>{k + 1}</span>
-              <span className="mt-2 block font-medium text-zinc-100">{e.t}</span>
-              <span className="mt-1 block text-sm leading-relaxed text-zinc-400">{e.d}</span>
-              {i === k && !parado && rodando && <motion.span layoutId="barra" className="absolute inset-x-4 bottom-2 h-0.5 origin-left rounded bg-sol" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 2.6, ease: "linear" }} key={`b${i}`} />}
+              <span className={`flex h-7 w-7 items-center justify-center rounded-full text-sm font-semibold ${i === k ? "bg-tinta text-sobre-tinta" : "bg-superficie-2 text-texto-2"}`}>{k + 1}</span>
+              <span className="mt-2 block font-medium text-texto">{e.t}</span>
+              <span className="mt-1 block text-sm leading-relaxed text-texto-3">{e.d}</span>
+              {i === k && !parado && rodando && <motion.span layoutId="barra" className="absolute inset-x-4 bottom-2 h-0.5 origin-left rounded bg-tinta" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 2.6, ease: "linear" }} key={`b${i}`} />}
             </button>
           </li>
         ))}
       </ol>
-      <div className="mt-4 flex items-center gap-4 text-sm text-zinc-400">
-        <button onClick={() => setRodando((v) => !v)} className="min-h-11 shrink-0 rounded-lg border border-terra-700 px-4 py-2 text-zinc-200 hover:border-sol hover:text-sol">
+      <div className="mt-4 flex items-center gap-4 text-sm text-texto-3">
+        <button onClick={() => setRodando((v) => !v)} className="min-h-11 shrink-0 rounded-lg border border-linha px-4 py-2 text-texto-2 hover:border-tinta hover:text-tinta">
           {rodando ? "Pausar" : "Tocar de novo"}
         </button>
         <span>Depois do 6, volta ao 1: por isso é um ciclo.</span>
@@ -208,52 +208,52 @@ function Sinais({ p }: { p: Painel }) {
 
   return (
     <div className="grid gap-4 lg:grid-cols-3">
-      <div className="rounded-2xl bg-terra-950 p-4">
-        <p className="text-xs uppercase tracking-wide text-zinc-400">Sinal 1 · Preço sem a inflação</p>
+      <div className="rounded-2xl bg-fundo p-4">
+        <p className="text-xs uppercase tracking-wide text-texto-3">Sinal 1 · Preço sem a inflação</p>
         <svg viewBox="0 0 320 120" role="img" aria-label={`Preço do boi corrigido pela inflação desde ${mesAno(ini)}, com os picos e vales`} className="mt-2 w-full">
-          <motion.path d={linha} fill="none" stroke="#e7ece9" strokeWidth={2} initial={parado ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2.2, ease: "easeInOut" }} />
+          <motion.path d={linha} fill="none" stroke="var(--color-texto)" strokeWidth={2} initial={parado ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2.2, ease: "easeInOut" }} />
           {pivos.map((v) => {
             const i = serie.findIndex((s) => s.mes === v.mes);
             return i < 0 ? null : (
-              <motion.circle key={v.mes} cx={X(i)} cy={Y(v.boiReal)} r={4.5} fill={v.tipo === "pico" ? "#fbbf24" : "#4ade80"} initial={parado ? false : { opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 1.6, type: "spring" }} />
+              <motion.circle key={v.mes} cx={X(i)} cy={Y(v.boiReal)} r={4.5} fill={v.tipo === "pico" ? "var(--color-sol)" : "var(--color-capim)"} initial={parado ? false : { opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 1.6, type: "spring" }} />
             );
           })}
         </svg>
-        <p className="mt-2 text-sm leading-relaxed text-zinc-300">
-          Um pico (amarelo) ou vale (verde) só conta depois que o preço anda <strong className="text-zinc-100">20%</strong> no sentido contrário. Assim, sobe-e-desce pequeno não vira alarme falso.
+        <p className="mt-2 text-sm leading-relaxed text-texto-2">
+          Um pico (amarelo) ou vale (verde) só conta depois que o preço anda <strong className="text-texto">20%</strong> no sentido contrário. Assim, sobe-e-desce pequeno não vira alarme falso.
         </p>
       </div>
 
-      <div className="rounded-2xl bg-terra-950 p-4">
-        <p className="text-xs uppercase tracking-wide text-zinc-400">Sinal 2 · Vacas no abate</p>
-        <div className="relative mt-8 h-4 rounded-full bg-terra-800" role="img" aria-label={`Vacas são ${pct(fem, 1)} do abate; a média dos últimos 10 anos é ${pct(med, 1)}`}>
+      <div className="rounded-2xl bg-fundo p-4">
+        <p className="text-xs uppercase tracking-wide text-texto-3">Sinal 2 · Vacas no abate</p>
+        <div className="relative mt-8 h-4 rounded-full bg-superficie-2" role="img" aria-label={`Vacas são ${pct(fem, 1)} do abate; a média dos últimos 10 anos é ${pct(med, 1)}`}>
           <motion.div className="h-full rounded-full bg-gradient-to-r from-capim to-sol" initial={parado ? false : { width: 0 }} whileInView={{ width: `${fem * 100 * 1.6}%` }} viewport={{ once: true }} transition={{ duration: 1.4, ease: "easeOut" }} style={parado ? { width: `${fem * 160}%` } : undefined} />
-          <div className="absolute -top-6 whitespace-nowrap text-xs text-zinc-400" style={{ left: `${med * 160}%`, transform: "translateX(-50%)" }}>média {pct(med, 0)}</div>
-          <div className="absolute top-0 h-full w-0.5 bg-zinc-300" style={{ left: `${med * 160}%` }} />
+          <div className="absolute -top-6 whitespace-nowrap text-xs text-texto-3" style={{ left: `${med * 160}%`, transform: "translateX(-50%)" }}>média {pct(med, 0)}</div>
+          <div className="absolute top-0 h-full w-0.5 bg-texto-2" style={{ left: `${med * 160}%` }} />
         </div>
-        <p className="mt-3 font-display text-3xl tabular-nums text-zinc-50">{pct(fem, 1)}</p>
-        <p className="text-xs text-zinc-400">das fêmeas entre os animais abatidos (média de 12 meses)</p>
-        <p className="mt-2 text-sm leading-relaxed text-zinc-300">
+        <p className="mt-3 font-display text-3xl tabular-nums text-texto">{pct(fem, 1)}</p>
+        <p className="text-xs text-texto-3">das fêmeas entre os animais abatidos (média de 12 meses)</p>
+        <p className="mt-2 text-sm leading-relaxed text-texto-2">
           Quando a fatia sobe, o produtor está vendendo vacas e vai nascer menos bezerro. {p.fase.picoVacas ? `O topo desta vez foi em ${mesAno(p.fase.picoVacas.mes)}${p.fase.picoVacas.confirmado ? ", já confirmado." : ", ainda sem confirmar (precisa cair meio ponto)."}` : "O topo desta vez ainda não apareceu."}
         </p>
       </div>
 
-      <div className="rounded-2xl bg-terra-950 p-4">
-        <p className="text-xs uppercase tracking-wide text-zinc-400">Sinal 3 · Quanto 1 boi compra</p>
+      <div className="rounded-2xl bg-fundo p-4">
+        <p className="text-xs uppercase tracking-wide text-texto-3">Sinal 3 · Quanto 1 boi compra</p>
         <div className="mt-3 flex flex-wrap gap-1.5" role="img" aria-label={`1 boi gordo compra ${numero(rt)} bezerros; o normal é ${numero(p.troca.mediana)}`}>
           {Array.from({ length: total }, (_, k) => {
             const parte = Math.min(1, Math.max(0, rt - k));
             return (
-              <motion.span key={k} initial={parado ? false : { opacity: 0, scale: 0.4 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.15 * k, type: "spring" }} className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-dashed border-terra-700 text-lg">
+              <motion.span key={k} initial={parado ? false : { opacity: 0, scale: 0.4 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.15 * k, type: "spring" }} className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-dashed border-linha text-lg">
                 <span className="absolute inset-y-0 left-0 bg-sol/25" style={{ width: `${parte * 100}%` }} />
                 <span className="relative">{parte > 0 ? "🐄" : ""}</span>
               </motion.span>
             );
           })}
         </div>
-        <p className="mt-3 font-display text-3xl tabular-nums text-zinc-50">{numero(rt)} bezerros</p>
-        <p className="text-xs text-zinc-400">normal dos últimos 10 anos: {numero(p.troca.mediana)} (os quadros vazios mostram o que falta para o normal)</p>
-        <p className="mt-2 text-sm leading-relaxed text-zinc-300">
+        <p className="mt-3 font-display text-3xl tabular-nums text-texto">{numero(rt)} bezerros</p>
+        <p className="text-xs text-texto-3">normal dos últimos 10 anos: {numero(p.troca.mediana)} (os quadros vazios mostram o que falta para o normal)</p>
+        <p className="mt-2 text-sm leading-relaxed text-texto-2">
           Conta: 18 @ × {reais(p.hoje.boi, 2)} ÷ {reais(p.hoje.bezerro)} = {numero(rt)}. Quanto mais bezerros o boi paga, mais barata está a reposição para quem engorda.
         </p>
       </div>
@@ -277,21 +277,21 @@ function Decisao({ p }: { p: Painel }) {
         {PERFIS.map((f, k) => {
           const v = veredito(f.id, e);
           return (
-            <motion.div key={f.id} initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 * k }} className="rounded-2xl bg-terra-950 p-4">
-              <p className="font-medium text-zinc-100">{f.nome}</p>
-              <p className="text-xs text-zinc-400">{f.quem}</p>
+            <motion.div key={f.id} initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 * k }} className="rounded-2xl bg-fundo p-4">
+              <p className="font-medium text-texto">{f.nome}</p>
+              <p className="text-xs text-texto-3">{f.quem}</p>
               <p className={`mt-3 inline-block rounded-full border px-3 py-1 text-sm font-medium ${COR_SELO[v.selo]}`}>{TEXTO_SELO[v.selo]}</p>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-300">{v.motivos[0]}</p>
+              <p className="mt-3 text-sm leading-relaxed text-texto-2">{v.motivos[0]}</p>
             </motion.div>
           );
         })}
       </div>
-      <div className="mt-4 grid gap-3 text-sm leading-relaxed text-zinc-300 md:grid-cols-2">
-        <p className="rounded-2xl bg-terra-950 p-4">
-          <strong className="text-zinc-100">O selo é a leitura do ciclo, não a decisão do seu negócio.</strong> Quem compra todo dia decide pela margem: a calculadora da aba Hoje faz essa conta. O selo soma pontos por duas coisas: a fase do ciclo e a relação de troca. A fase pesa mais, porque foi o que mais separou bons e maus negócios nos testes com dados de 2006 a 2026.
+      <div className="mt-4 grid gap-3 text-sm leading-relaxed text-texto-2 md:grid-cols-2">
+        <p className="rounded-2xl bg-fundo p-4">
+          <strong className="text-texto">O selo é a leitura do ciclo, não a decisão do seu negócio.</strong> Quem compra todo dia decide pela margem: a calculadora da aba Hoje faz essa conta. O selo soma pontos por duas coisas: a fase do ciclo e a relação de troca. A fase pesa mais, porque foi o que mais separou bons e maus negócios nos testes com dados de 2006 a 2026.
         </p>
-        <p className="rounded-2xl bg-terra-950 p-4">
-          <strong className="text-zinc-100">Custo da arroba produzida.</strong> Para quem engorda, a conta é: custo por dia ÷ (ganho de peso por dia em kg ÷ 15). O resultado é quanto custa produzir 1 arroba; compare com o preço do boi. A calculadora da aba Hoje usa essa conta e soma compra, frete e juros.
+        <p className="rounded-2xl bg-fundo p-4">
+          <strong className="text-texto">Custo da arroba produzida.</strong> Para quem engorda, a conta é: custo por dia ÷ (ganho de peso por dia em kg ÷ 15). O resultado é quanto custa produzir 1 arroba; compare com o preço do boi. A calculadora da aba Hoje usa essa conta e soma compra, frete e juros.
         </p>
       </div>
     </div>
@@ -312,8 +312,8 @@ export function Conhecimento({ painel: p }: { painel: Painel }) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-display text-3xl text-zinc-50 sm:text-4xl">Como funciona o ciclo pecuário</h2>
-        <p className="mt-3 max-w-2xl text-base leading-relaxed text-zinc-300">
+        <h2 className="font-display text-3xl text-texto sm:text-4xl">Como funciona o ciclo pecuário</h2>
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-texto-2">
           Em 5 passos, sem termo difícil. Cada desenho se mexe para mostrar a ideia, e os números vêm dos dados de hoje. Hoje o ciclo está em{" "}
           <strong className="text-sol">{NOME_ESTAGIO[hoje]}</strong>.
         </p>
@@ -336,26 +336,26 @@ export function Conhecimento({ painel: p }: { painel: Painel }) {
       </Passo>
 
       <Passo n={5} titulo="O que a Bússola não sabe" resumo="Ela é uma leitura estatística, não uma bola de cristal. Três avisos honestos:">
-        <ul className="space-y-3 text-sm leading-relaxed text-zinc-300">
-          <li className="rounded-2xl bg-terra-950 p-4">
-            <strong className="text-zinc-100">Poucos ciclos.</strong> Temos dados do boi desde 1997, mas só os 3 ciclos completos desde 2006 entram nas contas: o de 1998–2006 foi atípico e piorou os testes. A janela do próximo pico é uma estimativa, não uma data.
+        <ul className="space-y-3 text-sm leading-relaxed text-texto-2">
+          <li className="rounded-2xl bg-fundo p-4">
+            <strong className="text-texto">Poucos ciclos.</strong> Temos dados do boi desde 1997, mas só os 3 ciclos completos desde 2006 entram nas contas: o de 1998–2006 foi atípico e piorou os testes. A janela do próximo pico é uma estimativa, não uma data.
           </li>
-          <li className="rounded-2xl bg-terra-950 p-4">
-            <strong className="text-zinc-100">Previsão curta é difícil.</strong> Em 3 meses o modelo empata com o palpite “o preço fica onde está”. Ele ajuda mais em 1 ano. A aba <em>Previsão</em> mostra os testes.
+          <li className="rounded-2xl bg-fundo p-4">
+            <strong className="text-texto">Previsão curta é difícil.</strong> Em 3 meses o modelo empata com o palpite “o preço fica onde está”. Ele ajuda mais em 1 ano. A aba <em>Previsão</em> mostra os testes.
           </li>
-          <li className="rounded-2xl bg-terra-950 p-4">
-            <strong className="text-zinc-100">Surpresas existem.</strong> Uma tarifa, um embargo ou uma seca podem mexer no preço fora do ciclo. As notícias da semana aparecem na aba <em>Notícias</em>, mas ainda não entram na conta.
+          <li className="rounded-2xl bg-fundo p-4">
+            <strong className="text-texto">Surpresas existem.</strong> Uma tarifa, um embargo ou uma seca podem mexer no preço fora do ciclo. As notícias da semana aparecem na aba <em>Notícias</em>, mas ainda não entram na conta.
           </li>
         </ul>
       </Passo>
 
-      <section aria-labelledby="gloss" className="rounded-3xl border border-terra-700 p-5 sm:p-8">
-        <h3 id="gloss" className="font-display text-xl text-zinc-50">Palavras que aparecem no site</h3>
+      <section aria-labelledby="gloss" className="rounded-3xl border border-linha p-5 sm:p-8">
+        <h3 id="gloss" className="font-display text-xl text-texto">Palavras que aparecem no site</h3>
         <dl className="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
           {GLOSSARIO.map(([t, d]) => (
             <div key={t}>
-              <dt className="font-medium text-zinc-100">{t}</dt>
-              <dd className="mt-0.5 text-sm leading-relaxed text-zinc-400">{d}</dd>
+              <dt className="font-medium text-texto">{t}</dt>
+              <dd className="mt-0.5 text-sm leading-relaxed text-texto-3">{d}</dd>
             </div>
           ))}
         </dl>

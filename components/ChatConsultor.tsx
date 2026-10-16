@@ -151,15 +151,15 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
   };
 
   return (
-    <div className="flex h-[36rem] flex-col rounded-2xl border border-terra-700 bg-terra-900">
-      <header className="flex items-center justify-between border-b border-terra-700 px-4 py-3">
+    <div className="flex h-[36rem] flex-col rounded-2xl border border-linha bg-superficie">
+      <header className="flex items-center justify-between border-b border-linha px-4 py-3">
         <div className="min-w-0">
-          <p className="font-display text-lg text-zinc-100">Consultor do Ciclo</p>
-          <p className="text-xs text-zinc-400">{iaLigada ? <>IA ligada<span className="hidden sm:inline"> · {(config.chave && config.modelo) || servidor.modelo}</span></> : "Roteiro com as regras do app"}</p>
+          <p className="font-display text-lg text-texto">Consultor do Ciclo</p>
+          <p className="text-xs text-texto-3">{iaLigada ? <>IA ligada<span className="hidden sm:inline"> · {(config.chave && config.modelo) || servidor.modelo}</span></> : "Roteiro com as regras do app"}</p>
         </div>
         <div className="flex shrink-0 gap-1">
           {pronto && (
-            <button onClick={recomecar} className="min-h-11 rounded-lg px-3 text-sm text-zinc-400 hover:bg-terra-800 hover:text-zinc-100">
+            <button onClick={recomecar} className="min-h-11 rounded-lg px-3 text-sm text-texto-3 hover:bg-superficie-2 hover:text-texto">
               Refazer<span className="hidden sm:inline"> perguntas</span>
             </button>
           )}
@@ -167,7 +167,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
             onClick={() => setAbrirConfig((v) => !v)}
             aria-expanded={abrirConfig}
             aria-label="Configurar IA"
-            className="flex h-11 w-11 items-center justify-center rounded-lg text-zinc-400 hover:bg-terra-800 hover:text-zinc-100"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-texto-3 hover:bg-superficie-2 hover:text-texto"
           >
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
               <circle cx="12" cy="12" r="3" />
@@ -183,7 +183,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
           <div className="mt-3">
             <GuiaChave />
           </div>
-          <button onClick={() => setAbrirConfig(true)} className="mt-3 h-11 rounded-lg bg-sol px-4 text-sm font-semibold text-terra-950">
+          <button onClick={() => setAbrirConfig(true)} className="mt-3 h-11 rounded-lg bg-tinta px-4 text-sm font-semibold text-sobre-tinta">
             Abrir a engrenagem
           </button>
         </div>
@@ -195,7 +195,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-b border-terra-700 bg-terra-950/60"
+            className="overflow-hidden border-b border-linha bg-fundo/60"
             onSubmit={(e) => {
               e.preventDefault();
               gravar(CHAVE_OR, config);
@@ -204,26 +204,26 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
           >
             <div className="space-y-3 p-4 text-sm">
               <label className="block">
-                <span className="text-xs text-zinc-400">Chave do OpenRouter (fica só neste navegador)</span>
+                <span className="text-xs text-texto-3">Chave do OpenRouter (fica só neste navegador)</span>
                 <input
                   type="password"
                   autoComplete="off"
                   value={config.chave}
                   onChange={(e) => setConfig({ ...config, chave: e.target.value })}
                   placeholder="sk-or-..."
-                  className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
+                  className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base"
                 />
               </label>
               <label className="block">
-                <span className="text-xs text-zinc-400">Modelo (pode deixar vazio)</span>
+                <span className="text-xs text-texto-3">Modelo (pode deixar vazio)</span>
                 <input
                   value={config.modelo}
                   onChange={(e) => setConfig({ ...config, modelo: e.target.value })}
                   placeholder={servidor.modelo || "empresa/modelo"}
-                  className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
+                  className="mt-1 h-11 w-full rounded-lg border border-linha bg-fundo px-3 text-base"
                 />
               </label>
-              <button className="h-11 rounded-lg bg-sol px-5 text-sm font-semibold text-terra-950">Salvar</button>
+              <button className="h-11 rounded-lg bg-tinta px-5 text-sm font-semibold text-sobre-tinta">Salvar</button>
             </div>
           </motion.form>
         )}
@@ -236,7 +236,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             className={`max-w-[88%] whitespace-pre-line rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
-              m.de === "voce" ? "ml-auto bg-sol/15 text-zinc-100" : "bg-terra-800 text-zinc-200"
+              m.de === "voce" ? "ml-auto bg-tinta/15 text-texto" : "bg-superficie-2 text-texto-2"
             }`}
           >
             {m.texto}
@@ -244,13 +244,13 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
         ))}
         {!pronto && passo >= 0 && (
           <div className="space-y-2">
-            <div className="max-w-[88%] rounded-2xl bg-terra-800 px-4 py-2.5 text-sm text-zinc-200">{PERGUNTAS[passo].texto}</div>
+            <div className="max-w-[88%] rounded-2xl bg-superficie-2 px-4 py-2.5 text-sm text-texto-2">{PERGUNTAS[passo].texto}</div>
             {PERGUNTAS[passo].campo === "uf" ? (
               <select
                 defaultValue=""
                 onChange={(e) => e.target.value && responder(e.target.value)}
                 aria-label="Estado"
-                className="h-11 w-full max-w-xs rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
+                className="h-11 w-full max-w-xs rounded-lg border border-linha bg-fundo px-3 text-base"
               >
                 <option value="" disabled>
                   Escolha o estado
@@ -265,7 +265,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
                   <button
                     key={o}
                     onClick={() => responder(o)}
-                    className="min-h-11 rounded-full border border-terra-700 px-4 py-2 text-sm text-zinc-200 transition-colors hover:border-sol hover:text-sol"
+                    className="min-h-11 rounded-full border border-linha px-4 py-2 text-sm text-texto-2 transition-colors hover:border-tinta hover:text-tinta"
                   >
                     {o}
                   </button>
@@ -274,20 +274,20 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
             )}
           </div>
         )}
-        {pensando && <p className="text-xs text-zinc-400">Consultor pensando…</p>}
+        {pensando && <p className="text-xs text-texto-3">Consultor pensando…</p>}
         <div ref={fim} />
       </div>
 
       {pronto && (
-        <form onSubmit={enviar} className="flex gap-2 border-t border-terra-700 p-3">
+        <form onSubmit={enviar} className="flex gap-2 border-t border-linha p-3">
           <input
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
             placeholder="Pergunte sobre o seu caso…"
             aria-label="Sua pergunta"
-            className="h-11 min-w-0 flex-1 rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
+            className="h-11 min-w-0 flex-1 rounded-lg border border-linha bg-fundo px-3 text-base"
           />
-          <button disabled={pensando} className="h-11 rounded-lg bg-sol px-4 text-sm font-semibold text-terra-950 disabled:opacity-50">
+          <button disabled={pensando} className="h-11 rounded-lg bg-tinta px-4 text-sm font-semibold text-sobre-tinta disabled:opacity-50">
             Enviar
           </button>
         </form>

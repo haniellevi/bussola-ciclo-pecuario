@@ -15,10 +15,10 @@ import { estagio, NOME_ESTAGIO, relacaoTroca } from "@/lib/veredito";
 function Secao({ id, titulo, sub, children }: { id: string; titulo: string; sub?: string; children: React.ReactNode }) {
   return (
     <section id={id} aria-labelledby={`${id}-t`} className="mt-14 first:mt-0">
-      <h2 id={`${id}-t`} className="font-display text-2xl text-zinc-50 sm:text-3xl">
+      <h2 id={`${id}-t`} className="font-display text-2xl text-texto sm:text-3xl">
         {titulo}
       </h2>
-      {sub && <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">{sub}</p>}
+      {sub && <p className="mt-2 max-w-2xl text-sm leading-relaxed text-texto-3">{sub}</p>}
       <div className="mt-6">{children}</div>
     </section>
   );
@@ -51,23 +51,23 @@ export default function Pagina() {
 
   const hoje = (
     <>
-      <h1 className="max-w-3xl font-display text-4xl leading-tight text-zinc-50 sm:text-5xl">
+      <h1 className="max-w-3xl font-display text-4xl leading-tight text-texto sm:text-5xl">
         O ciclo do boi está em <span className={p.fase.sobe ? "text-capim" : "text-alerta"}>{NOME_ESTAGIO[est]}</span>.
       </h1>
-      <ul className="mt-5 max-w-2xl space-y-2 text-base leading-relaxed text-zinc-300">
+      <ul className="mt-5 max-w-2xl space-y-2 text-base leading-relaxed text-texto-2">
         {leitura.map((l) => (
           <li key={l} className="flex gap-3">
-            <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sol" />
+            <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-texto-4" />
             <span>{l}</span>
           </li>
         ))}
       </ul>
-      <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-terra-700 bg-terra-700 lg:grid-cols-4">
+      <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-linha bg-linha lg:grid-cols-4">
         {numeros.map((n) => (
-          <div key={n.rotulo} className="bg-terra-900 p-3 sm:p-5">
-            <dt className="text-xs text-zinc-400">{n.rotulo}</dt>
-            <dd className="mt-1 whitespace-nowrap font-display text-xl tabular-nums text-zinc-50 sm:text-2xl">{n.valor}</dd>
-            <dd className="mt-0.5 text-xs text-zinc-400">{n.nota}</dd>
+          <div key={n.rotulo} className="bg-superficie p-3 sm:p-5">
+            <dt className="text-xs text-texto-3">{n.rotulo}</dt>
+            <dd className="mt-1 whitespace-nowrap font-display text-xl tabular-nums text-texto sm:text-2xl">{n.valor}</dd>
+            <dd className="mt-0.5 text-xs text-texto-3">{n.nota}</dd>
           </div>
         ))}
       </dl>
@@ -78,14 +78,14 @@ export default function Pagina() {
         </Secao>
         <Secao id="onda" titulo="A onda do ciclo" sub="Preço real do boi gordo desde 1997, corrigido pela inflação. Toque ou passe o mouse para ver cada mês.">
           <CicloOnda serie={p.serie} pivos={p.pivos} fase={p.fase} hoje={p.hoje} previsaoBoi={prevBoi} />
-          <details className="mt-6 max-w-3xl text-sm leading-relaxed text-zinc-400">
-            <summary className="cursor-pointer text-zinc-300 hover:text-sol">Como a Bússola percebe a virada do ciclo</summary>
+          <details className="mt-6 max-w-3xl text-sm leading-relaxed text-texto-3">
+            <summary className="cursor-pointer text-texto-2 hover:text-tinta">Como a Bússola percebe a virada do ciclo</summary>
             <p className="mt-3">
               Picos e vales só contam depois que o preço anda 20% no sentido contrário. Além do preço, olhamos as vacas no abate (média de 12 meses):{" "}
-              <strong className="text-zinc-200">{pct(p.fase.femeas ?? 0, 1)}</strong>, contra {pct(p.fase.femeasMedia10, 1)} nos últimos 10 anos. Quando muitas vacas vão
+              <strong className="text-texto-2">{pct(p.fase.femeas ?? 0, 1)}</strong>, contra {pct(p.fase.femeasMedia10, 1)} nos últimos 10 anos. Quando muitas vacas vão
               para o abate, nascem menos bezerros depois. O nível sozinho não marca a virada, mas a mudança de direção sim: nos ciclos de 2006 a 2023, cada pico de vacas no abate veio antes
               de um pico do boi, sem sinal falso. A virada só conta quando a fatia cai meio ponto a partir do topo, e o IBGE publica com 3 meses de atraso.{" "}
-              <span className="text-zinc-400">Veja o passo a passo na aba Conhecimento.</span>
+              <span className="text-texto-3">Veja o passo a passo na aba Aprender.</span>
             </p>
           </details>
         </Secao>
@@ -96,10 +96,17 @@ export default function Pagina() {
   return (
     <>
       <AvisoChave />
-      <header className="mx-auto max-w-6xl px-4 pb-5 pt-6 sm:px-6">
-        <p className="text-xs font-medium uppercase tracking-[0.2em] text-sol">Bússola do Ciclo Pecuário</p>
-      </header>
       <Abas
+        marca={
+          <p className="flex items-center gap-2 text-sm font-semibold text-texto">
+            <svg aria-hidden viewBox="0 0 32 32" className="h-6 w-6">
+              <rect width="32" height="32" rx="8" className="fill-superficie-2" />
+              <path d="M4 22c4-10 7-10 10-2s6 8 9-1 4-8 5-7" fill="none" className="stroke-capim" strokeWidth={3} strokeLinecap="round" />
+              <circle cx="27" cy="12" r="2.6" className="fill-laranja" />
+            </svg>
+            Bússola do Ciclo Pecuário
+          </p>
+        }
         abas={[
           { id: "hoje", rotulo: "Hoje", conteudo: hoje },
           {
@@ -131,7 +138,7 @@ export default function Pagina() {
                 },
               ]
             : []),
-          { id: "conhecimento", rotulo: "Conhecimento", conteudo: <Conhecimento painel={p} /> },
+          { id: "conhecimento", rotulo: "Aprender", conteudo: <Conhecimento painel={p} /> },
           {
             id: "consultor",
             rotulo: "Consultor",
@@ -145,15 +152,15 @@ export default function Pagina() {
           },
         ]}
       />
-      <footer className="mx-auto max-w-6xl border-t border-terra-800 px-4 py-10 text-xs leading-relaxed text-zinc-400 sm:px-6">
+      <footer className="mx-auto max-w-6xl border-t border-linha px-4 pb-28 pt-10 text-xs leading-relaxed text-texto-3 sm:px-6 sm:pb-10">
         <p className="max-w-3xl">
-          <strong className="text-zinc-400">Aviso:</strong> esta é uma ferramenta de simulação estatística e de leitura de tendências de mercado, feita com dados
+          <strong className="text-texto-3">Aviso:</strong> esta é uma ferramenta de simulação estatística e de leitura de tendências de mercado, feita com dados
           públicos. Não é recomendação de investimento nem garantia de preço. Decisões de compra e venda são de quem as toma.
         </p>
         <p className="mt-3">
           Fontes: {p.fontes}. Atualizado em {dataBr(p.geradoEm.slice(0, 10))}
           {p.previsao && `, previsão da semana ${p.previsao.semana}`}. Código e histórico de previsões:{" "}
-          <a className="underline underline-offset-2 hover:text-sol" href="https://github.com/haniellevi/bussola-ciclo-pecuario">GitHub</a>.
+          <a className="underline underline-offset-2 hover:text-tinta" href="https://github.com/haniellevi/bussola-ciclo-pecuario">GitHub</a>.
         </p>
       </footer>
     </>
