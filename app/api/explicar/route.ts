@@ -102,12 +102,13 @@ export async function POST(req: Request) {
           role: "system",
           content:
             "Você explica, em português do Brasil simples, o resultado de uma conta de pecuária para quem não é técnico. Use só os números do bloco DADOS, sem inventar nada. " +
-            `Em no máximo 5 linhas: (1) comece exatamente com "${rotulo}:" e diga quanto sobra ou falta ${unidade}; (2) diga o maior custo exatamente como em "Maior custo" e, se ajudar, a leitura do Jev; (3) diga o que precisaria mudar (${mudanca}); (4) diga se o ciclo é risco para este caso. ` +
+            `Em no máximo 5 linhas: (1) comece exatamente com "${rotulo}:" e diga quanto sobra ou falta ${unidade}; (2) numa frase só, diga o maior gasto exatamente como em "Maior gasto" e, se "O que mais aperta" vier preenchido e for outra coisa, ligue os dois sem se contradizer ("O maior gasto é ..., mas o que mais aperta a conta é ..."); (3) diga o que precisaria mudar (${mudanca}); (4) diga se o ciclo é risco para este caso. ` +
+            "Nunca cite nomes de modelos, IA, sistemas ou de onde veio cada leitura: fale só da conta. " +
             "Nunca diga para não comprar de forma absoluta: quem compra todo dia precisa decidir onde e a que preço. Não é recomendação de investimento.",
         },
         {
           role: "user",
-          content: `DADOS: ${JSON.stringify(estado)}\nMaior custo: ${nomeParte(e.estrutura, r.principal)}, ${brl(r.partes[r.principal])} ${unidade}\nLeitura do Jev: ${causa ? CAUSAS[causa as keyof typeof CAUSAS] : "n/d"}\nCiclo pesa no resultado: ${cicloPesa == null ? "n/d" : cicloPesa ? "sim" : "não"}`,
+          content: `DADOS: ${JSON.stringify(estado)}\nMaior gasto: ${nomeParte(e.estrutura, r.principal)}, ${brl(r.partes[r.principal])} ${unidade}\nO que mais aperta: ${causa && causa !== "nenhuma" ? CAUSAS[causa as keyof typeof CAUSAS] : "(vazio)"}\nCiclo pesa no resultado: ${cicloPesa == null ? "n/d" : cicloPesa ? "sim" : "não"}`,
         },
       ],
     }),
