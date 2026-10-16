@@ -41,6 +41,7 @@ export async function POST(req: Request) {
 
   const estado = {
     estrutura: NOME_ESTRUTURA[e.estrutura],
+    resultado: r.selo === "compensa" ? "compensa" : r.selo === "apertada" ? "margem apertada" : "não compensa",
     conta: e.estrutura === "cria" ? "por matriz no ano" : "por cabeça",
     margem_reais: Math.round(r.margem),
     retorno_sobre_capital_pct: +(r.retorno * 100).toFixed(1),
@@ -103,7 +104,7 @@ export async function POST(req: Request) {
           role: "system",
           content:
             "Você explica, em português do Brasil simples, o resultado de uma conta de pecuária para quem não é técnico. Use só os números do bloco DADOS, sem inventar nada. " +
-            `Em no máximo 5 linhas: (1) diga se compensa e quanto sobra ou falta ${unidade}; (2) diga o que mais pesa e em quanto; (3) diga o que precisaria mudar (${mudanca}); (4) diga se o ciclo é risco para este caso. ` +
+            `Em no máximo 5 linhas: (1) diga o resultado com as mesmas palavras do campo "resultado" (compensa, margem apertada ou não compensa) e quanto sobra ou falta ${unidade}; (2) diga o que mais pesa e em quanto; (3) diga o que precisaria mudar (${mudanca}); (4) diga se o ciclo é risco para este caso. ` +
             "Nunca diga para não comprar de forma absoluta: quem compra todo dia precisa decidir onde e a que preço. Não é recomendação de investimento.",
         },
         {
