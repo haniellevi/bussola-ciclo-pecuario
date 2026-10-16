@@ -8,6 +8,7 @@ import { calcular, custoArroba, NOME_ESTRUTURA, nomeParte, type Entradas, type E
 import type { CategoriaReposicao, Painel } from "@/lib/painel";
 import { descreverEstagio } from "@/lib/veredito";
 import { entradaDoPainel } from "@/lib/entrada";
+import { EVENTO_HISTORICO, gravarHistorico, historicoCsv, lerHistorico, type Registro } from "@/lib/historico";
 
 // O Consultor grava aqui o perfil que a pessoa informou (usado só para lembrar a estrutura preferida).
 export const CHAVE_PERFIL = "bussola:perfil";
@@ -232,6 +233,9 @@ export function Decisao({ painel }: { painel: Painel }) {
   const [passo, setPasso] = useState(0);
   const [ufEntrada, setUfEntrada] = useState("");
   const [mexeu, setMexeu] = useState(false); // só move a tela depois que a pessoa tocou em algo
+  const [aberto, setAberto] = useState(false); // a calculadora só abre se a pessoa quiser
+  const [historico, setHistorico] = useState<Registro[]>([]);
+  const [guardado, setGuardado] = useState<{ para: string; id: string; decisao: string } | null>(null);
   const topo = useRef<HTMLDivElement>(null);
   const pergunta = useRef<HTMLHeadingElement>(null);
   const alteradosAvancados =
@@ -295,7 +299,10 @@ export function Decisao({ painel }: { painel: Painel }) {
     if (typeof s.cargaKg === "number") setCargaKg(s.cargaKg);
     const est = s.estrutura && ESTRUTURAS_ID.includes(s.estrutura) ? s.estrutura : "recria";
     aplicar(est, uf, s.por?.[est]);
-    if (s.por?.[est]?.meus) setPasso(PASSOS[est].length); // já respondeu antes: abre no resultado
+    if (s.por?.[est]?.meus) {
+      setPasso(PASSOS[est].length); // já respondeu antes: abre no resultado
+      setAberto(true);
+    }
     setCarregou(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -309,6 +316,13 @@ export function Decisao({ painel }: { painel: Painel }) {
       localStorage.setItem(CHAVE_ESTADO, JSON.stringify({ ...s, estrutura, ufFazenda, cidade, rsKm, cargaKg, por: { ...s.por, [estrutura]: atual } }));
     } catch {}
   }, [carregou, estrutura, ufFazenda, cidade, rsKm, cargaKg, digitados, regiao, categoriaEscolhida, categoria, pracaVenda, ufCompra, freteManual, meus]);
+
+  useEffect(() => {
+    const ler = () => setHistorico(lerHistorico());
+    ler();
+    window.addEventListener(EVENTO_HISTORICO, ler);
+    return () => window.removeEventListener(EVENTO_HISTORICO, ler);
+  }, []);
 
   // A cada pergunta: leva a tela para o começo do cartão e o foco para a pergunta.
   useEffect(() => {
@@ -547,6 +561,33 @@ export function Decisao({ painel }: { painel: Painel }) {
   // Campos de exemplo que a pessoa nunca viu nem mudou (ficam em "Outros números").
   const exemploEscondido = EXEMPLO[estrutura].campos.filter((k) => AVANCADOS[estrutura].campos.includes(k) && !(k in digitados)).map((k) => NOME_CAMPO[k]);
 
+  const margemTexto = `${r.margem >= 0 ? reais(r.margem) : `−${reais(-r.margem)}`} por ${estrutura === "cria" ? "vaca/ano" : "cabeça"}`;
+  function registrar(decisao: string) {
+    const reg: Registro = {
+      id: Date.now().toString(36),
+      data: new Date().toLocaleDateString("sv-SE"), // AAAA-MM-DD no fuso do aparelho
+      titulo: `${NOME_ESTRUTURA[estrutura]} em ${resposta.local}`,
+      veredito: `${ROTULO_SELO[r.selo]}, ${margemTexto}`,
+      decisao,
+      detalhe: lista.slice(2).map((p) => resposta[p]).join(" · "),
+    };
+    gravarHistorico([reg, ...lerHistorico()]);
+    setGuardado({ para: snapshot, id: reg.id, decisao });
+  }
+  function desfazer() {
+    if (!guardado) return;
+    gravarHistorico(lerHistorico().filter((x) => x.id !== guardado.id));
+    setGuardado(null);
+  }
+  function baixar() {
+    const url = URL.createObjectURL(new Blob(["\ufeff" + historicoCsv(historico)], { type: "text/csv;charset=utf-8" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "minhas-decisoes-bussola.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   const escolhaAnimal = usaReposicao && (
     <div className="flex flex-wrap gap-2">
       {(Object.keys(rep!.categorias) as CategoriaReposicao[]).map((c) => (
@@ -570,6 +611,29 @@ export function Decisao({ painel }: { painel: Painel }) {
       </select>
     </label>
   );
+
+  if (!aberto)
+    return (
+      <div className="rounded-3xl border border-tinta/30 bg-tinta/5 p-6 sm:p-8">
+        <h2 className="font-display text-2xl text-texto sm:text-3xl">Vale a pena comprar agora?</h2>
+        <p className="mt-2 text-base text-texto-2">Responda até 6 perguntas rápidas e veja se a conta fecha para você.</p>
+        <button
+          type="button"
+          onClick={() => {
+            setAberto(true);
+            setMexeu(true);
+          }}
+          className="mt-5 h-12 w-full rounded-xl bg-tinta px-6 text-base font-semibold text-sobre-tinta hover:brightness-110 sm:w-auto"
+        >
+          Fazer a conta
+        </button>
+        {historico.length > 0 && (
+          <p className="mt-3 text-sm text-texto-3">
+            Você tem {historico.length} {historico.length === 1 ? "conta guardada" : "contas guardadas"}. Elas aparecem na onda do ciclo.
+          </p>
+        )}
+      </div>
+    );
 
   return (
     <div ref={topo} className="mx-auto max-w-xl scroll-mt-24">
@@ -732,6 +796,31 @@ export function Decisao({ painel }: { painel: Painel }) {
             </dl>
             {exemploEscondido.length > 0 && <p className="mt-3 text-xs text-texto-3">Usamos exemplo para {exemploEscondido.join(", ")}. Ajuste em &quot;Outros números&quot;.</p>}
           </article>
+
+          <div className="rounded-3xl border border-linha bg-superficie p-5">
+            {guardado && guardado.para === snapshot ? (
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <p className="flex-1 text-texto">
+                  <span className="text-capim">✓</span> Guardado: <strong>{guardado.decisao}</strong>. Aparece na onda do ciclo e em &quot;Minhas decisões&quot;.
+                </p>
+                <button type="button" onClick={desfazer} className="min-h-11 text-sm text-tinta">
+                  Desfazer
+                </button>
+              </div>
+            ) : (
+              <>
+                <p className="font-medium text-texto">O que você vai fazer?</p>
+                <p className="text-sm text-texto-3">Um toque guarda esta conta no seu histórico, só neste aparelho.</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {["Vou comprar", "Vou esperar", "Só simulando"].map((op) => (
+                    <button key={op} type="button" onClick={() => registrar(op)} className="min-h-11 rounded-full border border-linha px-4 text-sm text-texto hover:border-tinta hover:text-tinta">
+                      {op}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
 
           <div className="divide-y divide-linha overflow-hidden rounded-3xl border border-linha bg-superficie">
             <Item titulo="Suas respostas" resumo="Toque para mudar">
@@ -959,6 +1048,36 @@ export function Decisao({ painel }: { painel: Painel }) {
                 </div>
               )}
             </Item>
+
+            {historico.length > 0 && (
+              <Item titulo="Minhas decisões" resumo={`${historico.length} ${historico.length === 1 ? "conta guardada" : "contas guardadas"}`}>
+                <ul className="divide-y divide-linha">
+                  {historico.map((h) => (
+                    <li key={h.id} className="flex items-start gap-3 py-2.5">
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-xs text-texto-3">
+                          {h.data.split("-").reverse().join("/")} · {h.decisao}
+                        </span>
+                        <span className="block text-texto">{h.titulo}</span>
+                        <span className="block text-sm text-texto-2">{h.veredito}</span>
+                      </span>
+                      <button
+                        type="button"
+                        aria-label={`Apagar a conta de ${h.data.split("-").reverse().join("/")}`}
+                        onClick={() => gravarHistorico(lerHistorico().filter((x) => x.id !== h.id))}
+                        className="min-h-11 shrink-0 px-2 text-sm text-texto-3 hover:text-alerta"
+                      >
+                        Apagar
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <button type="button" onClick={baixar} className={`mt-2 ${usarCls}`}>
+                  Baixar planilha
+                </button>
+                <p className="mt-2 text-xs text-texto-3">Fica só neste aparelho. Se trocar de celular ou limpar o navegador, perde. Baixe a planilha para guardar.</p>
+              </Item>
+            )}
 
             <Item titulo="Explicar com IA" resumo={explicacao ? (desatualizada ? "Desatualizada" : "Pronta") : "Um texto sobre a sua conta"}>
               {explicacao ? (

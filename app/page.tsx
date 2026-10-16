@@ -50,21 +50,25 @@ export default function Pagina() {
   ].filter(Boolean) as string[];
 
   const hoje = (
-    <>
-      <h1 className="max-w-3xl font-display text-4xl leading-tight text-texto sm:text-5xl">
-        O ciclo do boi está em <span className={p.fase.sobe ? "text-capim" : "text-alerta"}>{NOME_ESTAGIO[est]}</span>.
-      </h1>
-      <ul className="mt-5 max-w-2xl space-y-2 text-base leading-relaxed text-texto-2">
-        {leitura.map((l) => (
-          <li key={l} className="flex gap-3">
-            <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-texto-4" />
-            <span>{l}</span>
-          </li>
-        ))}
-      </ul>
-      <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-linha bg-linha lg:grid-cols-4">
+    <div className="space-y-6">
+      <header>
+        <h1 className="max-w-3xl font-display text-3xl leading-tight text-texto sm:text-5xl">
+          O ciclo do boi está em <span className={p.fase.sobe ? "text-capim" : "text-alerta"}>{NOME_ESTAGIO[est]}</span>.
+        </h1>
+        <p className="mt-2 max-w-2xl text-base text-texto-2">
+          {p.fase.sobe ? "Sobe" : "Cai"} há {p.fase.meses} meses.
+          {p.fase.sobe && p.fase.janela ? ` Se o passado se repetir, o pico vem entre ${mesAno(p.fase.janela.de)} e ${mesAno(p.fase.janela.ate)}.` : ""}
+        </p>
+      </header>
+
+      {/* A onda é o centro da página: um cartão próprio, logo no topo */}
+      <section id="onda" aria-label="A onda do ciclo" className="rounded-3xl border border-linha bg-superficie p-4 sm:p-6">
+        <CicloOnda serie={p.serie} pivos={p.pivos} fase={p.fase} hoje={p.hoje} previsaoBoi={prevBoi} />
+      </section>
+
+      <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {numeros.map((n) => (
-          <div key={n.rotulo} className="bg-superficie p-3 sm:p-5">
+          <div key={n.rotulo} className="rounded-2xl border border-linha bg-superficie p-4">
             <dt className="text-xs text-texto-3">{n.rotulo}</dt>
             <dd className="mt-1 whitespace-nowrap font-display text-xl tabular-nums text-texto sm:text-2xl">{n.valor}</dd>
             <dd className="mt-0.5 text-xs text-texto-3">{n.nota}</dd>
@@ -72,25 +76,32 @@ export default function Pagina() {
         ))}
       </dl>
 
-      <div className="mt-14">
-        <Secao id="decisao" titulo="Vale a pena?" sub="Responda algumas perguntas rápidas e veja se a conta fecha.">
-          <Decisao painel={p} />
-        </Secao>
-        <Secao id="onda" titulo="A onda do ciclo" sub="Preço real do boi gordo desde 1997, corrigido pela inflação. Toque ou passe o mouse para ver cada mês.">
-          <CicloOnda serie={p.serie} pivos={p.pivos} fase={p.fase} hoje={p.hoje} previsaoBoi={prevBoi} />
-          <details className="mt-6 max-w-3xl text-sm leading-relaxed text-texto-3">
-            <summary className="cursor-pointer text-texto-2 hover:text-tinta">Como a Bússola percebe a virada do ciclo</summary>
-            <p className="mt-3">
-              Picos e vales só contam depois que o preço anda 20% no sentido contrário. Além do preço, olhamos as vacas no abate (média de 12 meses):{" "}
-              <strong className="text-texto-2">{pct(p.fase.femeas ?? 0, 1)}</strong>, contra {pct(p.fase.femeasMedia10, 1)} nos últimos 10 anos. Quando muitas vacas vão
-              para o abate, nascem menos bezerros depois. O nível sozinho não marca a virada, mas a mudança de direção sim: nos ciclos de 2006 a 2023, cada pico de vacas no abate veio antes
-              de um pico do boi, sem sinal falso. A virada só conta quando a fatia cai meio ponto a partir do topo, e o IBGE publica com 3 meses de atraso.{" "}
-              <span className="text-texto-3">Veja o passo a passo na aba Aprender.</span>
-            </p>
-          </details>
-        </Secao>
-      </div>
-    </>
+      <section id="decisao" aria-label="Vale a pena comprar agora?" className="scroll-mt-20">
+        <Decisao painel={p} />
+      </section>
+
+      <details className="group rounded-3xl border border-linha bg-superficie-2/60 p-5 sm:p-6">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 font-medium text-texto [&::-webkit-details-marker]:hidden">
+          Por que dizemos que está em {NOME_ESTAGIO[est]}?
+          <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-texto-4 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="m9 6 6 6-6 6" />
+          </svg>
+        </summary>
+        <ul className="mt-3 max-w-2xl space-y-2 text-base leading-relaxed text-texto-2">
+          {leitura.map((l) => (
+            <li key={l} className="flex gap-3">
+              <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-texto-4" />
+              <span>{l}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-texto-3">
+          Picos e vales só contam depois que o preço anda 20% no sentido contrário. Também olhamos as vacas no abate (média de 12 meses):{" "}
+          <strong className="text-texto-2">{pct(p.fase.femeas ?? 0, 1)}</strong>, contra {pct(p.fase.femeasMedia10, 1)} nos últimos 10 anos. Quando muitas vacas vão para o abate,
+          nascem menos bezerros depois. Nos ciclos de 2006 a 2023, cada virada no abate de vacas veio antes de um pico do boi. O IBGE publica com 3 meses de atraso. Passo a passo na aba Aprender.
+        </p>
+      </details>
+    </div>
   );
 
   return (
