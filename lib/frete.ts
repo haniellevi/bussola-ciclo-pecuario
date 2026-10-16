@@ -12,14 +12,57 @@ export const UFS = Object.keys(CAPITAIS);
 export const FATOR_ESTRADA = 1.3; // a estrada é mais comprida que a linha reta
 export const KM_DENTRO_DO_ESTADO = 150;
 
-export function distanciaKm(de: string, para: string): number {
-  if (de === para) return KM_DENTRO_DO_ESTADO;
-  const a = CAPITAIS[de], b = CAPITAIS[para];
-  if (!a || !b) return NaN;
+export const KM_MINIMO = 30; // mesmo na cidade vizinha, o caminhão roda um pouco
+
+export type Ponto = [number, number];
+// Um lugar: cidade (com coordenadas) ou só o estado (vale a capital).
+export type Local = { uf: string; ponto?: Ponto };
+
+// Cidade de referência de cada praça da Scot. A Scot não informa a cidade: a escolha é nossa (a cidade mais conhecida
+// da região) e as coordenadas vêm da lista de municípios (public/municipios.json).
+export const PRACA_CIDADE: Record<string, [string, number, number]> = {
+  "SP Barretos": ["Barretos", -20.553, -48.57],
+  "SP Araçatuba": ["Araçatuba", -21.208, -50.44],
+  "MG Triângulo": ["Uberlândia", -18.914, -48.275],
+  "MG B.Horizonte": ["Belo Horizonte", -19.91, -43.927],
+  "MG Norte": ["Montes Claros", -16.728, -43.858],
+  "MG Sul": ["Varginha", -21.556, -45.436],
+  "GO Goiânia": ["Goiânia", -16.686, -49.264],
+  "GO Reg. Sul": ["Rio Verde", -17.792, -50.919],
+  "MS Dourados": ["Dourados", -22.223, -54.812],
+  "MS C. Grande": ["Campo Grande", -20.449, -54.63],
+  "MS Três Lagoas": ["Três Lagoas", -20.785, -51.701],
+  "BA Sul": ["Itapetinga", -15.248, -40.248],
+  "BA Oeste": ["Barreiras", -12.144, -44.997],
+  "MT Norte": ["Sinop", -11.86, -55.509],
+  "MT Sudoeste": ["Cáceres", -16.076, -57.682],
+  "MT Sudeste": ["Rondonópolis", -16.467, -54.637],
+  "PR Noroeste": ["Umuarama", -23.766, -53.32],
+  "MA Oeste": ["Imperatriz", -5.518, -47.478],
+  "PA Marabá": ["Marabá", -5.381, -49.133],
+  "PA Redenção": ["Redenção", -8.025, -50.032],
+  "PA Paragominas": ["Paragominas", -3.002, -47.353],
+  "RO Sudeste": ["Vilhena", -12.75, -60.149],
+  "TO Sul": ["Gurupi", -11.728, -49.068],
+  "TO Norte": ["Araguaína", -7.192, -48.204],
+};
+
+const kmEntre = (a: Ponto, b: Ponto) => {
   const rad = (g: number) => (g * Math.PI) / 180;
   const h = Math.sin(rad(b[0] - a[0]) / 2) ** 2 + Math.cos(rad(a[0])) * Math.cos(rad(b[0])) * Math.sin(rad(b[1] - a[1]) / 2) ** 2;
   return Math.round(2 * 6371 * Math.asin(Math.sqrt(h)) * FATOR_ESTRADA);
+};
+
+// Entre duas cidades: linha reta × ajuste de estrada. Lado sem cidade usa a capital;
+// no mesmo estado, se um dos lados não tem cidade, vale o padrão de dentro do estado.
+export function distanciaLocais(de: Local, para: Local): number {
+  if (de.uf === para.uf && (!de.ponto || !para.ponto)) return KM_DENTRO_DO_ESTADO;
+  const a = de.ponto ?? CAPITAIS[de.uf], b = para.ponto ?? CAPITAIS[para.uf];
+  if (!a || !b) return NaN;
+  return Math.max(KM_MINIMO, kmEntre(a, b));
 }
+
+export const distanciaKm = (de: string, para: string) => distanciaLocais({ uf: de }, { uf: para });
 
 // Frete por cabeça: viagem (km × R$/km) dividida pelos animais que cabem na carga.
 export function fretePorCabeca(km: number, reaisPorKm: number, pesoAnimalKg: number, cargaKg: number) {
@@ -29,3 +72,7 @@ export function fretePorCabeca(km: number, reaisPorKm: number, pesoAnimalKg: num
 
 // "SP Barretos" → "SP"
 export const ufDaPraca = (praca: string) => praca.slice(0, 2);
+export const localDaPraca = (praca: string): Local => {
+  const c = PRACA_CIDADE[praca];
+  return { uf: ufDaPraca(praca), ponto: c ? [c[1], c[2]] : undefined };
+};

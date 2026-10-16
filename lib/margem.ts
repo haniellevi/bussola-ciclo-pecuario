@@ -13,12 +13,14 @@ export type Entradas = {
   custoDia: number; // R$/cabeça/dia (comida + operação)
   rendimento: number; // % de carcaça (engorda)
   vendaArroba: number; // R$/@ do boi gordo
-  mortalidade: number; // % de animais que se perdem
+  mortalidade: number; // % de animais que se perdem (cria: matrizes que morrem no ano)
   // Cria
   taxaDesmama: number; // % de bezerros desmamados por matriz por ano
   custoMatrizAno: number; // R$/matriz/ano
   valorMatriz: number; // R$ da matriz (capital parado)
   vendaBezerro: number; // R$/cabeça do bezerro vendido
+  descarte: number; // % das matrizes vendidas por ano (vacas velhas ou vazias)
+  valorDescarte: number; // R$ recebidos por vaca de descarte
   // Revenda
   vendaCab: number; // R$/cabeça na venda
   diasRevenda: number;
@@ -57,6 +59,12 @@ export const NOME_PARTE: Record<keyof Partes, string> = {
   juros: "o custo do dinheiro parado",
   perdas: "as perdas (mortes e quebra)",
 };
+// Na cria, "compra" é a reposição das vacas descartadas e "perdas" são as matrizes que morrem.
+export const nomeParte = (estrutura: Estrutura, parte: keyof Partes) =>
+  estrutura === "cria" && parte === "compra" ? "a reposição das vacas descartadas"
+  : estrutura === "cria" && parte === "perdas" ? "as matrizes que morrem"
+  : estrutura === "cria" && parte === "operacao" ? "o custo de manter as matrizes"
+  : NOME_PARTE[parte];
 // Folga mínima para dizer que compensa: 5% sobre o dinheiro parado, já descontados os juros.
 export const FOLGA_COMPENSA = 0.05;
 
@@ -67,13 +75,16 @@ export function calcular(e: Entradas): Resultado {
   let dias: number, receita: number, compra: number, operacao: number, perdas: number, capital: number;
   const jurosDia = e.juros / 100 / diasAno;
 
+  let receitaDescarte = 0;
   if (e.estrutura === "cria") {
-    // Por matriz, em 1 ano.
+    // Por matriz, em 1 ano. Vende os bezerros e as vacas de descarte; repõe as descartadas e as que morreram
+    // com matrizes novas ao valor da matriz (comprada ou novilha própria que deixa de ser vendida).
     dias = diasAno;
-    receita = (e.taxaDesmama / 100) * e.vendaBezerro;
-    compra = 0;
+    receitaDescarte = (e.descarte / 100) * e.valorDescarte;
+    receita = (e.taxaDesmama / 100) * e.vendaBezerro + receitaDescarte;
+    compra = (e.descarte / 100) * e.valorMatriz;
     operacao = e.custoMatrizAno;
-    perdas = 0;
+    perdas = (e.mortalidade / 100) * e.valorMatriz;
     capital = e.valorMatriz + e.custoMatrizAno / 2;
   } else if (e.estrutura === "revenda") {
     dias = Math.max(1, e.diasRevenda);
@@ -101,7 +112,7 @@ export function calcular(e: Entradas): Resultado {
   // Empate: preço de venda em que a margem é zero (as demais contas ficam como estão).
   const semReceita = compra + frete + operacao + juros;
   let empateVenda: number;
-  if (e.estrutura === "cria") empateVenda = e.taxaDesmama > 0 ? semReceita / (e.taxaDesmama / 100) : Infinity;
+  if (e.estrutura === "cria") empateVenda = e.taxaDesmama > 0 ? (semReceita + perdas - receitaDescarte) / (e.taxaDesmama / 100) : Infinity;
   else if (e.estrutura === "revenda") empateVenda = semReceita / (1 - e.quebra / 100);
   else {
     const arrobas = (e.pesoVenda * (e.rendimento / 100)) / ARROBA_KG;

@@ -3,14 +3,14 @@
 // Luna (modelo do chat) escreve o texto curto com os números. Sem Jev configurado, só o Luna.
 import { cenarios } from "@/lib/cenarios";
 import { resolverChave } from "@/lib/chave";
-import { calcular, NOME_ESTRUTURA, NOME_PARTE, type Entradas } from "@/lib/margem";
+import { calcular, NOME_ESTRUTURA, nomeParte, type Entradas } from "@/lib/margem";
 import { painel } from "@/lib/painel";
 
 export const dynamic = "force-dynamic";
 
 const CAMPOS: (keyof Entradas)[] = [
   "compraCab", "pesoCompra", "pesoVenda", "gmd", "custoDia", "rendimento", "vendaArroba", "mortalidade", "taxaDesmama",
-  "custoMatrizAno", "valorMatriz", "vendaBezerro", "vendaCab", "diasRevenda", "quebra", "frete", "juros",
+  "custoMatrizAno", "valorMatriz", "vendaBezerro", "descarte", "valorDescarte", "vendaCab", "diasRevenda", "quebra", "frete", "juros",
 ];
 const ESTRUTURAS = ["recria", "confinamento", "cria", "revenda"];
 const DECISIONS = process.env.DECISIONS_URL ?? "https://openrouter.ai/api/alpha/decisions";
@@ -100,7 +100,7 @@ export async function POST(req: Request) {
         },
         {
           role: "user",
-          content: `DADOS: ${JSON.stringify(estado)}\nCausa apontada pelo Jev: ${causa ? `${causa} (${CAUSAS[causa as keyof typeof CAUSAS]})` : `maior custo: ${NOME_PARTE[r.principal]}`}\nCiclo pesa no resultado: ${cicloPesa == null ? "n/d" : cicloPesa ? "sim" : "não"}`,
+          content: `DADOS: ${JSON.stringify(estado)}\nCausa apontada pelo Jev: ${causa ? `${causa} (${CAUSAS[causa as keyof typeof CAUSAS]})` : `maior custo: ${nomeParte(e.estrutura, r.principal)}`}\nCiclo pesa no resultado: ${cicloPesa == null ? "n/d" : cicloPesa ? "sim" : "não"}`,
         },
       ],
     }),

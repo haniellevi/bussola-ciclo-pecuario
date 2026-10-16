@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { cenarios } from "@/lib/cenarios";
-import { distanciaKm, fretePorCabeca, ufDaPraca, UFS, FATOR_ESTRADA, KM_DENTRO_DO_ESTADO } from "@/lib/frete";
+import { distanciaKm, distanciaLocais, fretePorCabeca, localDaPraca, ufDaPraca, UFS, FATOR_ESTRADA, KM_DENTRO_DO_ESTADO, type Local } from "@/lib/frete";
 import { numero, pct, reais } from "@/lib/formato";
-import { calcular, custoArroba, NOME_ESTRUTURA, NOME_PARTE, type Entradas, type Estrutura, type Partes, type Selo } from "@/lib/margem";
+import { calcular, custoArroba, NOME_ESTRUTURA, nomeParte, type Entradas, type Estrutura, type Partes, type Selo } from "@/lib/margem";
 import type { CategoriaReposicao, Painel } from "@/lib/painel";
 import { descreverEstagio } from "@/lib/veredito";
 import { entradaDoPainel } from "@/lib/entrada";
@@ -32,16 +32,18 @@ const COR_SELO: Record<Selo, string> = {
 const EXEMPLO: Record<Estrutura, { campos: (keyof Entradas)[]; nomes: string }> = {
   recria: { campos: ["pesoVenda", "gmd", "custoDia", "rendimento", "mortalidade"], nomes: "ganho de peso, custo por dia, peso de venda, rendimento e perdas" },
   confinamento: { campos: ["pesoVenda", "gmd", "custoDia", "rendimento", "mortalidade"], nomes: "ganho de peso, custo por dia, peso de venda, rendimento e perdas" },
-  cria: { campos: ["taxaDesmama", "custoMatrizAno", "valorMatriz"], nomes: "desmama, custo e valor da matriz" },
+  cria: { campos: ["taxaDesmama", "custoMatrizAno", "valorMatriz", "descarte", "valorDescarte", "mortalidade"], nomes: "desmama, custo e valor da matriz, descarte e mortes" },
   revenda: { campos: ["compraCab", "vendaCab", "diasRevenda", "quebra"], nomes: "preço de compra e de venda, dias até vender e perda no transporte" },
 };
 
 function padrao(estrutura: Estrutura, p: Painel): Entradas {
   const base: Entradas = {
     estrutura, compraCab: p.hoje.bezerro, pesoCompra: 240, pesoVenda: 510, gmd: 0.6, custoDia: 4.5, rendimento: 52,
-    vendaArroba: p.hoje.boi, mortalidade: 1.5, taxaDesmama: 70, custoMatrizAno: 1000, valorMatriz: Math.round(p.hoje.bezerro),
-    vendaBezerro: p.hoje.bezerro, vendaCab: Math.round(18 * p.hoje.boi), diasRevenda: 7, quebra: 1, frete: 0, juros: p.selic.valor,
+    vendaArroba: p.hoje.boi, mortalidade: 1.5, taxaDesmama: 70, custoMatrizAno: 1000, valorMatriz: Math.round(15 * p.hoje.boi),
+    vendaBezerro: p.hoje.bezerro, descarte: 20, valorDescarte: Math.round(12 * p.hoje.boi),
+    vendaCab: Math.round(18 * p.hoje.boi), diasRevenda: 7, quebra: 1, frete: 0, juros: p.selic.valor,
   };
+  if (estrutura === "cria") return { ...base, mortalidade: 2 };
   if (estrutura === "confinamento")
     return { ...base, compraCab: Math.round(12.5 * p.hoje.boi), pesoCompra: 375, pesoVenda: 540, gmd: 1.5, custoDia: 18 };
   if (estrutura === "revenda") return { ...base, compraCab: Math.round(18 * p.hoje.boi), pesoCompra: 540, pesoVenda: 540 };
@@ -86,6 +88,31 @@ const CATEGORIA_PADRAO: Record<Estrutura, CategoriaReposicao> = { recria: "bezer
 
 const faixaDe = (v: number): [number, number] => [Math.round(v * 0.5), Math.round(v * 1.6)];
 
+// O que fica salvo no navegador. Números digitados ficam como estão; preços vindos dos dados não são guardados:
+// guardamos a escolha (região, animal, praça) e o preço é refeito com o dado do dia.
+type SalvoEstrutura = {
+  digitados: Partial<Entradas>;
+  regiao: boolean; // clicou em "Usar preços de ..."
+  categoriaEscolhida: boolean; // trocou o animal
+  categoria: CategoriaReposicao;
+  pracaVenda: string;
+  ufCompra: string;
+  freteManual: number | null;
+  meus: boolean;
+};
+type Salvo = { estrutura?: Estrutura; ufFazenda?: string; cidade?: string; rsKm?: number; cargaKg?: number; por?: Partial<Record<Estrutura, SalvoEstrutura>> };
+const ESTRUTURAS_ID: Estrutura[] = ["recria", "confinamento", "cria", "revenda"];
+const lerSalvo = (): Salvo => {
+  try {
+    const s = JSON.parse(localStorage.getItem(CHAVE_ESTADO) ?? "{}");
+    return s && typeof s === "object" ? s : {};
+  } catch {
+    return {};
+  }
+};
+const semAcento = (t: string) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+type Municipios = Record<string, [string, number, number][]>;
+
 function lerChaveOr(): string {
   try {
     return JSON.parse(localStorage.getItem("bussola:openrouter") ?? "{}").chave ?? "";
@@ -108,35 +135,112 @@ export function Decisao({ painel }: { painel: Painel }) {
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
   const [meus, setMeus] = useState(false); // a pessoa já pôs os números dela?
+  const [cidade, setCidade] = useState("");
+  const [municipios, setMunicipios] = useState<Municipios | null>(null);
+  const [digitados, setDigitados] = useState<Partial<Entradas>>({});
+  const [regiao, setRegiao] = useState(false);
+  const [categoriaEscolhida, setCategoriaEscolhida] = useState(false);
+  const [carregou, setCarregou] = useState(false);
 
+  // Lista de municípios (coordenadas) só para o frete; carrega à parte para não pesar a página.
   useEffect(() => {
-    try {
-      const s = JSON.parse(localStorage.getItem(CHAVE_ESTADO) ?? "{}");
-      if (s.ufFazenda && UFS.includes(s.ufFazenda)) setUfFazenda(s.ufFazenda);
-      if (["recria", "confinamento", "cria", "revenda"].includes(s.estrutura)) escolher(s.estrutura);
-    } catch {}
+    fetch("/municipios.json")
+      .then((r) => r.json())
+      .then((j) => setMunicipios(j.ufs))
+      .catch(() => {});
+  }, []);
+
+  // Preço do animal (reposição) e do boi gordo no estado da fazenda ou no mais perto que tem cotação.
+  const ufMaisPerto = (uf: string, ufs: string[]) => (ufs.includes(uf) ? uf : [...ufs].sort((a, b) => distanciaKm(uf, a) - distanciaKm(uf, b))[0]);
+  const mediaBoiUf = (uf: string) => {
+    const v = Object.entries(painel.pracas?.valores ?? {}).filter(([n, p]) => ufDaPraca(n) === uf && p.vista).map(([, p]) => p.vista!);
+    return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+  };
+  // Monta a conta: exemplo + preços das escolhas (com o dado de hoje) + o que a pessoa digitou.
+  function montar(est: Estrutura, uf: string, s?: SalvoEstrutura): Entradas {
+    let x = padrao(est, painel);
+    if (!s) return x;
+    const c = painel.reposicao?.categorias[s.categoria];
+    if (c && (s.regiao || s.categoriaEscolhida) && est !== "revenda") {
+      const u = ufMaisPerto(uf, Object.keys(c.ufs));
+      if (u) x = est === "cria" ? { ...x, vendaBezerro: c.ufs[u].cab } : { ...x, compraCab: c.ufs[u].cab, pesoCompra: c.peso };
+    }
+    if (s.regiao && est !== "cria") {
+      const ufsBoi = [...new Set(Object.keys(painel.pracas?.valores ?? {}).map(ufDaPraca))];
+      const b = mediaBoiUf(ufMaisPerto(uf, ufsBoi) ?? "");
+      if (b) x = est === "revenda" ? { ...x, compraCab: Math.round(18 * b) } : { ...x, vendaArroba: Math.round(b * 10) / 10 };
+    }
+    const vp = s.pracaVenda ? painel.pracas?.valores[s.pracaVenda]?.vista : null;
+    if (vp) x = est === "revenda" ? { ...x, vendaCab: Math.round(18 * vp) } : { ...x, vendaArroba: vp };
+    return { ...x, ...s.digitados, estrutura: est };
+  }
+
+  function aplicar(est: Estrutura, uf: string, s?: SalvoEstrutura) {
+    setEstrutura(est);
+    setE(montar(est, uf, s));
+    setDigitados(s?.digitados ?? {});
+    setRegiao(s?.regiao ?? false);
+    setCategoriaEscolhida(s?.categoriaEscolhida ?? false);
+    setCategoria(s?.categoria ?? CATEGORIA_PADRAO[est]);
+    setPracaVenda(s?.pracaVenda ?? "");
+    setUfCompra(s?.ufCompra ?? "");
+    setFreteManual(s?.freteManual ?? null);
+    setMeus(s?.meus ?? false);
+    setExplicacao(null);
+  }
+
+  // Ao abrir: volta ao que a pessoa deixou da última vez.
+  useEffect(() => {
+    const s = lerSalvo();
+    const uf = s.ufFazenda && UFS.includes(s.ufFazenda) ? s.ufFazenda : "SP";
+    setUfFazenda(uf);
+    if (typeof s.cidade === "string") setCidade(s.cidade);
+    if (typeof s.rsKm === "number") setRsKm(s.rsKm);
+    if (typeof s.cargaKg === "number") setCargaKg(s.cargaKg);
+    const est = s.estrutura && ESTRUTURAS_ID.includes(s.estrutura) ? s.estrutura : "recria";
+    aplicar(est, uf, s.por?.[est]);
+    setCarregou(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const lembrar = (est: Estrutura, uf: string) => {
+
+  // Grava a cada mudança (depois de carregar, para não apagar o que estava salvo).
+  useEffect(() => {
+    if (!carregou) return;
+    const s = lerSalvo();
+    const atual: SalvoEstrutura = { digitados, regiao, categoriaEscolhida, categoria, pracaVenda, ufCompra, freteManual, meus };
     try {
-      localStorage.setItem(CHAVE_ESTADO, JSON.stringify({ estrutura: est, ufFazenda: uf }));
+      localStorage.setItem(CHAVE_ESTADO, JSON.stringify({ ...s, estrutura, ufFazenda, cidade, rsKm, cargaKg, por: { ...s.por, [estrutura]: atual } }));
     } catch {}
+  }, [carregou, estrutura, ufFazenda, cidade, rsKm, cargaKg, digitados, regiao, categoriaEscolhida, categoria, pracaVenda, ufCompra, freteManual, meus]);
+
+  const escolher = (est: Estrutura) => aplicar(est, ufFazenda, lerSalvo().por?.[est]);
+  const voltarAoExemplo = () => {
+    const s = lerSalvo();
+    if (s.por) delete s.por[estrutura];
+    try {
+      localStorage.setItem(CHAVE_ESTADO, JSON.stringify(s));
+    } catch {}
+    aplicar(estrutura, ufFazenda);
   };
-  function escolher(est: Estrutura) {
-    setEstrutura(est);
-    setE(padrao(est, painel));
-    setCategoria(CATEGORIA_PADRAO[est]);
-    setFreteManual(null);
-    setExplicacao(null);
-    setMeus(false);
-    lembrar(est, ufFazenda);
-  }
+
   const mudar = <K extends keyof Entradas>(k: K, v: Entradas[K]) => setE((x) => ({ ...x, [k]: v }));
-  // Digitado pela pessoa: se for um campo de exemplo, a conta passa a ser dela.
-  const digitar = <K extends keyof Entradas>(k: K, v: Entradas[K]) => {
+  // Digitado pela pessoa (ou escolhido numa lista): fica salvo como está. Se for campo de exemplo, a conta passa a ser dela.
+  const digitar = <K extends keyof Entradas>(k: K, v: Entradas[K], daLista = false) => {
     mudar(k, v);
-    if (EXEMPLO[estrutura].campos.includes(k)) setMeus(true);
+    setDigitados((d) => ({ ...d, [k]: v }));
+    if (!daLista && EXEMPLO[estrutura].campos.includes(k)) setMeus(true);
   };
+  // Preço refeito por uma escolha (região, animal, praça): deixa de valer o número digitado antes.
+  const esquecer = (...ks: (keyof Entradas)[]) =>
+    setDigitados((d) => {
+      const n = { ...d };
+      for (const k of ks) delete n[k];
+      return n;
+    });
+
+  // Cidade da fazenda: com ela o frete sai da cidade, não da capital.
+  const achada = cidade && municipios ? municipios[ufFazenda]?.find((m) => semAcento(m[0]) === semAcento(cidade)) : undefined;
+  const fazenda: Local = { uf: ufFazenda, ponto: achada ? [achada[1], achada[2]] : undefined };
 
   // Praças de boi gordo (Scot): média por estado
   const porUf = useMemo(() => {
@@ -154,14 +258,15 @@ export function Decisao({ painel }: { painel: Painel }) {
   const ufRep = cat ? (cat.ufs[ufFazenda] ? ufFazenda : [...ufsRep].sort((a, b) => distanciaKm(ufFazenda, a) - distanciaKm(ufFazenda, b))[0]) : null;
   const usaReposicao = estrutura !== "revenda" && Boolean(cat && ufRep);
 
-  const ufVenda = pracaVenda ? ufDaPraca(pracaVenda) : ufFazenda;
-  const kmCompra = ufCompra ? distanciaKm(ufCompra, ufFazenda) : 0;
-  const kmVenda = distanciaKm(ufFazenda, ufVenda);
+  const localVenda: Local = pracaVenda ? localDaPraca(pracaVenda) : { uf: ufFazenda };
+  const kmCompra = ufCompra ? distanciaLocais({ uf: ufCompra }, fazenda) : 0;
+  const kmVenda = distanciaLocais(fazenda, localVenda);
+  const kmRevenda = distanciaLocais(ufCompra ? { uf: ufCompra } : fazenda, localVenda);
   const freteEstimado =
     estrutura === "cria"
       ? 0
       : estrutura === "revenda"
-        ? Math.round(fretePorCabeca(distanciaKm(ufCompra || ufFazenda, ufVenda), rsKm, e.pesoVenda, cargaKg))
+        ? Math.round(fretePorCabeca(kmRevenda, rsKm, e.pesoVenda, cargaKg))
         : Math.round(fretePorCabeca(kmCompra, rsKm, e.pesoCompra, cargaKg) * (ufCompra ? 1 : 0) + fretePorCabeca(kmVenda, rsKm, e.pesoVenda, cargaKg));
   const entradas: Entradas = { ...e, estrutura, frete: estrutura === "cria" ? 0 : (freteManual ?? freteEstimado) };
 
@@ -177,7 +282,7 @@ export function Decisao({ painel }: { painel: Painel }) {
   const maior = Object.entries(r.partes).sort((a, b) => b[1] - a[1])[0] as [keyof Partes, number];
   const porque =
     r.selo === "nao"
-      ? `Cada ${estrutura === "cria" ? "matriz perde" : "cabeça perde"} ${reais(-r.margem)}. Pesa mais ${NOME_PARTE[maior[0]]}: ${reais(maior[1])}, ${numero((maior[1] / Math.max(1, r.receita)) * 100, 0)}% do que entra. Para empatar, o preço de venda teria de ser ${reais(r.empateVenda)} ${unidadeEmpate} (hoje ${reais(precoAtual)})${Number.isFinite(r.tetoCompra) && estrutura !== "revenda" ? `, ou o animal ser comprado por no máximo ${reais(Math.max(0, r.tetoCompra))}` : ""}.`
+      ? `Cada ${estrutura === "cria" ? "matriz perde" : "cabeça perde"} ${reais(-r.margem)}. Pesa mais ${nomeParte(estrutura, maior[0])}: ${reais(maior[1])}, ${numero((maior[1] / Math.max(1, r.receita)) * 100, 0)}% do que entra. Para empatar, o preço de venda teria de ser ${reais(r.empateVenda)} ${unidadeEmpate} (hoje ${reais(precoAtual)})${Number.isFinite(r.tetoCompra) && estrutura !== "revenda" ? `, ou o animal ser comprado por no máximo ${reais(Math.max(0, r.tetoCompra))}` : ""}.`
       : r.selo === "apertada"
         ? `Sobram ${reais(r.margem)} por ${estrutura === "cria" ? "matriz" : "cabeça"} (${numero(r.retorno * 100, 1)}% sobre o dinheiro parado). Já descontados os juros, mas qualquer queda de preço zera a margem: o empate é ${reais(r.empateVenda)} ${unidadeEmpate}.`
         : `Sobram ${reais(r.margem)} por ${estrutura === "cria" ? "matriz" : "cabeça"}, ${numero(r.retorno * 100, 1)}% sobre o dinheiro parado, já descontados os juros. O preço de venda pode cair até ${reais(r.empateVenda)} ${unidadeEmpate} antes de zerar.`;
@@ -187,7 +292,7 @@ export function Decisao({ painel }: { painel: Painel }) {
   const vender = Object.entries(painel.pracas?.valores ?? {})
     .filter(([, p]) => p.vista)
     .map(([nome, p]) => {
-      const fr = fretePorCabeca(distanciaKm(ufFazenda, ufDaPraca(nome)), rsKm, e.pesoVenda, cargaKg) / Math.max(1, arrobasCab);
+      const fr = fretePorCabeca(distanciaLocais(fazenda, localDaPraca(nome)), rsKm, e.pesoVenda, cargaKg) / Math.max(1, arrobasCab);
       return { nome, bruto: p.vista!, frete: fr, liquido: p.vista! - fr };
     })
     .sort((a, b) => b.liquido - a.liquido);
@@ -211,6 +316,7 @@ export function Decisao({ painel }: { painel: Painel }) {
     setExplicacao(null);
     const v = nome ? painel.pracas?.valores[nome]?.vista : null;
     if (!v) return;
+    esquecer("vendaCab", "vendaArroba");
     if (estrutura === "revenda") mudar("vendaCab", Math.round(18 * v));
     else mudar("vendaArroba", v);
   };
@@ -223,6 +329,8 @@ export function Decisao({ painel }: { painel: Painel }) {
       if (estrutura === "cria") return animal ? { ...x, vendaBezerro: animal } : x;
       return { ...x, ...(v ? { vendaArroba: v } : {}), ...(animal ? { compraCab: animal, pesoCompra: cat!.peso } : {}) };
     });
+    esquecer("compraCab", "pesoCompra", "vendaArroba", "vendaBezerro");
+    setRegiao(true);
     setPracaVenda("");
     setExplicacao(null);
   };
@@ -233,6 +341,8 @@ export function Decisao({ painel }: { painel: Painel }) {
     const k = rep?.categorias[c];
     const uf = k ? (k.ufs[ufFazenda] ? ufFazenda : Object.keys(k.ufs).sort((a, b) => distanciaKm(ufFazenda, a) - distanciaKm(ufFazenda, b))[0]) : null;
     if (!k || !uf) return;
+    esquecer("compraCab", "pesoCompra", "vendaBezerro");
+    setCategoriaEscolhida(true);
     if (estrutura === "cria") mudar("vendaBezerro", k.ufs[uf].cab);
     else setE((x) => ({ ...x, compraCab: k.ufs[uf].cab, pesoCompra: k.peso }));
   };
@@ -241,7 +351,7 @@ export function Decisao({ painel }: { painel: Painel }) {
   const mercadoAnimal = cat
     ? Object.entries(cat.ufs)
         .map(([uf, v]) => {
-          const fr = fretePorCabeca(distanciaKm(uf, ufFazenda), rsKm, cat.peso, cargaKg);
+          const fr = fretePorCabeca(distanciaLocais({ uf }, fazenda), rsKm, cat.peso, cargaKg);
           return { uf, cab: v.cab, marcado: v.marcado, frete: fr, total: estrutura === "cria" ? v.cab - fr : v.cab + fr };
         })
         .sort((a, b) => (estrutura === "cria" ? b.total - a.total : a.total - b.total))
@@ -309,7 +419,7 @@ export function Decisao({ painel }: { painel: Painel }) {
                 value={ufFazenda}
                 onChange={(ev) => {
                   setUfFazenda(ev.target.value);
-                  lembrar(estrutura, ev.target.value);
+                  setCidade("");
                 }}
                 className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base"
               >
@@ -317,6 +427,22 @@ export function Decisao({ painel }: { painel: Painel }) {
                   <option key={u}>{u}</option>
                 ))}
               </select>
+            </label>
+            <label className="block text-sm text-zinc-300">
+              Cidade da fazenda (opcional)
+              <input
+                list="cidades-fazenda"
+                value={cidade}
+                onChange={(ev) => setCidade(ev.target.value)}
+                placeholder="Comece a digitar"
+                autoComplete="off"
+                className="mt-1 h-11 w-full rounded-lg border border-terra-700 bg-terra-950 px-3 text-base text-zinc-50"
+              />
+              <datalist id="cidades-fazenda">
+                {municipios?.[ufFazenda]?.map((m) => <option key={m[0]} value={m[0]} />)}
+              </datalist>
+              {cidade.trim() && municipios && !achada && <span className="mt-1 block text-xs text-sol">Não achei essa cidade em {ufFazenda}. O frete usa a capital do estado.</span>}
+              {achada && <span className="mt-1 block text-xs text-zinc-400">O frete sai de {achada[0]}.</span>}
             </label>
             {estrutura !== "cria" && (
               <label className="block text-sm text-zinc-300">
@@ -383,7 +509,14 @@ export function Decisao({ painel }: { painel: Painel }) {
 
         <section className="rounded-2xl border border-terra-700 bg-terra-900/60 p-4 sm:p-5">
           <h3 className="font-display text-lg text-zinc-50">3. Os números do seu negócio</h3>
-          <p className="mt-1 text-xs text-zinc-400">Preços de hoje vêm dos dados. O resto é só exemplo: troque pelos da sua fazenda, tudo muda o resultado na hora.</p>
+          <p className="mt-1 text-xs text-zinc-400">
+            Preços de hoje vêm dos dados. O resto é só exemplo: troque pelos da sua fazenda, tudo muda o resultado na hora. O que você digitar fica salvo neste aparelho.
+          </p>
+          {(Object.keys(digitados).length > 0 || meus || regiao || categoriaEscolhida) && (
+            <button type="button" onClick={voltarAoExemplo} className="mt-2 min-h-11 text-sm text-sol underline underline-offset-4">
+              Apagar meus números e voltar ao exemplo
+            </button>
+          )}
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {(estrutura === "recria" || estrutura === "confinamento") && (
               <>
@@ -402,7 +535,10 @@ export function Decisao({ painel }: { painel: Painel }) {
                 <Num rotulo="Preço do bezerro vendido" unidade="R$/cabeça" passo={50} valor={e.vendaBezerro} onChange={(v) => digitar("vendaBezerro", v)} faixa={faixaDe(painel.hoje.bezerro)} dica={`Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}`} />
                 <Num rotulo="Bezerros desmamados por matriz" unidade="% ao ano" passo={1} valor={e.taxaDesmama} onChange={(v) => digitar("taxaDesmama", v)} faixa={[30, 100]} />
                 <Num rotulo="Custo de manter uma matriz" unidade="R$/ano" passo={50} valor={e.custoMatrizAno} onChange={(v) => digitar("custoMatrizAno", v)} faixa={[300, 3000]} dica="Pasto, sal, vacina, mão de obra" />
-                <Num rotulo="Valor da matriz" unidade="R$" passo={100} valor={e.valorMatriz} onChange={(v) => digitar("valorMatriz", v)} dica="Dinheiro parado na vaca" />
+                <Num rotulo="Valor da matriz" unidade="R$" passo={100} valor={e.valorMatriz} onChange={(v) => digitar("valorMatriz", v)} dica={`Exemplo: 15 @ ao preço do boi. É o dinheiro parado na vaca e o custo de repor uma matriz.`} />
+                <Num rotulo="Vacas descartadas por ano" unidade="% das matrizes" passo={1} valor={e.descarte} onChange={(v) => digitar("descarte", v)} faixa={[0, 40]} dica="Vacas velhas ou vazias vendidas; cada uma é reposta por uma matriz nova" />
+                <Num rotulo="Valor da vaca de descarte" unidade="R$/cabeça" passo={50} valor={e.valorDescarte} onChange={(v) => digitar("valorDescarte", v)} dica={`Exemplo: vaca de 12 @ ao preço do boi (${reais(painel.hoje.boi, 2)}/@). A vaca costuma valer um pouco menos.`} />
+                <Num rotulo="Matrizes que morrem" unidade="% ao ano" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} dica="Cada uma também é reposta" />
               </>
             )}
             {estrutura === "revenda" && (
@@ -428,7 +564,7 @@ export function Decisao({ painel }: { painel: Painel }) {
                   Frete por cabeça: <strong className="text-zinc-50">{reais(entradas.frete)}</strong>
                   {freteManual == null ? " (estimado)" : " (digitado)"}
                   <span className="mt-1 block text-xs text-zinc-400">
-                    {estrutura === "revenda" ? `Viagem: ${numero(distanciaKm(ufCompra || ufFazenda, ufVenda), 0)} km.` : `Compra: ${ufCompra ? `${numero(kmCompra, 0)} km` : "sem frete"} · Venda: ${numero(kmVenda, 0)} km.`} Distância em linha reta entre as capitais × {FATOR_ESTRADA} para a estrada; dentro do mesmo estado, {KM_DENTRO_DO_ESTADO} km. É estimativa.
+                    {estrutura === "revenda" ? `Viagem: ${numero(kmRevenda, 0)} km.` : `Compra: ${ufCompra ? `${numero(kmCompra, 0)} km` : "sem frete"} · Venda: ${numero(kmVenda, 0)} km.`} Distância em linha reta × {FATOR_ESTRADA} para a estrada, {achada ? `saindo de ${achada[0]}` : "saindo da capital (informe a cidade da fazenda para melhorar)"}; outro estado conta da capital, praça conta da cidade de referência. No mesmo estado sem cidade, {KM_DENTRO_DO_ESTADO} km. É estimativa.
                   </span>
                 </p>
               )}
@@ -491,14 +627,14 @@ export function Decisao({ painel }: { painel: Painel }) {
             </p>
             <div className="mt-2 flex h-4 w-full overflow-hidden rounded-full bg-terra-950" role="img" aria-label="Divisão dos custos">
               {barrasUsadas.map((b) => (
-                <div key={b.chave} className={b.cor} style={{ width: `${Math.min(100, (r.partes[b.chave] / Math.max(receita, custoTotal)) * 100)}%` }} title={`${NOME_PARTE[b.chave]}: ${reais(r.partes[b.chave])}`} />
+                <div key={b.chave} className={b.cor} style={{ width: `${Math.min(100, (r.partes[b.chave] / Math.max(receita, custoTotal)) * 100)}%` }} title={`${nomeParte(estrutura, b.chave)}: ${reais(r.partes[b.chave])}`} />
               ))}
             </div>
             <ul className="mt-2 grid gap-x-6 gap-y-1 text-sm text-zinc-300 sm:grid-cols-2">
               {barrasUsadas.map((b) => (
                 <li key={b.chave} className="flex items-center gap-2">
                   <span className={`h-2.5 w-2.5 shrink-0 rounded-sm ${b.cor}`} aria-hidden />
-                  <span className="flex-1 whitespace-nowrap">{b.chave === "compra" ? "Animal" : b.chave === "operacao" ? "Custo diário" : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : "Perdas"}</span>
+                  <span className="flex-1 whitespace-nowrap">{b.chave === "compra" ? (estrutura === "cria" ? "Reposição" : "Animal") : b.chave === "operacao" ? (estrutura === "cria" ? "Custo das matrizes" : "Custo diário") : b.chave === "frete" ? "Frete" : b.chave === "juros" ? "Juros" : estrutura === "cria" ? "Mortes" : "Perdas"}</span>
                   <span className="tabular-nums text-zinc-50">{reais(r.partes[b.chave])}</span>
                 </li>
               ))}
@@ -575,7 +711,8 @@ export function Decisao({ painel }: { painel: Painel }) {
                     setPracaVenda(Object.keys(painel.pracas?.valores ?? {}).find((n) => ufDaPraca(n) === p.para) ?? "");
                     setFreteManual(null);
                     setExplicacao(null);
-                    setE((x) => ({ ...x, compraCab: Math.round(p.compra), vendaCab: Math.round(p.venda) }));
+                    digitar("compraCab", Math.round(p.compra), true);
+                    digitar("vendaCab", Math.round(p.venda), true);
                   }} className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10">
                     Usar na conta
                   </button>
@@ -598,7 +735,7 @@ export function Decisao({ painel }: { painel: Painel }) {
                     {reais(v.bruto)} − frete {reais(v.frete, 2)}/@
                   </span>
                   <span className="font-display font-bold tabular-nums text-capim">{reais(v.liquido, 2)}/@</span>
-                  <button type="button" onClick={() => { setPracaVenda(v.nome); mudar("vendaArroba", v.bruto); }} className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10">
+                  <button type="button" onClick={() => escolherPraca(v.nome)} className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10">
                     Usar na conta
                   </button>
                 </li>
@@ -629,10 +766,11 @@ export function Decisao({ painel }: { painel: Painel }) {
                     type="button"
                     onClick={() => {
                       setExplicacao(null);
-                      if (estrutura === "cria") mudar("vendaBezerro", Math.round(m.total));
+                      if (estrutura === "cria") digitar("vendaBezerro", Math.round(m.total), true);
                       else {
                         setUfCompra(m.uf === ufFazenda ? "" : m.uf);
-                        setE((x) => ({ ...x, compraCab: m.cab, pesoCompra: cat.peso }));
+                        digitar("compraCab", m.cab, true);
+                        digitar("pesoCompra", cat.peso, true);
                       }
                     }}
                     className="h-11 rounded-lg border border-terra-700 px-4 text-sm text-sol hover:bg-sol/10"
