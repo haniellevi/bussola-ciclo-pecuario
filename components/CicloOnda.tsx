@@ -64,30 +64,42 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
     const futuro = previsaoBoi.filter((p) => p.semanas <= 52).sort((a, b) => a.semanas - b.semanas);
     const pontosFut = futuro.map((p) => ({ i: ultimo + Math.round(p.semanas / 4.345), p }));
 
-    // Se o passado se repetir: preço de hoje × (caminho médio dos ciclos passados a partir do vale) ÷ (média no mesmo ponto).
+    const zona = fase.janela && { de: indiceMes(inicio, fase.janela.de), ate: indiceMes(inicio, fase.janela.ate) };
+
+    // Se o passado se repetir: cada ciclo passado é esticado para caber em subida (vale→pico) e descida (pico→vale),
+    // assim os picos se alinham e a média não achata. Ancorado no preço de hoje.
     const vales = pivosIdx.filter((p) => p.tipo === "vale" && p.i >= 0 && p.i <= ultimo);
     const valeAtual = vales.at(-1);
-    const ciclos = vales.slice(0, -1).map((v, j) => ({ de: v.i, ate: vales[j + 1].i })).slice(-CICLOS_MEDIA);
+    const ciclos = vales
+      .slice(0, -1)
+      .map((v, j) => ({ de: v.i, ate: vales[j + 1].i, pico: pivosIdx.find((p) => p.tipo === "pico" && p.i > v.i && p.i < vales[j + 1].i)?.i }))
+      .filter((c): c is { de: number; ate: number; pico: number } => c.pico != null)
+      .slice(-CICLOS_MEDIA);
     const proj: { i: number; v: number; min: number; max: number }[] = [];
     if (valeAtual && ciclos.length >= 2) {
-      const tHoje = ultimo - valeAtual.i;
-      const razao = (c: { de: number; ate: number }, t: number) => (t <= c.ate - c.de ? serie[c.de + t].boiReal / serie[c.de].boiReal : null);
-      const media = (t: number) => {
-        const r = ciclos.map((c) => razao(c, t)).filter((x): x is number => x != null);
-        return r.length >= 2 ? { m: r.reduce((a, b) => a + b, 0) / r.length, min: Math.min(...r), max: Math.max(...r) } : null;
+      const em = (pos: number) => {
+        const a = Math.floor(pos), b = Math.min(a + 1, ultimo);
+        return serie[a].boiReal + (serie[b].boiReal - serie[a].boiReal) * (pos - a);
       };
-      const base = media(tHoje);
-      if (base) {
-        const f = serie[ultimo].boiReal / base.m;
-        for (let t = tHoje; ; t++) {
-          const x = media(t);
-          if (!x) break;
-          proj.push({ i: valeAtual.i + t, v: x.m * f, min: x.min * f, max: x.max * f });
-        }
+      // fase 0..1 = subida, 1..2 = descida
+      const razao = (c: (typeof ciclos)[number], s: number) =>
+        em(s <= 1 ? c.de + s * (c.pico - c.de) : c.pico + (s - 1) * (c.ate - c.pico)) / serie[c.de].boiReal;
+      const media = (s: number) => {
+        const r = ciclos.map((c) => razao(c, s));
+        return { m: r.reduce((a, b) => a + b, 0) / r.length, min: Math.min(...r), max: Math.max(...r) };
+      };
+      const subida = ciclos.reduce((a, c) => a + c.pico - c.de, 0) / ciclos.length;
+      const descida = Math.round(ciclos.reduce((a, c) => a + c.ate - c.pico, 0) / ciclos.length);
+      // Pico no meio da janela calculada; sem janela, na duração média da subida. Sempre depois de hoje.
+      const picoI = Math.max(ultimo + 3, zona && zona.ate > ultimo ? Math.round((zona.de + zona.ate) / 2) : Math.round(valeAtual.i + subida));
+      const fase01 = (i: number) => (i <= picoI ? (i - valeAtual.i) / (picoI - valeAtual.i) : 1 + (i - picoI) / descida);
+      const f = serie[ultimo].boiReal / media(fase01(ultimo)).m;
+      for (let i = ultimo; i <= picoI + descida; i++) {
+        const x = media(fase01(i));
+        proj.push({ i, v: x.m * f, min: x.min * f, max: x.max * f });
       }
     }
 
-    const zona = fase.janela && { de: indiceMes(inicio, fase.janela.de), ate: indiceMes(inicio, fase.janela.ate) };
     const nMeses = Math.max(ultimo + 13, proj.at(-1)?.i ?? 0, (zona?.ate ?? 0) + 2);
     return { inicio, ultimo, pivosIdx, sobe, pontosFut, proj, zona, nMeses, ciclos };
   }, [serie, pivos, fase, previsaoBoi]);
@@ -383,8 +395,8 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
         {decisoes.length > 0 && <span className="flex items-center gap-1.5"><i className="h-3 w-3 rounded-full border-2 border-tinta" /> suas contas</span>}
       </figcaption>
       <p className="mt-2 text-xs text-texto-3">
-        Boi gordo Cepea em valores de hoje (IGP-DI). Hoje: {reais(hoje.boi, 2)}/@{pico ? ` · último pico ${mesAno(pico.mes)}` : ""}. A linha pontilhada repete a média dos {d.ciclos.length} últimos ciclos a partir do vale de{" "}
-        {d.pivosIdx.filter((p) => p.tipo === "vale").at(-1) ? mesAno(d.pivosIdx.filter((p) => p.tipo === "vale").at(-1)!.mes) : ""}; com tão poucos ciclos, é só uma referência.
+        Boi gordo Cepea em valores de hoje (IGP-DI). Hoje: {reais(hoje.boi, 2)}/@{pico ? ` · último pico ${mesAno(pico.mes)}` : ""}. A linha pontilhada repete o desenho médio (subida e descida) dos {d.ciclos.length} últimos ciclos a partir do vale de{" "}
+        {d.pivosIdx.filter((p) => p.tipo === "vale").at(-1) ? mesAno(d.pivosIdx.filter((p) => p.tipo === "vale").at(-1)!.mes) : ""}, com o pico no meio da janela marcada; com tão poucos ciclos, é só uma referência.
       </p>
     </figure>
   );
