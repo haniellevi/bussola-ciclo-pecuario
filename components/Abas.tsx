@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { BotaoTema } from "./BotaoTema";
 
 export type Aba = { id: string; rotulo: string; conteudo: React.ReactNode };
 
@@ -52,7 +53,10 @@ export function Abas({ abas, marca }: { abas: Aba[]; marca: React.ReactNode }) {
   return (
     <>
       {/* Celular: o nome do app fica no topo e as abas embaixo, perto do dedão. Computador: tudo numa barra no topo. */}
-      <div className="mx-auto max-w-6xl px-4 pt-[max(1rem,env(safe-area-inset-top))] sm:hidden">{marca}</div>
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 pt-[max(1rem,env(safe-area-inset-top))] sm:hidden">
+        {marca}
+        <BotaoTema />
+      </div>
       <nav className="vidro fixed inset-x-0 bottom-0 z-20 border-t border-linha pb-[env(safe-area-inset-bottom)] sm:sticky sm:top-0 sm:bottom-auto sm:border-t-0 sm:border-b sm:pb-0">
         <div className="mx-auto flex max-w-6xl items-center sm:gap-6 sm:px-6 sm:py-2.5">
           <div className="hidden sm:block">{marca}</div>
@@ -80,6 +84,9 @@ export function Abas({ abas, marca }: { abas: Aba[]; marca: React.ReactNode }) {
                 {a.rotulo}
               </button>
             ))}
+          </div>
+          <div className="hidden sm:block">
+            <BotaoTema />
           </div>
         </div>
       </nav>

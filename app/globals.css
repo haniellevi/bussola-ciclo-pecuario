@@ -48,9 +48,9 @@
   --laranja: #c2410c;
 }
 
-/* Escuro: segue o aparelho. */
+/* Escuro: segue o aparelho, a não ser que a pessoa escolha no botão de tema (data-tema no <html>). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-tema="claro"]) {
     --fundo: #0d1210;
     --superficie: #151b18;
     --superficie-2: #1e2622;
@@ -66,6 +66,26 @@
     --alerta: #fb7185;
     --laranja: #fb923c;
   }
+}
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --fundo: #0d1210;
+  --superficie: #151b18;
+  --superficie-2: #1e2622;
+  --linha: #2a3430;
+  --texto: #eef2ef;
+  --texto-2: #c8d0cb;
+  --texto-3: #9ba6a0;
+  --texto-4: #6c7772;
+  --tinta: #70b5ff;
+  --sobre-tinta: #0d1210;
+  --capim: #4ade80;
+  --sol: #fbbf24;
+  --alerta: #fb7185;
+  --laranja: #fb923c;
+}
+:root[data-tema="claro"] {
+  color-scheme: light;
 }
 
 /* Mais contraste pedido no aparelho: textos secundários ficam mais fortes. */

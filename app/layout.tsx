@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Lexend } from "next/font/google";
+import { scriptTema } from "@/lib/tema";
 import "./globals.css";
 
 // Lexend: feita para facilitar a leitura, letras abertas e zero sem risco (preços ficam limpos).
@@ -20,7 +21,10 @@ export const viewport: Viewport = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={texto.variable}>
+    <html lang="pt-BR" className={texto.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: scriptTema }} />
+      </head>
       <body className="min-h-dvh font-sans antialiased">{children}</body>
     </html>
   );
