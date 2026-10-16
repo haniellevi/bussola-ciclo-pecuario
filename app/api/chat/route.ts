@@ -52,7 +52,8 @@ export async function POST(req: Request) {
   if (k instanceof Response) return k;
   const { chave, propria: chaveUsuario } = k;
   const { mensagens, perfil, modelo } = (await req.json()) as { mensagens: Mensagem[]; perfil?: string; modelo?: string };
-  const nomeModelo = (modelo || MODELO_PADRAO).trim();
+  // Com a chave do servidor, o modelo é sempre o do servidor: o visitante não escolhe um modelo caro na conta do dono.
+  const nomeModelo = (chaveUsuario ? modelo || MODELO_PADRAO : MODELO_PADRAO).trim();
   if (!nomeModelo) return Response.json({ erro: "Informe o modelo (ex.: empresa/modelo) nas configurações do chat." }, { status: 400 });
   if (!Array.isArray(mensagens) || mensagens.length > 40) return Response.json({ erro: "Conversa inválida." }, { status: 400 });
 
@@ -63,7 +64,7 @@ export async function POST(req: Request) {
       model: nomeModelo,
       messages: [
         { role: "system", content: `${SISTEMA}\n\nDADOS:\n${contexto()}\n\nPERFIL DO USUÁRIO:\n${perfil || "não informado"}` },
-        ...mensagens.slice(-20).map((m) => ({ role: m.role, content: String(m.content).slice(0, 4000) })),
+        ...mensagens.slice(-20).map((m) => ({ role: m.role === "assistant" ? "assistant" : "user", content: String(m.content).slice(0, 4000) })),
       ],
       max_tokens: 700,
     }),

@@ -1,4 +1,4 @@
-// Cenários de preço de venda: usa a faixa de 80% da previsão registrada (pior, esperado, melhor).
+// Cenários de preço de venda: usa a faixa provável (feita para 80%) da previsão registrada (pior, esperado, melhor).
 // O horizonte é o mais próximo do prazo da operação (13 ou 52 semanas); o preço da pessoa é escalado pela mesma variação.
 import { calcular, type Entradas, type Resultado } from "./margem.ts";
 import type { Painel } from "./painel.ts";

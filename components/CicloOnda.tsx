@@ -27,7 +27,11 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
   useEffect(() => {
     const el = caixa.current;
     if (!el) return;
-    const o = new ResizeObserver(() => setK(Math.max(1, W / el.getBoundingClientRect().width)));
+    // Aba escondida mede 0 de largura: mantém a escala anterior.
+    const o = new ResizeObserver(() => {
+      const largura = el.getBoundingClientRect().width;
+      if (largura > 0) setK(Math.max(1, W / largura));
+    });
     o.observe(el);
     return () => o.disconnect();
   }, []);

@@ -109,7 +109,7 @@ export default function Pagina() {
               <>
                 {p.previsao && (
                   <Secao id="prev" titulo="O que esperamos para os preços" sub="Previsões em 4, 13 e 52 semanas, sempre com faixa. Quanto mais longe, maior a incerteza.">
-                    <Previsao previsao={p.previsao} />
+                    <Previsao previsao={p.previsao} teste={p.acerto.teste} />
                   </Secao>
                 )}
                 <Secao id="acerto" titulo="Quanto o modelo acerta" sub="Toda previsão é registrada antes e comparada depois. Sem isso, não dá para confiar.">

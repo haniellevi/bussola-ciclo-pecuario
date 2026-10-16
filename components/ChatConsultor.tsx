@@ -155,7 +155,7 @@ export function ChatConsultor({ painel }: { painel: Painel }) {
       <header className="flex items-center justify-between border-b border-terra-700 px-4 py-3">
         <div className="min-w-0">
           <p className="font-display text-lg text-zinc-100">Consultor do Ciclo</p>
-          <p className="text-xs text-zinc-400">{iaLigada ? <>IA ligada<span className="hidden sm:inline"> · {config.modelo || servidor.modelo}</span></> : "Roteiro com as regras do app"}</p>
+          <p className="text-xs text-zinc-400">{iaLigada ? <>IA ligada<span className="hidden sm:inline"> · {(config.chave && config.modelo) || servidor.modelo}</span></> : "Roteiro com as regras do app"}</p>
         </div>
         <div className="flex shrink-0 gap-1">
           {pronto && (

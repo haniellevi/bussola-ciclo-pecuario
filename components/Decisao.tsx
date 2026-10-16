@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { cenarios } from "@/lib/cenarios";
 import { distanciaKm, fretePorCabeca, ufDaPraca, UFS, FATOR_ESTRADA, KM_DENTRO_DO_ESTADO } from "@/lib/frete";
-import { numero, reais } from "@/lib/formato";
+import { numero, pct, reais } from "@/lib/formato";
 import { calcular, custoArroba, NOME_ESTRUTURA, NOME_PARTE, type Entradas, type Estrutura, type Partes, type Selo } from "@/lib/margem";
 import type { CategoriaReposicao, Painel } from "@/lib/painel";
 import { descreverEstagio } from "@/lib/veredito";
@@ -28,6 +28,14 @@ const COR_SELO: Record<Selo, string> = {
 };
 
 // Valores de partida: preços vêm dos dados; o resto é exemplo para a pessoa trocar pelos da sua fazenda.
+// Campos que não vêm dos dados: enquanto a pessoa não trocar nenhum, a conta é só exemplo e não dá veredito.
+const EXEMPLO: Record<Estrutura, { campos: (keyof Entradas)[]; nomes: string }> = {
+  recria: { campos: ["pesoVenda", "gmd", "custoDia", "rendimento", "mortalidade"], nomes: "ganho de peso, custo por dia, peso de venda, rendimento e perdas" },
+  confinamento: { campos: ["pesoVenda", "gmd", "custoDia", "rendimento", "mortalidade"], nomes: "ganho de peso, custo por dia, peso de venda, rendimento e perdas" },
+  cria: { campos: ["taxaDesmama", "custoMatrizAno", "valorMatriz"], nomes: "desmama, custo e valor da matriz" },
+  revenda: { campos: ["compraCab", "vendaCab", "diasRevenda", "quebra"], nomes: "preço de compra e de venda, dias até vender e perda no transporte" },
+};
+
 function padrao(estrutura: Estrutura, p: Painel): Entradas {
   const base: Entradas = {
     estrutura, compraCab: p.hoje.bezerro, pesoCompra: 240, pesoVenda: 510, gmd: 0.6, custoDia: 4.5, rendimento: 52,
@@ -99,6 +107,7 @@ export function Decisao({ painel }: { painel: Painel }) {
   const [explicacao, setExplicacao] = useState<{ texto: string; para: string } | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
+  const [meus, setMeus] = useState(false); // a pessoa já pôs os números dela?
 
   useEffect(() => {
     try {
@@ -119,9 +128,15 @@ export function Decisao({ painel }: { painel: Painel }) {
     setCategoria(CATEGORIA_PADRAO[est]);
     setFreteManual(null);
     setExplicacao(null);
+    setMeus(false);
     lembrar(est, ufFazenda);
   }
   const mudar = <K extends keyof Entradas>(k: K, v: Entradas[K]) => setE((x) => ({ ...x, [k]: v }));
+  // Digitado pela pessoa: se for um campo de exemplo, a conta passa a ser dela.
+  const digitar = <K extends keyof Entradas>(k: K, v: Entradas[K]) => {
+    mudar(k, v);
+    if (EXEMPLO[estrutura].campos.includes(k)) setMeus(true);
+  };
 
   // Praças de boi gordo (Scot): média por estado
   const porUf = useMemo(() => {
@@ -152,6 +167,7 @@ export function Decisao({ painel }: { painel: Painel }) {
 
   const r = calcular(entradas);
   const cen = cenarios(entradas, painel, r.dias);
+  const dentroNoTeste = cen ? painel.acerto.teste.itens.find((t) => t.alvo === (estrutura === "cria" ? "bezerro" : "boi") && t.semanas === cen.semanas)?.dentroDaFaixa80 : undefined;
   const snapshot = JSON.stringify(entradas);
   const desatualizada = explicacao && explicacao.para !== snapshot;
 
@@ -371,33 +387,33 @@ export function Decisao({ painel }: { painel: Painel }) {
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {(estrutura === "recria" || estrutura === "confinamento") && (
               <>
-                <Num rotulo="Preço pago por animal" unidade="R$/cabeça" passo={50} valor={e.compraCab} onChange={(v) => mudar("compraCab", v)} faixa={faixaDe(padrao(estrutura, painel).compraCab)} dica={estrutura === "recria" ? `Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}. Use o botão de região para o preço do seu estado.` : "Exemplo: 12,5 arrobas × preço da arroba. Use o botão de região para o preço do boi magro."} />
-                <Num rotulo="Preço de venda do boi gordo" unidade="R$/@" passo={1} valor={e.vendaArroba} onChange={(v) => mudar("vendaArroba", v)} faixa={faixaDe(painel.hoje.boi)} dica={`Cepea hoje: ${reais(painel.hoje.boi, 2)}`} />
-                <Num rotulo="Peso na compra" unidade="kg vivo" passo={5} valor={e.pesoCompra} onChange={(v) => mudar("pesoCompra", v)} />
-                <Num rotulo="Peso na venda" unidade="kg vivo" passo={5} valor={e.pesoVenda} onChange={(v) => mudar("pesoVenda", v)} />
-                <Num rotulo="Ganho de peso por dia" unidade="kg/dia" passo={0.05} valor={e.gmd} onChange={(v) => mudar("gmd", v)} faixa={[0.2, 2]} />
-                <Num rotulo="Custo por animal por dia" unidade="R$/dia" passo={0.5} valor={e.custoDia} onChange={(v) => mudar("custoDia", v)} faixa={[2, 40]} dica="Comida, sal, mão de obra, vacina" />
-                <Num rotulo="Rendimento de carcaça" unidade="%" passo={0.5} valor={e.rendimento} onChange={(v) => mudar("rendimento", v)} />
-                <Num rotulo="Animais que se perdem" unidade="%" passo={0.5} valor={e.mortalidade} onChange={(v) => mudar("mortalidade", v)} />
+                <Num rotulo="Preço pago por animal" unidade="R$/cabeça" passo={50} valor={e.compraCab} onChange={(v) => digitar("compraCab", v)} faixa={faixaDe(padrao(estrutura, painel).compraCab)} dica={estrutura === "recria" ? `Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}. Use o botão de região para o preço do seu estado.` : "Exemplo: 12,5 arrobas × preço da arroba. Use o botão de região para o preço do boi magro."} />
+                <Num rotulo="Preço de venda do boi gordo" unidade="R$/@" passo={1} valor={e.vendaArroba} onChange={(v) => digitar("vendaArroba", v)} faixa={faixaDe(painel.hoje.boi)} dica={`Cepea hoje: ${reais(painel.hoje.boi, 2)}`} />
+                <Num rotulo="Peso na compra" unidade="kg vivo" passo={5} valor={e.pesoCompra} onChange={(v) => digitar("pesoCompra", v)} />
+                <Num rotulo="Peso na venda" unidade="kg vivo" passo={5} valor={e.pesoVenda} onChange={(v) => digitar("pesoVenda", v)} />
+                <Num rotulo="Ganho de peso por dia" unidade="kg/dia" passo={0.05} valor={e.gmd} onChange={(v) => digitar("gmd", v)} faixa={[0.2, 2]} />
+                <Num rotulo="Custo por animal por dia" unidade="R$/dia" passo={0.5} valor={e.custoDia} onChange={(v) => digitar("custoDia", v)} faixa={[2, 40]} dica="Comida, sal, mão de obra, vacina" />
+                <Num rotulo="Rendimento de carcaça" unidade="%" passo={0.5} valor={e.rendimento} onChange={(v) => digitar("rendimento", v)} />
+                <Num rotulo="Animais que se perdem" unidade="%" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} />
               </>
             )}
             {estrutura === "cria" && (
               <>
-                <Num rotulo="Preço do bezerro vendido" unidade="R$/cabeça" passo={50} valor={e.vendaBezerro} onChange={(v) => mudar("vendaBezerro", v)} faixa={faixaDe(painel.hoje.bezerro)} dica={`Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}`} />
-                <Num rotulo="Bezerros desmamados por matriz" unidade="% ao ano" passo={1} valor={e.taxaDesmama} onChange={(v) => mudar("taxaDesmama", v)} faixa={[30, 100]} />
-                <Num rotulo="Custo de manter uma matriz" unidade="R$/ano" passo={50} valor={e.custoMatrizAno} onChange={(v) => mudar("custoMatrizAno", v)} faixa={[300, 3000]} dica="Pasto, sal, vacina, mão de obra" />
-                <Num rotulo="Valor da matriz" unidade="R$" passo={100} valor={e.valorMatriz} onChange={(v) => mudar("valorMatriz", v)} dica="Dinheiro parado na vaca" />
+                <Num rotulo="Preço do bezerro vendido" unidade="R$/cabeça" passo={50} valor={e.vendaBezerro} onChange={(v) => digitar("vendaBezerro", v)} faixa={faixaDe(painel.hoje.bezerro)} dica={`Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}`} />
+                <Num rotulo="Bezerros desmamados por matriz" unidade="% ao ano" passo={1} valor={e.taxaDesmama} onChange={(v) => digitar("taxaDesmama", v)} faixa={[30, 100]} />
+                <Num rotulo="Custo de manter uma matriz" unidade="R$/ano" passo={50} valor={e.custoMatrizAno} onChange={(v) => digitar("custoMatrizAno", v)} faixa={[300, 3000]} dica="Pasto, sal, vacina, mão de obra" />
+                <Num rotulo="Valor da matriz" unidade="R$" passo={100} valor={e.valorMatriz} onChange={(v) => digitar("valorMatriz", v)} dica="Dinheiro parado na vaca" />
               </>
             )}
             {estrutura === "revenda" && (
               <>
-                <Num rotulo="Preço de compra" unidade="R$/cabeça de 18@" passo={50} valor={e.compraCab} onChange={(v) => mudar("compraCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
-                <Num rotulo="Preço de venda" unidade="R$/cabeça de 18@" passo={50} valor={e.vendaCab} onChange={(v) => mudar("vendaCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
-                <Num rotulo="Dias até vender" unidade="dias" valor={e.diasRevenda} onChange={(v) => mudar("diasRevenda", v)} />
-                <Num rotulo="Perda no transporte" unidade="%" passo={0.5} valor={e.quebra} onChange={(v) => mudar("quebra", v)} dica="Quebra de peso e mortes" />
+                <Num rotulo="Preço de compra" unidade="R$/cabeça de 18@" passo={50} valor={e.compraCab} onChange={(v) => digitar("compraCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
+                <Num rotulo="Preço de venda" unidade="R$/cabeça de 18@" passo={50} valor={e.vendaCab} onChange={(v) => digitar("vendaCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
+                <Num rotulo="Dias até vender" unidade="dias" valor={e.diasRevenda} onChange={(v) => digitar("diasRevenda", v)} />
+                <Num rotulo="Perda no transporte" unidade="%" passo={0.5} valor={e.quebra} onChange={(v) => digitar("quebra", v)} dica="Quebra de peso e mortes" />
               </>
             )}
-            <Num rotulo="Custo do dinheiro" unidade="% ao ano" passo={0.5} valor={e.juros} onChange={(v) => mudar("juros", v)} dica={`Selic hoje: ${numero(painel.selic.valor)}% (Banco Central)`} />
+            <Num rotulo="Custo do dinheiro" unidade="% ao ano" passo={0.5} valor={e.juros} onChange={(v) => digitar("juros", v)} dica={`Selic hoje: ${numero(painel.selic.valor)}% (Banco Central)`} />
           </div>
 
           {estrutura !== "cria" && (
@@ -438,11 +454,11 @@ export function Decisao({ painel }: { painel: Painel }) {
           <p className="text-xs uppercase tracking-wider text-zinc-400">
             Resultado · {NOME_ESTRUTURA[estrutura]} · por {qtd}
           </p>
-          <p className={`mt-2 inline-block rounded-full border px-4 py-1.5 font-display text-xl font-bold ${COR_SELO[r.selo]}`}>{ROTULO_SELO[r.selo]}</p>
+          <p className={`mt-2 inline-block rounded-full border px-4 py-1.5 font-display text-xl font-bold ${meus ? COR_SELO[r.selo] : "border-terra-700 text-zinc-300"}`}>{meus ? ROTULO_SELO[r.selo] : "Números de exemplo"}</p>
           <dl className="mt-4 grid grid-cols-2 gap-px sm:grid-cols-3 overflow-hidden rounded-xl border border-terra-700 bg-terra-700 text-center">
             {[
-              { t: estrutura === "cria" ? "Sobra por matriz/ano" : "Sobra por cabeça", v: reais(r.margem), cor: r.margem >= 0 ? "text-capim" : "text-alerta" },
-              { t: "Por mês", v: reais(r.margemMes), cor: r.margemMes >= 0 ? "text-capim" : "text-alerta" },
+              { t: estrutura === "cria" ? "Sobra por matriz/ano" : "Sobra por cabeça", v: reais(r.margem), cor: !meus ? "text-zinc-50" : r.margem >= 0 ? "text-capim" : "text-alerta" },
+              { t: "Por mês", v: reais(r.margemMes), cor: !meus ? "text-zinc-50" : r.margemMes >= 0 ? "text-capim" : "text-alerta" },
               { t: estrutura === "cria" ? "Prazo" : "Dias no negócio", v: numero(r.dias, 0), cor: "text-zinc-50" },
             ].map((x, i) => (
               <div key={x.t} className={`bg-terra-900 p-3 ${i === 0 ? "col-span-2 sm:col-span-1" : ""}`}>
@@ -452,10 +468,22 @@ export function Decisao({ painel }: { painel: Painel }) {
             ))}
           </dl>
 
-          <div className="mt-4 rounded-xl border-2 border-sol/50 bg-sol/10 p-4">
-            <p className="text-xs font-semibold uppercase tracking-wider text-sol">{r.selo === "nao" ? "Por que não compensa" : r.selo === "apertada" ? "Por que está apertado" : "Por que compensa"}</p>
-            <p className="mt-1 text-base leading-relaxed text-zinc-50">{porque}</p>
-          </div>
+          {meus ? (
+            <div className="mt-4 rounded-xl border-2 border-sol/50 bg-sol/10 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-sol">{r.selo === "nao" ? "Por que não compensa" : r.selo === "apertada" ? "Por que está apertado" : "Por que compensa"}</p>
+              <p className="mt-1 text-base leading-relaxed text-zinc-50">{porque}</p>
+            </div>
+          ) : (
+            <div className="mt-4 rounded-xl border-2 border-terra-700 bg-terra-950 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-300">Ainda não dá para dizer se compensa</p>
+              <p className="mt-1 text-base leading-relaxed text-zinc-50">
+                Esta conta usa números de exemplo para {EXEMPLO[estrutura].nomes}. Troque pelos da sua fazenda no passo 3 e o veredito aparece aqui.
+              </p>
+              <button type="button" onClick={() => setMeus(true)} className="mt-3 min-h-11 w-full rounded-lg border border-terra-700 px-4 text-sm text-zinc-200 hover:border-sol hover:text-sol sm:w-auto">
+                Estes números já são os meus
+              </button>
+            </div>
+          )}
 
           <div className="mt-4">
             <p className="text-sm text-zinc-300">
@@ -483,7 +511,10 @@ export function Decisao({ painel }: { painel: Painel }) {
           <p className="mt-1 text-sm text-zinc-300">{descreverEstagio(entradaDoPainel(painel))}</p>
           {cen ? (
             <>
-              <p className="mt-3 text-xs text-zinc-400">Previsão registrada para {cen.semanas} semanas, faixa de 80% (perto do prazo da operação). O seu preço de venda é movido na mesma proporção.</p>
+              <p className="mt-3 text-xs text-zinc-400">
+                Previsão registrada para {cen.semanas} semanas (perto do prazo da operação), com a faixa provável.
+                {dentroNoTeste != null && ` No teste de ${painel.acerto.teste.periodo}, o preço real ficou dentro dessa faixa em ${pct(dentroNoTeste)} das vezes.`} O seu preço de venda é movido na mesma proporção.
+              </p>
               <ul className="mt-2 grid grid-cols-3 gap-2 text-center">
                 {[
                   { t: "Preço no mínimo", x: cen.pior },
@@ -492,12 +523,12 @@ export function Decisao({ painel }: { painel: Painel }) {
                 ].map(({ t, x }) => (
                   <li key={t} className="flex flex-col justify-between rounded-lg bg-terra-950 px-1.5 py-2">
                     <span className="block text-xs text-zinc-400">{t}</span>
-                    <span className={`mt-0.5 block whitespace-nowrap font-display text-sm font-bold tabular-nums sm:text-base ${x.margem >= 0 ? "text-capim" : "text-alerta"}`}>{reais(x.margem)}</span>
+                    <span className={`mt-0.5 block whitespace-nowrap font-display text-sm font-bold tabular-nums sm:text-base ${!meus ? "text-zinc-50" : x.margem >= 0 ? "text-capim" : "text-alerta"}`}>{reais(x.margem)}</span>
                   </li>
                 ))}
               </ul>
-              {cen.pior.margem < 0 && r.margem >= 0 && <p className="mt-2 text-sm text-sol">Atenção: se o preço cair ao mínimo da faixa, a conta fica negativa. Vender parte antes ou travar preço na B3 reduz esse risco.</p>}
-              {cen.melhor.margem < 0 && <p className="mt-2 text-sm text-alerta">Mesmo com o preço no máximo da faixa, a conta não fecha. O problema está no custo ou no preço pago, não no ciclo.</p>}
+              {meus && cen.pior.margem < 0 && r.margem >= 0 && <p className="mt-2 text-sm text-sol">Atenção: se o preço cair ao mínimo da faixa, a conta fica negativa. Vender parte antes ou travar preço na B3 reduz esse risco.</p>}
+              {meus && cen.melhor.margem < 0 && <p className="mt-2 text-sm text-alerta">Mesmo com o preço no máximo da faixa, a conta não fecha. O problema está no custo ou no preço pago, não no ciclo.</p>}
             </>
           ) : (
             <p className="mt-2 text-sm text-zinc-400">Na revenda o preço de venda é o que você combina na hora, por isso não usamos a previsão do modelo.</p>
@@ -507,7 +538,7 @@ export function Decisao({ painel }: { painel: Painel }) {
         <article className="rounded-2xl border border-terra-700 bg-terra-900 p-4 sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h3 className="font-display text-lg text-zinc-50">Explicação da IA</h3>
-            <button type="button" onClick={explicar} disabled={carregando} className="h-11 rounded-lg border border-sol/60 px-4 text-sm font-semibold text-sol hover:bg-sol/10 disabled:opacity-50">
+            <button type="button" onClick={explicar} disabled={carregando || !meus} className="h-11 rounded-lg border border-sol/60 px-4 text-sm font-semibold text-sol hover:bg-sol/10 disabled:opacity-50">
               {carregando ? "Pensando…" : explicacao ? "Atualizar explicação" : "Explicar com IA"}
             </button>
           </div>
@@ -518,7 +549,7 @@ export function Decisao({ painel }: { painel: Painel }) {
               <p className={`mt-2 whitespace-pre-line text-base leading-relaxed ${desatualizada ? "text-zinc-400" : "text-zinc-50"}`}>{explicacao.texto}</p>
             </>
           ) : (
-            <p className="mt-2 text-sm text-zinc-400">A conta acima é instantânea. A explicação em texto (IA) só é gerada quando você clica, para não gastar créditos a cada toque.</p>
+            <p className="mt-2 text-sm text-zinc-400">{meus ? "A conta acima é instantânea. A explicação em texto (IA) só é gerada quando você clica, para não gastar créditos a cada toque." : "Troque os números de exemplo pelos seus para pedir a explicação."}</p>
           )}
         </article>
       </div>
