@@ -214,6 +214,14 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
   const real = f != null && f <= d.ultimo ? serie[f] : null;
   const pj = f != null && f > d.ultimo ? d.proj.find((p) => p.i === f) : undefined;
   const prev = f != null && f > d.ultimo ? d.pontosFut.find((p) => Math.abs(p.i - f) <= 1) : undefined;
+
+  // Onde as duas linhas do futuro se encontram no tempo: o último mês da previsão
+  const comp = (() => {
+    const u = d.pontosFut.at(-1);
+    const q = u && d.proj.find((p) => p.i === u.i);
+    return u && q ? { i: u.i, prev: u.p.previsto, pj: q.v } : null;
+  })();
+  const difComp = comp ? comp.prev / comp.pj - 1 : 0;
   const decisoesNoMes = f != null ? decisoes.filter((q) => q.i === f) : [];
   const yFoco = real ? real.boiReal : pj ? pj.v : null;
   const pctX = f != null ? (x(f) / W) * 100 : 0;
@@ -304,6 +312,15 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
               <polygon points={faixaPrev} fill="var(--color-sol)" fillOpacity={0.15} />
               <polyline points={linhaPrev} fill="none" stroke="var(--color-sol)" strokeWidth={2.5} strokeDasharray="7 5" />
 
+              {/* No fim da previsão, liga as duas linhas para mostrar a diferença */}
+              {comp && (
+                <g pointerEvents="none">
+                  <line x1={x(comp.i)} x2={x(comp.i)} y1={y(comp.prev)} y2={y(comp.pj)} stroke="var(--color-texto-2)" strokeWidth={1.5} />
+                  <circle cx={x(comp.i)} cy={y(comp.prev)} r={4} fill="var(--color-sol)" />
+                  <circle cx={x(comp.i)} cy={y(comp.pj)} r={4} fill="var(--color-texto-3)" />
+                </g>
+              )}
+
               {trechos.map((tr) => (
                 <path key={tr.de} d={tr.d} fill="none" stroke={tr.sobe ? "var(--color-capim)" : "var(--color-alerta)"} strokeWidth={2.5} strokeLinejoin="round" strokeLinecap="round" />
               ))}
@@ -372,7 +389,7 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
             )}
             {pj && (
               <p className="mt-1 text-texto-2">
-                Se o passado se repetir: <strong className="text-texto">{reais(pj.v)}/@</strong> (entre {reais(pj.min)} e {reais(pj.max)}). Não é previsão.
+                Desenho do passado: <strong className="text-texto">{reais(pj.v)}/@</strong> (entre {reais(pj.min)} e {reais(pj.max)}). Não é previsão.
               </p>
             )}
             {decisoesNoMes.map((q) => (
@@ -397,14 +414,33 @@ export function CicloOnda({ serie, pivos, fase, hoje, previsaoBoi }: Props) {
       <figcaption className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-texto-3">
         <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 bg-capim" /> subindo</span>
         <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 bg-alerta" /> caindo</span>
-        <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 border-t-2 border-dashed border-sol" /> previsão de 1 ano</span>
-        <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 border-t-2 border-dotted border-texto-3" /> se o passado se repetir</span>
+        <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 border-t-2 border-dashed border-sol" /> previsão (1 ano)</span>
+        <span className="flex items-center gap-1.5"><i className="h-0.5 w-4 border-t-2 border-dotted border-texto-3" /> desenho do passado</span>
         {d.zona && <span className="flex items-center gap-1.5"><i className="h-3 w-3 rounded-sm bg-sol/30" /> onde {fase.sobe ? "o pico" : "o fundo"} caiu nos ciclos passados</span>}
         {decisoes.length > 0 && <span className="flex items-center gap-1.5"><i className="h-3 w-3 rounded-full border-2 border-tinta" /> suas contas</span>}
       </figcaption>
+      {comp && (
+        <div className="mt-3 space-y-1.5 rounded-2xl bg-superficie-2 p-3 text-xs text-texto-2">
+          <p className="font-semibold text-texto">Por que são duas linhas no futuro?</p>
+          <p>
+            <span className="font-semibold text-sol">Previsão (tracejada):</span> conta feita com os números do mercado desta semana. Vai só até 1 ano, é guardada antes e conferida depois.
+          </p>
+          <p>
+            <span className="font-semibold text-texto">Desenho do passado (pontilhada):</span> só repete o formato médio dos {d.ciclos.length} últimos ciclos, com o pico no meio da janela marcada. Vai mais longe, mas não olha o mercado de hoje. Não é previsão.
+          </p>
+          <p>
+            Em {mesAno(somarMeses(d.inicio, comp.i))}, a previsão diz <strong className="text-texto">{reais(comp.prev)}/@</strong> e o desenho do passado, <strong className="text-texto">{reais(comp.pj)}/@</strong>.{" "}
+            {Math.abs(difComp) <= 0.06
+              ? "Estão perto: as duas contas apontam para o mesmo lado, o que dá mais confiança."
+              : difComp > 0
+                ? "A previsão está acima: o mercado de agora está mais forte do que nos ciclos passados."
+                : "A previsão está abaixo: o mercado de agora está mais fraco do que nos ciclos passados."}{" "}
+            Parte da diferença é a inflação: a previsão está em reais da época; a pontilhada, em valores de hoje.
+          </p>
+        </div>
+      )}
       <p className="mt-2 text-xs text-texto-3">
-        Boi gordo Cepea em valores de hoje (IGP-DI). Hoje: {reais(hoje.boi, 2)}/@{pico ? ` · último pico ${mesAno(pico.mes)}` : ""}. A linha pontilhada repete o desenho médio (subida e descida) dos {d.ciclos.length} últimos ciclos a partir do vale de{" "}
-        {d.pivosIdx.filter((p) => p.tipo === "vale").at(-1) ? mesAno(d.pivosIdx.filter((p) => p.tipo === "vale").at(-1)!.mes) : ""}, com o pico no meio da janela marcada; com tão poucos ciclos, é só uma referência.
+        Boi gordo Cepea em valores de hoje (IGP-DI). Hoje: {reais(hoje.boi, 2)}/@{pico ? ` · último pico ${mesAno(pico.mes)}` : ""}.
       </p>
     </figure>
   );
