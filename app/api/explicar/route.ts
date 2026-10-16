@@ -41,7 +41,8 @@ export async function POST(req: Request) {
 
   const estado = {
     estrutura: NOME_ESTRUTURA[e.estrutura],
-    margem_por_cabeca_reais: Math.round(r.margem),
+    conta: e.estrutura === "cria" ? "por matriz no ano" : "por cabeça",
+    margem_reais: Math.round(r.margem),
     retorno_sobre_capital_pct: +(r.retorno * 100).toFixed(1),
     receita: Math.round(r.receita),
     custos: Object.fromEntries(Object.entries(r.partes).map(([n, v]) => [n, Math.round(v)])),
@@ -81,6 +82,14 @@ export async function POST(req: Request) {
     } catch {}
   }
 
+  // Cria: conta por matriz no ano, sem animal comprado (a reposição de matrizes já está nos custos).
+  const unidade = e.estrutura === "cria" ? "por matriz no ano" : "por cabeça";
+  const mudanca =
+    e.estrutura === "cria"
+      ? `bezerro vendido por pelo menos ${brl(r.empateVenda)} por cabeça; não fale em preço máximo de compra`
+      : e.estrutura === "revenda"
+        ? `venda por pelo menos ${brl(r.empateVenda)} por cabeça, ou compra por no máximo ${brl(r.tetoCompra)} por cabeça`
+        : `preço de venda de empate ${brl(r.empateVenda)} por arroba, ou o animal comprado por no máximo ${brl(r.tetoCompra)} por cabeça`;
   const luna = process.env.MODELO_AGENTE?.trim();
   if (!luna) return Response.json({ erro: "Modelo do chat não configurado." }, { status: 503 });
   const t = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -94,8 +103,7 @@ export async function POST(req: Request) {
           role: "system",
           content:
             "Você explica, em português do Brasil simples, o resultado de uma conta de pecuária para quem não é técnico. Use só os números do bloco DADOS, sem inventar nada. " +
-            "Em no máximo 5 linhas: (1) diga se compensa e quanto sobra ou falta por cabeça; (2) diga o que mais pesa e em quanto; (3) diga o que precisaria mudar (preço de venda de empate " +
-            `${brl(r.empateVenda)}, ou o animal comprado por no máximo ${Number.isFinite(r.tetoCompra) ? brl(r.tetoCompra) : "—"}); (4) diga se o ciclo é risco para este caso. ` +
+            `Em no máximo 5 linhas: (1) diga se compensa e quanto sobra ou falta ${unidade}; (2) diga o que mais pesa e em quanto; (3) diga o que precisaria mudar (${mudanca}); (4) diga se o ciclo é risco para este caso. ` +
             "Nunca diga para não comprar de forma absoluta: quem compra todo dia precisa decidir onde e a que preço. Não é recomendação de investimento.",
         },
         {
