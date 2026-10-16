@@ -21,17 +21,43 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
     }),
   );
 
+  const boi = (s: number) => acerto.teste.itens.find((i) => i.alvo === "boi" && i.semanas === s);
+  const resumo = [
+    { rotulo: "1 mês", it: boi(4) },
+    { rotulo: "3 meses", it: boi(13) },
+    { rotulo: "1 ano", it: boi(52) },
+  ];
+
   return (
-    <div className="space-y-6">
-      {/* Celular: um cartão por previsão */}
-      <div className="space-y-3 sm:hidden">
-        <p className="text-xs text-texto-3">
-          Teste no passado: modelo ajustado só com dados até {acerto.teste.treinoAte.slice(0, 4)}, previsões feitas às cegas em {acerto.teste.periodo}.
+    <div className="space-y-3">
+      {/* O essencial à vista; os testes completos ficam fechados, para quem quiser conferir */}
+      <section className="space-y-3 rounded-3xl bg-superficie p-5">
+        <h3 className="text-lg font-semibold text-texto">Dá para confiar?</h3>
+        <dl className="grid grid-cols-3 gap-2">
+          {resumo.map(({ rotulo, it }) =>
+            it ? (
+              <div key={rotulo} className="rounded-2xl bg-fundo p-3">
+                <dt className="whitespace-nowrap text-xs text-texto-3">{rotulo}</dt>
+                <dd className="text-xl font-semibold tabular-nums text-texto">±{pct(it.erroMedioModelo)}</dd>
+              </div>
+            ) : null,
+          )}
+        </dl>
+        <p className="text-sm text-texto-2">
+          Erro médio do boi gordo no teste às cegas de {acerto.teste.periodo}. Em 1 e 3 meses a previsão quase empata com &quot;o preço fica onde
+          está&quot;; ela ajuda mais em 1 ano.
         </p>
+      </section>
+
+      <Dobra titulo="Os números do teste" sub={`Previsões feitas às cegas em ${acerto.teste.periodo}`}>
+      <p className="text-xs text-texto-3">
+        Modelo ajustado só com dados até {acerto.teste.treinoAte.slice(0, 4)}. Verde: errou menos que chutar &quot;preço parado&quot;.
+      </p>
+      <div className="space-y-3 sm:hidden">
         {acerto.teste.itens.map((it) => {
           const ganhou = it.erroMedioModelo < it.erroMedioIngenuo;
           return (
-            <div key={`${it.alvo}${it.semanas}`} className="rounded-2xl border border-linha bg-superficie p-4">
+            <div key={`${it.alvo}${it.semanas}`} className="rounded-2xl bg-fundo p-4">
               <p className="font-medium text-texto">
                 {NOME[it.alvo]} em {it.semanas} semanas
               </p>
@@ -57,12 +83,9 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
           );
         })}
       </div>
-      <div className="hidden overflow-x-auto rounded-2xl border border-linha sm:block">
+      <div className="hidden overflow-x-auto rounded-2xl bg-fundo sm:block">
         <table className="w-full min-w-[34rem] text-sm">
-          <caption className="bg-superficie px-4 py-3 text-left text-xs text-texto-3">
-            Teste no passado: modelo ajustado só com dados até {acerto.teste.treinoAte.slice(0, 4)}, previsões feitas às cegas em {acerto.teste.periodo}.
-          </caption>
-          <thead className="bg-superficie text-xs text-texto-3">
+          <thead className="text-xs text-texto-3">
             <tr>
               <th scope="col" className="px-4 py-2 text-left font-medium">Previsão</th>
               <th scope="col" className="px-4 py-2 text-right font-medium">Erro médio</th>
@@ -89,15 +112,14 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
           </tbody>
         </table>
       </div>
-      <ul className="space-y-1.5 text-sm text-texto-3">
+      <ul className="space-y-1.5 text-xs text-texto-3">
         <li>A faixa foi feita para conter o preço real 8 em cada 10 vezes. Em 1 ano ela errou mais: a incerteza é grande.</li>
-        <li>O teste acima cobre um só trecho do ciclo, quase todo de alta. Por isso fizemos o teste mais duro abaixo.</li>
+        <li>Este teste cobre um só trecho do ciclo, quase todo de alta. Por isso há o teste mais duro, ano a ano.</li>
       </ul>
+      </Dobra>
 
-      <div className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
-        <h3 className="font-display text-lg text-texto">Teste mais duro: ano a ano, {acerto.anoAno.periodo}</h3>
-        <p className="mt-1 text-sm text-texto-3">Cada ano previsto com o modelo treinado só até o ano anterior.</p>
-        <ul className="mt-3 grid gap-2 text-sm tabular-nums sm:grid-cols-2">
+      <Dobra titulo="Teste mais duro, ano a ano" sub={`${acerto.anoAno.periodo}: cada ano previsto só com o que se sabia antes`}>
+        <ul className="grid gap-2 text-sm tabular-nums sm:grid-cols-2">
           {acerto.anoAno.itens.map((it) => {
             const ganhou = it.erroMedioModelo < it.erroMedioIngenuo;
             return (
@@ -110,18 +132,14 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
             );
           })}
         </ul>
-        <p className="mt-3 text-xs leading-relaxed text-texto-3">
+        <p className="text-xs leading-relaxed text-texto-3">
           Leitura honesta: em 3 meses o modelo empata com o palpite &quot;o preço fica onde está&quot;. Ele ajuda mais no horizonte de 1 ano. Testamos
           incluir o dólar e os juros: não melhoraram de forma consistente, então ficaram de fora.
         </p>
-      </div>
+      </Dobra>
 
-      <div className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
-        <h3 className="font-display text-lg text-texto">E a leitura do ciclo, teria acertado?</h3>
-        <p className="mt-1 text-sm text-texto-3">
-          As regras de cada perfil aplicadas mês a mês em {acerto.vereditos.periodo}, usando só o que se sabia em cada mês.
-        </p>
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
+      <Dobra titulo="A leitura do ciclo teria acertado?" sub={`Regras de cada perfil aplicadas mês a mês em ${acerto.vereditos.periodo}`}>
+        <div className="grid gap-3 md:grid-cols-2">
           {VEREDITOS.map(({ chave, titulo, explica, fmt }) => {
             const r = acerto.vereditos.relatorio[chave];
             if (!r) return null;
@@ -149,21 +167,20 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
             );
           })}
         </div>
-        <p className="mt-4 text-xs leading-relaxed text-texto-3">
+        <p className="text-xs leading-relaxed text-texto-3">
           Cuidado: são só três ciclos completos, e os meses vizinhos se parecem, então há poucas decisões realmente independentes. As regras
           também foram escritas por quem já conhecia essa história. Para a cria, usamos a valorização do bezerro porque não há série pública de
           preço de matriz.
         </p>
-      </div>
+      </Dobra>
 
-      <div className="rounded-2xl border border-linha bg-superficie/60 p-4 sm:p-5">
-        <h3 className="font-display text-lg text-texto">Ao vivo, semana a semana</h3>
+      <Dobra titulo="Ao vivo, semana a semana" sub={vivo.length ? `${vivo.length} previsões já conferidas` : "A primeira conferência sai 4 semanas depois do primeiro registro"}>
         {vivo.length === 0 ? (
-          <p className="mt-2 text-sm text-texto-3">
+          <p className="text-sm text-texto-3">
             Toda segunda a previsão é registrada e não muda mais. A primeira comparação com o preço real sai 4 semanas depois do primeiro registro.
           </p>
         ) : (
-          <ul className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+          <ul className="grid gap-2 text-sm sm:grid-cols-2">
             {grupos.filter((g) => g.n).map((g) => (
               <li key={`${g.alvo}${g.s}`} className="rounded-lg bg-fundo px-3 py-2 text-texto-2">
                 {NOME[g.alvo]} em {g.s} sem.: erro {pct(g.erro, 1)}, dentro da faixa {pct(g.dentro)} ({g.n} previsões)
@@ -171,7 +188,25 @@ export function AcertoModelo({ acerto }: { acerto: Painel["acerto"] }) {
             ))}
           </ul>
         )}
-      </div>
+      </Dobra>
     </div>
+  );
+}
+
+// Parte que abre e fecha: título e uma linha de resumo; o detalhe só aparece se a pessoa tocar.
+function Dobra({ titulo, sub, children }: { titulo: string; sub: string; children: React.ReactNode }) {
+  return (
+    <details className="group rounded-2xl bg-superficie">
+      <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
+        <span>
+          <span className="block font-semibold text-texto">{titulo}</span>
+          <span className="block text-xs text-texto-3">{sub}</span>
+        </span>
+        <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-texto-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
+          <path d="m9 6 6 6-6 6" />
+        </svg>
+      </summary>
+      <div className="space-y-3 px-4 pb-4">{children}</div>
+    </details>
   );
 }

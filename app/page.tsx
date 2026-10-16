@@ -126,7 +126,7 @@ export default function Pagina() {
             conteudo: (
               <>
                 {p.previsao && (
-                  <Secao id="prev" titulo="O que esperamos para os preços" sub="Previsões em 4, 13 e 52 semanas, sempre com faixa. Quanto mais longe, maior a incerteza.">
+                  <Secao id="prev" titulo="O que esperamos para os preços" sub={`Feita em ${dataBr(p.previsao.dataBase)} e nunca alterada depois. Quanto mais longe, maior a incerteza.`}>
                     <Previsao previsao={p.previsao} teste={p.acerto.teste} />
                   </Secao>
                 )}
