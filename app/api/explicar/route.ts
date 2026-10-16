@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     margem_reais: Math.round(r.margem),
     retorno_sobre_capital_pct: +(r.retorno * 100).toFixed(1),
     receita: Math.round(r.receita),
-    custos: Object.fromEntries(Object.entries(r.partes).map(([n, v]) => [n, Math.round(v)])),
+    custos: Object.fromEntries(Object.entries(r.partes).map(([n, v]) => [nomeParte(e.estrutura, n as keyof typeof r.partes), Math.round(v)])),
     dias: r.dias,
     preco_de_empate: Math.round(r.empateVenda),
     margem_se_preco_cair_ao_minimo_da_previsao: cen ? Math.round(cen.pior.margem) : null,
