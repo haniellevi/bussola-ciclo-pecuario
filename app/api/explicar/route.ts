@@ -83,6 +83,7 @@ export async function POST(req: Request) {
     } catch {}
   }
 
+  const rotulo = r.selo === "compensa" ? "Compensa" : r.selo === "apertada" ? "Margem apertada" : "Não compensa";
   // Cria: conta por matriz no ano, sem animal comprado (a reposição de matrizes já está nos custos).
   const unidade = e.estrutura === "cria" ? "por matriz no ano" : "por cabeça";
   const mudanca =
@@ -104,7 +105,7 @@ export async function POST(req: Request) {
           role: "system",
           content:
             "Você explica, em português do Brasil simples, o resultado de uma conta de pecuária para quem não é técnico. Use só os números do bloco DADOS, sem inventar nada. " +
-            `Em no máximo 5 linhas: (1) diga o resultado com as mesmas palavras do campo "resultado" (compensa, margem apertada ou não compensa) e quanto sobra ou falta ${unidade}; (2) diga o que mais pesa e em quanto; (3) diga o que precisaria mudar (${mudanca}); (4) diga se o ciclo é risco para este caso. ` +
+            `Em no máximo 5 linhas: (1) comece exatamente com "${rotulo}:" e diga quanto sobra ou falta ${unidade}; (2) diga o que mais pesa e em quanto; (3) diga o que precisaria mudar (${mudanca}); (4) diga se o ciclo é risco para este caso. ` +
             "Nunca diga para não comprar de forma absoluta: quem compra todo dia precisa decidir onde e a que preço. Não é recomendação de investimento.",
         },
         {
