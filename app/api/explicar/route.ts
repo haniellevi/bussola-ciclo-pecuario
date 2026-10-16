@@ -1,5 +1,5 @@
 // Explicação da margem. O cálculo é feito aqui, no servidor, com as mesmas contas da tela.
-// Jev (modelo de notícias, só responde perguntas fechadas) aponta a causa principal e se o ciclo pesa;
+// Jev (modelo de notícias, só responde perguntas fechadas) aponta a causa principal (se o ciclo pesa é conta no código);
 // Luna (modelo do chat) escreve o texto curto com os números. Sem Jev configurado, só o Luna.
 import { cenarios } from "@/lib/cenarios";
 import { resolverChave } from "@/lib/chave";
@@ -53,8 +53,11 @@ export async function POST(req: Request) {
     ciclo: `preço do boi ${painel.fase.sobe ? "subindo" : "caindo"} há ${painel.fase.meses} meses`,
   };
 
-  // Jev: perguntas fechadas. Falha ou ausência não impedem a explicação.
-  let causa: string | null = null, cicloPesa: boolean | null = null;
+  // O ciclo pesa se, com o preço no mínimo da previsão, a margem fica negativa ou perde mais da metade.
+  const cicloPesa = cen ? cen.pior.margem < 0 || cen.pior.margem < r.margem / 2 : null;
+
+  // Jev: pergunta fechada. Falha ou ausência não impedem a explicação.
+  let causa: string | null = null;
   const jev = process.env.MODELO_NOTICIAS?.trim();
   if (jev) {
     try {
@@ -66,11 +69,6 @@ export async function POST(req: Request) {
           state: estado,
           questions: {
             causa: { type: "choice", instructions: "Olhando as contas desta operação de pecuária, qual é o problema principal do resultado?", criteria: CAUSAS },
-            ciclo_pesa: {
-              type: "noul",
-              instructions: "O resultado depende de o preço de venda subir, ou piora muito se o preço cair ao mínimo da previsão?",
-              criteria: { true: "Com o preço no mínimo da previsão a margem fica negativa ou perde mais da metade.", false: "A margem aguenta bem a queda do preço." },
-            },
           },
         }),
         signal: AbortSignal.timeout(30_000),
@@ -78,7 +76,6 @@ export async function POST(req: Request) {
       if (d.ok) {
         const a = (await d.json())?.answers ?? {};
         if (a.causa?.choice in CAUSAS) causa = a.causa.choice;
-        if (typeof a.ciclo_pesa?.noul === "number") cicloPesa = a.ciclo_pesa.noul >= 0.5;
       }
     } catch {}
   }

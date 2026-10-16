@@ -63,7 +63,7 @@ export async function POST(req: Request) {
     body: JSON.stringify({
       model: nomeModelo,
       messages: [
-        { role: "system", content: `${SISTEMA}\n\nDADOS:\n${contexto()}\n\nPERFIL DO USUÁRIO:\n${perfil || "não informado"}` },
+        { role: "system", content: `${SISTEMA}\n\nDADOS:\n${contexto()}\n\nPERFIL DO USUÁRIO:\n${String(perfil ?? "").slice(0, 500) || "não informado"}` },
         ...mensagens.slice(-20).map((m) => ({ role: m.role === "assistant" ? "assistant" : "user", content: String(m.content).slice(0, 4000) })),
       ],
       max_tokens: 700,
