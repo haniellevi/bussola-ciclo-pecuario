@@ -19,7 +19,7 @@ App gratuito (Next.js + TypeScript + Tailwind + Framer Motion) que lê o ciclo p
 ## Comandos
 - `npm run dev` / `npm run build`: app Next.js.
 - `node pipeline/<arquivo>.ts`: scripts do robô rodam direto no Node 24 (sem tsx). `npm run painel` regenera `data/painel.json`.
-- Não há testes nem lint. Teste de margem: `node pipeline/teste-margem.ts`. Para validar, rode `npm run build` e abra o app.
+- `npm run verificar`: tipos (tsc) + teste da conta de margem, rápido. `npm run verificar:completo` inclui o build. Não há lint. Depois de verificar, abra o app para testar de verdade.
 
 ## Dados e robô
 - `.github/workflows/semanal.yml` coleta todo dia útil e prevê às segundas; o robô commita em `data/`. Faça `git pull` antes de mexer em `data/`.

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "painel": "node pipeline/painel.ts"
+    "painel": "node pipeline/painel.ts",
+    "verificar": "tsc --noEmit && node pipeline/teste-margem.ts",
+    "verificar:completo": "npm run verificar && next build"
   },
   "dependencies": {
     "@vercel/blob": "^2.8.2",
