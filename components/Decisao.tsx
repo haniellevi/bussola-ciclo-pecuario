@@ -84,6 +84,14 @@ function Num({ rotulo, valor, onChange, unidade, passo = 1, faixa, dica }: { rot
   );
 }
 
+// Campos que ficam atrás de "Mostrar mais": mudam pouco de um mês para outro.
+const AVANCADOS: Record<Estrutura, { campos: (keyof Entradas)[]; nomes: string }> = {
+  recria: { campos: ["pesoCompra", "pesoVenda", "rendimento", "mortalidade", "juros"], nomes: "Pesos, rendimento, perdas, juros e frete" },
+  confinamento: { campos: ["pesoCompra", "pesoVenda", "rendimento", "mortalidade", "juros"], nomes: "Pesos, rendimento, perdas, juros e frete" },
+  cria: { campos: ["valorMatriz", "descarte", "valorDescarte", "mortalidade", "juros"], nomes: "Valor da matriz, descarte, mortes e juros" },
+  revenda: { campos: ["diasRevenda", "quebra", "juros"], nomes: "Dias até vender, perda no transporte, juros e frete" },
+};
+
 const CATEGORIA_PADRAO: Record<Estrutura, CategoriaReposicao> = { recria: "bezerro", confinamento: "boiMagro", cria: "desmama", revenda: "boiMagro" };
 
 const faixaDe = (v: number): [number, number] => [Math.round(v * 0.5), Math.round(v * 1.6)];
@@ -141,6 +149,9 @@ export function Decisao({ painel }: { painel: Painel }) {
   const [regiao, setRegiao] = useState(false);
   const [categoriaEscolhida, setCategoriaEscolhida] = useState(false);
   const [carregou, setCarregou] = useState(false);
+  const alteradosAvancados =
+    AVANCADOS[estrutura].campos.filter((k) => k in digitados).length +
+    (estrutura !== "cria" ? Number(freteManual != null) + Number(rsKm !== 7) + Number(cargaKg !== 24000) : 0);
 
   // Lista de municípios (coordenadas) só para o frete; carrega à parte para não pesar a página.
   useEffect(() => {
@@ -522,12 +533,8 @@ export function Decisao({ painel }: { painel: Painel }) {
               <>
                 <Num rotulo="Preço pago por animal" unidade="R$/cabeça" passo={50} valor={e.compraCab} onChange={(v) => digitar("compraCab", v)} faixa={faixaDe(padrao(estrutura, painel).compraCab)} dica={estrutura === "recria" ? `Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}. Use o botão de região para o preço do seu estado.` : "Exemplo: 12,5 arrobas × preço da arroba. Use o botão de região para o preço do boi magro."} />
                 <Num rotulo="Preço de venda do boi gordo" unidade="R$/@" passo={1} valor={e.vendaArroba} onChange={(v) => digitar("vendaArroba", v)} faixa={faixaDe(painel.hoje.boi)} dica={`Cepea hoje: ${reais(painel.hoje.boi, 2)}`} />
-                <Num rotulo="Peso na compra" unidade="kg vivo" passo={5} valor={e.pesoCompra} onChange={(v) => digitar("pesoCompra", v)} />
-                <Num rotulo="Peso na venda" unidade="kg vivo" passo={5} valor={e.pesoVenda} onChange={(v) => digitar("pesoVenda", v)} />
                 <Num rotulo="Ganho de peso por dia" unidade="kg/dia" passo={0.05} valor={e.gmd} onChange={(v) => digitar("gmd", v)} faixa={[0.2, 2]} />
                 <Num rotulo="Custo por animal por dia" unidade="R$/dia" passo={0.5} valor={e.custoDia} onChange={(v) => digitar("custoDia", v)} faixa={[2, 40]} dica="Comida, sal, mão de obra, vacina" />
-                <Num rotulo="Rendimento de carcaça" unidade="%" passo={0.5} valor={e.rendimento} onChange={(v) => digitar("rendimento", v)} />
-                <Num rotulo="Animais que se perdem" unidade="%" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} />
               </>
             )}
             {estrutura === "cria" && (
@@ -535,53 +542,89 @@ export function Decisao({ painel }: { painel: Painel }) {
                 <Num rotulo="Preço do bezerro vendido" unidade="R$/cabeça" passo={50} valor={e.vendaBezerro} onChange={(v) => digitar("vendaBezerro", v)} faixa={faixaDe(painel.hoje.bezerro)} dica={`Bezerro MS (Cepea): ${reais(painel.hoje.bezerro)}`} />
                 <Num rotulo="Bezerros desmamados por matriz" unidade="% ao ano" passo={1} valor={e.taxaDesmama} onChange={(v) => digitar("taxaDesmama", v)} faixa={[30, 100]} />
                 <Num rotulo="Custo de manter uma matriz" unidade="R$/ano" passo={50} valor={e.custoMatrizAno} onChange={(v) => digitar("custoMatrizAno", v)} faixa={[300, 3000]} dica="Pasto, sal, vacina, mão de obra" />
-                <Num rotulo="Valor da matriz" unidade="R$" passo={100} valor={e.valorMatriz} onChange={(v) => digitar("valorMatriz", v)} dica={`Exemplo: 15 @ ao preço do boi. É o dinheiro parado na vaca e o custo de repor uma matriz.`} />
-                <Num rotulo="Vacas descartadas por ano" unidade="% das matrizes" passo={1} valor={e.descarte} onChange={(v) => digitar("descarte", v)} faixa={[0, 40]} dica="Vacas velhas ou vazias vendidas; cada uma é reposta por uma matriz nova" />
-                <Num rotulo="Valor da vaca de descarte" unidade="R$/cabeça" passo={50} valor={e.valorDescarte} onChange={(v) => digitar("valorDescarte", v)} dica={`Exemplo: vaca de 12 @ ao preço do boi (${reais(painel.hoje.boi, 2)}/@). A vaca costuma valer um pouco menos.`} />
-                <Num rotulo="Matrizes que morrem" unidade="% ao ano" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} dica="Cada uma também é reposta" />
               </>
             )}
             {estrutura === "revenda" && (
               <>
                 <Num rotulo="Preço de compra" unidade="R$/cabeça de 18@" passo={50} valor={e.compraCab} onChange={(v) => digitar("compraCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
                 <Num rotulo="Preço de venda" unidade="R$/cabeça de 18@" passo={50} valor={e.vendaCab} onChange={(v) => digitar("vendaCab", v)} faixa={faixaDe(Math.round(18 * painel.hoje.boi))} />
-                <Num rotulo="Dias até vender" unidade="dias" valor={e.diasRevenda} onChange={(v) => digitar("diasRevenda", v)} />
-                <Num rotulo="Perda no transporte" unidade="%" passo={0.5} valor={e.quebra} onChange={(v) => digitar("quebra", v)} dica="Quebra de peso e mortes" />
               </>
             )}
-            <Num rotulo="Custo do dinheiro" unidade="% ao ano" passo={0.5} valor={e.juros} onChange={(v) => digitar("juros", v)} dica={`Selic hoje: ${numero(painel.selic.valor)}% (Banco Central)`} />
           </div>
 
-          {estrutura !== "cria" && (
-            <div className="mt-5 border-t border-linha pt-4">
-              <p className="text-sm font-medium text-texto-2">Frete (estimado pela distância)</p>
-              <div className="mt-3 grid gap-4 sm:grid-cols-2">
-                <Num rotulo="Preço do frete" unidade="R$ por km rodado" passo={0.5} valor={rsKm} onChange={setRsKm} dica="Exemplo: pergunte ao seu transportador" />
-                <Num rotulo="Carga do caminhão" unidade="kg" passo={500} valor={cargaKg} onChange={setCargaKg} dica="Exemplo: carreta boiadeira" />
-              </div>
-              {(
-                <p className="mt-3 text-sm text-texto-2">
-                  Frete por cabeça: <strong className="text-texto">{reais(entradas.frete)}</strong>
-                  {freteManual == null ? " (estimado)" : " (digitado)"}
-                  <span className="mt-1 block text-xs text-texto-3">
-                    {estrutura === "revenda" ? `Viagem: ${numero(kmRevenda, 0)} km.` : `Compra: ${ufCompra ? `${numero(kmCompra, 0)} km` : "sem frete"} · Venda: ${numero(kmVenda, 0)} km.`} Distância em linha reta × {FATOR_ESTRADA} para a estrada, {achada ? `saindo de ${achada[0]}` : "saindo da capital (informe a cidade da fazenda para melhorar)"}; outro estado conta da capital, praça conta da cidade de referência. No mesmo estado sem cidade, {KM_DENTRO_DO_ESTADO} km. É estimativa.
-                  </span>
-                </p>
+          {/* Números que mudam pouco ficam guardados atrás de um toque: a conta usa todos, aberto ou fechado. */}
+          <details className="group mt-5 border-t border-linha pt-4">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 rounded-lg text-left [&::-webkit-details-marker]:hidden">
+              <span>
+                <span className="block font-medium text-tinta">
+                  <span className="group-open:hidden">Mostrar mais números</span>
+                  <span className="hidden group-open:inline">Mostrar menos</span>
+                </span>
+                <span className="block text-xs text-texto-3">
+                  {AVANCADOS[estrutura].nomes}
+                  {alteradosAvancados > 0 && ` · ${alteradosAvancados} ${alteradosAvancados === 1 ? "mudado" : "mudados"} por você`}
+                </span>
+              </span>
+              <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-texto-3 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </summary>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              {(estrutura === "recria" || estrutura === "confinamento") && (
+                <>
+                  <Num rotulo="Peso na compra" unidade="kg vivo" passo={5} valor={e.pesoCompra} onChange={(v) => digitar("pesoCompra", v)} />
+                  <Num rotulo="Peso na venda" unidade="kg vivo" passo={5} valor={e.pesoVenda} onChange={(v) => digitar("pesoVenda", v)} />
+                  <Num rotulo="Rendimento de carcaça" unidade="%" passo={0.5} valor={e.rendimento} onChange={(v) => digitar("rendimento", v)} />
+                  <Num rotulo="Animais que se perdem" unidade="%" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} />
+                </>
               )}
-              {(
-                <div className="mt-2 flex flex-wrap items-end gap-3">
-                  <div className="w-full max-w-60">
-                    <Num rotulo="Ou digite o frete" unidade="R$/cabeça" passo={5} valor={freteManual ?? freteEstimado} onChange={setFreteManual} />
-                  </div>
-                  {freteManual != null && (
-                    <button type="button" onClick={() => setFreteManual(null)} className="mb-2 text-sm text-tinta underline underline-offset-4">
-                      Voltar ao estimado
-                    </button>
-                  )}
-                </div>
+              {estrutura === "cria" && (
+                <>
+                  <Num rotulo="Valor da matriz" unidade="R$" passo={100} valor={e.valorMatriz} onChange={(v) => digitar("valorMatriz", v)} dica={`Exemplo: 15 @ ao preço do boi. É o dinheiro parado na vaca e o custo de repor uma matriz.`} />
+                  <Num rotulo="Vacas descartadas por ano" unidade="% das matrizes" passo={1} valor={e.descarte} onChange={(v) => digitar("descarte", v)} faixa={[0, 40]} dica="Vacas velhas ou vazias vendidas; cada uma é reposta por uma matriz nova" />
+                  <Num rotulo="Valor da vaca de descarte" unidade="R$/cabeça" passo={50} valor={e.valorDescarte} onChange={(v) => digitar("valorDescarte", v)} dica={`Exemplo: vaca de 12 @ ao preço do boi (${reais(painel.hoje.boi, 2)}/@). A vaca costuma valer um pouco menos.`} />
+                  <Num rotulo="Matrizes que morrem" unidade="% ao ano" passo={0.5} valor={e.mortalidade} onChange={(v) => digitar("mortalidade", v)} dica="Cada uma também é reposta" />
+                </>
               )}
+              {estrutura === "revenda" && (
+                <>
+                  <Num rotulo="Dias até vender" unidade="dias" valor={e.diasRevenda} onChange={(v) => digitar("diasRevenda", v)} />
+                  <Num rotulo="Perda no transporte" unidade="%" passo={0.5} valor={e.quebra} onChange={(v) => digitar("quebra", v)} dica="Quebra de peso e mortes" />
+                </>
+              )}
+              <Num rotulo="Custo do dinheiro" unidade="% ao ano" passo={0.5} valor={e.juros} onChange={(v) => digitar("juros", v)} dica={`Selic hoje: ${numero(painel.selic.valor)}% (Banco Central)`} />
             </div>
-          )}
+            {estrutura !== "cria" && (
+              <div className="mt-5 border-t border-linha pt-4">
+                <p className="text-sm font-medium text-texto-2">Frete (estimado pela distância)</p>
+                <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                  <Num rotulo="Preço do frete" unidade="R$ por km rodado" passo={0.5} valor={rsKm} onChange={setRsKm} dica="Exemplo: pergunte ao seu transportador" />
+                  <Num rotulo="Carga do caminhão" unidade="kg" passo={500} valor={cargaKg} onChange={setCargaKg} dica="Exemplo: carreta boiadeira" />
+                </div>
+                {(
+                  <p className="mt-3 text-sm text-texto-2">
+                    Frete por cabeça: <strong className="text-texto">{reais(entradas.frete)}</strong>
+                    {freteManual == null ? " (estimado)" : " (digitado)"}
+                    <span className="mt-1 block text-xs text-texto-3">
+                      {estrutura === "revenda" ? `Viagem: ${numero(kmRevenda, 0)} km.` : `Compra: ${ufCompra ? `${numero(kmCompra, 0)} km` : "sem frete"} · Venda: ${numero(kmVenda, 0)} km.`} Distância em linha reta × {FATOR_ESTRADA} para a estrada, {achada ? `saindo de ${achada[0]}` : "saindo da capital (informe a cidade da fazenda para melhorar)"}; outro estado conta da capital, praça conta da cidade de referência. No mesmo estado sem cidade, {KM_DENTRO_DO_ESTADO} km. É estimativa.
+                    </span>
+                  </p>
+                )}
+                {(
+                  <div className="mt-2 flex flex-wrap items-end gap-3">
+                    <div className="w-full max-w-60">
+                      <Num rotulo="Ou digite o frete" unidade="R$/cabeça" passo={5} valor={freteManual ?? freteEstimado} onChange={setFreteManual} />
+                    </div>
+                    {freteManual != null && (
+                      <button type="button" onClick={() => setFreteManual(null)} className="mb-2 text-sm text-tinta underline underline-offset-4">
+                        Voltar ao estimado
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </details>
         </section>
       </div>
 
