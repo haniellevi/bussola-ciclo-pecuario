@@ -142,7 +142,7 @@ export default function Pagina() {
                   id: "noticias",
                   rotulo: "Notícias",
                   conteudo: (
-                    <Secao id="not" titulo="O que as notícias dizem" sub="Notícias de pecuária da semana, de sites que permitem leitura automática. Toque para ler na fonte.">
+                    <Secao id="not" titulo="O que as notícias dizem" sub="Notícias de pecuária da semana. Toque numa notícia para ler na fonte.">
                       <Noticias noticias={p.noticias} />
                     </Secao>
                   ),
