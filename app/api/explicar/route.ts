@@ -1,9 +1,8 @@
 // Explicação da margem. O cálculo é feito aqui, no servidor, com as mesmas contas da tela.
-// Jev (modelo de notícias, só responde perguntas fechadas) aponta a causa principal (se o ciclo pesa é conta no código);
-// Luna (modelo do chat) escreve o texto curto com os números. Sem Jev configurado, só o Luna.
+// O que mais aperta e se o ciclo pesa são contas no código; o modelo do chat (Luna) só escreve o texto curto com os números.
 import { cenarios } from "@/lib/cenarios";
 import { resolverChave } from "@/lib/chave";
-import { calcular, NOME_ESTRUTURA, nomeParte, type Entradas } from "@/lib/margem";
+import { aperto, calcular, NOME_ESTRUTURA, nomeParte, type Entradas } from "@/lib/margem";
 import { painel } from "@/lib/painel";
 
 export const dynamic = "force-dynamic";
@@ -13,16 +12,8 @@ const CAMPOS: (keyof Entradas)[] = [
   "custoMatrizAno", "valorMatriz", "vendaBezerro", "descarte", "valorDescarte", "vendaCab", "diasRevenda", "quebra", "frete", "juros",
 ];
 const ESTRUTURAS = ["recria", "confinamento", "cria", "revenda"];
-const DECISIONS = process.env.DECISIONS_URL ?? "https://openrouter.ai/api/alpha/decisions";
 const brl = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
 
-const CAUSAS = {
-  compra_cara: "O animal comprado custa caro demais para o preço de venda.",
-  venda_baixa: "O preço de venda está baixo para o que foi gasto.",
-  custo_alto: "O custo diário, o ganho de peso lento ou o prazo longo comem a margem.",
-  frete_juros_perdas: "Frete, juros ou perdas são o que pesa.",
-  nenhuma: "A conta fecha com folga; não há problema principal.",
-} as const;
 
 export async function POST(req: Request) {
   const k = await resolverChave(req);
@@ -56,33 +47,23 @@ export async function POST(req: Request) {
   // O ciclo pesa se, com o preço no mínimo da previsão, a margem fica negativa ou perde mais da metade.
   const cicloPesa = cen ? cen.pior.margem < 0 || cen.pior.margem < r.margem / 2 : null;
 
-  // Jev: pergunta fechada. Falha ou ausência não impedem a explicação.
-  let causa: string | null = null;
-  const jev = process.env.MODELO_NOTICIAS?.trim();
-  if (jev) {
-    try {
-      const d = await fetch(DECISIONS, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${k.chave}`, "Content-Type": "application/json", "X-Title": "Bussola do Ciclo Pecuario" },
-        body: JSON.stringify({
-          model: jev,
-          state: estado,
-          questions: {
-            causa: { type: "choice", instructions: "Olhando as contas desta operação de pecuária, qual é o problema principal do resultado?", criteria: CAUSAS },
-          },
-        }),
-        signal: AbortSignal.timeout(30_000),
-      });
-      if (d.ok) {
-        const a = (await d.json())?.answers ?? {};
-        if (a.causa?.choice in CAUSAS) causa = a.causa.choice;
-      }
-    } catch {}
-  }
-
-  const rotulo = r.selo === "compensa" ? "Compensa" : r.selo === "apertada" ? "Margem apertada" : "Não compensa";
   // Cria: conta por matriz no ano, sem animal comprado (a reposição de matrizes já está nos custos).
   const unidade = e.estrutura === "cria" ? "por matriz no ano" : "por cabeça";
+
+  // O que mais aperta: conta exata (lib/margem.ts), sem IA.
+  const ap = aperto(e, r);
+  const reaisArroba = (v: number) => `${brl(v)} por arroba`;
+  const apertoTexto = !ap
+    ? null
+    : ap.tipo === "compra"
+      ? `o preço do animal comprado: você paga ${reaisArroba(ap.pagoArroba)} no animal e vende a ${reaisArroba(ap.vendaArroba)}`
+      : ap.tipo === "engorda"
+        ? `a engorda: cada arroba que o animal ganha custa ${reaisArroba(ap.custoArroba)} (custo diário ÷ ganho de peso) e é vendida a ${reaisArroba(ap.vendaArroba)}`
+        : ap.tipo === "venda"
+          ? `o preço: a venda não cobre o que foi pago na compra`
+          : `${nomeParte(e.estrutura, ap.parte)}, ${brl(-ap.valor)} ${unidade}`;
+
+  const rotulo = r.selo === "compensa" ? "Compensa" : r.selo === "apertada" ? "Margem apertada" : "Não compensa";
   const mudanca =
     e.estrutura === "cria"
       ? `bezerro vendido por pelo menos ${brl(r.empateVenda)} por cabeça; não fale em preço máximo de compra`
@@ -108,16 +89,16 @@ export async function POST(req: Request) {
         },
         {
           role: "user",
-          content: `DADOS: ${JSON.stringify(estado)}\nMaior gasto: ${nomeParte(e.estrutura, r.principal)}, ${brl(r.partes[r.principal])} ${unidade}\nO que mais aperta: ${causa && causa !== "nenhuma" ? CAUSAS[causa as keyof typeof CAUSAS] : "(vazio)"}\nCiclo pesa no resultado: ${cicloPesa == null ? "n/d" : cicloPesa ? "sim" : "não"}`,
+          content: `DADOS: ${JSON.stringify(estado)}\nMaior gasto: ${nomeParte(e.estrutura, r.principal)}, ${brl(r.partes[r.principal])} ${unidade}\nO que mais aperta: ${apertoTexto ?? "(vazio)"}\nCiclo pesa no resultado: ${cicloPesa == null ? "n/d" : cicloPesa ? "sim" : "não"}`,
         },
       ],
     }),
     signal: AbortSignal.timeout(60_000),
   }).catch(() => null);
-  if (!t) return Response.json({ erro: "O OpenRouter não respondeu." }, { status: 502 });
+  if (!t) return Response.json({ erro: "A IA não respondeu. Tente de novo." }, { status: 502 });
   const j = await t.json().catch(() => null);
   if (t.status === 401) return Response.json({ erro: k.propria ? "Chave do OpenRouter inválida. Confira na engrenagem." : "A chave do OpenRouter do servidor é inválida." }, { status: 401 });
   const texto = j?.choices?.[0]?.message?.content;
-  if (!t.ok || !texto) return Response.json({ erro: j?.error?.message ?? "Sem resposta do modelo." }, { status: 502 });
-  return Response.json({ texto, causa, cicloPesa });
+  if (!t.ok || !texto) return Response.json({ erro: j?.error?.message ?? "A IA não respondeu. Tente de novo." }, { status: 502 });
+  return Response.json({ texto, aperto: ap?.tipo ?? null, cicloPesa });
 }

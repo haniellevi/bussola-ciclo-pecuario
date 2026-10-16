@@ -1,6 +1,6 @@
 // Confere a conta de margem: cada variável precisa mexer no resultado, e os casos de mão batem.
 // Uso: node pipeline/teste-margem.ts
-import { calcular, type Entradas } from "../lib/margem.ts";
+import { aperto, calcular, type Entradas } from "../lib/margem.ts";
 import { distanciaKm, distanciaLocais, fretePorCabeca, localDaPraca } from "../lib/frete.ts";
 
 const base: Entradas = {
@@ -52,6 +52,14 @@ const d = distanciaKm("SP", "MT");
 ok(d > 1200 && d < 2200, `SP→MT ${d} km`);
 ok(Math.abs(fretePorCabeca(1000, 10, 300, 24000) - 10000 / 80) < 0.01, "frete por cabeça");
 // Cidade da fazenda: Alta Floresta (MT) fica longe de Cuiabá; até a praça MT Norte (Sinop) é bem mais perto
+// O que mais aperta: compra + engorda + extras somam a margem; ágio alto aponta a compra; custo diário alto aponta a engorda.
+const veio = (240 * 0.52) / 15, ganha = (300 * 0.52) / 15;
+const pCompra = veio * 380 - 3500, pEngorda = ganha * 380 - r.partes.operacao;
+ok(Math.abs(pCompra + pEngorda - r.partes.frete - r.partes.juros - r.partes.perdas - r.margem) < 0.01, "pedaços do aperto = margem");
+const caro = { ...base, compraCab: 5500 };
+ok(aperto(caro, calcular(caro))?.tipo === "compra", "animal caro aperta na compra");
+const comidaCara = { ...base, custoDia: 14 };
+ok(aperto(comidaCara, calcular(comidaCara))?.tipo === "engorda", "custo diário alto aperta na engorda");
 const altaFloresta = { uf: "MT", ponto: [-9.866, -56.086] as [number, number] };
 const dSinop = distanciaLocais(altaFloresta, localDaPraca("MT Norte"));
 ok(dSinop > 250 && dSinop < 400, `Alta Floresta→Sinop ${dSinop} km`);

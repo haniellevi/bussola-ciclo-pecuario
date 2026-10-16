@@ -123,5 +123,35 @@ export function calcular(e: Entradas): Resultado {
   return { dias, receita, capital, partes, margem, margemMes: margem / (dias / 30.4), retorno, selo, empateVenda, tetoCompra, principal };
 }
 
+// O que mais aperta a conta: a margem é a soma exata de pedaços; o que mais perde dinheiro é o aperto.
+// Engorda: compra (arrobas que já vieram no animal × preço de venda − preço pago) + engorda (arrobas ganhas × preço − custo diário) + extras.
+// Revenda: diferença de preço + extras. Cria: só custos, então o aperto é o maior gasto (sem frase extra).
+export type Aperto =
+  | { tipo: "compra"; pagoArroba: number; vendaArroba: number; valor: number }
+  | { tipo: "engorda"; custoArroba: number; vendaArroba: number; valor: number }
+  | { tipo: "venda"; valor: number }
+  | { tipo: "extra"; parte: "frete" | "juros" | "perdas"; valor: number }
+  | null;
+
+export function aperto(e: Entradas, r: Resultado): Aperto {
+  if (e.estrutura === "cria") return null;
+  const extras = (["frete", "juros", "perdas"] as const).reduce((a, b) => (r.partes[b] > r.partes[a] ? b : a));
+  const extra = { tipo: "extra" as const, parte: extras, valor: -r.partes[extras] };
+  if (e.estrutura === "revenda") {
+    const dif = e.vendaCab - e.compraCab;
+    return dif <= 0 ? { tipo: "venda", valor: dif } : r.margem < 0 || extra.valor < 0 ? extra : null;
+  }
+  const veio = (e.pesoCompra * (e.rendimento / 100)) / ARROBA_KG;
+  const ganha = ((e.pesoVenda - e.pesoCompra) * (e.rendimento / 100)) / ARROBA_KG;
+  if (veio <= 0 || ganha <= 0) return null;
+  const pedacos = [
+    { tipo: "compra" as const, pagoArroba: e.compraCab / veio, vendaArroba: e.vendaArroba, valor: veio * e.vendaArroba - e.compraCab },
+    { tipo: "engorda" as const, custoArroba: r.partes.operacao / ganha, vendaArroba: e.vendaArroba, valor: ganha * e.vendaArroba - r.partes.operacao },
+    extra,
+  ];
+  const pior = pedacos.reduce((a, b) => (b.valor < a.valor ? b : a));
+  return pior.valor < 0 ? pior : null;
+}
+
 // Custo da arroba produzida: custo diário ÷ (ganho diário em kg ÷ 15 kg por arroba).
 export const custoArroba = (custoDiario: number, gmdKg: number) => (gmdKg > 0 ? custoDiario / (gmdKg / ARROBA_KG) : Infinity);
