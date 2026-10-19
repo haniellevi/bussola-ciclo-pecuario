@@ -1,0 +1,191 @@
+{
+ "semana": "2026-S43",
+ "atualizadoEm": "2026-10-19T18:40:08.621Z",
+ "avisos": [
+  "Feed Compre Rural falhou: Compre Rural: HTTP 403"
+ ],
+ "termometro": {
+  "relevantes": 7,
+  "saldo": 0.71,
+  "porVariavel": {
+   "oferta": {
+    "n": 1,
+    "saldo": 1
+   },
+   "exportacao": {
+    "n": 6,
+    "saldo": 0.67
+   }
+  }
+ },
+ "itens": [
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Carne de bovinos terminados com beterraba apresenta mais que o dobro de ômega-3, aponta pesquisa argentina",
+   "link": "https://beefpoint.com.br/carne-de-bovinos-terminados-com-beterraba-apresenta-mais-que-o-dobro-de-omega-3-aponta-pesquisa-argentina/",
+   "data": "2026-10-19",
+   "resumo": "Uma pesquisa realizada pelo Instituto Nacional de Tecnologia Agropecuária (INTA), da Argentina, identificou diferenças importantes na composição da gordura da carne bovina conforme o sistema de […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Sial Paris deve ser “primeiro momento” de novas vendas à China, avalia Abiec",
+   "link": "https://beefpoint.com.br/sial-paris-deve-ser-primeiro-momento-de-novas-vendas-a-china-avalia-abiec/",
+   "data": "2026-10-19",
+   "resumo": "Sem conseguir exportar para a União Europeia, a indústria de carne bovina do Brasil mira, principalmente, a China em sua participação na Sial Paris. O evento […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Preço do boi gordo atinge recorde histórico em São Paulo",
+   "link": "https://beefpoint.com.br/preco-do-boi-gordo-atinge-recorde-historico-em-sao-paulo/",
+   "data": "2026-10-19",
+   "resumo": "A arroba do boi gordo encerrou a semana com valor recorde em São Paulo, segundo o Centro de Estudos Avançados em Economia Aplicada (Cepea). Na sexta-feira […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Indicador do Boi DATAGRO – Boletim de 16-outubro-2026",
+   "link": "https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-16-outubro-2026/",
+   "data": "2026-10-19",
+   "resumo": "Fonte: Indicador do Boi DATAGRO.",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "Comportamento do gado Girolando deve orientar estrutura da fazenda",
+   "link": "https://folhaagricola.com.br/2026/10/19/comportamento-do-gado-girolando-deve-orientar-estrutura-da-fazenda/",
+   "data": "2026-10-19",
+   "resumo": "Instalações adaptadas ao perfil do rebanho facilitam o manejo, reduzem situações de estresse e contribuem para o bem-estar animal Porteiras mal posicionadas, corredores estreitos ou estímulos inesperados podem alterar a movimentação dos bov",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Genética zebuína brasileira atrai Filipinas para ampliar parceria comercial",
+   "link": "https://canaldocriador.com.br/lance-rural/genetica-zebuina-brasileira-filipinas-parceria-comercial/",
+   "data": "2026-10-18",
+   "resumo": "Comitiva filipina visita centrais de genética em Uberaba (MG) para fortalecer relações comerciais e avaliar a ampliação das exportações de embriões e bovinos vivos",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "USDA reduz pela 8ª vez seguida previsão de produção de carne bovina dos EUA",
+   "link": "https://beefpoint.com.br/usda-reduz-pela-8a-vez-seguida-previsao-de-producao-de-carne-bovina-dos-eua/",
+   "data": "2026-10-16",
+   "resumo": "O Departamento de Agricultura dos Estados Unidos (USDA) voltou a reduzir suas estimativas de produção de carne bovina para 2026 e 2027. A revisão, divulgada em […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "oferta"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Coreia do Sul importou 468 mil toneladas de carne bovina em 2025 e está no radar do Brasil",
+   "link": "https://beefpoint.com.br/coreia-do-sul-importou-468-mil-toneladas-de-carne-bovina-em-2025-e-esta-no-radar-do-brasil/",
+   "data": "2026-10-16",
+   "resumo": "A Coreia do Sul se tornou um dos mercados de interesse para a carne bovina brasileira. Em 2025, o país asiático importou 468,1 mil toneladas do […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Preços do boi gordo seguem firmes e registram altas em algumas regiões",
+   "link": "https://beefpoint.com.br/precos-do-boi-gordo-seguem-firmes-e-registram-altas-em-algumas-regioes/",
+   "data": "2026-10-16",
+   "resumo": "O mercado físico do boi gordo permaneceu firme nesta quinta-feira (15/10), em um dia marcado por maior fluidez nas negociações e pelo registro de uma nova […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Exportação de couro recua em setembro, mas preços atingem maior nível de 2026",
+   "link": "https://canaldocriador.com.br/lance-rural/exportacao-de-couro-setembro-2026-precos-recordes/",
+   "data": "2026-10-16",
+   "resumo": "Embarques brasileiros caem 9,7% no mês, enquanto valorização do couro e mudanças no mercado trazem novas perspectivas para a cadeia pecuária",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Carne Angus: rota pelo RS aproxima criadores e destaca oportunidades de valorização",
+   "link": "https://canaldocriador.com.br/lance-rural/carne-angus-rota-rs-criadores-valorizacao/",
+   "data": "2026-10-15",
+   "resumo": "Iniciativa percorre cinco cidades gaúchas entre 19 e 23 de outubro para fortalecer a produção de carne de qualidade e ampliar oportunidades aos pecuaristas",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Exportações agrícolas: Brasil pode ultrapassar EUA e beneficiar pecuária",
+   "link": "https://canaldocriador.com.br/geral/exportacoes-agricolas-brasil-ultrapassar-eua-beneficiar-pecuaria/",
+   "data": "2026-10-14",
+   "resumo": "Projeção de liderança mundial em 2026 abre perspectivas para a carne bovina brasileira, enquanto novas exigências comerciais desafiam produtores",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Ordenha manual ganha destaque em desafio para mulheres durante a 4ª ExpoLeite",
+   "link": "https://canaldocriador.com.br/geral/ordenha-manual-desafio-mulheres-expoleite-2026/",
+   "data": "2026-10-13",
+   "resumo": "Competição em Uberaba (MG) vai premiar mulheres da pecuária leiteira que conseguirem o maior volume de leite em cinco minutos",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Carne bovina: exportações somam 2,43 milhões de toneladas até setembro",
+   "link": "https://canaldocriador.com.br/geral/carne-bovina-exportacoes-243-milhoes-toneladas-setembro-2026/",
+   "data": "2026-10-12",
+   "resumo": "Mesmo com a queda nas vendas para a China, exportações brasileiras acumulam US$ 14,17 bilhões em 2026, enquanto novos mercados ampliam as compras da proteína",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  }
+ ]
+}
