@@ -1,7 +1,7 @@
 {
  "fonte": "Scot Consultoria, boi gordo mercado físico (preço bruto, R$/@)",
  "url": "https://www.scotconsultoria.com.br/cotacoes/boi-gordo/",
- "coletadoEm": "2026-10-21T01:10:40.621Z",
+ "coletadoEm": "2026-10-22T01:08:02.150Z",
  "dados": [
   {
    "data": "2026-10-14",
@@ -396,6 +396,107 @@
     "RO Sudeste": {
      "vista": 350,
      "prazo30": 354
+    },
+    "TO Sul": {
+     "vista": 356,
+     "prazo30": 360
+    },
+    "TO Norte": {
+     "vista": 356,
+     "prazo30": 360
+    }
+   }
+  },
+  {
+   "data": "2026-10-20",
+   "pracas": {
+    "SP Barretos": {
+     "vista": 376,
+     "prazo30": 380
+    },
+    "SP Araçatuba": {
+     "vista": 376,
+     "prazo30": 380
+    },
+    "MG Triângulo": {
+     "vista": 366,
+     "prazo30": 370
+    },
+    "MG B.Horizonte": {
+     "vista": 368,
+     "prazo30": 372
+    },
+    "MG Norte": {
+     "vista": 366,
+     "prazo30": 370
+    },
+    "MG Sul": {
+     "vista": 364,
+     "prazo30": 368
+    },
+    "GO Goiânia": {
+     "vista": 363,
+     "prazo30": 367
+    },
+    "GO Reg. Sul": {
+     "vista": 356,
+     "prazo30": 360
+    },
+    "MS Dourados": {
+     "vista": 373,
+     "prazo30": 377
+    },
+    "MS C. Grande": {
+     "vista": 371,
+     "prazo30": 375
+    },
+    "MS Três Lagoas": {
+     "vista": 370,
+     "prazo30": 374
+    },
+    "BA Sul": {
+     "vista": 363,
+     "prazo30": 367
+    },
+    "BA Oeste": {
+     "vista": 366,
+     "prazo30": 370
+    },
+    "MT Norte": {
+     "vista": 351,
+     "prazo30": 355
+    },
+    "MT Sudoeste": {
+     "vista": 351,
+     "prazo30": 355
+    },
+    "MT Sudeste": {
+     "vista": 350,
+     "prazo30": 354
+    },
+    "PR Noroeste": {
+     "vista": 383,
+     "prazo30": 387
+    },
+    "MA Oeste": {
+     "vista": 356,
+     "prazo30": 360
+    },
+    "PA Marabá": {
+     "vista": 364,
+     "prazo30": 368
+    },
+    "PA Redenção": {
+     "vista": 364,
+     "prazo30": 368
+    },
+    "PA Paragominas": {
+     "vista": 368,
+     "prazo30": 372
+    },
+    "RO Sudeste": {
+     "vista": 353,
+     "prazo30": 357
     },
     "TO Sul": {
      "vista": 356,
