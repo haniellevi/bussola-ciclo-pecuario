@@ -1,0 +1,207 @@
+{
+ "semana": "2026-S44",
+ "atualizadoEm": "2026-10-26T18:38:46.132Z",
+ "avisos": [
+  "Feed Compre Rural falhou: Compre Rural: HTTP 403"
+ ],
+ "termometro": {
+  "relevantes": 8,
+  "saldo": 0.63,
+  "porVariavel": {
+   "oferta": {
+    "n": 2,
+    "saldo": 0
+   },
+   "exportacao": {
+    "n": 5,
+    "saldo": 1
+   },
+   "politica": {
+    "n": 1,
+    "saldo": 0
+   }
+  }
+ },
+ "itens": [
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Entrada de bovinos em confinamentos dos EUA cai 12% e atinge menor nível histórico para setembro",
+   "link": "https://beefpoint.com.br/entrada-de-bovinos-em-confinamentos-dos-eua-cai-12-e-atinge-menor-nivel-historico-para-setembro/",
+   "data": "2026-10-26",
+   "resumo": "A entrada de bovinos nos confinamentos dos Estados Unidos caiu 12,1% em setembro de 2026, em comparação com o mesmo mês do ano anterior, atingindo o […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "oferta"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Ministro André de Paula acompanha primeiro embarque de carne bovina do Nordeste para a China",
+   "link": "https://beefpoint.com.br/ministro-andre-de-paula-acompanha-primeiro-embarque-de-carne-bovina-do-nordeste-para-a-china/",
+   "data": "2026-10-26",
+   "resumo": "O ministro da Agricultura e Pecuária, André de Paula, acompanhou nesta sexta-feira (23/10) o embarque do primeiro contêiner de carne bovina do Nordeste com destino à […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Imac: Mato Grosso amplia exportação em 2.242% em 25 anos de certificação sem aftosa",
+   "link": "https://beefpoint.com.br/imac-mato-grosso-amplia-exportacao-em-2-242-em-25-anos-de-certificacao-sem-aftosa/",
+   "data": "2026-10-26",
+   "resumo": "As exportações de carne bovina de Mato Grosso cresceram 2.242% entre 2001 e os primeiros nove meses de 2026, passando de 24,1 mil toneladas para 566,5 […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Reino Unido conclui auditoria no Brasil sobre antimicrobianos na carne bovina",
+   "link": "https://beefpoint.com.br/reino-unido-conclui-auditoria-no-brasil-sobre-antimicrobianos-na-carne-bovina/",
+   "data": "2026-10-26",
+   "resumo": "Técnicos do Reino Unido concluíram nesta sexta-feira (23/10) uma auditoria ao sistema sanitário brasileiro focada nas garantias para o controle de não uso de antimicrobianos na […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "politica"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Masterboi iniciou operação para exportar a partir de sua unidade do Nordeste à China",
+   "link": "https://beefpoint.com.br/masterboi-iniciou-operacao-para-exportar-a-partir-de-sua-unidade-do-nordeste-a-china/",
+   "data": "2026-10-26",
+   "resumo": "Na última sexta-feira (23/10), uma carga de 27 toneladas de carne bovina saiu, pela primeira vez, do interior do Nordeste brasileiro com destino à China. O […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Indicador do Boi DATAGRO – Boletim de 23-outubro-2026",
+   "link": "https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-23-outubro-2026/",
+   "data": "2026-10-26",
+   "resumo": "Fonte: Indicador do Boi DATAGRO.",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "ARTIGO Ganho compensatório em bovinos de corte: como melhorar a eficiência produtiva",
+   "link": "https://folhaagricola.com.br/2026/10/26/artigo-ganho-compensatorio-em-bovinos-de-corte-como-melhorar-a-eficiencia-produtiva/",
+   "data": "2026-10-26",
+   "resumo": "No contexto da pecuária de corte brasileira, a eficiência alimentar é determinante para a rentabilidade e compreender os mecanismos fisiológicos que regem o desempenho animal é uma vantagem competitiva inegável. Entre esses mecanismos, o ga",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "CFM oferta 250 touros Nelore no último leilão do ano",
+   "link": "https://folhaagricola.com.br/2026/10/26/cfm-oferta-250-touros-nelore-no-ultimo-leilao-do-ano/",
+   "data": "2026-10-26",
+   "resumo": "A Agro-Pecuária CFM realizará, no dia 5 de novembro, seu último leilão de 2026, com a oferta de 250 touros Nelore. O evento será virtual, a partir das 18 horas (horário de Brasília), com transmissão pelo Canal do Boi. Todos os reprodutores ",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "FEIJÃO: Preços avançam; levantamento do mercado completa dois anos",
+   "link": "https://folhaagricola.com.br/2026/10/26/feijao-precos-avancam-levantamento-do-mercado-completa-dois-anos/",
+   "data": "2026-10-26",
+   "resumo": "Cepea, 26/10/2026 – Os preços dos feijões carioca e preto registraram alta na maior parte das regiões acompanhadas pelo Cepea nos últimos dias, diante da demanda de reposição do varejo e da oferta restrita de lotes de melhor qualidade. Segu",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "USDA prevê queda na produção e nas exportações brasileiras de carne bovina em 2027",
+   "link": "https://beefpoint.com.br/usda-preve-queda-na-producao-e-nas-exportacoes-brasileiras-de-carne-bovina-em-2027/",
+   "data": "2026-10-23",
+   "resumo": "A produção brasileira de carne bovina deverá recuar em 2027, acompanhando um cenário de menor disponibilidade de animais para abate e desafios crescentes no comércio internacional. […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "oferta"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Com certificação livre de febre aftosa, MT aumenta em 2.242% as exportações de carne bovina",
+   "link": "https://beefpoint.com.br/com-certificacao-livre-de-febre-aftosa-mt-aumenta-em-2-242-as-exportacoes-de-carne-bovina/",
+   "data": "2026-10-23",
+   "resumo": "Certificado pela Organização Mundial da Saúde Animal (OMSA) como livre de febre aftosa há 25 anos com vacinação, Mato Grosso ampliou sua presença no mercado internacional […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Angus: gestão sustentável de resíduos fortalece pastagens e produtividade no RS",
+   "link": "https://canaldocriador.com.br/lance-rural/angus-gestao-residuos-pastagens-produtividade-rs/",
+   "data": "2026-10-22",
+   "resumo": "Fazenda em Santo Ângelo utiliza resíduos tratados do frigorífico na irrigação das pastagens e mantém mais de 1.500 bovinos em 90 hectares",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Mato Grosso do Sul exporta US$ 9,2 bilhões com destaque para carne bovina",
+   "link": "https://canaldocriador.com.br/lance-rural/mato-grosso-do-sul-exportacoes-carne-bovina-2026/",
+   "data": "2026-10-21",
+   "resumo": "Exportações estaduais cresceram 12,53% entre janeiro e setembro de 2026, impulsionadas pelo agronegócio, com a carne bovina entre os principais produtos comercializados",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Rota Angus começa em São Lourenço e destaca produtividade da raça",
+   "link": "https://canaldocriador.com.br/canal-do-criador/rota-angus-comeca-sao-lourenco-destaca-produtividade-raca/",
+   "data": "2026-10-21",
+   "resumo": "Iniciativa começou em São Lourenço do Sul e aproxima pecuaristas das exigências do mercado, destacando o potencial da raça Angus na produção de carne de qualidade",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Agronegócio bate recorde de empregos no 2º trimestre de 2026",
+   "link": "https://canaldocriador.com.br/lance-rural/agronegocio-recorde-empregos-segundo-trimestre-2026/",
+   "data": "2026-10-19",
+   "resumo": "Setor alcançou 28,4 milhões de trabalhadores, com avanço da produção agropecuária e crescimento dos salários na pecuária brasileira",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  }
+ ]
+}

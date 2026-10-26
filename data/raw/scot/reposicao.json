@@ -1,7 +1,7 @@
 {
  "fonte": "Scot Consultoria, reposição Nelore macho por estado, via Notícias Agrícolas",
  "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo",
- "coletadoEm": "2026-10-24T01:17:59.124Z",
+ "coletadoEm": "2026-10-26T18:37:29.198Z",
  "dados": [
   {
    "data": "2026-10-15",
@@ -2521,6 +2521,371 @@
        "cab": 5148.13,
        "kg": 13.73,
        "troca": 14.24
+      },
+      "AC": {
+       "cab": 4645.83,
+       "kg": 12.39,
+       "troca": 13.66
+      },
+      "MA": {
+       "cab": 4485.96,
+       "kg": 11.96,
+       "troca": 12.29
+      },
+      "RJ": {
+       "cab": 4305.63,
+       "kg": 11.48,
+       "troca": 11.18
+      },
+      "RR": {
+       "cab": 4062.5,
+       "kg": 10.83,
+       "troca": 11.88
+      },
+      "RS": {
+       "cab": 5290,
+       "kg": 14.11,
+       "troca": 13.88,
+       "marcado": true
+      },
+      "SC": {
+       "cab": 5416.67,
+       "kg": 14.44,
+       "troca": 14.25,
+       "marcado": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "data": "2026-10-26",
+   "categorias": {
+    "desmama": {
+     "nome": "Desmama",
+     "ref": "8 meses, 195 kg",
+     "peso": 195,
+     "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-desmama-8-meses",
+     "ufs": {
+      "SP": {
+       "cab": 3606.39,
+       "kg": 18.49,
+       "troca": 9.49
+      },
+      "MG": {
+       "cab": 3485.15,
+       "kg": 17.87,
+       "troca": 9.32
+      },
+      "GO": {
+       "cab": 3382.69,
+       "kg": 17.35,
+       "troca": 9.24
+      },
+      "MS": {
+       "cab": 3718.03,
+       "kg": 19.07,
+       "troca": 9.83
+      },
+      "BA": {
+       "cab": 3103.75,
+       "kg": 15.92,
+       "troca": 8.39
+      },
+      "MT": {
+       "cab": 3391.54,
+       "kg": 17.39,
+       "troca": 9.52
+      },
+      "PR": {
+       "cab": 3545.63,
+       "kg": 18.18,
+       "troca": 9.09
+      },
+      "PA": {
+       "cab": 3243.06,
+       "kg": 16.63,
+       "troca": 8.73
+      },
+      "RO": {
+       "cab": 3158.91,
+       "kg": 16.2,
+       "troca": 8.85
+      },
+      "TO": {
+       "cab": 3500,
+       "kg": 17.95,
+       "troca": 9.63
+      },
+      "AC": {
+       "cab": 2850,
+       "kg": 14.62,
+       "troca": 8.38
+      },
+      "MA": {
+       "cab": 3165.94,
+       "kg": 16.24,
+       "troca": 8.67
+      },
+      "RJ": {
+       "cab": 3022.5,
+       "kg": 15.5,
+       "troca": 7.85
+      },
+      "RR": {
+       "cab": 2359.5,
+       "kg": 12.1,
+       "troca": 6.9
+      },
+      "RS": {
+       "cab": 3387.15,
+       "kg": 17.37,
+       "troca": 8.89,
+       "marcado": true
+      },
+      "SC": {
+       "cab": 3315,
+       "kg": 17,
+       "troca": 8.72,
+       "marcado": true
+      }
+     }
+    },
+    "bezerro": {
+     "nome": "Bezerro",
+     "ref": "12 meses, 240 kg",
+     "peso": 240,
+     "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-bezerro-12-meses",
+     "ufs": {
+      "SP": {
+       "cab": 4018.15,
+       "kg": 16.74,
+       "troca": 10.57
+      },
+      "MG": {
+       "cab": 3975.16,
+       "kg": 16.56,
+       "troca": 10.63
+      },
+      "GO": {
+       "cab": 3909.45,
+       "kg": 16.29,
+       "troca": 10.68
+      },
+      "MS": {
+       "cab": 4308.91,
+       "kg": 17.95,
+       "troca": 11.39
+      },
+      "BA": {
+       "cab": 3720,
+       "kg": 15.5,
+       "troca": 10.05
+      },
+      "MT": {
+       "cab": 4032.81,
+       "kg": 16.8,
+       "troca": 11.32
+      },
+      "PR": {
+       "cab": 4165.45,
+       "kg": 17.36,
+       "troca": 10.68
+      },
+      "PA": {
+       "cab": 3784.57,
+       "kg": 15.77,
+       "troca": 10.18
+      },
+      "RO": {
+       "cab": 3595.7,
+       "kg": 14.98,
+       "troca": 10.07
+      },
+      "TO": {
+       "cab": 3965.27,
+       "kg": 16.52,
+       "troca": 10.91
+      },
+      "AC": {
+       "cab": 3282.4,
+       "kg": 13.68,
+       "troca": 9.65
+      },
+      "MA": {
+       "cab": 3561.47,
+       "kg": 14.84,
+       "troca": 9.76
+      },
+      "RJ": {
+       "cab": 3660,
+       "kg": 15.25,
+       "troca": 9.51
+      },
+      "RR": {
+       "cab": 2832,
+       "kg": 11.8,
+       "troca": 8.28
+      },
+      "RS": {
+       "cab": 3881.49,
+       "kg": 16.17,
+       "troca": 10.19,
+       "marcado": true
+      },
+      "SC": {
+       "cab": 4040,
+       "kg": 16.83,
+       "troca": 10.63,
+       "marcado": true
+      }
+     }
+    },
+    "garrote": {
+     "nome": "Garrote",
+     "ref": "18 meses, 300 kg",
+     "peso": 300,
+     "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-garrote-18-meses",
+     "ufs": {
+      "SP": {
+       "cab": 4581.67,
+       "kg": 15.27,
+       "troca": 12.06
+      },
+      "MG": {
+       "cab": 4428.79,
+       "kg": 14.76,
+       "troca": 11.84
+      },
+      "GO": {
+       "cab": 4531,
+       "kg": 15.1,
+       "troca": 12.38
+      },
+      "MS": {
+       "cab": 4736.45,
+       "kg": 15.79,
+       "troca": 12.52
+      },
+      "BA": {
+       "cab": 4068,
+       "kg": 13.56,
+       "troca": 10.99
+      },
+      "MT": {
+       "cab": 4585.24,
+       "kg": 15.28,
+       "troca": 12.87
+      },
+      "PR": {
+       "cab": 4472.25,
+       "kg": 14.91,
+       "troca": 11.47
+      },
+      "PA": {
+       "cab": 3991.38,
+       "kg": 13.3,
+       "troca": 10.74
+      },
+      "RO": {
+       "cab": 3950.57,
+       "kg": 13.17,
+       "troca": 11.07
+      },
+      "TO": {
+       "cab": 4573.13,
+       "kg": 15.24,
+       "troca": 12.58
+      },
+      "AC": {
+       "cab": 3775,
+       "kg": 12.58,
+       "troca": 11.1
+      },
+      "MA": {
+       "cab": 3897.78,
+       "kg": 12.99,
+       "troca": 10.68
+      },
+      "RJ": {
+       "cab": 3645.45,
+       "kg": 12.15,
+       "troca": 9.47
+      },
+      "RR": {
+       "cab": 3262.5,
+       "kg": 10.88,
+       "troca": 9.54
+      },
+      "RS": {
+       "cab": 4403.5,
+       "kg": 14.68,
+       "troca": 11.56,
+       "marcado": true
+      },
+      "SC": {
+       "cab": 4600,
+       "kg": 15.33,
+       "troca": 12.11,
+       "marcado": true
+      }
+     }
+    },
+    "boiMagro": {
+     "nome": "Boi magro",
+     "ref": "375 kg",
+     "peso": 375,
+     "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-boi-magro",
+     "ufs": {
+      "SP": {
+       "cab": 5070.5,
+       "kg": 13.52,
+       "troca": 13.34
+      },
+      "MG": {
+       "cab": 5186.46,
+       "kg": 13.83,
+       "troca": 13.87
+      },
+      "GO": {
+       "cab": 4838,
+       "kg": 12.9,
+       "troca": 13.22
+      },
+      "MS": {
+       "cab": 5649.75,
+       "kg": 15.07,
+       "troca": 14.93
+      },
+      "BA": {
+       "cab": 4805.31,
+       "kg": 12.81,
+       "troca": 12.99
+      },
+      "MT": {
+       "cab": 5318.96,
+       "kg": 14.18,
+       "troca": 14.93
+      },
+      "PR": {
+       "cab": 5438.38,
+       "kg": 14.5,
+       "troca": 13.94
+      },
+      "PA": {
+       "cab": 4804.39,
+       "kg": 12.81,
+       "troca": 12.93
+      },
+      "RO": {
+       "cab": 4712.97,
+       "kg": 12.57,
+       "troca": 13.2
+      },
+      "TO": {
+       "cab": 5148.13,
+       "kg": 13.73,
+       "troca": 14.16
       },
       "AC": {
        "cab": 4645.83,
