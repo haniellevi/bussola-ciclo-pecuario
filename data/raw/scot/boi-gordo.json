@@ -1,7 +1,7 @@
 {
  "fonte": "Scot Consultoria, boi gordo mercado físico (preço bruto, R$/@)",
- "url": "https://www.scotconsultoria.com.br/cotacoes/boi-gordo/",
- "coletadoEm": "2026-10-26T18:37:28.132Z",
+ "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/boi-gordo-scot-consultoria",
+ "coletadoEm": "2026-10-27T01:46:05.828Z",
  "dados": [
   {
    "data": "2026-10-14",
@@ -776,6 +776,10 @@
     "MT Sudoeste": {
      "vista": 351,
      "prazo30": 355
+    },
+    "MT Cuiabá*": {
+     "vista": 356,
+     "prazo30": 360
     },
     "MT Sudeste": {
      "vista": 351,
