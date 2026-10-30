@@ -2,7 +2,7 @@
  "fonte": "INDICADOR DO BEZERRO CEPEA/ESALQ - MATO GROSSO DO SUL (Cepea/Esalq-USP, licença CC BY-NC 4.0)",
  "url": "https://www.cepea.org.br",
  "unidade": "R$/cabeça",
- "coletadoEm": "2026-10-29T02:01:52.522Z",
+ "coletadoEm": "2026-10-30T02:17:55.713Z",
  "dados": [
   {
    "data": "2000-02-21",
@@ -33247,6 +33247,11 @@
   {
    "data": "2026-10-28",
    "valor": 3533.54,
+   "origem": "noticiasagricolas"
+  },
+  {
+   "data": "2026-10-29",
+   "valor": 3530.19,
    "origem": "noticiasagricolas"
   }
  ],
