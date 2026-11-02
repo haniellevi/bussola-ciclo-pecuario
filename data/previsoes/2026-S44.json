@@ -1,0 +1,284 @@
+{
+ "semana": "2026-S44",
+ "dataBase": "2026-10-30",
+ "registradoEm": "2026-11-02T21:40:09.209Z",
+ "avisos": [],
+ "fase": {
+  "sobe": true,
+  "ultimoPivo": {
+   "mes": "2023-09",
+   "tipo": "vale",
+   "boiReal": 236.55485852567418
+  },
+  "mesesDesdePivo": 37,
+  "realVsPicoAnterior": 1.0082169071209974
+ },
+ "femeas": 0.46631526845231996,
+ "relacaoTroca": 1.9533661190579275,
+ "previsoes": [
+  {
+   "alvo": "boi",
+   "semanas": 4,
+   "semanaAlvo": "2026-S48",
+   "segundaAlvo": "2026-11-23",
+   "base": 387.16999999999996,
+   "previsto": 394.91222705984984,
+   "minimo": 379.000126080079,
+   "maximo": 418.9521058475909,
+   "contribuicoes": {
+    "femeasVsMedia": 0.002610416125993364,
+    "femeasDirecao": 0.0017268608659915642,
+    "momento3m": 0.005105188271364776,
+    "momento12m": 0.009217371007499623,
+    "precoRealVsMedia": -0.026096814766944292,
+    "trocaVsMedia": -0.0011960299456996379,
+    "sazonalSen": 0.020372525021183308,
+    "sazonalCos": 0.00003943109396128558
+   },
+   "modelo": {
+    "nomes": [
+     "femeasVsMedia",
+     "femeasDirecao",
+     "momento3m",
+     "momento12m",
+     "precoRealVsMedia",
+     "trocaVsMedia",
+     "sazonalSen",
+     "sazonalCos"
+    ],
+    "pesos": [
+     0.00802070949851375,
+     0.0013597033537079497,
+     -0.005248384049520284,
+     0.0041132941715631,
+     0.013617133346982876,
+     -0.021851412152397408,
+     -0.013343125277619269,
+     -0.014200511941088078,
+     0.004112622102033319
+    ],
+    "amostras": 201
+   }
+  },
+  {
+   "alvo": "boi",
+   "semanas": 13,
+   "semanaAlvo": "2027-S04",
+   "segundaAlvo": "2027-01-25",
+   "base": 387.16999999999996,
+   "previsto": 408.4252198449029,
+   "minimo": 379.18990466691076,
+   "maximo": 457.3062467926843,
+   "contribuicoes": {
+    "femeasVsMedia": 0.017744461551425457,
+    "femeasDirecao": 0.005680402584752161,
+    "momento3m": 0.008345310477928806,
+    "momento12m": 0.02105688148380924,
+    "precoRealVsMedia": -0.06569402843609165,
+    "trocaVsMedia": -0.0029181144337323012,
+    "sazonalSen": 0.04605794452452382,
+    "sazonalCos": 9.046564637623336e-19
+   },
+   "modelo": {
+    "nomes": [
+     "femeasVsMedia",
+     "femeasDirecao",
+     "momento3m",
+     "momento12m",
+     "precoRealVsMedia",
+     "trocaVsMedia",
+     "sazonalSen",
+     "sazonalCos"
+    ],
+    "pesos": [
+     0.023172106372755463,
+     0.009009766715707237,
+     -0.0171744988120895,
+     0.006767594523259774,
+     0.031141559598839456,
+     -0.054920932346713275,
+     -0.03530825406112263,
+     -0.03187665200151892,
+     -0.004284860965753433
+    ],
+    "amostras": 199
+   }
+  },
+  {
+   "alvo": "boi",
+   "semanas": 52,
+   "semanaAlvo": "2027-S43",
+   "segundaAlvo": "2027-10-25",
+   "base": 387.16999999999996,
+   "previsto": 447.60295570787736,
+   "minimo": 380.143170179534,
+   "maximo": 582.3824627224823,
+   "contribuicoes": {
+    "femeasVsMedia": 0.1373121793397744,
+    "femeasDirecao": 0.013827075446506947,
+    "momento3m": 0.0378880587281564,
+    "momento12m": 0.05000442190088464,
+    "precoRealVsMedia": -0.18058500622098445,
+    "trocaVsMedia": -0.0036860778017263215,
+    "sazonalSen": 0.003778245450227646,
+    "sazonalCos": 0.0003402899135901128
+   },
+   "modelo": {
+    "nomes": [
+     "femeasVsMedia",
+     "femeasDirecao",
+     "momento3m",
+     "momento12m",
+     "precoRealVsMedia",
+     "trocaVsMedia",
+     "sazonalSen",
+     "sazonalCos"
+    ],
+    "pesos": [
+     0.08616352005580918,
+     0.059642297319789005,
+     -0.04805016441343737,
+     0.030915430038586093,
+     0.07614285643765412,
+     -0.15008665838136745,
+     -0.06357720576721029,
+     -0.0026524150549917767,
+     0.033466203970067915
+    ],
+    "amostras": 190
+   }
+  },
+  {
+   "alvo": "bezerro",
+   "semanas": 4,
+   "semanaAlvo": "2026-S48",
+   "segundaAlvo": "2026-11-23",
+   "base": 3538.0020000000004,
+   "previsto": 3652.5137313583546,
+   "minimo": 3530.9782102148793,
+   "maximo": 3800.11748244659,
+   "contribuicoes": {
+    "femeasVsMedia": 0.01625263861841114,
+    "femeasDirecao": 0.002829023870185649,
+    "momento3m": 0.00011050191411406929,
+    "momento12m": 0.004127881420783295,
+    "precoRealVsMedia": -0.005948004889427116,
+    "trocaVsMedia": 0.00032806512263240016,
+    "sazonalSen": 0.005332362920104043,
+    "sazonalCos": 0.000060245964155503466
+   },
+   "modelo": {
+    "nomes": [
+     "femeasVsMedia",
+     "femeasDirecao",
+     "momento3m",
+     "momento12m",
+     "precoRealVsMedia",
+     "trocaVsMedia",
+     "sazonalSen",
+     "sazonalCos"
+    ],
+    "pesos": [
+     0.008760748107161098,
+     0.008465610910079531,
+     -0.008598147105191875,
+     0.0011879435890074488,
+     0.009683024603208574,
+     -0.0066345275369034005,
+     0.0036599535373179988,
+     -0.0037168825780023286,
+     0.00628359142121434
+    ],
+    "amostras": 201
+   }
+  },
+  {
+   "alvo": "bezerro",
+   "semanas": 13,
+   "semanaAlvo": "2027-S04",
+   "segundaAlvo": "2027-01-25",
+   "base": 3538.0020000000004,
+   "previsto": 3888.0167144321026,
+   "minimo": 3556.138853099915,
+   "maximo": 4286.1283806348865,
+   "contribuicoes": {
+    "femeasVsMedia": 0.049829183113238244,
+    "femeasDirecao": 0.00851053674968204,
+    "momento3m": -0.00048583644889456216,
+    "momento12m": 0.015993982926136546,
+    "precoRealVsMedia": -0.031013061810294083,
+    "trocaVsMedia": -0.00013579400958252226,
+    "sazonalSen": 0.025843829074917495,
+    "sazonalCos": -2.8710303565579874e-18
+   },
+   "modelo": {
+    "nomes": [
+     "femeasVsMedia",
+     "femeasDirecao",
+     "momento3m",
+     "momento12m",
+     "precoRealVsMedia",
+     "trocaVsMedia",
+     "sazonalSen",
+     "sazonalCos"
+    ],
+    "pesos": [
+     0.025794184944640374,
+     0.025300813675491318,
+     -0.0257313106099214,
+     -0.005503468046749177,
+     0.037384569107028885,
+     -0.034356812956756994,
+     -0.0016430642112227952,
+     -0.017886485259220302,
+     0.013598494455172971
+    ],
+    "amostras": 199
+   }
+  },
+  {
+   "alvo": "bezerro",
+   "semanas": 52,
+   "semanaAlvo": "2027-S43",
+   "segundaAlvo": "2027-10-25",
+   "base": 3538.0020000000004,
+   "previsto": 4423.210880733575,
+   "minimo": 3609.810317524211,
+   "maximo": 5702.965234286743,
+   "contribuicoes": {
+    "femeasVsMedia": 0.20764272134700726,
+    "femeasDirecao": 0.019231468202870427,
+    "momento3m": 0.0031547095914480775,
+    "momento12m": 0.03901381908745712,
+    "precoRealVsMedia": -0.1377741480697863,
+    "trocaVsMedia": -0.001229294162204854,
+    "sazonalSen": -0.005943169919753539,
+    "sazonalCos": 0.0000130282499213375
+   },
+   "modelo": {
+    "nomes": [
+     "femeasVsMedia",
+     "femeasDirecao",
+     "momento3m",
+     "momento12m",
+     "precoRealVsMedia",
+     "trocaVsMedia",
+     "sazonalSen",
+     "sazonalCos"
+    ],
+    "pesos": [
+     0.09919458060653094,
+     0.0901907535253941,
+     -0.06683085028607119,
+     0.030246272016453548,
+     0.08959377776150941,
+     -0.149136792917825,
+     -0.021202777614277586,
+     0.004172241739503388,
+     0.0012812782625278797
+    ],
+    "amostras": 190
+   }
+  }
+ ]
+}

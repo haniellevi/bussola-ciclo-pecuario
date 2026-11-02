@@ -1,0 +1,179 @@
+{
+ "semana": "2026-S45",
+ "atualizadoEm": "2026-11-02T21:40:08.824Z",
+ "avisos": [
+  "Feed Compre Rural falhou: Compre Rural: HTTP 403"
+ ],
+ "termometro": {
+  "relevantes": 5,
+  "saldo": 1,
+  "porVariavel": {
+   "oferta": {
+    "n": 1,
+    "saldo": 1
+   },
+   "exportacao": {
+    "n": 4,
+    "saldo": 1
+   }
+  }
+ },
+ "itens": [
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "Recria intensiva a pasto: onde estão os principais erros do manejo?",
+   "link": "https://folhaagricola.com.br/2026/11/02/recria-intensiva-a-pasto-onde-estao-os-principais-erros-do-manejo/",
+   "data": "2026-11-02",
+   "resumo": "Guilherme Augusto Vieira[1] A pecuária de corte moderna consolida-se por meio da adoção de modelos produtivos intensivos, fundamentais para encurtar o ciclo de produção, melhorar o acabamento de carcaça e maximizar o retorno econômico. Dent",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Com foco em pequenos produtores, Feiras Pró-Genética têm novas datas divulgadas",
+   "link": "https://canaldocriador.com.br/lance-rural/feiras-pro-genetica-novembro-2026/",
+   "data": "2026-11-02",
+   "resumo": "Eventos acontecem em novembro, em Minas Gerais, e oferecem oportunidades para pecuaristas investirem no melhoramento genético dos rebanhos",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Exportações de gado vivo batem recorde antes do fim de 2026",
+   "link": "https://canaldocriador.com.br/lance-rural/exportacoes-gado-vivo-recorde-2026/",
+   "data": "2026-11-01",
+   "resumo": "Brasil ultrapassa 1,05 milhão de bovinos embarcados até setembro, superando o volume de todo o ano anterior; Turquia e Marrocos lideram as compras",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "EUA: Bezerros de cruzamento leiteiro com raças de corte podem ganhar 33 kg a mais com manejo nutricional adequado",
+   "link": "https://beefpoint.com.br/eua-bezerros-de-cruzamento-leiteiro-com-racas-de-corte-podem-ganhar-33-kg-a-mais-com-manejo-nutricional-adequado/",
+   "data": "2026-10-30",
+   "resumo": "O manejo nutricional nos primeiros meses de vida pode fazer uma diferença significativa no desenvolvimento de bezerros provenientes do cruzamento de vacas leiteiras com touros de […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "ABIEC discute rastreabilidade e sustentabilidade da carne bovina brasileira em Londres",
+   "link": "https://beefpoint.com.br/abiec-discute-rastreabilidade-e-sustentabilidade-da-carne-bovina-brasileira-em-londres/",
+   "data": "2026-10-30",
+   "resumo": "A Associação Brasileira das Indústrias Exportadoras de Carnes (ABIEC), em parceria com a Agência Brasileira de Promoção de Exportações e Investimentos (ApexBrasil), realizou em 23 de […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "politica"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Exportações brasileiras de carne bovina para a Rússia atingem maior volume desde 2017",
+   "link": "https://beefpoint.com.br/exportacoes-brasileiras-de-carne-bovina-para-a-russia-atingem-maior-volume-desde-2017/",
+   "data": "2026-10-30",
+   "resumo": "As exportações brasileiras de carne bovina para a Rússia alcançaram 94,77 mil toneladas entre janeiro e setembro de 2026, o maior volume registrado para o período […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Após altas, preços do boi gordo ficam estáveis na maior parte do Brasil",
+   "link": "https://beefpoint.com.br/apos-altas-precos-do-boi-gordo-ficam-estaveis-na-maior-parte-do-brasil/",
+   "data": "2026-10-30",
+   "resumo": "Após as altas de quarta-feira (28/10), o mercado pecuário seguiu estável nesta quinta-feira (29/10), com a menor oferta de boiadas sustentando as cotações. Das 33 regiões […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Indicador do Boi DATAGRO – Boletim de 29-outubro-2026",
+   "link": "https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-29-outubro-2026/",
+   "data": "2026-10-30",
+   "resumo": "Fonte: Indicador do Boi DATAGRO.",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Indústria de carne bovina negocia US$ 530 milhões no Sial Paris",
+   "link": "https://beefpoint.com.br/industria-de-carne-bovina-negocia-us-530-milhoes-no-sial-paris/",
+   "data": "2026-10-29",
+   "resumo": "A indústria brasileira de carne bovina contabilizou US$ 530 milhões em negócios durante o Salão Internacional da Alimentação (Sial), em Paris. E projeta para os próximos […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "CEPEA: Oferta restrita de machos amplia diferença de preços frente às fêmeas",
+   "link": "https://beefpoint.com.br/cepea-oferta-restrita-de-machos-amplia-diferenca-de-precos-frente-as-femeas/",
+   "data": "2026-10-29",
+   "resumo": "Os preços dos machos prontos para abate têm apresentado valorização mais intensa que os das fêmeas no mercado paulista, ampliando a diferença entre as cotações das […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "oferta"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Valor Bruto da Agropecuária chega a R$ 1,44 trilhão em setembro; pecuária se destaca",
+   "link": "https://canaldocriador.com.br/lance-rural/valor-bruto-agropecuaria-setembro-2026/",
+   "data": "2026-10-29",
+   "resumo": "Setor pecuário responde por R$ 517,9 bilhões do faturamento bruto nacional, com a carne bovina liderando os resultados da produção animal",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Mais de 1.400 bovinos já receberam inseminação artificial gratuita em Sergipe",
+   "link": "https://canaldocriador.com.br/lance-rural/inseminacao-gratuita-bovinos-sergipe/",
+   "data": "2026-10-27",
+   "resumo": "Programa de inseminação artificial beneficia pequenos pecuaristas, promove o melhoramento genético dos rebanhos e fortalece a produção de carne e leite no estado",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Pecuária nordestina avança com primeira exportação de carne bovina à China",
+   "link": "https://canaldocriador.com.br/geral/pecuaria-nordestina-primeira-exportacao-carne-bovina-china/",
+   "data": "2026-10-26",
+   "resumo": "Embarque de 27 toneladas de carne bovina em Pernambuco marca a entrada da produção nordestina no mercado chinês e amplia as perspectivas comerciais para pecuaristas da região",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  }
+ ]
+}
