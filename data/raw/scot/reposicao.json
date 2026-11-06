@@ -1,7 +1,7 @@
 {
  "fonte": "Scot Consultoria, reposição Nelore macho por estado, via Notícias Agrícolas",
  "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo",
- "coletadoEm": "2026-11-05T02:59:19.814Z",
+ "coletadoEm": "2026-11-06T03:01:25.796Z",
  "dados": [
   {
    "data": "2026-10-15",
@@ -5107,6 +5107,371 @@
        "cab": 5089.65,
        "kg": 13.57,
        "troca": 13.22,
+       "marcado": true
+      }
+     }
+    }
+   }
+  },
+  {
+   "data": "2026-11-05",
+   "categorias": {
+    "desmama": {
+     "nome": "Desmama",
+     "ref": "8 meses, 195 kg",
+     "peso": 195,
+     "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-desmama-8-meses",
+     "ufs": {
+      "SP": {
+       "cab": 3641.67,
+       "kg": 18.68,
+       "troca": 9.41
+      },
+      "MG": {
+       "cab": 3570.56,
+       "kg": 18.31,
+       "troca": 9.4
+      },
+      "GO": {
+       "cab": 3520,
+       "kg": 18.05,
+       "troca": 9.44
+      },
+      "MS": {
+       "cab": 3833.62,
+       "kg": 19.66,
+       "troca": 9.98
+      },
+      "BA": {
+       "cab": 3190.45,
+       "kg": 16.36,
+       "troca": 8.42
+      },
+      "MT": {
+       "cab": 3477.58,
+       "kg": 17.83,
+       "troca": 9.51
+      },
+      "PR": {
+       "cab": 3551.61,
+       "kg": 18.21,
+       "troca": 8.92
+      },
+      "PA": {
+       "cab": 3267.1,
+       "kg": 16.75,
+       "troca": 8.64
+      },
+      "RO": {
+       "cab": 3192.7,
+       "kg": 16.37,
+       "troca": 8.75
+      },
+      "TO": {
+       "cab": 3482.33,
+       "kg": 17.86,
+       "troca": 9.35
+      },
+      "AC": {
+       "cab": 2908.13,
+       "kg": 14.91,
+       "troca": 8.31
+      },
+      "MA": {
+       "cab": 3210,
+       "kg": 16.46,
+       "troca": 8.56
+      },
+      "RJ": {
+       "cab": 3120,
+       "kg": 16,
+       "troca": 7.9
+      },
+      "RR": {
+       "cab": 2593.5,
+       "kg": 13.3,
+       "troca": 7.31
+      },
+      "RS": {
+       "cab": 3654.89,
+       "kg": 18.74,
+       "troca": 9.44,
+       "marcado": true
+      },
+      "SC": {
+       "cab": 3296.15,
+       "kg": 16.9,
+       "troca": 8.45,
+       "marcado": true
+      }
+     }
+    },
+    "bezerro": {
+     "nome": "Bezerro",
+     "ref": "12 meses, 240 kg",
+     "peso": 240,
+     "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-bezerro-12-meses",
+     "ufs": {
+      "SP": {
+       "cab": 4151.11,
+       "kg": 17.3,
+       "troca": 10.73
+      },
+      "MG": {
+       "cab": 3835.42,
+       "kg": 15.98,
+       "troca": 10.09
+      },
+      "GO": {
+       "cab": 4046.8,
+       "kg": 16.86,
+       "troca": 10.85
+      },
+      "MS": {
+       "cab": 4387.95,
+       "kg": 18.28,
+       "troca": 11.43
+      },
+      "BA": {
+       "cab": 3840,
+       "kg": 16,
+       "troca": 10.13
+      },
+      "MT": {
+       "cab": 4195.08,
+       "kg": 17.48,
+       "troca": 11.47
+      },
+      "PR": {
+       "cab": 4210.81,
+       "kg": 17.55,
+       "troca": 10.58
+      },
+      "PA": {
+       "cab": 3831.57,
+       "kg": 15.96,
+       "troca": 10.14
+      },
+      "RO": {
+       "cab": 3626,
+       "kg": 15.11,
+       "troca": 9.93
+      },
+      "TO": {
+       "cab": 3909.05,
+       "kg": 16.29,
+       "troca": 10.49
+      },
+      "AC": {
+       "cab": 3270,
+       "kg": 13.63,
+       "troca": 9.34
+      },
+      "MA": {
+       "cab": 3547.18,
+       "kg": 14.78,
+       "troca": 9.46
+      },
+      "RJ": {
+       "cab": 3790,
+       "kg": 15.79,
+       "troca": 9.59
+      },
+      "RR": {
+       "cab": 3096,
+       "kg": 12.9,
+       "troca": 8.72
+      },
+      "RS": {
+       "cab": 4316.8,
+       "kg": 17.99,
+       "troca": 11.15,
+       "marcado": true
+      },
+      "SC": {
+       "cab": 3985.6,
+       "kg": 16.61,
+       "troca": 10.22,
+       "marcado": true
+      }
+     }
+    },
+    "garrote": {
+     "nome": "Garrote",
+     "ref": "18 meses, 300 kg",
+     "peso": 300,
+     "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-garrote-18-meses",
+     "ufs": {
+      "SP": {
+       "cab": 4612.67,
+       "kg": 15.38,
+       "troca": 11.92
+      },
+      "MG": {
+       "cab": 4780.23,
+       "kg": 15.93,
+       "troca": 12.58
+      },
+      "GO": {
+       "cab": 4593.29,
+       "kg": 15.31,
+       "troca": 12.31
+      },
+      "MS": {
+       "cab": 4881.9,
+       "kg": 16.27,
+       "troca": 12.71
+      },
+      "BA": {
+       "cab": 4216.67,
+       "kg": 14.06,
+       "troca": 11.13
+      },
+      "MT": {
+       "cab": 4714.41,
+       "kg": 15.71,
+       "troca": 12.89
+      },
+      "PR": {
+       "cab": 4872.75,
+       "kg": 16.24,
+       "troca": 12.24
+      },
+      "PA": {
+       "cab": 4152.75,
+       "kg": 13.84,
+       "troca": 10.99
+      },
+      "RO": {
+       "cab": 4000.51,
+       "kg": 13.34,
+       "troca": 10.96
+      },
+      "TO": {
+       "cab": 4541.22,
+       "kg": 15.14,
+       "troca": 12.19
+      },
+      "AC": {
+       "cab": 3765.89,
+       "kg": 12.55,
+       "troca": 10.76
+      },
+      "MA": {
+       "cab": 3916,
+       "kg": 13.05,
+       "troca": 10.44
+      },
+      "RJ": {
+       "cab": 3912.45,
+       "kg": 13.04,
+       "troca": 9.9
+      },
+      "RR": {
+       "cab": 3562.5,
+       "kg": 11.88,
+       "troca": 10.04
+      },
+      "RS": {
+       "cab": 4897.56,
+       "kg": 16.33,
+       "troca": 12.66,
+       "marcado": true
+      },
+      "SC": {
+       "cab": 4693,
+       "kg": 15.64,
+       "troca": 12.03,
+       "marcado": true
+      }
+     }
+    },
+    "boiMagro": {
+     "nome": "Boi magro",
+     "ref": "375 kg",
+     "peso": 375,
+     "url": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/macho-nelore-boi-magro",
+     "ufs": {
+      "SP": {
+       "cab": 5467.5,
+       "kg": 14.58,
+       "troca": 14.13
+      },
+      "MG": {
+       "cab": 5298.47,
+       "kg": 14.13,
+       "troca": 13.94
+      },
+      "GO": {
+       "cab": 5015.02,
+       "kg": 13.37,
+       "troca": 13.45
+      },
+      "MS": {
+       "cab": 5576.25,
+       "kg": 14.87,
+       "troca": 14.52
+      },
+      "BA": {
+       "cab": 5015.63,
+       "kg": 13.38,
+       "troca": 13.23
+      },
+      "MT": {
+       "cab": 5418.63,
+       "kg": 14.45,
+       "troca": 14.82
+      },
+      "PR": {
+       "cab": 5457.75,
+       "kg": 14.55,
+       "troca": 13.71
+      },
+      "PA": {
+       "cab": 4977.16,
+       "kg": 13.27,
+       "troca": 13.17
+      },
+      "RO": {
+       "cab": 4818.75,
+       "kg": 12.85,
+       "troca": 13.2
+      },
+      "TO": {
+       "cab": 5201.5,
+       "kg": 13.87,
+       "troca": 13.96
+      },
+      "AC": {
+       "cab": 4575.63,
+       "kg": 12.2,
+       "troca": 13.07
+      },
+      "MA": {
+       "cab": 4750,
+       "kg": 12.67,
+       "troca": 12.67
+      },
+      "RJ": {
+       "cab": 4589.45,
+       "kg": 12.24,
+       "troca": 11.62
+      },
+      "RR": {
+       "cab": 4359.38,
+       "kg": 11.63,
+       "troca": 12.28
+      },
+      "RS": {
+       "cab": 5978.65,
+       "kg": 15.94,
+       "troca": 15.45,
+       "marcado": true
+      },
+      "SC": {
+       "cab": 5675.63,
+       "kg": 15.14,
+       "troca": 14.55,
        "marcado": true
       }
      }
