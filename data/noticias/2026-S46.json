@@ -1,0 +1,203 @@
+{
+ "semana": "2026-S46",
+ "atualizadoEm": "2026-11-09T22:14:05.024Z",
+ "avisos": [
+  "Feed Compre Rural falhou: Compre Rural: HTTP 403"
+ ],
+ "termometro": {
+  "relevantes": 6,
+  "saldo": 0.83,
+  "porVariavel": {
+   "femeas": {
+    "n": 1,
+    "saldo": 1
+   },
+   "exportacao": {
+    "n": 5,
+    "saldo": 0.8
+   }
+  }
+ },
+ "itens": [
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Inscrições abertas para a Viagem Técnica BeefPoint Texas 2027",
+   "link": "https://beefpoint.com.br/inscricoes-abertas-para-a-viagem-tecnica-beefpoint-texas-2027/",
+   "data": "2026-11-09",
+   "resumo": "De 17 a 25 de abril, uma experiência que combina visitas técnicas, conversas com produtores, cultura texana e novas referências para o seu negócio. Um confinamento […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Preços globais dos alimentos caem 1,2% em outubro, com recuo nas cotações da carne bovina",
+   "link": "https://beefpoint.com.br/precos-globais-dos-alimentos-caem-12-em-outubro-com-recuo-nas-cotacoes-da-carne-bovina/",
+   "data": "2026-11-09",
+   "resumo": "Os preços internacionais dos alimentos registraram queda de 1,2% em outubro de 2026, segundo relatório divulgado pela Organização das Nações Unidas para a Alimentação e a […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "cai",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "China volta à liderança nas compras de carne bovina do Brasil",
+   "link": "https://beefpoint.com.br/china-volta-a-lideranca-nas-compras-de-carne-bovina-do-brasil/",
+   "data": "2026-11-09",
+   "resumo": "A China voltou a liderar o ranking de compradores de carne bovina brasileira em outubro, mas a retomada dos embarques ainda está distante dos volumes registrados […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Preço do boi gordo encerra a primeira semana de novembro com novos recordes",
+   "link": "https://beefpoint.com.br/preco-do-boi-gordo-encerra-a-primeira-semana-de-novembro-com-novos-recordes/",
+   "data": "2026-11-09",
+   "resumo": "Após bater recordes em outubro, o preço do boi gordo encerrou a primeira semana de novembro com novas altas. Os avanços são sustentados principalmente pela restrição […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Indicador do Boi DATAGRO – Boletim de 06-novembro-2026",
+   "link": "https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-06-novembro-2026/",
+   "data": "2026-11-09",
+   "resumo": "Fonte: Indicador do Boi DATAGRO.",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "Fertilizante organomineral versus biofertilizante: entenda a diferença e como a classificação garante mais segurança no campo",
+   "link": "https://folhaagricola.com.br/2026/11/09/fertilizante-organomineral-versus-biofertilizante-entenda-a-diferenca-e-como-a-classificacao-garante-mais-seguranca-no-campo/",
+   "data": "2026-11-09",
+   "resumo": "Registro no Ministério da Agricultura e Pecuária exige comprovação da ação bioestimulante e oferece mais segurança na escolha dos insumos agrícolas Cada vez mais presentes na agricultura, os biofertilizantes têm ganhado espaço por seus bene",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "Abate de bovinos cai 16,6% em outubro e redução de 30% nas fêmeas reforça retenção de matrizes",
+   "link": "https://folhaagricola.com.br/2026/11/09/abate-de-bovinos-cai-166-em-outubro-e-reducao-de-30-nas-femeas-reforca-retencao-de-matrizes/",
+   "data": "2026-11-09",
+   "resumo": "O mercado pecuário brasileiro registrou uma nova redução no número de bovinos enviados aos frigoríficos em outubro de 2026. Segundo estimativa da consultoria Safras & Mercado, foram abatidas 3,22 milhões de cabeças no país, uma queda de 16,",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "femeas"
+   }
+  },
+  {
+   "fonte": "Folha Agrícola",
+   "titulo": "Boi gordo dispara, arroba chega a R$ 400 e bate recorde histórico no Brasil",
+   "link": "https://folhaagricola.com.br/2026/11/09/boi-gordo-dispara-arroba-chega-a-r-400-e-bate-recorde-historico-no-brasil/",
+   "data": "2026-11-09",
+   "resumo": "O mercado do boi gordo encerrou a primeira semana de novembro em alta, com valorização de até R$ 10 por arroba em Mato Grosso do Sul e uma nova marca histórica nominal em São Paulo. Na capital sul-mato-grossense, Campo Grande, os negócios r",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Morre aos 74 anos fundador do Grupo São Pedro, referência na pecuária",
+   "link": "https://canaldocriador.com.br/lance-rural/morre-fundador-grupo-sao-pedro-pecuaria/",
+   "data": "2026-11-09",
+   "resumo": "Francisco Helder de Oliveira Peixoto, conhecido como Chicão, fundou a Fazenda São Pedro em 1986 e deixou um legado na criação de bovinos e no agronegócio do Norte do país",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Exportações de carne bovina dos EUA crescem 8% em valor em setembro, impulsionadas pela demanda asiática",
+   "link": "https://beefpoint.com.br/exportacoes-de-carne-bovina-dos-eua-crescem-8-em-valor-em-setembro-impulsionadas-pela-demanda-asiatica/",
+   "data": "2026-11-06",
+   "resumo": "As exportações de carne bovina dos Estados Unidos alcançaram US$ 712,4 milhões em setembro de 2026, crescimento de 8% em relação ao mesmo mês do ano […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Brasil defende previsibilidade comercial e cooperação com os Estados Unidos durante encontro internacional do setor de carnes",
+   "link": "https://beefpoint.com.br/brasil-defende-previsibilidade-comercial-e-cooperacao-com-os-estados-unidos-durante-encontro-internacional-do-setor-de-carnes/",
+   "data": "2026-11-06",
+   "resumo": "O fortalecimento das relações comerciais entre Brasil e Estados Unidos no setor de carne bovina foi o tema central da participação do Ministério da Agricultura e […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Rússia impulsiona demanda por carne bovina brasileira e registra alta em 2026",
+   "link": "https://canaldocriador.com.br/lance-rural/russia-demanda-carne-bovina-brasileira-2026/",
+   "data": "2026-11-04",
+   "resumo": "Importações russas somaram 94,7 mil toneladas até setembro, alcançando o maior volume desde 2017 e completando cinco anos consecutivos de crescimento",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Brasil abre mercados para produtos da pecuária em Bangladesh e na Colômbia",
+   "link": "https://canaldocriador.com.br/lance-rural/abertura-mercado-pecuaria-bangladesh-colombia/",
+   "data": "2026-11-03",
+   "resumo": "Novas autorizações contemplam a exportação de genética bovina, animais para reprodução e produtos de origem bovina e suína",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Colar com inteligência artificial ajuda a identificar doenças em bezerras",
+   "link": "https://canaldocriador.com.br/lance-rural/colar-inteligencia-artificial-saude-bezerras/",
+   "data": "2026-11-03",
+   "resumo": "Tecnologia monitora o comportamento de bezerras leiteiras e antecipa a identificação de doenças, como diarreia e pneumonia, durante a fase de cria",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Com foco em pequenos produtores, Feiras Pró-Genética têm novas datas divulgadas",
+   "link": "https://canaldocriador.com.br/lance-rural/feiras-pro-genetica-novembro-2026/",
+   "data": "2026-11-02",
+   "resumo": "Eventos acontecem em novembro, em Minas Gerais, e oferecem oportunidades para pecuaristas investirem no melhoramento genético dos rebanhos",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  }
+ ]
+}
