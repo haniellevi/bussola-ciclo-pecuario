@@ -2,7 +2,7 @@
  "fonte": "INDICADOR DO BOI GORDO CEPEA/ESALQ (Cepea/Esalq-USP, licença CC BY-NC 4.0)",
  "url": "https://www.cepea.org.br",
  "unidade": "R$/arroba",
- "coletadoEm": "2026-11-10T04:27:30.566Z",
+ "coletadoEm": "2026-11-11T02:27:12.447Z",
  "dados": [
   {
    "data": "1997-07-23",
@@ -36446,6 +36446,11 @@
   },
   {
    "data": "2026-11-09",
+   "valor": 393.3,
+   "origem": "noticiasagricolas"
+  },
+  {
+   "data": "2026-11-10",
    "valor": 393.3,
    "origem": "noticiasagricolas"
   }
