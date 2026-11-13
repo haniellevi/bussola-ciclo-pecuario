@@ -1,7 +1,7 @@
 {
  "fonte": "Banco Central do Brasil, SGS série 3698",
  "url": "https://api.bcb.gov.br/dados/serie/bcdata.sgs.3698/dados?formato=json&dataInicial=01/01/1994",
- "coletadoEm": "2026-11-12T03:32:01.152Z",
+ "coletadoEm": "2026-11-13T03:04:43.890Z",
  "dados": [
   {
    "data": "1994-01-01",
