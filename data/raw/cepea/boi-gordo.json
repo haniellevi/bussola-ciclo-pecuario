@@ -36458,10 +36458,17 @@
    "data": "2026-11-11",
    "valor": 394.15,
    "origem": "noticiasagricolas"
+  },
+  {
+   "data": "2026-11-12",
+   "valor": 394.15,
+   "origem": "estimado-scot"
   }
  ],
  "coletaAutomatica": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/boi-gordo-indicador-esalq-bmf",
  "divergencias": [],
  "planilhaLidaEm": "2026-10-15T14:51:36.547158+00:00",
- "reservaScot": []
+ "reservaScot": [
+  "Coleta do Cepea parada desde 2026-11-11: 1 dia(s) estimado(s) pela Scot (fator 1.016)."
+ ]
 }
