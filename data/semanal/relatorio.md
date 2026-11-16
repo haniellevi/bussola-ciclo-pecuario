@@ -1,9 +1,14 @@
 # Bússola do Ciclo — semana 2026-S46
 
+> A previsão desta semana já tinha sido registrada; nada foi alterado.
+
+## Precisa da sua atenção
+- ⚠️ Reserva Scot: Coleta do Cepea parada desde 2026-11-11: 1 dia(s) estimado(s) pela Scot (fator 1.016).
+
 ## Onde estamos no ciclo
 - Preço do boi **subindo** desde o vale de 2023-09 (há 38 meses).
 - Subidas anteriores duraram de 32 a 53 meses (média 42).
-- Boi, descontada a inflação, está em 102,9% do último pico.
+- Boi, descontada a inflação, está em 103,1% do último pico.
 - Fêmeas no abate (média 12 meses): 46,6%.
 - Descarte de vacas ainda não virou de forma confirmada. Nos ciclos passados o pico do boi veio 50, 18, 19 meses depois dessa virada.
 - Relação de troca: 1 boi de 18@ compra **1,97** bezerros.
@@ -19,17 +24,18 @@
 | Bezerro MS (R$/cab) | 52 semanas | R$ 4.538 | R$ 3.703 – R$ 5.830 |
 
 ## Notícias da semana (ainda não entram no cálculo)
-- [Preços globais dos alimentos caem 1,2% em outubro, com recuo nas cotações da carne bovina](https://beefpoint.com.br/precos-globais-dos-alimentos-caem-12-em-outubro-com-recuo-nas-cotacoes-da-carne-bovina/) — BeefPoint, ↓ arroba
-- [China volta à liderança nas compras de carne bovina do Brasil](https://beefpoint.com.br/china-volta-a-lideranca-nas-compras-de-carne-bovina-do-brasil/) — BeefPoint, ↑ arroba
-- [Preço do boi gordo encerra a primeira semana de novembro com novos recordes](https://beefpoint.com.br/preco-do-boi-gordo-encerra-a-primeira-semana-de-novembro-com-novos-recordes/) — BeefPoint, ↑ arroba
-- [Indicador do Boi DATAGRO – Boletim de 06-novembro-2026](https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-06-novembro-2026/) — BeefPoint, neutra
-- [Abate de bovinos cai 16,6% em outubro e redução de 30% nas fêmeas reforça retenção de matrizes](https://folhaagricola.com.br/2026/11/09/abate-de-bovinos-cai-166-em-outubro-e-reducao-de-30-nas-femeas-reforca-retencao-de-matrizes/) — Folha Agrícola, ↑ arroba
-- [Boi gordo dispara, arroba chega a R$ 400 e bate recorde histórico no Brasil](https://folhaagricola.com.br/2026/11/09/boi-gordo-dispara-arroba-chega-a-r-400-e-bate-recorde-historico-no-brasil/) — Folha Agrícola, ↑ arroba
-- [Exportações de carne bovina dos EUA crescem 8% em valor em setembro, impulsionadas pela demanda asiática](https://beefpoint.com.br/exportacoes-de-carne-bovina-dos-eua-crescem-8-em-valor-em-setembro-impulsionadas-pela-demanda-asiatica/) — BeefPoint, neutra
-- [Brasil defende previsibilidade comercial e cooperação com os Estados Unidos durante encontro internacional do setor de carnes](https://beefpoint.com.br/brasil-defende-previsibilidade-comercial-e-cooperacao-com-os-estados-unidos-durante-encontro-internacional-do-setor-de-carnes/) — BeefPoint, ↑ arroba
+- [Preço do boi gordo acumulou novas altas durante a semana](https://beefpoint.com.br/preco-do-boi-gordo-acumulou-novas-altas-durante-a-semana/) — BeefPoint, ↑ arroba
+- [Indicador do Boi DATAGRO – Boletim de 13-novembro-2026](https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-13-novembro-2026/) — BeefPoint, neutra
+- [Brasil abre novos mercados para carne bovina, miúdos e genética animal](https://canaldocriador.com.br/lance-rural/abertura-mercados-carne-bovina-genetica-animal/) — Canal do Criador, ↑ arroba
+- [Carne bovina ganha força entre consumidores americanos, mesmo com preços elevados](https://beefpoint.com.br/carne-bovina-ganha-forca-entre-consumidores-americanos-mesmo-com-precos-elevados/) — BeefPoint, ↑ arroba
+- [Boi: confinamento tem recorde de lucratividade no Sudeste e Centro-Oeste em outubro](https://beefpoint.com.br/boi-confinamento-tem-recorde-de-lucratividade-no-sudeste-e-centro-oeste-em-outubro/) — BeefPoint, ↑ arroba
 - ⚠️ Feed Compre Rural falhou: Compre Rural: HTTP 403
 
-_Ainda não há previsões vencidas para comparar. A primeira comparação sai em 4 semanas._
+## Como o modelo está acertando (previsões já vencidas)
+| | em | previsões | erro médio | dentro da faixa | direção certa |
+|---|---|---|---|---|---|
+| boi | 4 sem | 1 | 1,8% | 100,0% | 100,0% |
+| bezerro | 4 sem | 1 | 0,2% | 100,0% | 100,0% |
 
 ---
 Simulação estatística com dados públicos (Cepea CC BY-NC 4.0, IBGE, Banco Central). Não é recomendação de investimento.

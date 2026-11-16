@@ -1,0 +1,207 @@
+{
+ "semana": "2026-S47",
+ "atualizadoEm": "2026-11-16T21:54:59.653Z",
+ "avisos": [
+  "Feed Compre Rural falhou: Compre Rural: HTTP 403"
+ ],
+ "termometro": {
+  "relevantes": 3,
+  "saldo": 1,
+  "porVariavel": {
+   "exportacao": {
+    "n": 1,
+    "saldo": 1
+   },
+   "demanda": {
+    "n": 1,
+    "saldo": 1
+   },
+   "custos": {
+    "n": 1,
+    "saldo": 1
+   }
+  }
+ },
+ "itens": [
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Carne bovina é mais do que proteína: pesquisador destaca seu papel no desenvolvimento cerebral",
+   "link": "https://beefpoint.com.br/carne-bovina-e-mais-do-que-proteina-pesquisador-destaca-seu-papel-no-desenvolvimento-cerebral/",
+   "data": "2026-11-16",
+   "resumo": "A carne bovina deveria ser reconhecida não apenas como uma fonte de proteína, mas também por seu papel no fornecimento de nutrientes essenciais ao desenvolvimento cerebral. […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Vaca Angus de 735 kg impressiona pela gordura amarela: o que explica essa característica?",
+   "link": "https://beefpoint.com.br/vaca-angus-de-735-kg-impressiona-pela-gordura-amarela-o-que-explica-essa-caracteristica/",
+   "data": "2026-11-16",
+   "resumo": "Uma vaca Angus de 735 quilos chamou a atenção nas redes sociais após ter sua imagem divulgada pelo engenheiro agrônomo e especialista em carnes Roberto Barcellos. […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Reunião da Comissão de Pecuária de Corte da Farsul debate estágio da implantação da rastreabilidade bovina no RS",
+   "link": "https://beefpoint.com.br/reuniao-da-comissao-de-pecuaria-de-corte-da-farsul-debate-estagio-da-implantacao-da-rastreabilidade-bovina-no-rs/",
+   "data": "2026-11-16",
+   "resumo": "A diretora do Departamento de Vigilância e Defesa Sanitária Animal da Secretaria da Agricultura, Pecuária, Produção Sustentável e Irrigação (DDA/Seapi), Rosane Collares, participou, nesta quinta-feira (12/11), […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "politica"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Preço do boi gordo acumulou novas altas durante a semana",
+   "link": "https://beefpoint.com.br/preco-do-boi-gordo-acumulou-novas-altas-durante-a-semana/",
+   "data": "2026-11-16",
+   "resumo": "Depois de registrar altas em várias regiões durante a semana, o mercado pecuário encerrou esta sexta-feira (13/11) com estabilidade. Das 33 regiões monitoradas pela Scot Consultoria, […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Indicador do Boi DATAGRO – Boletim de 13-novembro-2026",
+   "link": "https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-13-novembro-2026/",
+   "data": "2026-11-16",
+   "resumo": "Fonte: Indicador do Boi DATAGRO.",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Pecuária sustentável: JBS Austrália conquista o ‘Oscar da COP’",
+   "link": "https://canaldocriador.com.br/lance-rural/pecuaria-sustentavel-jbs-oscar-da-cop/",
+   "data": "2026-11-16",
+   "resumo": "Programa Farm Assurance reúne cerca de 3 mil fornecedores de carne bovina e é reconhecido internacionalmente por unir produtividade, rentabilidade e sustentabilidade no campo",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Brasil abre novos mercados para carne bovina, miúdos e genética animal",
+   "link": "https://canaldocriador.com.br/lance-rural/abertura-mercados-carne-bovina-genetica-animal/",
+   "data": "2026-11-15",
+   "resumo": "Novas autorizações permitem exportações de produtos da pecuária brasileira para Vietnã, Malásia, Turquia e Barbados",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Carne bovina ganha força entre consumidores americanos, mesmo com preços elevados",
+   "link": "https://beefpoint.com.br/carne-bovina-ganha-forca-entre-consumidores-americanos-mesmo-com-precos-elevados/",
+   "data": "2026-11-13",
+   "resumo": "A carne bovina está recuperando seu protagonismo entre os consumidores americanos, mesmo diante da alta dos preços. O crescente interesse por alimentos ricos em proteínas, associado […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "demanda"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "A IA Já Monitora o Gado e Melhora o Rendimento da Carne. Mas Há Algo Que Ela Não Substitui",
+   "link": "https://beefpoint.com.br/a-ia-ja-monitora-o-gado-e-melhora-o-rendimento-da-carne-mas-ha-algo-que-ela-nao-substitui/",
+   "data": "2026-11-13",
+   "resumo": "Da otimização das unidades de processamento à agricultura de precisão e ao monitoramento dos rebanhos, a inteligência artificial (IA) está modificando profundamente a agropecuária. Com o […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Boi: confinamento tem recorde de lucratividade no Sudeste e Centro-Oeste em outubro",
+   "link": "https://beefpoint.com.br/boi-confinamento-tem-recorde-de-lucratividade-no-sudeste-e-centro-oeste-em-outubro/",
+   "data": "2026-11-13",
+   "resumo": "A combinação de valorização do boi gordo e redução do custo alimentar elevou a lucratividade da arroba produzida nos confinamentos do Sudeste e do Centro-Oeste em […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "custos"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Nacional Hereford e Braford 2027 já tem data e local confirmados",
+   "link": "https://canaldocriador.com.br/lance-rural/nacional-hereford-braford-2027/",
+   "data": "2026-11-13",
+   "resumo": "Exposição será realizada de 26 de abril a 1º de maio, em Esteio (RS), com atividades voltadas à genética, melhoramento das raças e mercado pecuário",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Problema do carrapato: criadores uruguaios conhecem solução genética no RS",
+   "link": "https://canaldocriador.com.br/lance-rural/problema-carrapato-uruguai-genetica-rs/",
+   "data": "2026-11-12",
+   "resumo": "Pecuaristas do Uruguai visitaram a Estância Silêncio, em Alegrete, para conhecer a seleção genômica de bovinos resistentes ao parasita",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Pecuária e Prosa: Canal Rural faz 30 anos e Julio Cargnino destaca papel dos leilões",
+   "link": "https://canaldocriador.com.br/lance-rural/canal-rural-30-anos-julio-cargnino-leiloes/",
+   "data": "2026-11-11",
+   "resumo": "Em entrevista especial, presidente do Grupo Canal Rural relembra a evolução dos leilões televisionados, a disseminação da genética bovina e os desafios da comunicação no agronegócio",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Mortalidade de bezerras: manejo do colostro reduz perdas na pecuária leiteira",
+   "link": "https://canaldocriador.com.br/lance-rural/mortalidade-bezerras-manejo-colostro/",
+   "data": "2026-11-10",
+   "resumo": "Cuidados com as vacas no pré-parto e fornecimento adequado de colostro fortalecem a imunidade das bezerras e favorecem a produção futura de leite",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Morre aos 74 anos fundador do Grupo São Pedro, referência na pecuária",
+   "link": "https://canaldocriador.com.br/lance-rural/morre-fundador-grupo-sao-pedro-pecuaria/",
+   "data": "2026-11-09",
+   "resumo": "Francisco Helder de Oliveira Peixoto, conhecido como Chicão, fundou a Fazenda São Pedro em 1986 e deixou um legado na criação de bovinos e no agronegócio do Norte do país",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  }
+ ]
+}

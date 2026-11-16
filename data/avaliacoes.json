@@ -1,4 +1,25 @@
 {
- "atualizadoEm": "2026-11-09T22:14:05.399Z",
- "avaliacoes": []
+ "atualizadoEm": "2026-11-16T21:54:59.768Z",
+ "avaliacoes": [
+  {
+   "semana": "2026-S42",
+   "alvo": "boi",
+   "semanas": 4,
+   "previsto": 386.6348997110231,
+   "real": 393.81000000000006,
+   "erro": -0.018219700589058085,
+   "dentro": true,
+   "direcaoCerta": true
+  },
+  {
+   "semana": "2026-S42",
+   "alvo": "bezerro",
+   "semanas": 4,
+   "previsto": 3594.425804827553,
+   "real": 3603.3799999999997,
+   "erro": -0.002484943351088953,
+   "dentro": true,
+   "direcaoCerta": true
+  }
+ ]
 }
