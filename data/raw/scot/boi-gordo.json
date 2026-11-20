@@ -1,7 +1,7 @@
 {
  "fonte": "Scot Consultoria, boi gordo mercado físico (preço bruto, R$/@)",
  "url": "https://www.scotconsultoria.com.br/cotacoes/boi-gordo/",
- "coletadoEm": "2026-11-19T03:55:42.881Z",
+ "coletadoEm": "2026-11-20T03:49:06.990Z",
  "dados": [
   {
    "data": "2026-10-14",
@@ -2440,6 +2440,107 @@
     "TO Norte": {
      "vista": 376,
      "prazo30": 380
+    }
+   }
+  },
+  {
+   "data": "2026-11-18",
+   "pracas": {
+    "SP Barretos": {
+     "vista": 388,
+     "prazo30": 392
+    },
+    "SP Araçatuba": {
+     "vista": 388,
+     "prazo30": 392
+    },
+    "MG Triângulo": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "MG B.Horizonte": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "MG Norte": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "MG Sul": {
+     "vista": 374,
+     "prazo30": 378
+    },
+    "GO Goiânia": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "GO Reg. Sul": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "MS Dourados": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "MS C. Grande": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "MS Três Lagoas": {
+     "vista": 383,
+     "prazo30": 387
+    },
+    "BA Sul": {
+     "vista": 383,
+     "prazo30": 387
+    },
+    "BA Oeste": {
+     "vista": 384,
+     "prazo30": 388
+    },
+    "MT Norte": {
+     "vista": 372,
+     "prazo30": 376
+    },
+    "MT Sudoeste": {
+     "vista": 371,
+     "prazo30": 375
+    },
+    "MT Sudeste": {
+     "vista": 371,
+     "prazo30": 375
+    },
+    "PR Noroeste": {
+     "vista": 397.5,
+     "prazo30": 402
+    },
+    "MA Oeste": {
+     "vista": 378,
+     "prazo30": 382
+    },
+    "PA Marabá": {
+     "vista": 380,
+     "prazo30": 384
+    },
+    "PA Redenção": {
+     "vista": 379,
+     "prazo30": 383
+    },
+    "PA Paragominas": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "RO Sudeste": {
+     "vista": 366,
+     "prazo30": 370
+    },
+    "TO Sul": {
+     "vista": 378,
+     "prazo30": 382
+    },
+    "TO Norte": {
+     "vista": 381,
+     "prazo30": 385
     }
    }
   }
