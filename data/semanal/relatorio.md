@@ -3,12 +3,12 @@
 > A previsão desta semana já tinha sido registrada; nada foi alterado.
 
 ## Precisa da sua atenção
-- ⚠️ Reserva Scot: Coleta do Cepea parada desde 2026-11-11: 1 dia(s) estimado(s) pela Scot (fator 1.016).
+- ⚠️ Cepea bezerro: último dado é de 2026-11-11 (12 dias). A coleta automática parou; veja o plano B em docs/processo.md.
 
 ## Onde estamos no ciclo
 - Preço do boi **subindo** desde o vale de 2023-09 (há 38 meses).
 - Subidas anteriores duraram de 32 a 53 meses (média 42).
-- Boi, descontada a inflação, está em 103,1% do último pico.
+- Boi, descontada a inflação, está em 103,2% do último pico.
 - Fêmeas no abate (média 12 meses): 46,6%.
 - Descarte de vacas ainda não virou de forma confirmada. Nos ciclos passados o pico do boi veio 50, 18, 19 meses depois dessa virada.
 - Relação de troca: 1 boi de 18@ compra **1,97** bezerros.
@@ -24,11 +24,14 @@
 | Bezerro MS (R$/cab) | 52 semanas | R$ 4.538 | R$ 3.703 – R$ 5.830 |
 
 ## Notícias da semana (ainda não entram no cálculo)
-- [Preço do boi gordo acumulou novas altas durante a semana](https://beefpoint.com.br/preco-do-boi-gordo-acumulou-novas-altas-durante-a-semana/) — BeefPoint, ↑ arroba
-- [Indicador do Boi DATAGRO – Boletim de 13-novembro-2026](https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-13-novembro-2026/) — BeefPoint, neutra
-- [Brasil abre novos mercados para carne bovina, miúdos e genética animal](https://canaldocriador.com.br/lance-rural/abertura-mercados-carne-bovina-genetica-animal/) — Canal do Criador, ↑ arroba
-- [Carne bovina ganha força entre consumidores americanos, mesmo com preços elevados](https://beefpoint.com.br/carne-bovina-ganha-forca-entre-consumidores-americanos-mesmo-com-precos-elevados/) — BeefPoint, ↑ arroba
-- [Boi: confinamento tem recorde de lucratividade no Sudeste e Centro-Oeste em outubro](https://beefpoint.com.br/boi-confinamento-tem-recorde-de-lucratividade-no-sudeste-e-centro-oeste-em-outubro/) — BeefPoint, ↑ arroba
+- [Entrada de bovinos em confinamentos nos EUA cai 7,3% e atinge menor nível desde 1996](https://beefpoint.com.br/entrada-de-bovinos-em-confinamentos-nos-eua-cai-73-e-atinge-menor-nivel-desde-1996/) — BeefPoint, neutra
+- [Indicador do Boi DATAGRO – Boletim de 19-novembro-2026](https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-19-novembro-2026/) — BeefPoint, neutra
+- [Carne bovina brasileira estreia no mercado da Etiópia após acordo](https://canaldocriador.com.br/lance-rural/carne-bovina-brasileira-etiopia-acordo/) — Canal do Criador, ↑ arroba
+- [Importações de carne bovina dos EUA batem recorde, com destaque para o Brasil](https://beefpoint.com.br/importacoes-de-carne-bovina-dos-eua-batem-recorde-com-destaque-para-o-brasil/) — BeefPoint, neutra
+- [Oferta restrita deve manter boi gordo valorizado, mas preço da carne pode limitar novas altas, aponta Itaú BBA](https://beefpoint.com.br/oferta-restrita-deve-manter-boi-gordo-valorizado-mas-preco-da-carne-pode-limitar-novas-altas-aponta-itau-bba/) — BeefPoint, ↑ arroba
+- [Etiópia recebe carne bovina brasileira após abertura de mercado](https://beefpoint.com.br/etiopia-recebe-carne-bovina-brasileira-apos-abertura-de-mercado/) — BeefPoint, ↑ arroba
+- [CEPEA: Escalas de abate ajustadas favorecem valorização do boi gordo](https://beefpoint.com.br/cepea-escalas-de-abate-ajustadas-favorecem-valorizacao-do-boi-gordo/) — BeefPoint, ↑ arroba
+- [Exportações do agronegócio crescem 4,1% em outubro com destaque para carnes](https://canaldocriador.com.br/lance-rural/exportacoes-agronegocio-carnes-outubro-2026/) — Canal do Criador, ↑ arroba
 - ⚠️ Feed Compre Rural falhou: Compre Rural: HTTP 403
 
 ## Como o modelo está acertando (previsões já vencidas)

@@ -1,0 +1,179 @@
+{
+ "semana": "2026-S48",
+ "atualizadoEm": "2026-11-23T23:45:30.667Z",
+ "avisos": [
+  "Feed Compre Rural falhou: Compre Rural: HTTP 403"
+ ],
+ "termometro": {
+  "relevantes": 7,
+  "saldo": 0.71,
+  "porVariavel": {
+   "oferta": {
+    "n": 3,
+    "saldo": 0.67
+   },
+   "exportacao": {
+    "n": 4,
+    "saldo": 0.75
+   }
+  }
+ },
+ "itens": [
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Entrada de bovinos em confinamentos nos EUA cai 7,3% e atinge menor nível desde 1996",
+   "link": "https://beefpoint.com.br/entrada-de-bovinos-em-confinamentos-nos-eua-cai-73-e-atinge-menor-nivel-desde-1996/",
+   "data": "2026-11-23",
+   "resumo": "A entrada de bovinos nos confinamentos dos Estados Unidos caiu 7,3% em outubro de 2026, em comparação com o mesmo mês do ano anterior, atingindo o […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "oferta"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Avanço da mosca-da-bicheira nos EUA coloca pecuaristas em alerta",
+   "link": "https://beefpoint.com.br/avanco-da-mosca-da-bicheira-nos-eua-coloca-pecuaristas-em-alerta/",
+   "data": "2026-11-23",
+   "resumo": "Os surtos nos Estados Unidos da mosca-da-bicheira do Novo Mundo – parasita que devora animais de sangue quente vivos e ameaça o rebanho bovino – aumentaram […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Agro é identidade para 61% dos brasileiros, diz pesquisa AlmapBBDO",
+   "link": "https://beefpoint.com.br/agro-e-identidade-para-61-dos-brasileiros-diz-pesquisa-almapbbdo/",
+   "data": "2026-11-23",
+   "resumo": "No Centro-Oeste brasileiro, onde estão algumas das maiores regiões produtoras de grãos e carne bovina do país, três em cada dez moradores se identificam com o […]",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Indicador do Boi DATAGRO – Boletim de 19-novembro-2026",
+   "link": "https://beefpoint.com.br/indicador-do-boi-datagro-boletim-de-19-novembro-2026/",
+   "data": "2026-11-23",
+   "resumo": "Fonte: Indicador do Boi DATAGRO.",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "mercado"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Ordenha robotizada e monitoramento ajudam fazenda a produzir 43,8 kg de leite por vaca/dia",
+   "link": "https://canaldocriador.com.br/lance-rural/ordenha-robotizada-monitoramento-producao-leite/",
+   "data": "2026-11-22",
+   "resumo": "Propriedade no Paraná combina tecnologias para acompanhar a saúde, a reprodução e a produtividade do rebanho leiteiro, alcançando resultados expressivos",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Carne bovina brasileira estreia no mercado da Etiópia após acordo",
+   "link": "https://canaldocriador.com.br/lance-rural/carne-bovina-brasileira-etiopia-acordo/",
+   "data": "2026-11-20",
+   "resumo": "Primeira remessa da proteína chegou ao país africano em novembro, sete meses após a abertura de mercado, ampliando as oportunidades para a pecuária brasileira",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Importações de carne bovina dos EUA batem recorde, com destaque para o Brasil",
+   "link": "https://beefpoint.com.br/importacoes-de-carne-bovina-dos-eua-batem-recorde-com-destaque-para-o-brasil/",
+   "data": "2026-11-19",
+   "resumo": "As importações de carne bovina dos Estados Unidos atingiram um volume recorde no terceiro trimestre de 2026, impulsionadas pela forte demanda por produto estrangeiro em um […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "neutro",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Oferta restrita deve manter boi gordo valorizado, mas preço da carne pode limitar novas altas, aponta Itaú BBA",
+   "link": "https://beefpoint.com.br/oferta-restrita-deve-manter-boi-gordo-valorizado-mas-preco-da-carne-pode-limitar-novas-altas-aponta-itau-bba/",
+   "data": "2026-11-19",
+   "resumo": "A oferta limitada de bovinos terminados deve continuar sustentando os preços do boi gordo no Brasil nos próximos meses. Entretanto, a dificuldade de repassar novas altas […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "oferta"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "Etiópia recebe carne bovina brasileira após abertura de mercado",
+   "link": "https://beefpoint.com.br/etiopia-recebe-carne-bovina-brasileira-apos-abertura-de-mercado/",
+   "data": "2026-11-19",
+   "resumo": "A Etiópia recebeu, no dia 12 de novembro, a primeira remessa de carne bovina brasileira após a abertura do mercado para o produto, em abril deste […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "BeefPoint",
+   "titulo": "CEPEA: Escalas de abate ajustadas favorecem valorização do boi gordo",
+   "link": "https://beefpoint.com.br/cepea-escalas-de-abate-ajustadas-favorecem-valorizacao-do-boi-gordo/",
+   "data": "2026-11-19",
+   "resumo": "A menor disponibilidade de animais prontos para abate continua sustentando os preços do boi gordo e da carne bovina no mercado brasileiro. Segundo o Cepea, mesmo […]",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "oferta"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Exportações do agronegócio crescem 4,1% em outubro com destaque para carnes",
+   "link": "https://canaldocriador.com.br/lance-rural/exportacoes-agronegocio-carnes-outubro-2026/",
+   "data": "2026-11-19",
+   "resumo": "Vendas externas alcançaram US$ 16 bilhões em outubro, com avanços na carne bovina e de frango; no acumulado do ano, setor de carnes movimentou US$ 28,6 bilhões",
+   "classe": {
+    "relevante": true,
+    "direcao": "sobe",
+    "variavel": "exportacao"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Expo Leite retorna a Londrina após 30 anos com leilão e disputa leiteira",
+   "link": "https://canaldocriador.com.br/lance-rural/expo-leite-londrina-2026/",
+   "data": "2026-11-17",
+   "resumo": "Evento gratuito acontece de 20 a 22 de novembro, no Parque Ney Braga, com exposição de animais, julgamentos, leilão e atividades voltadas à pecuária leiteira",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  },
+  {
+   "fonte": "Canal do Criador",
+   "titulo": "Pecuária sustentável: JBS Austrália conquista o ‘Oscar da COP’",
+   "link": "https://canaldocriador.com.br/lance-rural/pecuaria-sustentavel-jbs-oscar-da-cop/",
+   "data": "2026-11-16",
+   "resumo": "Programa Farm Assurance reúne cerca de 3 mil fornecedores de carne bovina e é reconhecido internacionalmente por unir produtividade, rentabilidade e sustentabilidade no campo",
+   "classe": {
+    "relevante": false,
+    "direcao": "neutro",
+    "variavel": "outro"
+   }
+  }
+ ]
+}
