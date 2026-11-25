@@ -1,7 +1,7 @@
 {
  "fonte": "Scot Consultoria, boi gordo mercado físico (preço bruto, R$/@)",
  "url": "https://www.scotconsultoria.com.br/cotacoes/boi-gordo/",
- "coletadoEm": "2026-11-24T06:38:57.376Z",
+ "coletadoEm": "2026-11-25T05:10:24.147Z",
  "dados": [
   {
    "data": "2026-10-14",
@@ -2622,6 +2622,107 @@
     "PA Marabá": {
      "vista": 380,
      "prazo30": 384
+    },
+    "PA Redenção": {
+     "vista": 379,
+     "prazo30": 383
+    },
+    "PA Paragominas": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "RO Sudeste": {
+     "vista": 371,
+     "prazo30": 375
+    },
+    "TO Sul": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "TO Norte": {
+     "vista": 381,
+     "prazo30": 385
+    }
+   }
+  },
+  {
+   "data": "2026-11-23",
+   "pracas": {
+    "SP Barretos": {
+     "vista": 388,
+     "prazo30": 392
+    },
+    "SP Araçatuba": {
+     "vista": 388,
+     "prazo30": 392
+    },
+    "MG Triângulo": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "MG B.Horizonte": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "MG Norte": {
+     "vista": 383,
+     "prazo30": 387
+    },
+    "MG Sul": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "GO Goiânia": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "GO Reg. Sul": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "MS Dourados": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "MS C. Grande": {
+     "vista": 384,
+     "prazo30": 388
+    },
+    "MS Três Lagoas": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "BA Sul": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "BA Oeste": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "MT Norte": {
+     "vista": 374,
+     "prazo30": 378
+    },
+    "MT Sudoeste": {
+     "vista": 372,
+     "prazo30": 376
+    },
+    "MT Sudeste": {
+     "vista": 371,
+     "prazo30": 375
+    },
+    "PR Noroeste": {
+     "vista": 397.5,
+     "prazo30": 402
+    },
+    "MA Oeste": {
+     "vista": 383,
+     "prazo30": 387
+    },
+    "PA Marabá": {
+     "vista": 381,
+     "prazo30": 385
     },
     "PA Redenção": {
      "vista": 379,
