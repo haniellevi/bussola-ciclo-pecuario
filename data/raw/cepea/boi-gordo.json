@@ -36493,6 +36493,11 @@
    "data": "2026-11-23",
    "valor": 394.15,
    "origem": "estimado-scot"
+  },
+  {
+   "data": "2026-11-24",
+   "valor": 397.2,
+   "origem": "estimado-scot"
   }
  ],
  "coletaAutomatica": "https://www.noticiasagricolas.com.br/cotacoes/boi-gordo/boi-gordo-indicador-esalq-bmf",
