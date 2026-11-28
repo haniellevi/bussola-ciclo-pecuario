@@ -1,7 +1,7 @@
 {
  "fonte": "Scot Consultoria, boi gordo mercado físico (preço bruto, R$/@)",
  "url": "https://www.scotconsultoria.com.br/cotacoes/boi-gordo/",
- "coletadoEm": "2026-11-27T04:41:51.429Z",
+ "coletadoEm": "2026-11-28T04:27:02.374Z",
  "dados": [
   {
    "data": "2026-10-14",
@@ -2849,6 +2849,107 @@
   },
   {
    "data": "2026-11-25",
+   "pracas": {
+    "SP Barretos": {
+     "vista": 391,
+     "prazo30": 395
+    },
+    "SP Araçatuba": {
+     "vista": 391,
+     "prazo30": 395
+    },
+    "MG Triângulo": {
+     "vista": 388,
+     "prazo30": 392
+    },
+    "MG B.Horizonte": {
+     "vista": 388,
+     "prazo30": 392
+    },
+    "MG Norte": {
+     "vista": 383,
+     "prazo30": 387
+    },
+    "MG Sul": {
+     "vista": 383,
+     "prazo30": 387
+    },
+    "GO Goiânia": {
+     "vista": 384,
+     "prazo30": 388
+    },
+    "GO Reg. Sul": {
+     "vista": 381,
+     "prazo30": 385
+    },
+    "MS Dourados": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "MS C. Grande": {
+     "vista": 384,
+     "prazo30": 388
+    },
+    "MS Três Lagoas": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "BA Sul": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "BA Oeste": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "MT Norte": {
+     "vista": 376,
+     "prazo30": 380
+    },
+    "MT Sudoeste": {
+     "vista": 374,
+     "prazo30": 378
+    },
+    "MT Sudeste": {
+     "vista": 373,
+     "prazo30": 377
+    },
+    "PR Noroeste": {
+     "vista": 397.5,
+     "prazo30": 402
+    },
+    "MA Oeste": {
+     "vista": 384,
+     "prazo30": 388
+    },
+    "PA Marabá": {
+     "vista": 384,
+     "prazo30": 388
+    },
+    "PA Redenção": {
+     "vista": 383,
+     "prazo30": 387
+    },
+    "PA Paragominas": {
+     "vista": 386,
+     "prazo30": 390
+    },
+    "RO Sudeste": {
+     "vista": 373,
+     "prazo30": 377
+    },
+    "TO Sul": {
+     "vista": 383,
+     "prazo30": 387
+    },
+    "TO Norte": {
+     "vista": 383,
+     "prazo30": 387
+    }
+   }
+  },
+  {
+   "data": "2026-11-26",
    "pracas": {
     "SP Barretos": {
      "vista": 391,
